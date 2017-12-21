@@ -97,11 +97,3 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 	}
 	add_action ( 'init', 'wpsf_framework_init', 10 );
 }
-
-
-add_action("callback_myplace",'vsp_callback_myplace');
-function vsp_callback_myplace(){
-     $m = VSP_Site_Status_Report::instance();
-    $return = $m->get_output();
-    echo $return;
-}
