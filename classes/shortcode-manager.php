@@ -54,11 +54,25 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
 	
 	// run shortcode construct
 	public function __construct($options) {
+        $this->settings = array();
 		$this->options = apply_filters ( 'wpsf_shortcode_options', $options );
 		$this->exclude_post_types = apply_filters ( 'wpsf_shortcode_exclude', $this->exclude_post_types );
 		
 		if (! empty ( $this->options )) {
+            if(isset($this->options['settings'])){
+                $this->settings = $options['settings'];
+                unset($this->options['settings']);
+            }
 			
+            $defaults = array(
+                'button_title' => __("Add Shortcode"),
+                'button_class' => 'button button-primary',
+                'auto_select' => 'yes',
+            );
+
+            $this->settings = wp_parse_args($this->settings,$defaults);            
+            
+            
 			$this->shortcodes = $this->get_shortcodes ();
 			$this->addAction ( 'media_buttons', 'media_shortcode_button', 99 );
 			$this->addAction ( 'admin_footer', 'shortcode_dialog', 99 );
@@ -82,7 +96,7 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
 		$post_type = (isset ( $post->post_type )) ? $post->post_type : '';
 		
 		if (! in_array ( $post_type, $this->exclude_post_types )) {
-			echo '<a href="#" class="button button-primary wpsf-shortcode" data-editor-id="' . $editor_id . '">' . esc_html__ ( 'Add Shortcode', 'wpsf-framework' ) . '</a>';
+			echo '<a href="#" class="'.esc_attr($this->settings['button_class']).' wpsf-shortcode" data-auto-select="'.esc_attr($this->settings['auto_select']).'" data-editor-id="' . $editor_id . '">' . esc_html($this->settings['button_title']) . '</a>';
 		}
 	}
 	

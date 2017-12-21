@@ -2,6 +2,17 @@
 if (! defined ( 'ABSPATH' )) {
 	die ();
 } // Cannot access pages directly.
+
+if(!function_exists('wpsf_get_error_message')){
+    function wpsf_get_error_message($fields,$slug,$default){
+        if(isset($fields['errors'][$slug])){
+            return $fields['errors'][$slug];
+        }
+    }
+}
+
+
+
 /**
  *
  * Email validate

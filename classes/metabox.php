@@ -31,10 +31,10 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 	 *
 	 */
 	private static $instance = null;
-	
-	// run metabox construct
+    
 	public function __construct($options) {
 		$this->options = apply_filters ( 'wpsf_metabox_options', $options );
+        $this->posttypes = array();
 		
 		if (! empty ( $this->options )) {
 			$this->addAction ( 'add_meta_boxes', 'add_meta_box' );
@@ -42,25 +42,31 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		}
 	}
 	
-	// instance
-	public static function instance($options = array()) {
+    public static function instance($options = array()) {
 		if (is_null ( self::$instance ) ) {
 			self::$instance = new self ( $options );
 		}
 		return self::$instance;
 	}
-	
-	// add metabox
+    
 	public function add_meta_box($post_type) {
 		foreach ( $this->options as $value ) {
-			add_meta_box ( $value ['id'], $value ['title'], array (
-					&$this,
-					'render_meta_box_content' 
-			), $value ['post_type'], $value ['context'], $value ['priority'], $value );
+			add_meta_box ( $value ['id'], $value ['title'], array ( &$this, 'render_meta_box_content'), $value ['post_type'], $value ['context'], $value ['priority'], $value );
+            $this->posttypes[$value['post_type']] = $value['post_type'];
 		}
+        
+        $this->addAction("admin_enqueue_scripts",'load_style_script');
 	}
-	
-	// metabox render content
+    
+    public function load_style_script(){
+        global $pagenow,$typenow;
+
+        if(($pagenow === 'post-new.php' || $pagenow === 'post.php') && isset($this->posttypes[$typenow])){
+            wpsf_load_fields_styles();
+        }
+    }
+    
+    
 	public function render_meta_box_content($post, $callback) {
 		global $post, $wpsf_errors, $typenow;
 		
@@ -69,14 +75,14 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		$unique = $callback ['args'] ['id'];
 		$sections = $callback ['args'] ['sections'];
 		$meta_value = get_post_meta ( $post->ID, $unique, true );
-		$transient = get_transient ( 'wpsf-metabox-transient' );
+		$transient = get_transient ( 'wpsf-mt-'.$this->get_cache_key($callback['args']) );
 		$wpsf_errors = $transient ['errors'];
 		$has_nav = (count ( $sections ) >= 2 && $callback ['args'] ['context'] != 'side') ? true : false;
 		$show_all = (! $has_nav) ? ' wpsf-show-all' : '';
 		$section_id = (! empty ( $transient ['ids'] [$unique] )) ? $transient ['ids'] [$unique] : '';
 		$section_id = wpsf_get_var ( 'wpsf-section', $section_id );
 		
-		echo '<div class="wpsf-framework wpsf-metabox-framework">';
+		echo '<div class="wpsf-framework wpsf-metabox-framework" data-theme="modern" data-single-page="yes">';
 		
 		echo '<input type="hidden" name="wpsf_section_id[' . $unique . ']" class="wpsf-reset" value="' . $section_id . '">';
 		
@@ -154,7 +160,6 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		echo '</div>';
 	}
 	
-	// save metabox options
 	public function save_post($post_id, $post) {
 		if (wp_verify_nonce ( wpsf_get_var ( 'wpsf-framework-metabox-nonce' ), 'wpsf-framework-metabox' )) {
 			
@@ -162,7 +167,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 			$post_type = wpsf_get_var ( 'post_type' );
 			
 			foreach ( $this->options as $request_value ) {
-				
+				$transient = array();
 				if (in_array ( $post_type, ( array ) $request_value ['post_type'] )) {
 					
 					$request_key = $request_value ['id'];
@@ -219,20 +224,18 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 					
 					$request = apply_filters ( 'wpsf_save_post', $request, $request_key, $post );
 					
-					if (empty ( $request )) {
-						
+					if (empty ( $request )) {						
 						delete_post_meta ( $post_id, $request_key );
-					} else {
-						
+					} else {						
 						update_post_meta ( $post_id, $request_key, $request );
 					}
 					
 					$transient ['ids'] [$request_key] = wpsf_get_vars ( 'wpsf_section_id', $request_key );
 					$transient ['errors'] = $errors;
 				}
+                
+                set_transient ( 'wpsf-mt-'.$this->get_cache_key($request_value), $transient, 10 );
 			}
-			
-			set_transient ( 'wpsf-metabox-transient', $transient, 10 );
 		}
 	}
 }

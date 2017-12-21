@@ -39,4 +39,21 @@ abstract class WPSFramework_Abstract {
 		ob_flush ();
 		return $data;
 	}
+    
+    protected function get_cache_key($data = array()){
+        if(empty($data)){
+            $data = $this->settings;
+        }
+        
+        if(isset($data['uid'])){
+            return $data['uid'];
+        } else if(isset($data['id'])){
+            return $data['id'];
+        } else if(isset($data['title'])){
+            return sanitize_title($data['title']);
+        } else if(isset($data['menu_title'])){
+            return sanitize_title($data['menu_title']);
+        }
+        return false;
+    }
 }

@@ -54,13 +54,6 @@ if (! function_exists ( "wpsf_template" )) {
 
 if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramework' )) {
 	function wpsf_framework_init() {
-		
-		// active modules
-		defined ( 'WPSF_ACTIVE_FRAMEWORK' ) or define ( 'WPSF_ACTIVE_FRAMEWORK', true );
-		defined ( 'WPSF_ACTIVE_METABOX' ) or define ( 'WPSF_ACTIVE_METABOX', true );
-		defined ( 'WPSF_ACTIVE_TAXONOMY' ) or define ( 'WPSF_ACTIVE_TAXONOMY', true );
-		defined ( 'WPSF_ACTIVE_SHORTCODE' ) or define ( 'WPSF_ACTIVE_SHORTCODE', true );
-		defined ( 'WPSF_ACTIVE_CUSTOMIZE' ) or define ( 'WPSF_ACTIVE_CUSTOMIZE', true );
 		defined ( 'WPSF_ACTIVE_LIGHT_THEME' ) or define ( 'WPSF_ACTIVE_LIGHT_THEME', false );
 		
 		// helpers
@@ -73,15 +66,28 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 		wpsf_locate_template ( 'functions/validate.php' );
 		
 		// classes
-		wpsf_locate_template ( 'classes/abstract.class.php' );
-		wpsf_locate_template ( 'classes/options.class.php' );
-		wpsf_locate_template ( 'classes/framework.class.php' );
-		wpsf_locate_template ( 'classes/settings.class.php' );
-		wpsf_locate_template ( 'classes/metabox.class.php' );
-		wpsf_locate_template ( 'classes/taxonomy.class.php' );
-		wpsf_locate_template ( 'classes/shortcode.class.php' );
-		wpsf_locate_template ( 'classes/customize.class.php' );
-		
+		wpsf_locate_template ( 'classes/abstract.php' );
+		wpsf_locate_template ( 'classes/options.php' );
+        
+        
+        
+        function wpsf_autoloader($class,$check= false){
+            if($class === true){
+                if(class_exists($class)){
+                    return true;    
+                }
+            }
+            
+            if ( 0 === strpos( $class, 'WPSFramework_Option_' )  ) {
+                $path = substr( $class, 20 );
+                wpsf_locate_template ('fields/'.$path.'/'.$path.'.php' );
+            } else if ( 0 === strpos( $class, 'WPSFramework_' )  ) {
+                $path = substr( str_replace( '_', '-', $class ), 13 );
+                wpsf_locate_template ('classes/'.$path.'.php' );
+            }
+        }
+        
+		spl_autoload_register('wpsf_autoloader');
 		// configs
 		wpsf_locate_template ( 'config/framework.config.php' );
 		wpsf_locate_template ( 'config/metabox.config.php' );
@@ -90,4 +96,12 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 		wpsf_locate_template ( 'config/customize.config.php' );
 	}
 	add_action ( 'init', 'wpsf_framework_init', 10 );
+}
+
+
+add_action("callback_myplace",'vsp_callback_myplace');
+function vsp_callback_myplace(){
+     $m = VSP_Site_Status_Report::instance();
+    $return = $m->get_output();
+    echo $return;
 }

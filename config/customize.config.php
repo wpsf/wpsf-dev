@@ -465,4 +465,4 @@ $options [] = array (
 
 
 
-WPSFramework_Customize::instance ( $options );
+//WPSFramework_Customize::instance ( $options );

@@ -32,16 +32,25 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 	 */
 	private static $instance = null;
 	
-	// run taxonomy construct
 	public function __construct($options) {
 		$this->options = apply_filters ( 'wpsf_taxonomy_options', $options );
-		
+		$this->taxes = array();
 		if (! empty ( $this->options )) {
 			$this->addAction ( 'admin_init', 'add_taxonomy_fields' );
+            $this->addAction("admin_enqueue_scripts",'load_style_script');
 		}
 	}
 	
-	// instance
+    public function load_style_script(){
+        global $pagenow,$taxnow;
+
+        if($pagenow === 'term.php' || $pagenow === 'edit-tags.php'){
+            if(isset($this->taxes[$taxnow])){
+                wpsf_load_fields_styles();
+            }
+        }        
+    }
+    
 	public static function instance($options = array()) {
 		if (is_null ( self::$instance ) ) {
 			self::$instance = new self ( $options );
@@ -49,67 +58,51 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 		return self::$instance;
 	}
 	
-	// add taxonomy add/edit fields
 	public function add_taxonomy_fields() {
 		foreach ( $this->options as $option ) {
-			
 			$opt_taxonomy = $option ['taxonomy'];
 			$get_taxonomy = wpsf_get_var ( 'taxonomy' );
-			
 			if ($get_taxonomy == $opt_taxonomy) {
-				
 				$this->addAction ( $opt_taxonomy . '_add_form_fields', 'render_taxonomy_form_fields' );
 				$this->addAction ( $opt_taxonomy . '_edit_form', 'render_taxonomy_form_fields' );
 				
 				$this->addAction ( 'created_' . $opt_taxonomy, 'save_taxonomy' );
 				$this->addAction ( 'edited_' . $opt_taxonomy, 'save_taxonomy' );
 				$this->addAction ( 'delete_' . $opt_taxonomy, 'delete_taxonomy' );
+                $this->taxes[$opt_taxonomy] = $opt_taxonomy;
 			}
 		}
 	}
 	
-	// render taxonomy add/edit form fields
 	public function render_taxonomy_form_fields($term) {
 		global $wpsf_errors;
-		
 		$form_edit = (is_object ( $term ) && isset ( $term->taxonomy )) ? true : false;
 		$taxonomy = ($form_edit) ? $term->taxonomy : $term;
 		$classname = ($form_edit) ? 'edit' : 'add';
-		$wpsf_errors = get_transient ( 'wpsf-taxonomy-transient' );
-		
 		wp_nonce_field ( 'wpsf-taxonomy', 'wpsf-taxonomy-nonce' );
-		
 		echo '<div class="wpsf-framework wpsf-taxonomy wpsf-taxonomy-' . $classname . '-fields">';
 		
 		foreach ( $this->options as $option ) {
-			
 			if ($taxonomy == $option ['taxonomy']) {
-				
-				$tax_value = ($form_edit) ? get_term_meta ( $term->term_id, $option ['id'], true ) : '';
+				$wpsf_errors = get_transient ('wpsf-tt-'.$this->get_cache_key($option));
+				$tax_value = ($form_edit) ? wpsf_get_term_meta ( $term->term_id, $option ['id'], true ) : '';
 				
 				foreach ( $option ['fields'] as $field ) {
-					
 					$default = (isset ( $field ['default'] )) ? $field ['default'] : '';
 					$elem_id = (isset ( $field ['id'] )) ? $field ['id'] : '';
 					$elem_value = (is_array ( $tax_value ) && isset ( $tax_value [$elem_id] )) ? $tax_value [$elem_id] : $default;
-					
 					echo wpsf_add_element ( $field, $elem_value, $option ['id'] );
 				}
 			}
-		}
-		
+		}		
 		echo '</div>';
 	}
 	
-	// save taxonomy form fields
 	public function save_taxonomy($term_id) {
 		if (wp_verify_nonce ( wpsf_get_var ( 'wpsf-taxonomy-nonce' ), 'wpsf-taxonomy' )) {
-			
-			$errors = array ();
-			$taxonomy = wpsf_get_var ( 'taxonomy' );
-			
+            $taxonomy = wpsf_get_var ( 'taxonomy' );
 			foreach ( $this->options as $request_value ) {
-				
+				$errors = array ();
 				if ($taxonomy == $request_value ['taxonomy']) {
 					
 					$request_key = $request_value ['id'];
@@ -146,7 +139,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 									
 									if (! empty ( $validate )) {
 										
-										$meta_value = get_term_meta ( $term_id, $request_key, true );
+										$meta_value = wpsf_get_term_meta ( $term_id, $request_key, true );
 										
 										$errors [$field ['id']] = array (
 												'code' => $field ['id'],
@@ -165,37 +158,30 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 					
 					if (empty ( $request )) {
 						
-						delete_term_meta ( $term_id, $request_key );
+						wpsf_delete_term_meta ( $term_id, $request_key );
 					} else {
 						
-						if (get_term_meta ( $term_id, $request_key, true )) {
+						if (wpsf_get_term_meta ( $term_id, $request_key, true )) {
 							
-							update_term_meta ( $term_id, $request_key, $request );
+							wpsf_update_term_meta ( $term_id, $request_key, $request );
 						} else {
 							
-							add_term_meta ( $term_id, $request_key, $request );
+							wpsf_add_term_meta ( $term_id, $request_key, $request );
 						}
 					}
 				}
+                set_transient ( 'wpsf-tt-'.$this->get_cache_key($request_value), $errors, 10 );
 			}
-			
-			set_transient ( 'wpsf-taxonomy-transient', $errors, 10 );
 		}
 	}
-	
-	// delete taxonomy
+    
 	public function delete_taxonomy($term_id) {
 		$taxonomy = wpsf_get_var ( 'taxonomy' );
-		
 		if (! empty ( $taxonomy )) {
-			
 			foreach ( $this->options as $request_value ) {
-				
 				if ($taxonomy == $request_value ['taxonomy']) {
-					
 					$request_key = $request_value ['id'];
-					
-					delete_term_meta ( $term_id, $request_key );
+					wpsf_delete_term_meta ( $term_id, $request_key );
 				}
 			}
 		}

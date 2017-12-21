@@ -42,6 +42,9 @@ if (! function_exists ( 'wpsf_add_element' )) {
 		$value = (! isset ( $value ) && isset ( $field ['default'] )) ? $field ['default'] : $value;
 		$value = (isset ( $field ['value'] )) ? $field ['value'] : $value;
 		
+        
+        wpsf_autoloader($class,true);
+        
 		if (class_exists ( $class )) {
 			ob_start ();
 			$element = new $class ( $field, $value, $unique );

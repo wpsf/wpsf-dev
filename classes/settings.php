@@ -105,9 +105,16 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $this->get_option = get_option ( $this->unique );
 			$this->addAction ( 'admin_menu', 'admin_menu' );
             $this->addAction('admin_init','register_settings');
+            $this->addAction("admin_enqueue_scripts",'load_style_script');
             $this->addAction('load-options.php','register_settings_fields');
 		}
 	}
+    
+    public function load_style_script($hook){
+        if($this->settings_page == $hook){
+            wpsf_load_fields_styles();
+        }
+    }
 	
     public function admin_menu() {
 		$defaults = array (
@@ -175,6 +182,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 					}
 				}
 			} else {
+                if(isset($value['callback_hook'])){
+                    $this->options[$key]['fields'] = array();
+                    $value['fields'] = array();
+                }
+                
 				if (isset ( $value ['fields'] )) {
 					$sections [] = $value;
                     $this->total_fields += count($value['fields']);
@@ -327,12 +339,16 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		return $request;
 	}
     
-    public function get_cache_key(){
-        return isset ( $this->settings ['uid'] ) ? $this->settings ['uid'] : sanitize_title ( $this->settings ['menu_title'] );
-    }
 
     public function field_callback($field) {
 		$value = (isset ( $field ['id'] ) && isset ( $this->get_option [$field ['id']] )) ? $this->get_option [$field ['id']] : '';
+        if($field['type']=== 'fieldset' && isset($field['un_array'])){
+            $value = array();
+            foreach($field['fields'] as $f){
+                $value[$f['id']] = (isset($this->get_option[$f['id']])) ? $this->get_option[$f['id']] : '';
+            }
+        }
+        
 		return wpsf_add_element ( $field, $value, $this->unique );
 	}
 	
@@ -518,13 +534,21 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                     continue;
                 }
             }
-            if( isset( $section['fields'] ) ) {
+            if( isset( $section['fields'] ) || $section['callback_hook'] ) {
                 $active_content = ( $this->csectionid == $section['name'] ) ? ' style="display: block;"' : '';
                 $r .= '<div id="wpsf-tab-'. $section['name'] .'" class="wpsf-section"'. $active_content .'>';
                 $r .= ( isset( $section['title'] ) && empty( $this->has_nav() ) ) ? '<div class="wpsf-section-title"><h3>'. $section['title'] .'</h3></div>' : '';
-                foreach( $section['fields'] as $field ) {
-                    $r .= $this->field_callback( $field );
+                
+                if(isset($section['callback_hook'])){
+                    $this->catch_output();
+                    do_action($section['callback_hook'],$this);
+                    $r .= $this->catch_output('end');
+                } else {
+                    foreach( $section['fields'] as $field ) {
+                        $r .= $this->field_callback( $field );
+                    }
                 }
+                
                 $r .= '</div>';
             }
         }
@@ -539,6 +563,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $smenu = '';
             $l1_html = '';
             $main_active = false;
+            $callback_data = false;
             
             if($this->is_single_page() === false){
                 if($this->csectionid != $options['name']){
@@ -564,8 +589,14 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                         $is_csmenu = $is_html_active = '';
                     }
                     
-                    foreach($section['fields'] as $field){
-                        $fields .= $this->field_callback($field);
+                    if(isset($section['callback_hook'])){
+                        $this->catch_output();
+                        do_action($section['callback_hook'],$this);
+                        $fields .= $this->catch_output('end');
+                    } else {
+                        foreach($section['fields'] as $field){
+                            $fields .= $this->field_callback($field);
+                        }
                     }
                     
                     $submenu_icon = (!empty($section['icon'])) ? '<i class="wpsf-icon '.$section['icon'].'" ></i>' : '';
@@ -584,11 +615,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 $smenu = '<ul class="wpsf-submenus subsubsub" id="wpsf-tab-'.$options['name'].'">'.$smenu.'</ul>';
                 $main_active = ($main_active === false) ? ' style="display:none" ' : '';
 
+            } else if(isset($options['callback_hook'])){
+                $this->catch_output();
+                do_action($options['callback_hook']);
+                $callback_data = $this->catch_output('end');
+                $main_active = ($this->csectionid == $options['name']) ? '' : ' style="display:none;" ';
+            
             } else if(isset($options['fields'])){
                 $is_active = ($this->csectionid == $options['name']) ? '' : ' style="display:none;" ';
                 $smenu = '<span class="wpsf-submenus" id="wpsf-tab-'.$options['name'].'" data-section="'.esc_attr($options['name']).'">'.$options['title'].'</span>';
                 $main_active = $is_active;
                 $fields ='';
+                
                 foreach($options['fields'] as $field){
                     $fields .= $this->field_callback($field);
                 }
@@ -601,15 +639,21 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 $main_active = ' style="display:block" ';
             }
             
+            if($callback_data === false){
+                $final_html .= '<div id="wpsf-tab-'.$options['name'].'" '.$main_active.'>';
+                $final_html .= '<div class="postbox"><h2 class="wpsf-subnav-container hndle">'.$smenu.'</h2><div class="inside">'.$l1_html.'</div></div>';
+                $final_html .=  '</div>';
+            } else {
+                $final_html .= '<div id="wpsf-tab-'.$options['name'].'" '.$main_active.'>';
+                $final_html .= $callback_data;
+                $final_html .=  '</div>';
+            }
             
-            $final_html .= '<div id="wpsf-tab-'.$options['name'].'" '.$main_active.'>';
-            $final_html .= '<div class="postbox"><h2 class="wpsf-subnav-container hndle">'.$smenu.'</h2><div class="inside">'.$l1_html.'</div></div>';
-            $final_html .=  '</div>';
             $smenu = '';
+            $callback_data = false;
             $main_active = false;
         }
         
         return $final_html;
-        
     }
 }

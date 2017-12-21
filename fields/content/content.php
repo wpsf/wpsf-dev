@@ -16,7 +16,12 @@ class WPSFramework_Option_content extends WPSFramework_Options {
 	}
 	public function output() {
 		echo $this->element_before ();
-		echo $this->field ['content'];
+        
+        if(empty($this->field ['content']) && isset($this->field ['callback_hook'])){
+            echo do_action($this->field ['callback_hook'],$this);
+        } else {
+            echo $this->field ['content'];
+        }
 		echo $this->element_after ();
 	}
 }

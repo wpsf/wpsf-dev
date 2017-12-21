@@ -1,12 +1,8 @@
 /**
- *
  * -----------------------------------------------------------
- *
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
- *
  * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- *
  * -----------------------------------------------------------
  *
  */
@@ -15,11 +11,7 @@
     'use strict';
 
     $.WPSFRAMEWORK_FIELDS = $.WPSFRAMEWORK_FIELDS || {};
-
-    // caching selector
     var $wpsf_body = $('body');
-
-    // caching variables
     var wpsf_is_rtl = $wpsf_body.hasClass('rtl');
 
     $.WPSFRAMEWORK_FIELDS.get_element_args = function (elem, $options) {
@@ -36,15 +28,13 @@
 
         return $final_data;
     }
+
     $.fn.WPSFRAMEWORK_FIELDS_SELECT2 = function () {
         return this.each(function () {
             $(this).select2();
         })
     }
 
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS CHOSEN
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_FIELDS_CHOSEN = function () {
         return this.each(function () {
             $(this).chosen({
@@ -54,11 +44,7 @@
             });
         });
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS IMAGE SELECTOR
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_SELECTOR = function () {
         return this.each(function () {
 
@@ -68,11 +54,7 @@
 
         });
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS SORTER
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_SORTER = function () {
         return this.each(function () {
 
@@ -104,11 +86,7 @@
 
         });
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS MEDIA UPLOADER / UPLOAD
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_UPLOADER = function () {
         return this.each(function () {
 
@@ -168,11 +146,7 @@
         });
 
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS IMAGE UPLOADER
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_UPLOADER = function () {
         return this.each(function () {
 
@@ -233,11 +207,7 @@
         });
 
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS IMAGE GALLERY
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_GALLERY = function () {
         return this.each(function () {
 
@@ -322,11 +292,7 @@
 
         });
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS TYPOGRAPHY
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_TYPOGRAPHY = function () {
         return this.each(function () {
 
@@ -359,11 +325,7 @@
 
         });
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS GROUP
-    // ------------------------------------------------------
+    
     $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
         return this.each(function () {
 
@@ -422,7 +384,11 @@
                 });
 
                 var cloned = clone_group.clone().removeClass('hidden');
+
                 field_groups.append(cloned);
+                field_groups.find('textarea').each(function () {
+                    wp.editor.initialize($(this).attr("id"));
+                });
 
                 if (accordion_group.length) {
                     field_groups.accordion('refresh');
@@ -450,11 +416,7 @@
 
         });
     };
-    // ======================================================
 
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS SAVE TAXONOMY CLEAR FORM ELEMENTS
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_FIELDS_TAXONOMY = function () {
         return this.each(function () {
 
@@ -502,11 +464,7 @@
 
         });
     };
-    // ======================================================
 
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS UI DIALOG OVERLAY HELPER
-    // ------------------------------------------------------
     if (typeof $.widget !== 'undefined' && typeof $.ui !== 'undefined' && typeof $.ui.dialog !== 'undefined') {
         $.widget('ui.dialog', $.ui.dialog, {
             _createOverlay: function () {
@@ -521,9 +479,6 @@
         });
     }
 
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS ICONS MANAGER
-    // ------------------------------------------------------
     $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER = function () {
 
         var base = this,
@@ -663,11 +618,7 @@
         // run initializer
         base.init();
     };
-    // ======================================================
-
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS SHORTCODE MANAGER
-    // ------------------------------------------------------
+    
     $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER = function () {
 
         var base = this,
@@ -690,7 +641,11 @@
 
                 e.preventDefault();
 
-                // init chosen
+                if ($selector.find('option').length <= 2) {
+                    $selector.find('option').not(':empty()').first().attr('selected', true);
+                    $selector.trigger("change");
+                }
+
                 $selector.WPSFRAMEWORK_FIELDS_CHOSEN();
 
                 $shortcode_button = $(this);
@@ -728,6 +683,12 @@
                             $shortcodeload.css('height', load_height);
 
                         }).resize();
+
+                        var $options = $selector.find('option');
+
+
+
+
 
                     },
                     close: function () {
@@ -1022,11 +983,7 @@
         // run initializer
         base.init();
     };
-    // ======================================================
 
-    // ======================================================
-    // WPSFRAMEWORK_FIELDS COLORPICKER
-    // ------------------------------------------------------
     if (typeof Color === 'function') {
 
         // adding alpha support for Automattic Color.js toString function.
@@ -1206,8 +1163,6 @@
         });
 
     };
-    // ======================================================
-
 
     $.fn.WPSFRAMEWORK_FIELDS_WPLINKS = function () {
         return this.each(function () {
@@ -1296,6 +1251,4 @@
             $this.iCheck($final_data);
         })
     }
-
-
 })(jQuery, window, document);

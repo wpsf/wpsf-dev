@@ -27,7 +27,7 @@ class WPSFramework_Option_fieldset extends WPSFramework_Options {
 			$unique_id = $this->unique . '[' . $this->field ['id'] . ']';
 			
 			if (! empty ( $this->field ['un_array'] )) {
-				echo wpsf_add_element ( $field, wpsf_get_option ( $field_id ), $this->unique );
+				echo wpsf_add_element ( $field, $field_value, $this->unique );
 			} else {
 				echo wpsf_add_element ( $field, $field_value, $unique_id );
 			}

@@ -32,7 +32,6 @@
             var wpsf_theme = $(this).attr("data-theme");
             var is_single_page = $(this).attr("data-single-page");
 
-
             if (wpsf_theme == 'modern') {
                 var $this = $(this),
                     $nav = $this.find('.wpsf-nav'),
@@ -52,7 +51,7 @@
                         $el.closest('li').toggleClass('wpsf-tab-active');
                     } else {
                         if (is_single_page === 'yes') {
-                            $('#wpsf-tab-' + $target).show().siblings().hide();
+                            $this.find('#wpsf-tab-' + $target).show().siblings().hide();
                             $nav.find('a').removeClass('wpsf-section-active');
                             $el.addClass('wpsf-section-active');
                             $reset.val($target);
@@ -82,7 +81,7 @@
                         $target = $el.data('section');
 
                     if (is_single_page === 'yes') {
-                        $('#wpsf-tab-' + $target).show().siblings().hide();
+                        $this.find('#wpsf-tab-' + $target).show().siblings().hide();
                         $sub_nav.find("#wpsf-tab-" + $target + '-submenus').show().siblings().hide();
                         $main_nav.find("a").removeClass('nav-tab-active');
                         $el.addClass('nav-tab-active');
@@ -100,7 +99,7 @@
                         $target = $el.data('section'),
                         $parent = $el.data('parent-section');
 
-                    $('#wpsf-tab-' + $target).show().siblings().hide();
+                    $this.find('#wpsf-tab-' + $target).show().siblings().hide();
                     $sub_nav.find(".wpsf-submenus a").removeClass('current');
                     $el.addClass('current');
                     $reset.val($target);
@@ -108,11 +107,6 @@
 
             }
         })
-
-
-
-
-
     };
     // ======================================================
 

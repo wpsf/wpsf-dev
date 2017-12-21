@@ -18,6 +18,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 		$this->org_value = $value;
 		$this->unique = $unique;
 		$this->multilang = $this->element_multilang ();
+        $this->addAction("admin_enqueue_scripts",'script_styles');
 	}
 	
     public function element_value($value = '') {
@@ -329,4 +330,4 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 }
 
 // load all of fields
-wpsf_load_option_fields ();
+//wpsf_load_option_fields ();

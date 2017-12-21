@@ -31,6 +31,28 @@ $options[] = array(
 
 	'fields' => array(
 
+        array(
+  'id'        => 'fieldset_3',
+  'type'      => 'fieldset',
+  'title'     => 'Fieldset Field',
+  'un_array'  => true,
+  'fields'    => array(
+
+    array(
+      'id'    => 'fieldset_1_text',
+      'type'  => 'text',
+      'title' => 'Text Field',
+    ),
+
+    array(
+      'id'    => 'fieldset_1_textarea',
+      'type'  => 'textarea',
+      'title' => 'Textarea Field',
+    ),
+
+  ),
+),
+        
 		// begin: a field
 
 		array(
@@ -471,7 +493,7 @@ $options[] = array(
 				) ,
                 
                 array(
-					'id' => 'unique_checkbox_icheck',
+					'id' => 'unique_checkbox_icheck_pages',
 					'type' => 'checkbox',
 					'title' => 'Checkbox Field with Pages (iCheck)',
 					'options' => 'pages',
@@ -1020,6 +1042,35 @@ $options[] = array(
 					'button_title' => 'Add New',
 					'accordion_title' => 'Add New Field',
 					'fields' => array(
+                        
+                        
+                        
+                        array(
+                            'id' => 'unique_group_11',
+                            'type' => 'group',
+                            'title' => 'Group Field1',
+                            'button_title' => 'Add New1111',
+                            'accordion_title' => 'Add New Fiel11d',
+                            'fields' => array(
+                                array(
+                                    'id' => 'unique_group_11_text',
+                                    'type' => 'text',
+                                    'title' => 'Text Field'
+                                ) ,
+                                array(
+                                    'id' => 'unique_group_11_switcher',
+                                    'type' => 'switcher',
+                                    'title' => 'Switcher Field'
+                                ) ,
+                                array(
+                                    'id' => 'unique_group_11_textarea',
+                                    'type' => 'textarea',
+                                    'title' => 'Upload Field'
+                                )
+                            )
+                        ),
+                        
+                        
 						array(
 							'id' => 'unique_group_1_text',
 							'type' => 'text',
@@ -1037,7 +1088,7 @@ $options[] = array(
 						)
 					)
 				) ,
-				array(
+				/*array(
 					'id' => 'unique_group_2',
 					'type' => 'group',
 					'title' => 'Group Field with Default',
@@ -1128,7 +1179,7 @@ $options[] = array(
 							'title' => 'Text Field 3'
 						)
 					)
-				)
+				)*/
 			)
 		) , // end: group options
 
@@ -1536,11 +1587,12 @@ $options[] = array(
 						'enabled' => array(
 							'bmw' => 'BMW',
 							'mercedes' => 'Mercedes',
-							'volkswagen' => 'Volkswagen'
-						) ,
+							'volkswagen' => 'Volkswagen',
+                            'mpoo' => 'a',						) ,
 						'disabled' => array(
 							'ferrari' => 'Ferrari',
-							'mustang' => 'Mustang'
+							'mustang' => 'Mustang',
+                            'help' => 'new',
 						)
 					)
 				) ,
@@ -2370,6 +2422,64 @@ $options[] = array(
 		)
 	)
 );
+
+
+$options[] = array(
+	'name' => 'sys_tools',
+	'title' => 'Sys Tools',
+	'icon' => 'fa fa-report',
+    //'callback_hook' => 'callback_myplace',
+    'fields' => array(
+        array(
+            'type' => 'content',
+            'content' => '',
+            'callback_hook' => 'callback_myplace',
+        )
+    )
+);
+
+
+
+$options[] = array(
+				'name'      => 'favicon',
+				'title'     => 'Review List',
+				'icon'      => 'fa fa-picture-o',
+				// begin: fields
+				'fields'    => array(
+					/* 	========== begin: Heading ========== */
+					array(
+						'type'    => 'subheading',
+						'content' => 'Review List',
+					),
+					array(
+						'id'              => 'op_homepage_top_sidebar_blogad',
+						'type'            => 'group',
+						'title'           => 'HomePage Review List',
+						'button_title'    => 'Add New',
+						'accordion_title' => 'Add New Field',
+						'fields'          => array(
+
+							array(
+								'id'    => 'op_homepage_top_sidebar_blog_title_linka',
+								'type'  => 'wysiwyg',
+								'title' => 'Rreview Title Link',
+                                'settings' => array(
+                                    'editor_class' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                                )
+							),
+
+						)
+					),
+				),
+			);
+
+$options[] = array(
+	'name' => 'sys_tools1',
+	'title' => 'Sys Tools1',
+	'icon' => 'fa fa-report',
+    'callback_hook' => 'callback_myplace',
+);
+
 $settings = array(
 	'menu_title' => 'Theme - Style',
 	'options_name' => 'wpsf-options-f-names',
@@ -2381,6 +2491,7 @@ $settings = array(
 	'show_reset_all' => false,
 	'framework_title' => 'WordPress-Settings-Framework Framework <small>by WordPress-Settings-Framework</small>'
 );
+
 new WPSFramework_Settings($settings, $options);
 new WPSFramework_Settings(array(
 	'menu_title' => 'Plugin - Style',
@@ -2393,4 +2504,3 @@ new WPSFramework_Settings(array(
 	'show_reset_all' => false,
 	'framework_title' => 'WordPress-Settings-Framework Framework <small>by WordPress-Settings-Framework</small>'
 ) , $options);
-
