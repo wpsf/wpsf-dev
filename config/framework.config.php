@@ -15,14 +15,14 @@ if (!defined('ABSPATH')) {
 // FRAMEWORK OPTIONS
 // -----------------------------------------------------------------------------------------------
 // ===============================================================================================
-
-$options = array();
+global $wpsf_demo_settings;
+$wpsf_demo_settings = array();
 
 // ----------------------------------------
 // a option section for options overview -
 // ----------------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'overwiew',
 	'title' => 'Overview',
 	'icon' => 'fa fa-star',
@@ -185,7 +185,7 @@ $options[] = array(
 // a option section with tabs -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'options',
 	'title' => 'Options',
 	'icon' => 'fa fa-plus-circle',
@@ -1785,7 +1785,7 @@ $options[] = array(
 // a seperator -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'seperator_1',
 	'title' => 'A Seperator',
 	'icon' => 'fa fa-bookmark'
@@ -1795,7 +1795,7 @@ $options[] = array(
 // backup -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'backup_section',
 	'title' => 'Backup',
 	'icon' => 'fa fa-shield',
@@ -1815,7 +1815,7 @@ $options[] = array(
 // validate -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'validate_section',
 	'title' => 'Validate',
 	'icon' => 'fa fa-check-circle',
@@ -1856,7 +1856,7 @@ $options[] = array(
 // sanitize -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'sanitize_section',
 	'title' => 'Sanitize',
 	'icon' => 'fa fa-repeat',
@@ -1906,7 +1906,7 @@ $options[] = array(
 // dependencies -
 // ----------------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'dependencies',
 	'title' => 'Dependencies',
 	'icon' => 'fa fa-code-fork',
@@ -2317,7 +2317,7 @@ $options[] = array(
 // a seperator -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'seperator_2',
 	'title' => 'Section Examples',
 	'icon' => 'fa fa-cog'
@@ -2327,7 +2327,7 @@ $options[] = array(
 // normal section -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'normal_section',
 	'title' => 'Normal Section',
 	'icon' => 'fa fa-minus',
@@ -2343,7 +2343,7 @@ $options[] = array(
 // accordion sections -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'accordion_section',
 	'title' => 'Accordion Sections',
 	'icon' => 'fa fa-bars',
@@ -2397,7 +2397,7 @@ $options[] = array(
 // a seperator -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'seperator_3',
 	'title' => 'Others',
 	'icon' => 'fa fa-gift'
@@ -2407,7 +2407,7 @@ $options[] = array(
 // license -
 // ------------------------------
 
-$options[] = array(
+$wpsf_demo_settings[] = array(
 	'name' => 'license_section',
 	'title' => 'License',
 	'icon' => 'fa fa-info-circle',
@@ -2422,85 +2422,3 @@ $options[] = array(
 		)
 	)
 );
-
-
-$options[] = array(
-	'name' => 'sys_tools',
-	'title' => 'Sys Tools',
-	'icon' => 'fa fa-report',
-    //'callback_hook' => 'callback_myplace',
-    'fields' => array(
-        array(
-            'type' => 'content',
-            'content' => '',
-            'callback_hook' => 'callback_myplace',
-        )
-    )
-);
-
-
-
-$options[] = array(
-				'name'      => 'favicon',
-				'title'     => 'Review List',
-				'icon'      => 'fa fa-picture-o',
-				// begin: fields
-				'fields'    => array(
-					/* 	========== begin: Heading ========== */
-					array(
-						'type'    => 'subheading',
-						'content' => 'Review List',
-					),
-					array(
-						'id'              => 'op_homepage_top_sidebar_blogad',
-						'type'            => 'group',
-						'title'           => 'HomePage Review List',
-						'button_title'    => 'Add New',
-						'accordion_title' => 'Add New Field',
-						'fields'          => array(
-
-							array(
-								'id'    => 'op_homepage_top_sidebar_blog_title_linka',
-								'type'  => 'wysiwyg',
-								'title' => 'Rreview Title Link',
-                                'settings' => array(
-                                    'editor_class' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                                )
-							),
-
-						)
-					),
-				),
-			);
-
-$options[] = array(
-	'name' => 'sys_tools1',
-	'title' => 'Sys Tools1',
-	'icon' => 'fa fa-report',
-    'callback_hook' => 'callback_myplace',
-);
-
-$settings = array(
-	'menu_title' => 'Theme - Style',
-	'options_name' => 'wpsf-options-f-names',
-	'style' => 'modern',
-	'menu_type' => 'menu', // menu, submenu, options, theme, etc.
-	'menu_slug' => 'wpsf-framework',
-	'ajax_save' => false,
-	'is_single_page' => false,
-	'show_reset_all' => false,
-	'framework_title' => 'WordPress-Settings-Framework Framework <small>by WordPress-Settings-Framework</small>'
-);
-
-new WPSFramework_Settings($settings, $options);
-new WPSFramework_Settings(array(
-	'menu_title' => 'Plugin - Style',
-	'options_name' => 'wpsf-options-f-names',
-	'style' => 'simple',
-	'menu_type' => 'menu', // menu, submenu, options, theme, etc.
-	'menu_slug' => 'wpsf-framework-simple',
-	'ajax_save' => false,
-	'is_single_page' => false,
-	'show_reset_all' => false,
-	'framework_title' => 'WordPress-Settings-Framework Framework <small>by WordPress-Settings-Framework</small>'
-) , $options);

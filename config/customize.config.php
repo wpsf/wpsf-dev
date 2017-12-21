@@ -2,17 +2,14 @@
 if (! defined ( 'ABSPATH' )) {
 	die ();
 } // Cannot access pages directly.
-  // ===============================================================================================
-  // -----------------------------------------------------------------------------------------------
-  // CUSTOMIZE SETTINGS
-  // -----------------------------------------------------------------------------------------------
-  // ===============================================================================================
-$options = array ();
+
+global $wpsf_demo_customizer;
+$wpsf_demo_customizer = array ();
 
 // -----------------------------------------
 // Customize Core Fields -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_customizer [] = array (
 		'name' => 'wp_core_fields',
 		'title' => 'WP Core Fields',
 		'settings' => array (
@@ -135,7 +132,7 @@ $options [] = array (
 // -----------------------------------------
 // Customize WordPress-Settings-Framework Fields -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_customizer [] = array (
 		'name' => 'codestar_fields',
 		'title' => 'WordPress-Settings-Framework Framework Fields',
 		'settings' => array (
@@ -339,7 +336,7 @@ $options [] = array (
 // -----------------------------------------
 // Customize Panel Options Fields -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_customizer [] = array (
 		'name' => 'codestar_panel_1',
 		'title' => 'WordPress-Settings-Framework Framework Panel',
 		'description' => 'WordPress-Settings-Framework customize panel description.',
@@ -457,12 +454,4 @@ $options [] = array (
 				)
 				 
 		) 
-)
-// end: section
-
-;
-// end: sections
-
-
-
-//WPSFramework_Customize::instance ( $options );
+);

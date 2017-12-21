@@ -7,12 +7,13 @@ if (! defined ( 'ABSPATH' )) {
   // SHORTCODE GENERATOR OPTIONS
   // -----------------------------------------------------------------------------------------------
   // ===============================================================================================
-$options = array ();
+global $wpsf_demo_shortcodes;
+$wpsf_demo_shortcodes = array ();
 
 // -----------------------------------------
 // Basic Shortcode Examples -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_shortcodes [] = array (
 		'title' => 'Basic Shortcode Examples',
 		'shortcodes' => array (
 				
@@ -246,7 +247,7 @@ $options [] = array (
 // -----------------------------------------
 // Simple Shortcode Examples -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_shortcodes [] = array (
 		'title' => 'Simple Shortcode Examples',
 		'shortcodes' => array (
 				
@@ -336,7 +337,7 @@ $options [] = array (
 // -----------------------------------------
 // Single Shortcode Examples -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_shortcodes [] = array (
 		'title' => 'Single Shortcode Examples',
 		'shortcodes' => array (
 				
@@ -394,7 +395,7 @@ $options [] = array (
 // -----------------------------------------
 // Advanced Shortcode Examples -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_shortcodes [] = array (
 		'title' => 'Advanced Shortcode Examples',
 		'shortcodes' => array (
 				
@@ -487,9 +488,4 @@ $options [] = array (
 				)
 				 
 		) 
-)
-// end: shortcode
-
-;
-
-WPSFramework_Shortcode_Manager::instance ( $options );
+);

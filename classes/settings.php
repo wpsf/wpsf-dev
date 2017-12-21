@@ -395,7 +395,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     
     public function is_sticky_header(){
         if(isset($this->settings['is_sticky_header'])){
-            if($this->settings['is_stick_header'] === true){
+            if($this->settings['is_sticky_header'] === true){
                 return 'wpsf-sticky-header';
             }
         }

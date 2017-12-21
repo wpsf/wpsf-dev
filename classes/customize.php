@@ -53,14 +53,6 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
 		}
 	}
 	
-	// instance
-	public static function instance($options = array()) {
-		if (is_null ( self::$instance ) ) {
-			self::$instance = new self ( $options );
-		}
-		return self::$instance;
-	}
-	
 	// customize register
 	public function customize_register($wp_customize) {
 		

@@ -7,12 +7,13 @@ die ();
 // TAXONOMY OPTIONS
 // -----------------------------------------------------------------------------------------------
 // ===============================================================================================
-$options = array ();
+global $wpsf_demo_taxonomy;
+$wpsf_demo_taxonomy = array ();
 
 // -----------------------------------------
 // Taxonomy Options -
 // -----------------------------------------
-$options [] = array (
+$wpsf_demo_taxonomy [] = array (
     'id' => '_custom_taxonomy_options',
     'taxonomy' => 'category', // category, post_tag or your custom taxonomy name
     'fields' => array (
@@ -29,7 +30,7 @@ $options [] = array (
     )
 );
 
-$options [] = array (
+$wpsf_demo_taxonomy [] = array (
     'id' => '_custom_taxonomy_options',
     'taxonomy' => 'cpt-tag', // category, post_tag or your custom taxonomy name
     'fields' => array (
@@ -40,8 +41,3 @@ $options [] = array (
         ) 
     ) 
 );
-
-new WPSFramework_Taxonomy( $options );
-$options[0]['id'] = '_custom_tax_1';
-$options[1]['id'] = '_custom_tax_2';
-new WPSFramework_Taxonomy( $options );

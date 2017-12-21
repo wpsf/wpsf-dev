@@ -13,6 +13,7 @@ if (! defined ( 'ABSPATH' )) {
 class WPSFramework_Option_Gallery extends WPSFramework_Options {
 	public function __construct($field, $value = '', $unique = '') {
 		parent::__construct ( $field, $value, $unique );
+        
 	}
 	public function output() {
 		echo $this->element_before ();

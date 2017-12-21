@@ -8,16 +8,6 @@ if (! defined ( 'ABSPATH' )) {
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
  *
- * Plugin Name: WordPress-Settings-Framework Framework
- * Plugin URI: http://codestarframework.com/
- * Author: WordPress-Settings-Framework
- * Author URI: http://codestarlive.com/
- * Version: 1.0.2
- * Description: A Lightweight and easy-to-use WordPress Options Framework
- * License: GPLv2 or later
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: wpsf-framework
- *
  * ------------------------------------------------------------------------------------------------
  *
  * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
@@ -57,7 +47,7 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 		defined ( 'WPSF_ACTIVE_LIGHT_THEME' ) or define ( 'WPSF_ACTIVE_LIGHT_THEME', false );
 		
 		// helpers
-		wpsf_locate_template ( 'functions/deprecated.php' );
+        
 		wpsf_locate_template ( 'functions/fallback.php' );
 		wpsf_locate_template ( 'functions/helpers.php' );
 		wpsf_locate_template ( 'functions/actions.php' );
@@ -68,8 +58,7 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 		// classes
 		wpsf_locate_template ( 'classes/abstract.php' );
 		wpsf_locate_template ( 'classes/options.php' );
-        
-        
+		wpsf_locate_template ( 'classes/framework.php' );
         
         function wpsf_autoloader($class,$check= false){
             if($class === true){
@@ -88,12 +77,8 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
         }
         
 		spl_autoload_register('wpsf_autoloader');
-		// configs
-		wpsf_locate_template ( 'config/framework.config.php' );
-		wpsf_locate_template ( 'config/metabox.config.php' );
-		wpsf_locate_template ( 'config/taxonomy.config.php' );
-		wpsf_locate_template ( 'config/shortcode.config.php' );
-		wpsf_locate_template ( 'config/customize.config.php' );
+		
+        do_action("wpsf_framework_loaded");
 	}
-	add_action ( 'init', 'wpsf_framework_init', 10 );
+    add_action('wp_loaded','wpsf_framework_init');
 }

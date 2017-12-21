@@ -14,6 +14,7 @@ class WPSFramework_Option_Image extends WPSFramework_Options {
 	public function __construct($field, $value = '', $unique = '') {
 		parent::__construct ( $field, $value, $unique );
 	}
+    
 	public function output() {
 		echo $this->element_before ();
 		
