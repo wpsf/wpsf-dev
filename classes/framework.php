@@ -38,7 +38,7 @@ if(!class_exists("WPSFramework")){
                 $this->init_taxonomy($final['taxonomy']);
             }
 
-            if(!$final['shortcode'] !== false){
+            if($final['shortcode'] !== false){
                 $this->init_shortcode($final['shortcode']);
             }
         }

@@ -46,6 +46,7 @@ add_action("wpsf_framework_loaded",'wpsf_framework_demo');
 function wpsf_framework_demo(){
     // configs
     global $wpsf_demo_settings,$wpsf_demo_customizer,$wpsf_demo_metabox,$wpsf_demo_shortcodes,$wpsf_demo_taxonomy;
+    
     wpsf_locate_template ( 'config/framework.config.php' );
     wpsf_locate_template ( 'config/customize.config.php' );
     wpsf_locate_template ( 'config/metabox.config.php' );
