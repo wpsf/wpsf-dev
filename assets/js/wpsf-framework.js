@@ -36,6 +36,7 @@
                 var $this = $(this),
                     $nav = $this.find('.wpsf-nav'),
                     $reset = $this.find('.wpsf-reset'),
+                    $reset_parent = $this.find('.wpsf_parent_section_id'),
                     $expand = $this.find('.wpsf-expand-all');
 
                 $nav.find('ul:first a').on('click', function (e) {
@@ -44,21 +45,33 @@
 
                     var $el = $(this),
                         $next = $el.next(),
-                        $target = $el.data('section');
+                        $target = $el.data('section'),
+                        $parent = $el.data("parent-section");
+
 
                     if ($next.is('ul')) {
                         $next.slideToggle('fast');
                         $el.closest('li').toggleClass('wpsf-tab-active');
                     } else {
                         if (is_single_page === 'yes') {
-                            $this.find('#wpsf-tab-' + $target).show().siblings().hide();
+                            if ($parent) {
+                                var $is_parent = $parent + '-';
+                            } else {
+                                var $is_parent = '';
+                            }
+
+
+                            $this.find('#wpsf-tab-' + $is_parent + $target).show().siblings().hide();
                             $nav.find('a').removeClass('wpsf-section-active');
                             $el.addClass('wpsf-section-active');
                             $reset.val($target);
+                            $reset_parent.val($parent);
                         } else {
                             window.location.href = $el.attr("href");
                         }
                     }
+
+                    $('body').trigger('wpsf_settings_nav_updated', [$parent,$target,$el]);
 
                 });
 
@@ -67,28 +80,37 @@
                     $this.find('.wpsf-body').toggleClass('wpsf-show-all');
                     $(this).find('.fa').toggleClass('fa-eye-slash').toggleClass('fa-eye');
                 });
+
             } else {
 
                 var $this = $(this),
                     $main_nav = $this.find('.wpsf-main-nav'),
                     $sub_nav = $this.find('.wpsf-subnav-container'),
+                    $reset_parent = $this.find('.wpsf_parent_section_id'),
                     $reset = $this.find('.wpsf-reset');
 
                 $main_nav.find("a").on("click", function (e) {
                     e.preventDefault();
 
                     var $el = $(this),
-                        $target = $el.data('section');
+                        $target = $el.data('section'),
+                        $parent = $el.data('parent-section');
 
                     if (is_single_page === 'yes') {
-                        $this.find('#wpsf-tab-' + $target).show().siblings().hide();
-                        $sub_nav.find("#wpsf-tab-" + $target + '-submenus').show().siblings().hide();
+                        var $cdiv = $this.find('#wpsf-tab-' + $target);
+                        $cdiv.show().siblings().hide();
+
                         $main_nav.find("a").removeClass('nav-tab-active');
                         $el.addClass('nav-tab-active');
                         $reset.val($target);
+                        var $parent = $cdiv.find("#wpsf-tab-" + $target + " a.current").data('section');
+                        
+                        $reset_parent.val($parent);
                     } else {
                         window.location.href = $el.attr("href");
                     }
+
+                    $('body').trigger('wpsf_settings_nav_updated', [$target,$parent,$el]);
 
                 });
 
@@ -99,12 +121,14 @@
                         $target = $el.data('section'),
                         $parent = $el.data('parent-section');
 
-                    $this.find('#wpsf-tab-' + $target).show().siblings().hide();
-                    $sub_nav.find(".wpsf-submenus a").removeClass('current');
+                    $this.find('#wpsf-tab-' + $parent + '-' + $target).show().siblings().hide();
+                    $sub_nav.find("#wpsf-tab-" + $parent + " a").removeClass('current');
                     $el.addClass('current');
                     $reset.val($target);
-                })
+                    $reset_parent.val($parent);
 
+                    $('body').trigger('wpsf_settings_nav_updated', [$parent,$target,$el]);
+                })
             }
         })
     };

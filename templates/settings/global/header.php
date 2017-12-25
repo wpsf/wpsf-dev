@@ -2,6 +2,5 @@
 	<form method="post" action="options.php" enctype="multipart/form-data"
 		class="wpsf-form">
 
-		<input type="hidden" class="wpsf-reset" name="wpsf_section_id"
-			value="<?php echo $current_section_id; ?>" />
+		
         <?php echo $settings_fields; ?>

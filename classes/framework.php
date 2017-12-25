@@ -30,7 +30,7 @@ if(!class_exists("WPSFramework")){
                 $this->init_metabox($final['metabox']);
             }
 
-            if($final['customizer'] !== false && is_admin()){
+            if($final['customizer'] !== false){
                 $this->init_customizer($final['customizer']);
             }
 
@@ -56,7 +56,7 @@ if(!class_exists("WPSFramework")){
         }
 
         public function init_settings($options){
-            $this->settings = new WPSFramework_Settings($options['settings'],$options['options']);
+            $this->settings = new WPSFramework_Settings($options['config'],$options['options']);
         }
 
         public function init_shortcode($options){

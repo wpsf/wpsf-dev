@@ -1,1 +1,1 @@
-<?php echo $class->html_simple_theme(); ?>
+<?php echo $class->html_content(); ?>

@@ -56,4 +56,8 @@ abstract class WPSFramework_Abstract {
         }
         return false;
     }
+    
+    public function load_template($template_name,$args = array()){
+        wpsf_template($this->override_location,$template_name,$args);
+    }
 }

@@ -76,7 +76,6 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
 
             
 			$this->shortcodes = $this->get_shortcodes ();
-            $this->addAction( 'init','onwpinit');
 			$this->addAction ( 'media_buttons', 'media_shortcode_button', 99 );
 			$this->addAction ( 'admin_footer', 'shortcode_dialog', 99 );
 			$this->addAction ( 'customize_controls_print_footer_scripts', 'shortcode_dialog', 99 );

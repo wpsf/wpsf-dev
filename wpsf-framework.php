@@ -34,12 +34,19 @@ require_once plugin_dir_path ( __FILE__ ) . '/wpsf-framework-path.php';
 // ------------------------------------------------------------------------------------------------
 
 if (! function_exists ( "wpsf_template" )) {
-	function wpsf_template($template_name, $args = array()) {
-		if (file_exists ( WPSF_DIR . '/templates/' . $template_name )) {
-			extract ( $args );
-			include (WPSF_DIR . '/templates/' . $template_name);
-		}
-	}
+    
+    function wpsf_template($override_location,$template_name,$args = array()){
+        if(file_exists($override_location.'/'.$template_name)){
+            $path = $override_location.'/'.$template_name;
+        } else if(file_exists(WPSF_DIR.'/templates/'.$template_name)){
+            $path = WPSF_DIR.'/templates/'.$template_name;
+        } else {
+            return false;
+        }
+        
+        extract($args);
+        include($path);
+    }
 }
 
 if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramework' )) {
@@ -80,5 +87,6 @@ if (! function_exists ( 'wpsf_framework_init' ) && ! class_exists ( 'WPSFramewor
 		
         do_action("wpsf_framework_loaded");
 	}
-    add_action('wp_loaded','wpsf_framework_init');
+    
+    add_action('init','wpsf_framework_init',1);
 }

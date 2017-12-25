@@ -110,58 +110,7 @@ if (! function_exists ( 'wpsf_locate_template' )) {
 	}
 }
 
-/**
- *
- * Get option
- *
- * @since 1.0.0
- * @version 1.0.0
- *         
- */
-if (! function_exists ( 'wpsf_get_option' )) {
-	function wpsf_get_option($option_name = '', $default = '') {
-		$options = apply_filters ( 'wpsf_get_option', get_option ( WPSF_OPTION ), $option_name, $default );
-		
-		if (! empty ( $option_name ) && ! empty ( $options [$option_name] )) {
-			return $options [$option_name];
-		} else {
-			return (! empty ( $default )) ? $default : null;
-		}
-	}
-}
 
-/**
- *
- * Set option
- *
- * @since 1.0.0
- * @version 1.0.0
- *         
- */
-if (! function_exists ( 'wpsf_set_option' )) {
-	function wpsf_set_option($option_name = '', $new_value = '') {
-		$options = apply_filters ( 'wpsf_set_option', get_option ( WPSF_OPTION ), $option_name, $new_value );
-		
-		if (! empty ( $option_name )) {
-			$options [$option_name] = $new_value;
-			update_option ( WPSF_OPTION, $options );
-		}
-	}
-}
-
-/**
- *
- * Get all option
- *
- * @since 1.0.0
- * @version 1.0.0
- *         
- */
-if (! function_exists ( 'wpsf_get_all_option' )) {
-	function wpsf_get_all_option() {
-		return get_option ( WPSF_OPTION );
-	}
-}
 
 /**
  *

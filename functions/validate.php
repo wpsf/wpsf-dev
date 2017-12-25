@@ -8,6 +8,7 @@ if(!function_exists('wpsf_get_error_message')){
         if(isset($fields['errors'][$slug])){
             return $fields['errors'][$slug];
         }
+        return $default;
     }
 }
 
