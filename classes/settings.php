@@ -415,7 +415,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     }
     
     private function get_title($data){
-        return (isset($data['title']) && empty($this->has_nav())) ? '<div class="wpsf-section-title"><h3>'.$data['title'].'</h3></div>' : '';
+        return (isset($data['title']) && !empty($this->has_nav())) ? '<div class="wpsf-section-title"><h3>'.$data['title'].'</h3></div>' : '';
     }
     
     private function is_page_active($status){
@@ -547,6 +547,9 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 }
                 
                 if($this->is_modern()){
+                    $active_class = ($is_page_active === true) ? ' wpsf-section-active ' : '';
+                    $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" >'.$page_icon.$page['title'].'</a></li>';
+                    
                     $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
                 }
                 
@@ -560,7 +563,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 
                 if($this->is_modern()){
                     $active_class = ($is_page_active === true) ? ' wpsf-section-active ' : '';
-                    $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" data-parent-section="'.$page['name'].'">'.$page_icon.$page['title'].'</a></li>';
+                    $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" >'.$page_icon.$page['title'].'</a></li>';
                     $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
                 }
             } else {

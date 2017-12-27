@@ -18,7 +18,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
 		echo $this->element_before ();
         
         echo wpsf_add_element ( array (
-                'pseudo' => true,
+                'pseudo' => false,
                 'type' => 'text',
                 'name' => $this->element_name ( '[width]' ),
                 'value' => @$this->value ['width'], 
@@ -33,7 +33,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
         echo ' x ';
         
         echo wpsf_add_element ( array (
-                'pseudo' => true,
+                'pseudo' => false,
                 'type' => 'text',
                 'name' => $this->element_name ( '[height]' ),
                 'value' => @$this->value ['height'], 
@@ -46,7 +46,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
         ) );
         
         echo wpsf_add_element ( array (
-                'pseudo' => true,
+                'pseudo' => false,
                 'type' => 'checkbox',
                 'name' => $this->element_name ( '[crop]' ),
                 'value' => @$this->value ['crop'], 
