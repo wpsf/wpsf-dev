@@ -16,27 +16,22 @@ abstract class WPSFramework_Abstract {
     public function __construct() {}
 
     public function addAction($hook, $function_to_add, $priority = 30, $accepted_args = 1) {
-        add_action ( $hook, array (
-                &$this,
-                $function_to_add 
-        ), $priority, $accepted_args );
+        add_action ( $hook, array (&$this,$function_to_add), $priority, $accepted_args );
     }
 
     public function addFilter($tag, $function_to_add, $priority = 30, $accepted_args = 1) {
-        add_action ( $tag, array (
-                &$this,
-                $function_to_add 
-        ), $priority, $accepted_args );
+        add_action ( $tag, array (&$this,$function_to_add ), $priority, $accepted_args );
     }
 
     protected function catch_output($status = 'start') {
+        $data ='';
         if ($status == 'start') {
             ob_start ();
-            return;
+        } else{
+            $data = ob_get_clean();
+            ob_flush ();
         }
 
-        $data = ob_get_clean ();
-        ob_flush ();
         return $data;
     }
 

@@ -69,19 +69,23 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
                 'button_title' => __("Add Shortcode"),
                 'button_class' => 'button button-primary',
                 'auto_select' => 'yes',
-                
             );
 
             $this->settings = wp_parse_args($this->settings,$defaults);  
 
             
 			$this->shortcodes = $this->get_shortcodes ();
+            $this->addAction("admin_enqueue_scripts",'load_style_script');
 			$this->addAction ( 'media_buttons', 'media_shortcode_button', 99 );
 			$this->addAction ( 'admin_footer', 'shortcode_dialog', 99 );
 			$this->addAction ( 'customize_controls_print_footer_scripts', 'shortcode_dialog', 99 );
 			$this->addAction ( 'wp_ajax_wpsf-get-shortcode', 'shortcode_generator', 99 );
 		}
 	}
+    
+    public function load_style_script(){
+        wpsf_load_fields_styles();
+    }
     
 	// add shortcode button
 	public function media_shortcode_button($editor_id) {

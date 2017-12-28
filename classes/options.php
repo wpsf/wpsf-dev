@@ -215,21 +215,28 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 		
 		return $out;
 	}
+    
+    private function _option_data($key,$default,$data){
+        return (isset($data->{$key}) && !empty($data->{$key})) ? $data->{$key} : $data->{$default};
+    }
 	
     public function element_data($type = '') {
 		$options = array ();
 		$query_args = (isset ( $this->field ['query_args'] )) ? $this->field ['query_args'] : array ();
-		
+		$option_key = isset($query_args['option_key']) ? $query_args['option_key'] : 'ID';
+        $option_value = isset($query_args['option_value']) ? $query_args['option_value'] : 'name';
+        unset($query_args['option_key']);
+        unset($query_args['option_value']);
 		switch ($type) {
 			
 			case 'pages' :
 			case 'page' :
-				
 				$pages = get_pages ( $query_args );
-				
 				if (! is_wp_error ( $pages ) && ! empty ( $pages )) {
 					foreach ( $pages as $page ) {
-						$options [$page->ID] = $page->post_title;
+                        $opk = $this->_option_data($option_key,'ID',$pages);
+                        $opv = $this->_option_data($option_value,'page_title',$pages);
+                        $options[$opk] = $opv;
 					}
 				}
 				
@@ -237,12 +244,12 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 			
 			case 'posts' :
 			case 'post' :
-				
 				$posts = get_posts ( $query_args );
-				
 				if (! is_wp_error ( $posts ) && ! empty ( $posts )) {
 					foreach ( $posts as $post ) {
-						$options [$post->ID] = $post->post_title;
+                        $opk = $this->_option_data($option_key,'ID',$post);
+                        $opv = $this->_option_data($option_value,'post_title',$post);
+                        $options[$opk] = $opv;
 					}
 				}
 				
@@ -255,7 +262,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 				
 				if (! is_wp_error ( $categories ) && ! empty ( $categories ) && ! isset ( $categories ['errors'] )) {
 					foreach ( $categories as $category ) {
-						$options [$category->term_id] = $category->name;
+                        $opk = $this->_option_data($option_key,'term_id',$category);
+                        $opv = $this->_option_data($option_value,'name',$category);
+                        $options[$opk] = $opv;
 					}
 				}
 				
@@ -269,7 +278,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 				
 				if (! is_wp_error ( $tags ) && ! empty ( $tags )) {
 					foreach ( $tags as $tag ) {
-						$options [$tag->term_id] = $tag->name;
+                        $opk = $this->_option_data($option_key,'term_id',$tag);
+                        $opv = $this->_option_data($option_value,'name',$tag);
+                        $options[$opk] = $opv;
 					}
 				}
 				
@@ -282,7 +293,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 				
 				if (! is_wp_error ( $menus ) && ! empty ( $menus )) {
 					foreach ( $menus as $menu ) {
-						$options [$menu->term_id] = $menu->name;
+                        $opk = $this->_option_data($option_key,'term_id',$menu);
+                        $opv = $this->_option_data($option_value,'name',$menu);
+						$options [$opk] = $opv;
 					}
 				}
 				

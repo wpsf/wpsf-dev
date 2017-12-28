@@ -44,7 +44,7 @@
             });
         });
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_SELECTOR = function () {
         return this.each(function () {
 
@@ -54,7 +54,7 @@
 
         });
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_SORTER = function () {
         return this.each(function () {
 
@@ -86,7 +86,7 @@
 
         });
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_UPLOADER = function () {
         return this.each(function () {
 
@@ -146,7 +146,7 @@
         });
 
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_UPLOADER = function () {
         return this.each(function () {
 
@@ -207,7 +207,7 @@
         });
 
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_IMAGE_GALLERY = function () {
         return this.each(function () {
 
@@ -292,7 +292,7 @@
 
         });
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_TYPOGRAPHY = function () {
         return this.each(function () {
 
@@ -325,7 +325,7 @@
 
         });
     };
-    
+
     $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
         return this.each(function () {
 
@@ -618,7 +618,7 @@
         // run initializer
         base.init();
     };
-    
+
     $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER = function () {
 
         var base = this,
@@ -641,10 +641,7 @@
 
                 e.preventDefault();
 
-                if ($selector.find('option').length <= 2) {
-                    $selector.find('option').not(':empty()').first().attr('selected', true);
-                    $selector.trigger("change");
-                }
+
 
                 $selector.WPSFRAMEWORK_FIELDS_CHOSEN();
 
@@ -684,12 +681,10 @@
 
                         }).resize();
 
-                        var $options = $selector.find('option');
-
-
-
-
-
+                        if ($selector.find('option').length <= 2) {
+                            $selector.find('option').not(':empty()').first().attr('selected', true);
+                            $selector.trigger("change");
+                        }
                     },
                     close: function () {
                         shortcode_target = false;
