@@ -234,8 +234,8 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 				$pages = get_pages ( $query_args );
 				if (! is_wp_error ( $pages ) && ! empty ( $pages )) {
 					foreach ( $pages as $page ) {
-                        $opk = $this->_option_data($option_key,'ID',$pages);
-                        $opv = $this->_option_data($option_value,'page_title',$pages);
+                        $opk = $this->_option_data($option_key,'ID',$page);
+                        $opv = $this->_option_data($option_value,'page_title',$page);
                         $options[$opk] = $opv;
 					}
 				}

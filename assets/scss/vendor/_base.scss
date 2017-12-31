@@ -322,6 +322,27 @@
     }
 }
 
+.wpsf-wc-style{
+    .wpsf-element + .wpsf-element{
+        border: none;
+    }
+    .wpsf-element{
+        padding: 5px 20px 5px 12px !important;
+        margin: 9px 0;
+
+        .wpsf-fieldset{
+            margin-left: 0 !important;
+        }
+        .wpsf-title{
+            width:150px;
+            h4{
+                vertical-align: middle;
+                font-weight: normal;
+            }
+        }
+    }
+}
+
 .wpsf-metabox-framework {
     margin: -6px -12px -12px -12px;
 

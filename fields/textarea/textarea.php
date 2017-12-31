@@ -22,7 +22,8 @@ class WPSFramework_Option_textarea extends WPSFramework_Options {
 	}
 	public function shortcode_generator() {
 		if (isset ( $this->field ['shortcode'] ) ) {
-			echo '<a href="#" class="button button-primary wpsf-shortcode wpsf-shortcode-textarea">' . esc_html__ ( 'Add Shortcode', 'wpsf-framework' ) . '</a>';
+            $label = (isset($this->field['shortcode_button_name'])) ? $this->field['shortcode_button_name'] : __("Add Shortcode",'wpsf-framework');
+			echo '<a href="#" class="button button-primary wpsf-shortcode wpsf-shortcode-textarea">'.esc_html($label).'</a>';
 		}
 	}
 }
