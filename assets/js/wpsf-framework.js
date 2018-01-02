@@ -1,32 +1,20 @@
 /**
- *
  * -----------------------------------------------------------
- *
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
- *
  * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- *
  * -----------------------------------------------------------
- *
  */
 ;
 (function ($, window, document, undefined) {
     'use strict';
-
     $.WPSFRAMEWORK = $.WPSFRAMEWORK || {};
-
     // caching selector
     var $wpsf_body = $('body');
-
     // caching variables
     var wpsf_is_rtl = $wpsf_body.hasClass('rtl');
 
-
-
-    // ======================================================
     // WPSFRAMEWORK TAB NAVIGATION
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_TAB_NAVIGATION = function () {
         return this.each(function () {
             var wpsf_theme = $(this).attr("data-theme");
@@ -132,11 +120,8 @@
             }
         })
     };
-    // ======================================================
 
-    // ======================================================
     // WPSFRAMEWORK DEPENDENCY
-    // ------------------------------------------------------
     $.WPSFRAMEWORK.DEPENDENCY = function (el, param) {
 
         // Access to jQuery and DOM versions of element
@@ -235,11 +220,8 @@
             new $.WPSFRAMEWORK.DEPENDENCY(this, param);
         });
     };
-    // ======================================================
 
-    // ======================================================
     // WPSFRAMEWORK RESET CONFIRM
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_CONFIRM = function () {
         return this.each(function () {
             $(this).on('click', function (e) {
@@ -249,11 +231,8 @@
             });
         });
     };
-    // ======================================================
 
-    // ======================================================
     // WPSFRAMEWORK SAVE OPTIONS
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_SAVE = function () {
         return this.each(function () {
 
@@ -302,11 +281,8 @@
 
         });
     };
-    // ======================================================
 
-    // ======================================================
     // ON WIDGET-ADDED RELOAD FRAMEWORK PLUGINS
-    // ------------------------------------------------------
     $.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS = function () {
         $(document).on('widget-added widget-updated', function (event, $widget) {
             $widget.WPSFRAMEWORK_RELOAD_PLUGINS();
@@ -314,9 +290,7 @@
         });
     };
 
-    // ======================================================
     // TOOLTIP HELPER
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_TOOLTIP = function () {
         return this.each(function () {
             var placement = (wpsf_is_rtl) ? 'right' : 'left';
@@ -328,9 +302,7 @@
         });
     };
 
-    // ======================================================
     // CSFRAMEWORK STICKY HEADER
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_STICKYHEADER = function () {
         if (this.length) {
             var header = this,
@@ -349,11 +321,7 @@
         }
     };
 
-    // ======================================================
-
-    // ======================================================
     // RELOAD FRAMEWORK PLUGINS
-    // ------------------------------------------------------
     $.fn.WPSFRAMEWORK_RELOAD_PLUGINS = function () {
         return this.each(function () {
             $('.chosen', this).WPSFRAMEWORK_FIELDS_CHOSEN();
@@ -371,10 +339,12 @@
         });
     };
 
+    $(window).load(function(){
+        if($('.wpsf-wc-metabox-fields').length > 0){
+            $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
+        }
+    })
 
-    // ======================================================
-    // JQUERY DOCUMENT READY
-    // ------------------------------------------------------
     $(document).ready(function () {
         $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
         $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
@@ -384,6 +354,7 @@
         $('.wpsf-save').WPSFRAMEWORK_SAVE();
         $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
         $('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
+
         $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER();
         $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER();
         $.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS();

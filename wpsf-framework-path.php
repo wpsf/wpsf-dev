@@ -5,19 +5,17 @@ if (! defined ( 'ABSPATH' )) {
 /**
  *
  * Framework constants
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
  */
-defined ( 'WPSF_VERSION' ) or define ( 'WPSF_VERSION', '1.0.2' );
+defined ( 'WPSF_VERSION' ) or define ( 'WPSF_VERSION', '1.0.3' );
 defined ( 'WPSF_OPTION' ) or define ( 'WPSF_OPTION', '_wpsf_options' );
 defined ( 'WPSF_CUSTOMIZE' ) or define ( 'WPSF_CUSTOMIZE', '_wpsf_customize_options' );
 
 /**
  *
  * Framework path finder
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -44,22 +42,18 @@ if (! function_exists ( 'wpsf_get_path_locate' )) {
 /**
  *
  * Framework set paths
- *
- * @since 1.0.0
+  * @since 1.0.0
  * @version 1.0.0
  *         
  *         
  */
 $get_path = wpsf_get_path_locate ();
-
 defined ( 'WPSF_BASENAME' ) or define ( 'WPSF_BASENAME', $get_path ['basename'] );
 defined ( 'WPSF_DIR' ) or define ( 'WPSF_DIR', $get_path ['dir'] );
 defined ( 'WPSF_URI' ) or define ( 'WPSF_URI', $get_path ['uri'] );
 
 /**
- *
  * Framework locate template and override files
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -73,16 +67,10 @@ if (! function_exists ( 'wpsf_locate_template' )) {
 		$dir_child = get_stylesheet_directory ();
 		$dir_override = '/' . $override . '/' . $template_name;
 		$dir_template = WPSF_BASENAME . '/' . $template_name;
-		
-		// child theme override
 		$child_force_overide = $dir_child . $dir_override;
 		$child_normal_override = $dir_child . $dir_template;
-		
-		// theme override paths
 		$theme_force_override = $dir_theme . $dir_override;
 		$theme_normal_override = $dir_theme . $dir_template;
-		
-		// plugin override
 		$plugin_force_override = $dir_plugin . $dir_override;
 		$plugin_normal_override = $dir_plugin . $dir_template;
 		
@@ -113,9 +101,7 @@ if (! function_exists ( 'wpsf_locate_template' )) {
 
 
 /**
- *
  * Multi language option
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -138,9 +124,7 @@ if (! function_exists ( 'wpsf_get_multilang_option' )) {
 }
 
 /**
- *
  * Multi language value
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -162,9 +146,7 @@ if (! function_exists ( 'wpsf_get_multilang_value' )) {
 }
 
 /**
- *
  * Get customize option
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -182,9 +164,7 @@ if (! function_exists ( 'wpsf_get_customize_option' )) {
 }
 
 /**
- *
  * Set customize option
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -201,9 +181,7 @@ if (! function_exists ( 'wpsf_set_customize_option' )) {
 }
 
 /**
- *
  * Get all customize option
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -215,9 +193,7 @@ if (! function_exists ( 'wpsf_get_all_customize_option' )) {
 }
 
 /**
- *
  * WPML plugin is activated
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -233,9 +209,7 @@ if (! function_exists ( 'wpsf_is_wpml_activated' )) {
 }
 
 /**
- *
  * qTranslate plugin is activated
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -251,9 +225,7 @@ if (! function_exists ( 'wpsf_is_qtranslate_activated' )) {
 }
 
 /**
- *
  * Polylang plugin is activated
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -269,9 +241,7 @@ if (! function_exists ( 'wpsf_is_polylang_activated' )) {
 }
 
 /**
- *
  * Get language defaults
- *
  * @since 1.0.0
  * @version 1.0.0
  *         
@@ -311,11 +281,8 @@ if (! function_exists ( 'wpsf_language_defaults' )) {
 }
 
 /**
- *
  * Framework load text domain
- *
  * @since 1.0.0
  * @version 1.0.0
- *         
  */
 load_textdomain ( 'wpsf-framework', WPSF_DIR . '/languages/' . get_locale () . '.mo' );

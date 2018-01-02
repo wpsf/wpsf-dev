@@ -57,7 +57,7 @@ if(!class_exists("WPSFramework_WC_Metabox")){
             }
 
             foreach($this->group_fields[$key] as $group_field){
-                $wc_class = (isset($group_field['wc_style']) && $group_field['wc_style'] === true) ? ' wpsf-wc-style ' : '';
+                $wc_class = (isset($group_field['wc_style']) && $group_field['wc_style'] === true) ? ' wpsf-wc-style wpsf-wc-metabox-fields ' : ' wpsf-wc-metabox-fields ';
                 echo '<div class="'.$wc_class.'">';
                     echo $this->render_fields($group_field,$group_field['id']);
                 echo '</div>';
@@ -140,7 +140,7 @@ if(!class_exists("WPSFramework_WC_Metabox")){
                 }
             }
         }
-        
+
         public function load_style_script(){
             global $typenow;
             if($typenow === 'product'){
@@ -258,7 +258,7 @@ if(!class_exists("WPSFramework_WC_Metabox")){
 
                 $wc_class = (isset($group['wc_style']) && $group['wc_style'] === true) ? ' wpsf-wc-style ' : '';
 
-                echo '<div id="'.$id.'" class="panel woocommerce_options_panel hidden '.$wc_class.'">';
+                echo '<div id="'.$id.'" class="panel woocommerce_options_panel hidden  wpsf-wc-metabox-fields'.$wc_class.'">';
                 echo $this->render_fields($group,$group['id']);
                 echo '</div>';
             }

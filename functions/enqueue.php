@@ -46,6 +46,7 @@ if (! function_exists ( 'wpsf_admin_enqueue_scripts' )) {
             'wpsf-plugins' => array('/assets/js/wpsf-plugins.js',array(),'1.0.0',true),
             'wpsf-fields' => array('/assets/js/wpsf-fields.js',array('wpsf-plugins'),'1.0.0',true),
             'wpsf-framework' => array('/assets/js/wpsf-framework.js',array('wpsf-fields'),'1.0.0',true),
+            'wpsf-quick-edit' => array('/assets/js/wpsf-quick-edit.js',null,'1.0','',true),
         );
         
         foreach($css_files as $id => $file){
