@@ -81,7 +81,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $this->get_sections();
             $this->cache = get_transient('wpsf_'.$this->get_cache_key());
             $this->find_current_sections();
-            $this->get_option = get_option ( $this->unique );
+            $this->get_option = get_option ( $this->unique,true );
             if(!is_array($this->get_option)){$this->get_option = array();}
 			$this->addAction('admin_menu', 'admin_menu' );
             $this->addAction('admin_init','register_settings');
