@@ -414,6 +414,21 @@
     display: inline-block;
 }
 
+.wpsf-field-accordion {
+    padding:0 !important;
+    &.is-closed{
+        margin-bottom:10px;
+    }
+
+    .wpsf-field-subheading{
+        cursor:pointer;
+
+        span.accordion{
+            float: right;
+        }
+    }
+}
+
 .wpsf-field-text {
     input {
         width: 340px;

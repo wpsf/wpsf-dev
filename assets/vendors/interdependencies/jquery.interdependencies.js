@@ -50,6 +50,19 @@
                 return Number(val2) < Number(val1);
             } else if (condition == "()") {
                 return window[val1](context, control, val2);
+            } else if (condition == "in") {
+                if(val2 == '' || val2 == null){return false;}
+                if(typeof val2 === 'object'){
+                    for(var i=0;i<=val2.length;i++){
+                        if(val2[i] !== undefined){
+                            if(val2[i] == val1){
+                                return true;
+                            }
+                        }
+                    }
+
+                }
+                return false;
             } else if (condition == "any") {
                 return $.inArray(val2, val1.split(',')) > -1;
             } else if (condition == "not-any") {

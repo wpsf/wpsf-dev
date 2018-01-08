@@ -49,7 +49,11 @@ if (! function_exists ( 'wpsf_add_element' )) {
 			ob_start ();
 			$element = new $class ( $field, $value, $unique );
 			$element->output ();
-			$output .= ob_get_clean ();
+			$e_out = ob_get_clean ();
+			if($field['type'] === 'hidden'){
+			    return  $e_out;
+            }
+            $output .= $e_out;
 		} else {
 			$output .= '<p>' . esc_html__ ( 'This field class is not available!', 'wpsf-framework' ) . '</p>';
 		}

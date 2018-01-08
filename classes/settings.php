@@ -6,18 +6,13 @@ if (! defined ( 'ABSPATH' )) {
 class WPSFramework_Settings extends WPSFramework_Abstract {
 	
     public $unique = WPSF_OPTION;
-	
     public $settings = array ();
-	
     public $options = array ();
-	
     public $sections = array ();
-	
     public $get_option = array ();
-	
     public $settings_page = null;
-    
     public $override_location = null;
+
     
     private function _set_settings_options($settings = array(), $options = array()) {
 		if (! empty ( $settings )) {
@@ -78,14 +73,15 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $this->parent_sectionid = '';
             $this->current_section = '';
             $this->sections = array();
+            $this->options = $this->handle_options();
             $this->get_sections();
             $this->cache = get_transient('wpsf_'.$this->get_cache_key());
             $this->find_current_sections();
             $this->get_option = get_option ( $this->unique,true );
             if(!is_array($this->get_option)){$this->get_option = array();}
+            $this->addAction("admin_enqueue_scripts",'load_style_script');
 			$this->addAction('admin_menu', 'admin_menu' );
             $this->addAction('admin_init','register_settings');
-            $this->addAction("admin_enqueue_scripts",'load_style_script');
             $this->addAction("update_option_".$this->unique,'on_options_update');
 		}
 	}
@@ -123,25 +119,23 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         
         $get_current_section = wpsf_get_var('wpsf-section-id',false);
         $get_parent_sectionid = wpsf_get_var('wpsf-parent-section-id',false);
-        
-        if($get_current_section === false && $get_parent_sectionid === false){
+
+        if($get_current_section == false && $get_parent_sectionid == false){
             $this->_validate_first_section($this->current_section,$this->parent_sectionid);
-        } else if($get_current_section === false || $get_parent_sectionid === false){
-            $this->_validate_first_section($get_current_section,$get_parent_sectionid);
-        } else if($get_current_section !== false || $get_parent_sectionid !== false){
+        } else {
             $this->_validate_first_section($get_current_section,$get_parent_sectionid);
         }
     }
     
     private function _validate_first_section($current_section,$parent_sectionid){
-        if($current_section === false && $parent_sectionid === false){
+        if($current_section == false && $parent_sectionid == false){
             $this->parent_sectionid = $this->_get_first_section_name(false);
             $this->current_section = $this->_get_first_section_name(true);
-        } else if($current_section !== false && $parent_sectionid === false){
+        } else if($current_section != false && $parent_sectionid == false){
             $this->parent_sectionid = $current_section;
             $this->current_section = $this->_get_first_section_name(true,$parent_sectionid);
-        } else if($parent_sectionid !== false && $current_section === false ){
-            $this->current_section = $this->_get_first_section_name(true,$parent_sectionid);
+        } else if($parent_sectionid != false && $current_section == false ){
+            $this->current_section = $this->_get_first_section_name(false,$parent_sectionid);
         } else {
             $this->current_section = $current_section;
             $this->parent_sectionid = $parent_sectionid;
@@ -196,7 +190,40 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         }
         
 	}
-    
+
+	private function handle_options($array = array(),$parent_id = ''){
+        $s = empty($array) ? $this->options : $array;
+
+        if(isset($s['sections'])){
+            foreach($s['sections'] as $b => $a){
+                if(isset($a['fields'])){
+
+                    $s['sections'][$b] = $this->handle_options($a,$a['name']);
+                }
+            }
+        } else if(isset($s['fields'])){
+            foreach($s['fields'] as $f => $e){
+                $field_id = isset($e['id']) ? $e['id'] : '';
+                $pid = $parent_id.'_'.$field_id;
+                $s['fields'][$f]['error_id'] = $pid;
+
+                if(isset($e['fields'])){
+                    $s['fields'][$f] = $this->handle_options($e,$pid);
+                }
+            }
+        } else {
+            foreach($s as $i => $v){
+                if(isset($v['fields']) || isset($v['sections'])){
+                    $s[$i] = $this->handle_options($v,'');
+                }
+            }
+        }
+
+
+        return $s;
+
+    }
+
     private function get_sections() {
         if(!empty($this->sections)){
             return $this->sections;
@@ -225,18 +252,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			}
 		}
         $this->sections = $sections;
-        
         return $sections;
 	}
     
     public function register_settings(){
         register_setting ( $this->unique, $this->unique, array (&$this,'validate_save'));
-        if(count($this->get_option) < $this->total_fields){
-            $this->register_settings_fields();
-        }
-	}
-    
-    private function register_settings_fields(){
         $defaults = array();
         
         foreach($this->get_sections() as $section){
@@ -254,8 +274,8 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     
     public function validate_save($request){
         $add_errors = array();
-        $section_id = wpsf_get_var('wpsf-section-id',false);
-        $parent_section_id = wpsf_get_var("wpsf-parent-section-id",false);
+        $section_id = $this->current_section(false);
+        $parent_section_id = $this->current_section('parent');
         $submitted_val = $request;
         
         if($this->is_single_page() === false){
@@ -295,43 +315,22 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             }
             $add_errors[] = $this->add_settings_error(esc_html__('Default options restored for only this section.', 'wpsf-framework'),'updated');
         }
-        
-        foreach($this->get_sections() as $section){
-            if($this->is_single_page() === false && ($section_id != $section['name'] && $parent_section_id != $section['page_id'])){
-                continue;
-            }
-            
-            foreach($section['fields'] as $field){
-                if(isset($field['type']) && ! isset($field['multilang']) && isset($field['id'])){
-                    $request_value = isset ($request[$field['id']]) ? $request[$field['id']] : '';
-					$sanitize_type = $field ['type'];
-                    
-                    if (isset($field['sanitize'])) {
-                        $sanitize_type = ($field['sanitize'] !== false) ? $field['sanitize'] : false;
-                    }
-                    
-                    if ($sanitize_type !== false && has_filter('wpsf_sanitize_'.$sanitize_type )) {
-                        $request [$field ['id']] = apply_filters ('wpsf_sanitize_'.$sanitize_type, $request_value, $field, $section ['fields']);
-                    }
-                    
-                    if (isset ( $field ['validate'] ) && has_filter ( 'wpsf_validate_' . $field ['validate'] )) {
-                        $validate = apply_filters('wpsf_validate_' . $field ['validate'], $request_value, $field, $section ['fields']);
-                        if (! empty ( $validate )) {
-                            $add_errors [] = $this->add_settings_error ( $validate, 'error', $field ['id'] );
-                            $request [$field ['id']] = (isset($this->get_option[$field ['id']])) ? $this->get_option [$field ['id']] : '';
-                        }
-                    }
-                    
-                    if($this->is_single_page() === false){
-                        $request[$field['id']] = isset($submitted_val[$field['id']]) ? $request[$field['id']] : '';
-                    }
-                }
-            }
-        }
-        
+
+        $save_handler = new WPSFramework_Fields_Save_Sanitize();
+
+        $request = $save_handler->handle_settings_page(array(
+            'is_single_page' => $this->is_single_page(),
+            'current_section_id' => $section_id,
+            'current_parent_id' => $parent_section_id,
+            'db_key' => $this->unique,
+            'posted_values' => $submitted_val,
+        ),$this->get_sections());
+
+        $add_errors = $save_handler->get_errors();
+
         $request = apply_filters("wpsf_validate_save",$request,$this);
         do_action("wpsf_validate_save_after",$request);
-        $time =(wpsf_language_defaults() !== false ) ? 30 : 10;
+        $time =(wpsf_language_defaults() !== false ) ? 30000 : 100000;
         set_transient('wpsf_'.$this->get_cache_key(),array('errors' => $add_errors,'section_id' => $section_id,'parent_section_id' => $parent_section_id,),$time);
         return $request;
     }
@@ -344,14 +343,10 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 $value[$f['id']] = (isset($this->get_option[$f['id']])) ? $this->get_option[$f['id']] : '';
             }
         }
-        
+
 		return wpsf_add_element ( $field, $value, $this->unique );
 	}
     
-    public function add_settings_error($message, $type = 'error', $id = 'global') {
-		return array ('setting' => 'wpsf-errors','code' => $id,'message' => $message,'type' => $type);
-	}
-
     public function get_settings_fields() {
 		$this->catch_output ();
 		settings_fields ( $this->unique );
@@ -362,11 +357,10 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     
     public function admin_page(){
         $errors_html = '';
-        
+
         if($this->settings['ajax_save'] !== true && !empty($this->cache['errors'])){
             global $wpsf_errors;
             $wpsf_errors = $this->cache['errors'];
-            
             foreach ( $wpsf_errors as $error ) {
                 if (in_array ( $error ['setting'], array ('general','wpsf-errors'))) {
                     $errors_html .= '<div class="wpsf-settings-error ' . $error ['type'] . '"> <p><strong>' . $error ['message'] . '</strong></p> </div>';
@@ -512,13 +506,24 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                     if($this->is_simple()){
                         $active_class = ($is_section_active === true) ? 'current' : '';
                         $sub_nav[] = '<li><a  href="#" data-parent-section="'.esc_attr($page['name']).'" data-section="'.esc_attr($section['name']).'" class="'.$active_class.'">'.$sec_icon.' '.$section['title'].'</a>';
-                        $inner_html .= '<div id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section" '.$this->is_page_active($is_section_active).'>'.$this->get_title($section).$fields.'</div>';
+
+                        if($this->is_single_page() === false && $is_page_active === true ){
+                            $inner_html .= '<div id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section" '.$this->is_page_active($is_section_active).'>'.$this->get_title($section).$fields.'</div>';
+                        } else if($this->is_single_page() === true){
+                            $inner_html .= '<div id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section" '.$this->is_page_active($is_section_active).'>'.$this->get_title($section).$fields.'</div>';
+                        }
                     }
                     
                     if($this->is_modern()){
                         $active_class = ($is_section_active === true) ? ' wpsf-section-active ' : '';
                         $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($section['name'],$page['name']).'" data-parent-section="'.$page['name'].'" data-section="'.$section['name'].'">'.$sec_icon.$section['title'] . '</a></li>';
-                        $page_html .= '<div '.$this->is_page_active($is_section_active).' id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section">'.$this->get_title($section).$fields.'</div>';
+
+                        if($this->is_single_page() === false && ($is_page_active === true && $is_section_active === true)){
+                            $page_html .= '<div '.$this->is_page_active($is_section_active).' id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section">'.$this->get_title($section).$fields.'</div>';
+                        } else if($this->is_single_page() === true){
+                            $page_html .= '<div '.$this->is_page_active($is_section_active).' id="wpsf-tab-'.$page['name'].'-'.$section['name'].'" class="wpsf-section">'.$this->get_title($section).$fields.'</div>';
+                        }
+
                     }
                 }
                 
@@ -543,28 +548,46 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 $fields = $this->render_fields($page);
 
                 if($this->is_simple()){
-                    $l1_html = $fields;
+                    if($this->is_single_page() === false && $is_page_active === true){
+                        $l1_html = $fields;
+                    } else if($this->is_single_page() === true){
+                        $l1_html = $fields;
+                    }
                 }
                 
                 if($this->is_modern()){
                     $active_class = ($is_page_active === true) ? ' wpsf-section-active ' : '';
                     $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" >'.$page_icon.$page['title'].'</a></li>';
-                    
-                    $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+
+                    if($this->is_single_page() === false && $is_page_active === true) {
+                        $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+                    } else if($this->is_single_page() === true){
+                        $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+                    }
                 }
                 
             } else if(isset($page['fields'])){
+
                 $fields = $this->render_fields($page);
                 
                 if($this->is_simple()){
                     $sub_navs = '<span class="wpsf-submenus" id="wpsf-tab-'.$page['name'].'" data-section="'.esc_attr($page['name']).'">'.$page['title'].'</span>';
-                    $l1_html .= $fields;
+                    if($this->is_single_page() === false && $is_page_active === true){
+                        $l1_html .= $fields;
+                    } else if($this->is_single_page() === true){
+                        $l1_html .= $fields;
+                    }
                 }
                 
                 if($this->is_modern()){
                     $active_class = ($is_page_active === true) ? ' wpsf-section-active ' : '';
                     $main_menu .= '<li><a class="'.$active_class.'" href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" >'.$page_icon.$page['title'].'</a></li>';
-                    $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+
+                    if($this->is_single_page() === false && $is_page_active === true){
+                        $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+                    } else if($this->is_single_page() === true){
+                        $page_html .= '<div '.$this->is_page_active($is_page_active).' id="wpsf-tab-'.$page['name'].'" class="wpsf-section">'.$this->get_title($page).$fields.'</div>';
+                    }
                 }
             } else {
                 if($this->is_modern()){
@@ -579,15 +602,24 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 $is_active = ($is_page_active === true) ? ' nav-tab-active ' : '';
                 $main_menu .= '<a href="'.$this->get_tab_url($page['name']).'" data-section="'.$page['name'].'" class="nav-tab '.$is_active.'">'.$page_icon.' '.$page['title'].'</a>';
                 $page_active = ($is_page_active === true) ? '' : ' style="display:none;" ';
-                
-                
-                $page_html .= '<div id="wpsf-tab-'.$page['name'].'" '.$page_active.'>';
-                if($is_callback === true) {
-                    $page_html .= $l1_html;
-                } else {
-                    $page_html .= '<div class="postbox"><h2 class="wpsf-subnav-container hndle">'.$sub_navs.'</h2><div class="inside">'.$l1_html.'</div></div>';
-                }                
-                $page_html .=  '</div>';
+
+
+                $render = false;
+                if($this->is_single_page() === false && $is_page_active === true){
+                    $render = true;
+                } else if($this->is_single_page() === true){
+                    $render = true;
+                }
+
+                if($render){
+                    $page_html .= '<div id="wpsf-tab-'.$page['name'].'" '.$page_active.'>';
+                    if($is_callback === true) {
+                        $page_html .= $l1_html;
+                    } else {
+                        $page_html .= '<div class="postbox"><h2 class="wpsf-subnav-container hndle">'.$sub_navs.'</h2><div class="inside">'.$l1_html.'</div></div>';
+                    }
+                    $page_html .=  '</div>';
+                }
             }
         }
         

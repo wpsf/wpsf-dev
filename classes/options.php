@@ -160,7 +160,8 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 		
 		if (! empty ( $wpsf_errors )) {
 			foreach ( $wpsf_errors as $key => $value ) {
-				if (isset ( $this->field ['id'] ) && $value ['code'] == $this->field ['id']) {
+			    $fid = isset($this->field['error_id']) ? $this->field['error_id'] : $this->field['id'];
+				if (isset ( $this->field ['id'] ) && $value ['code'] == $fid) {
 					$out .= '<p class="wpsf-text-warning">' . $value ['message'] . '</p>';
 				}
 			}

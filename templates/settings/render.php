@@ -7,7 +7,8 @@ $is_single_page = ($class->is_single_page() === true) ? 'yes' : 'no';
 $class->load_template ( 'settings/global/header.php', array (
 		'theme' => $theme,
         'is_single_page' => $is_single_page,
-		'settings_fields' => $class->get_settings_fields () 
+		'settings_fields' => $class->get_settings_fields () ,
+
 ) );
 
 if ($theme == 'modern') {
@@ -28,7 +29,7 @@ if ($theme == 'modern') {
     $class->load_template ( 'settings/simple/header.php', array (
 			'is_ajax' => $is_ajax,
 			'title' => $framework_title,
-			'class' => &$class 
+			'class' => &$class, 'errors' => $errors,
 	) );
 	
 	$class->load_template ( 'settings/simple/body.php', array (

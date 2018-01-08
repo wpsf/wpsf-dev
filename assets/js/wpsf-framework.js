@@ -92,7 +92,6 @@
                         $el.addClass('nav-tab-active');
                         $reset.val($target);
                         var $parent = $cdiv.find("#wpsf-tab-" + $target + " a.current").data('section');
-                        
                         $reset_parent.val($parent);
                     } else {
                         window.location.href = $el.attr("href");
@@ -117,6 +116,13 @@
 
                     $('body').trigger('wpsf_settings_nav_updated', [$parent,$target,$el]);
                 })
+
+                if (is_single_page === 'no') {
+                    var $parent = $main_nav.find('a.nav-tab-active').data('section');
+                    var $section = $sub_nav.find("a.current").attr('data-section');
+                    $reset_parent.val($parent);
+                    $reset.val($section);
+                }
             }
         })
     };
@@ -336,10 +342,11 @@
             $('.wpsf-field-color-picker', this).WPSFRAMEWORK_FIELDS_COLORPICKER();
             $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
             $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
+            $('.wpsf-field-accordion',this).WPSFRAMEWORK_FIELDS_ACCORDION();
         });
     };
 
-    $(window).load(function(){
+    $(window).on('load',function(){
         if($('.wpsf-wc-metabox-fields').length > 0){
             $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
         }

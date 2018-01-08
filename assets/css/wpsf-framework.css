@@ -378,6 +378,19 @@
   display: inline-block;
 }
 
+.wpsf-field-accordion {
+  padding: 0 !important;
+}
+.wpsf-field-accordion.is-closed {
+  margin-bottom: 10px;
+}
+.wpsf-field-accordion .wpsf-field-subheading {
+  cursor: pointer;
+}
+.wpsf-field-accordion .wpsf-field-subheading span.accordion {
+  float: right;
+}
+
 .wpsf-field-text input {
   width: 340px;
   max-width: 100%;
