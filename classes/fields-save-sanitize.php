@@ -9,6 +9,7 @@
 if(!defined("ABSPATH")){die;}
 
 class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
+    public static $_instance = null;
     public $errors = array();
     public $fields = array();
     public $db_values = array();
@@ -22,7 +23,21 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return array( 'setting' => 'wpsf-errors' , 'code' => $id , 'message' => $message , 'type' => $type );
     }
 
+    public static function instance(){
+        if(self::$_instance === null){
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
     public function __construct() {}
+
+    public function general_save_handler($options = array(),$fields = array()){
+        $this->is_settings = false;
+        $this->return_values = $options;
+        $this->return_values = $this->loop_fields($fields,$this->return_values);
+        return $this->return_values;
+    }
 
     public function handle_settings_page($options = array(),$fields = array()){
         $this->is_settings = true;
@@ -51,7 +66,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
             if($this->is_single_page === false && ($csid != $section['name'] && $cpid != $section['page_id'])){
                 continue;
             }
-            $this->return_values = $this->loop_fields($section,$this->return_values);
+            $this->return_values = $this->loop_fields($section,$this->return_values,$this->db_values);
         }
 
         if($this->is_single_page === false){
@@ -60,16 +75,19 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return $this->return_values;
     }
 
-    private function loop_fields($is_current_fields = false,$values = array(),$validate_arr = true){
+    public function loop_fields($is_current_fields = false,$values = array(),$db_val = array(),$validate_arr = true){
         $fields = ($is_current_fields === false) ? $this->fields : $is_current_fields;
 
         if(isset($fields['fields'])){
             foreach($fields['fields'] as $field){
                 if(isset($field['type']) && !isset($field['multilang']) && isset($field['id'])){
                     $value = isset($values[$field['id']]) ? $values[$field['id']] : $values;
+                    $ex_val = isset($db_val[$field['id']]) ? $db_val[$field['id']] : null;
+                    $field['pre_value'] = $ex_val;
                     $value = $this->_handle_single_field($field,$value,$fields);
+
                     if(isset($field['fields'])){
-                        $value = $this->loop_fields($field,$value,false);
+                        $value = $this->loop_fields($field,$value,$ex_val,false);
                     }
 
                     $values = $this->_manage_data($values,$value,$field['id']);
@@ -84,7 +102,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         } else {
             foreach($fields as $section){
                 if(isset($section['fields'])){
-                    $values = $this->loop_fields($section,$values);
+                    $values = $this->loop_fields($section,$values,$db_val);
                 }
             }
         }
@@ -109,7 +127,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return $array_1;
     }
 
-    private function _sanitize_field($field,$value,$fields) {
+    public function _sanitize_field($field,$value,$fields) {
         $type = $field['type'];
 
         if ( isset($field['sanitize']) ) {
@@ -123,19 +141,29 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return $value;
     }
 
-    private function _validate_field($field,$value,$fields){
+    public function _validate_field($field,$value,$fields){
         if(isset($field['validate']) && has_filter('wpsf_validate_'.$field['validate'])){
             $validate = apply_filters('wpsf_validate_'.$field['validate'],$value,$field,$fields);
             if(!empty($validate)){
                 $fid = isset($field['error_id']) ? $field['error_id'] : $field['id'];
                 $this->errors[] = $this->_error($validate,'error',$fid);
-                return false;
+
+                if(isset($field['pre_value'])){
+                    return $field['pre_value'];
+                }
+
+                if(isset($field['default'])){
+                    return $field['default'];
+                }
+                return FALSE;
             }
         }
         return $value;
     }
 
     public function get_errors(){
-        return $this->errors;
+        $errors = $this->errors;
+        $this->errors = array();
+        return $errors;
     }
 }

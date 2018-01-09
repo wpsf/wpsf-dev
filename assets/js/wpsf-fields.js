@@ -13,8 +13,6 @@ $.WPSFRAMEWORK_FIELDS = $.WPSFRAMEWORK_FIELDS || {};
 
 var $wpsf_body = $('body');
 
-var wpsf_is_rtl = $wpsf_body.hasClass('rtl');
-
 $.WPSFRAMEWORK_FIELDS.get_element_args = function (elem, $options) {
     var $final_data = {};
 
@@ -508,14 +506,11 @@ $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER = function () {
 
     var base = this,
         onload = true,
+        $wpsf_body = $('body'),
         $parent;
-
     base.init = function () {
-
         $wpsf_body.on('click', '.wpsf-icon-add', function (e) {
-
             e.preventDefault();
-
             var $this = $(this),
                 $dialog = $('#wpsf-icon-dialog'),
                 $load = $dialog.find('.wpsf-dialog-load'),
@@ -647,6 +642,7 @@ $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER = function () {
 $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER = function () {
 
     var base = this,
+        $wpsf_body = $('body'),
         deploy_atts;
 
     base.init = function () {
@@ -1052,6 +1048,7 @@ $.fn.WPSFRAMEWORK_FIELDS_COLORPICKER = function () {
     return this.each(function () {
 
         var $this = $(this);
+        var $wpsf_body = $('body');
 
         // check for rgba enabled/disable
         if ($this.data('rgba') !== false) {

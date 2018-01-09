@@ -15,6 +15,36 @@ if (! defined ( 'ABSPATH' )) {
 abstract class WPSFramework_Abstract {
     public function __construct() {}
 
+    protected function map_error_id($array = array(),$parent_id = ''){
+        $s = empty($array) ? $this->options : $array;
+
+        if(isset($s['sections'])){
+            foreach($s['sections'] as $b => $a){
+                if(isset($a['fields'])){
+
+                    $s['sections'][$b] = $this->map_error_id($a,$a['name']);
+                }
+            }
+        } else if(isset($s['fields'])){
+            foreach($s['fields'] as $f => $e){
+                $field_id = isset($e['id']) ? $e['id'] : '';
+                $pid = $parent_id.'_'.$field_id;
+                $s['fields'][$f]['error_id'] = $pid;
+
+                if(isset($e['fields'])){
+                    $s['fields'][$f] = $this->map_error_id($e,$pid);
+                }
+            }
+        } else {
+            foreach($s as $i => $v){
+                if(isset($v['fields']) || isset($v['sections'])){
+                    $s[$i] = $this->map_error_id($v,'');
+                }
+            }
+        }
+        return $s;
+    }
+
     public function addAction($hook, $function_to_add, $priority = 30, $accepted_args = 1) {
         add_action ( $hook, array (&$this,$function_to_add), $priority, $accepted_args );
     }

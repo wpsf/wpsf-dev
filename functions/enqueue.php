@@ -6,7 +6,7 @@ if (! defined ( 'ABSPATH' )) {
 
 if(!function_exists("enqueue_fields_styles")){
     function wpsf_load_fields_styles(){
-        wp_enqueue_media(); 
+        wp_enqueue_media();
         wp_enqueue_script( 'jquery-ui-dialog' );
         wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script( 'jquery-ui-accordion' );
@@ -14,9 +14,7 @@ if(!function_exists("enqueue_fields_styles")){
         wp_enqueue_script('wpsf-plugins');
         wp_enqueue_script('wpsf-fields');
         wp_enqueue_script('wpsf-framework');
-        
-        
-        wp_enqueue_style( 'wp-jquery-ui-dialog' ); 
+
         wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_style('font-awesome');
         wp_enqueue_style('wpsf-plugins');

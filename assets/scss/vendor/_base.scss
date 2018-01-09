@@ -3,6 +3,20 @@
     margin-top: 20px;
     margin-right: 20px;
 
+    &.wpsf-user-profile{
+        .wpsf-element{
+            padding:20px 0;
+
+            .wpsf-fieldset{
+                margin-left: 215px;
+            }
+            .wpsf-title{
+                max-width: 200px;
+                width:auto;
+            }
+        }
+    }
+
     label {
         padding: 0;
         margin: 0;
@@ -326,12 +340,27 @@
     .wpsf-element + .wpsf-element{
         border: none;
     }
+    .wpsf-field-switcher label{
+        width: 62px !important;
+    }
     .wpsf-element{
         padding: 5px 20px 5px 12px !important;
         margin: 9px 0;
 
+
+
         .wpsf-fieldset{
             margin-left: 0 !important;
+
+            .wpsf-modules{
+                width: 40%;
+                margin-right: 25px;
+            }
+            label{
+                float:none;
+                width: auto;
+                margin: 0;
+            }
         }
         .wpsf-title{
             width:150px;

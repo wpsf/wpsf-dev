@@ -3,6 +3,7 @@ if(!defined("ABSPATH")){exit;}
 
 if(!class_exists("WPSFramework_WC_Metabox")){
     class WPSFramework_WC_Metabox extends WPSFramework_Abstract {
+        private static $_instance = null;
 
         public $options = null;
 
@@ -14,7 +15,26 @@ if(!class_exists("WPSFramework_WC_Metabox")){
 
         public $groups_to_add = array();
 
-        public function __construct($options) {
+        public $variation_errors = array();
+
+        public $variation_fields = array(
+            'pricing' => array(),
+            'options' => array(),
+            'inventory' => array(),
+            'dimensions' => array(),
+            'tax' => array(),
+            'download' => array(),
+            'default' => array(),
+        );
+
+        public static function instance(){
+            if(self::$_instance === null){
+                self::$_instance = new self();
+            }
+            return self::$_instance;
+        }
+
+        public function __construct($options = array()) {
             $this->default_wc_tabs = apply_filters('wpsf_wc_default_tabs',array(
                 'general' => 'general_product_data',
                 'inventory' => 'inventory_product_data',
@@ -24,11 +44,16 @@ if(!class_exists("WPSFramework_WC_Metabox")){
                 'variations' => 'variable_product_options',
                 'advanced' => 'advanced_product_data',
             ));
-            $this->options = apply_filters ( 'wpsf_wc_metabox_options', $options );
-            
-            if(!empty($this->options)){
+
+            $this->init($options);
+        }
+
+        public function init($options){
+            if(!empty($options)){
+                $this->options = apply_filters ( 'wpsf_wc_metabox_options', $options );
                 $this->addAction('load-post.php','handle_options');
                 $this->addAction('load-post-new.php','handle_options');
+                $this->addAction('wp_ajax_woocommerce_load_variations','handle_options',1);
                 $this->addAction('woocommerce_product_data_tabs','add_wc_tabs');
                 $this->addAction("woocommerce_product_data_panels",'add_wc_fields',99);
                 $this->addAction("admin_enqueue_scripts",'load_style_script');
@@ -38,18 +63,128 @@ if(!class_exists("WPSFramework_WC_Metabox")){
                 $this->addAction('woocommerce_product_options_inventory_product_data','stock_page');
                 $this->addAction('woocommerce_product_options_related','linked_page');
                 $this->addAction('woocommerce_product_options_shipping','shipping_page');
+                $this->addAction('woocommerce_save_product_variation','save_variation_fields',10,2);
+
+                $this->addAction('woocommerce_variation_options','wc_variation_options',10,3);
+                $this->addAction('woocommerce_variation_options_pricing','wc_variation_pricing',10,3);
+                $this->addAction('woocommerce_variation_options_inventory','wc_variation_inventory',10,3);
+                $this->addAction('woocommerce_variation_options_dimensions','wc_variation_dimensions',10,3);
+                $this->addAction('woocommerce_variation_options_tax','wc_variation_tax',10,3);
+                $this->addAction('woocommerce_variation_options_download','wc_variation_download',10,3);
+                $this->addAction('woocommerce_product_after_variable_attributes','wc_variation_variable_attributes',10,3);
             }
         }
 
-        public function advanced_page(){ echo $this->_render_group_page('advanced'); }
+        public function wc_variation_options($loop,$variation_data,$variation){ echo $this->render_variation_fields('options',$loop,$variation); }
 
-        public function general_page(){ echo $this->_render_group_page('general'); }
+        public function wc_variation_pricing($loop,$variation_data,$variation){ echo $this->render_variation_fields('pricing',$loop,$variation); }
 
-        public function stock_page(){ echo $this->_render_group_page('inventory'); }
+        public function wc_variation_inventory($loop,$variation_data,$variation){ echo $this->render_variation_fields('inventory',$loop,$variation); }
 
-        public function linked_page(){ echo $this->_render_group_page('linked_product'); }
+        public function wc_variation_dimensions($loop,$variation_data,$variation){ echo $this->render_variation_fields('dimensions',$loop,$variation); }
 
-        public function shipping_page(){ echo $this->_render_group_page('shipping'); }
+        public function wc_variation_tax($loop,$variation_data,$variation){ echo $this->render_variation_fields('tax',$loop,$variation); }
+
+        public function wc_variation_download($loop,$variation_data,$variation){ echo $this->render_variation_fields('download',$loop,$variation); }
+
+        public function wc_variation_variable_attributes($loop,$variation_data,$variation){ echo $this->render_variation_fields('default',$loop,$variation); }
+
+        public function advanced_page(){echo $this->_render_group_page('advanced');}
+
+        public function general_page(){echo $this->_render_group_page('general');}
+
+        public function stock_page(){echo $this->_render_group_page('inventory');}
+
+        public function linked_page(){echo $this->_render_group_page('linked_product');}
+
+        public function shipping_page(){ echo $this->_render_group_page('shipping');}
+
+        public function render_variation_fields($type,$loop,$variation){
+            if(empty($this->fields)){$this->handle_options();}
+            $fieldss = isset($this->variation_fields[$type]) ? $this->variation_fields[$type] : $this->fields;
+            $variation_id = is_object($variation) ? $variation->ID : absint($variation);
+            $output = '';
+            foreach ($fieldss as $meta_id => $fields){
+                global $wpsf_errors;
+                $errors = get_transient('_wpsf_variation_'.$variation_id.'_'.$loop);
+                $options = get_post_meta($variation_id,$meta_id,true);
+                $options = (!is_array($options)) ? array() : $options;
+
+                if(isset($errors['errors'])){
+                    $this->variation_errors = array_merge($this->variation_errors,$errors['errors']);
+                    set_transient('_wpsf_variation_'.$variation_id.'_'.$loop,array(),10);
+                }
+
+                $wpsf_errors = $this->variation_errors;
+
+                foreach($fields as $field){
+                    if(isset($field['is_variation'])){
+                        $field['is_variation'] = ($field['is_variation'] === true) ? 'default' : $field['is_variation'];
+                        if($field['is_variation'] == $type){
+                            $defaults = array('show' => '','hide' => '','wrap_class' => '');
+                            $field = wp_parse_args($field,$defaults);
+                            $field['error_id'] = '_'.$loop.$field['error_id'];
+                            $value = isset($options[$field['id']]) ? $options[$field['id']] : '';
+                            $WrapClass = $this->show_hide_class($field['show'],$field['hide']);
+                            $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'],$WrapClass);
+                            $output .= wpsf_add_element ( $field,$value, $meta_id.'['.$loop.']');
+
+                        }
+                    }
+                }
+            }
+            return $output;
+        }
+
+        public function save_variation_fields($variation_id,$loop){
+            if(empty($this->fields)){$this->handle_options();}
+            $validator = new WPSFramework_Fields_Save_Sanitize;
+            foreach($this->fields as $meta_id => $fields){
+                $posted_values = wpsf_get_var($meta_id);
+
+                foreach ($fields as $field){
+                    if(isset($field['is_variation']) != false){
+                        $field['error_id'] = '_'.$loop.$field['error_id'];
+                        $val = isset($posted_values[$loop][$field['id']]) ? $posted_values[$loop][$field['id']] : "";
+                        $val = $validator->_sanitize_field($field,$val,$fields);
+                        $val = $validator->_validate_field($field,$val,$fields);
+
+                        if(isset($posted_values[$loop][$field['id']])){
+                            $posted_values[$loop][$field['id']] = $val;
+                        }
+                    }
+                }
+                update_post_meta($variation_id,$meta_id,$posted_values[$loop]);
+                set_transient('_wpsf_variation_'.$variation_id.'_'.$loop,array('errors' => $validator->get_errors()),50);
+            }
+        }
+
+        private function render_fields($option,$db_key = ''){
+            global $post,$wpsf_errors;
+            $html = '';
+            $values = get_post_meta($post->ID,$db_key,true);
+            $transient = get_transient('wpsf-wc-mt'.$db_key);
+            $wpsf_errors = isset($transient['errors']) ? $transient['errors'] : array();
+
+            if(!is_array($values)){
+                $values = array();
+            }
+            if(isset($option['fields'])){
+                foreach($option['fields'] as $field){
+                    if(isset($field['is_variation']) && (isset($field['only_variation']) && $field['only_variation'] === true)){
+                        continue;
+                    }
+                    $defaults = array('show' => '','hide' => '','wrap_class' => '');
+                    $field = wp_parse_args($field,$defaults);
+                    $field_id = isset($field['id']) ? $field['id'] : "";
+                    $value = isset($values[$field_id]) ? $values[$field_id] : '';
+                    $WrapClass = $this->show_hide_class($field['show'],$field['hide']);
+                    $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'],$WrapClass);
+                    $html .= wpsf_add_element ( $field, $value, $db_key);
+                }
+            }
+            return $html;
+        }
 
         private function _render_group_page($key = ''){
             if(!isset($this->group_fields[$key])) {
@@ -64,78 +199,93 @@ if(!class_exists("WPSFramework_WC_Metabox")){
             }
         }
 
-        public function handle_options(){
-            foreach($this->options as $key => $plugin) {
-                foreach($plugin as $sections){
-                    if(!isset($this->fields[$sections['id']])){
-                        $this->fields[$sections['id']] = array();
-                    }
-                    if(isset($sections['sections'])){
-                        foreach($sections['sections'] as $section){
-                            $this->fields[$sections['id']] = array_merge($this->fields[$sections['id']],$section['fields']);
-                            if(isset($section['group'])){
-                                if(!isset($this->group_fields[$section['group']])){
-                                    $this->group_fields[$section['group']] = array();
-                                }
-                                $this->group_fields[$section['group']][] = array_merge(array('id' => $sections['id']),$section);
-                            } else {
-                                $this->groups_to_add[] = array_merge(array('id' => $sections['id']),$section);
-                            }
-                        }
-                    } else {
-                        $this->fields[$sections['id']] = array_merge($this->fields[$sections['id']],$sections['fields']);
-                        $this->groups_to_add[] = $sections;
+        private function _handle_fields($section,$db_id,$section_variation){
+            foreach($section['fields'] as $field_id => $field){
+                if($section_variation !== false){
+                    $place = ($section_variation === true )? 'default' :$section_variation;
+                    $field['is_variation'] = $place;
+                    $this->variation_fields[$place][$db_id][] = $field;
+                } else if(isset($field['only_variation'])){
+                    $place = ($field['is_variation'] === true )? 'default' : $field['is_variation'];
+                    $this->variation_fields[$place][$db_id][] = $field;
+                } else {
+                    $this->fields[$db_id][] = $field;
+                    if(isset($field['is_variation'])){
+                        $place = ($field['is_variation'] === true )? 'default' : $field['is_variation'];
+                        $this->variation_fields[$place][$db_id][] = $field;
                     }
                 }
             }
+        }
+
+        public function handle_options(){
+            foreach ($this->options as $key => $plugin){
+                foreach ($plugin as $page_id => $sections){
+                    if(isset($sections['sections'])){
+                        foreach ($sections['sections'] as $section_id => $section){
+                            $this->options[$key][$page_id]['sections'][$section_id] = $this->map_error_id($section,$sections['id']);
+                        }
+                    } else if(isset($sections['fields'])) {
+                        $this->options[$key][$page_id] = $this->map_error_id($sections,$sections['id']);
+                    }
+
+                }
+            }
+
+            foreach($this->options as $plugin_id => $plugin) {
+                foreach($plugin as $page_id => $page){
+                    $db_id = $page['id'];
+                    if(!isset($this->fields[$db_id])){
+                        $this->fields[$db_id] = array();
+                    }
+
+                    if(isset($page['sections'])){
+                        foreach($page['sections'] as $section_id => $section){
+                            $parent_variation = (isset($section['is_variation'])) ? $section['is_variation'] : false;
+                            $only_variation = (isset($section['only_variation'])) ? $section['only_variation'] : false;
+
+                            if($only_variation == false){
+                                if(isset($section['group'])){
+                                    if(!isset($this->group_fields[$section['group']])){
+                                        $this->group_fields[$section['group']] = array();
+                                    }
+                                    $this->group_fields[$section['group']][] = array_merge(array('id' => $db_id),$section);
+                                } else {
+                                    $this->groups_to_add[] = array_merge(array('id' => $db_id),$section);
+                                }
+                            }
+                            $this->_handle_fields($section,$db_id,$parent_variation);
+                        }
+                    } else {
+                        $parent_variation = (isset($page['is_variation'])) ? $page['is_variation'] : false;
+                        $only_variation = (isset($page['only_variation'])) ? $page['only_variation'] : false;
+                        if($only_variation == false){
+                            $this->groups_to_add[] = $page;
+                        }
+                        $this->_handle_fields($page,$db_id,$parent_variation);
+                    }
+                }
+            }
+
         }
 
         public function save_product_data(){
             global $post;
 
             if(wp_verify_nonce ( wpsf_get_var ( 'wpsf-framework-wc-metabox-nonce' ), 'wpsf-framework-wc-metabox' )){
+                $validator = new WPSFramework_Fields_Save_Sanitize;
                 foreach($this->fields as $db_id => $fields){
-                    $errors = array();
                     $transient = array();
                     $request = wpsf_get_var($db_id);
                     $ex_value = $this->_post_data('get',$db_id);
-                    foreach($fields as $field){
-                        if(isset($field['type']) && isset($field['id'])){
-                            $field_value = wpsf_get_vars($db_id,$field['id']);
-                            $sanitize_type = $field['type'];
-
-                            if(isset($field['sanitize']) && $field['sanitize'] !== false){
-                                $sanitize_type = $field['sanitize'];
-                            }
-
-                            if(has_filter('wpsf_sanitize_'.$sanitize_type)){
-                                $request[$field['id']] = apply_filters('wpsf_sanitize_'.$sanitize_type,$field_value,$field,$fields);
-                            }
-
-                            if(isset($field['validate']) && has_filter('wpsf_validate_'.$field['validate'])){
-                                $validate = apply_filters('wpsf_validate_'.$field['validate'],$field_value,$field,$fields);
-
-                                if(!empty($validate)){
-                                    $default = isset($field['default']) ? $field['default'] : '';
-                                    $old_val = isset($ex_value[$field['id']]) ? $ex_value[$field['id']] : $default;
-                                    $request[$field['id']] = $old_val;
-                                    $errors[$field['id']] = array(
-                                        'code' => $field['id'],
-                                        'message' => $validate,
-                                        'type' => 'error',
-                                    );
-                                }
-                            }
-                        }
-                    }
-
+                    $request = $validator->loop_fields(array('fields' => $fields),$request,$ex_value,true);
                     $request = apply_filters('wpsf_wc_metabox_save',$request,$db_id,$post);
                     if(empty($request)){
                         delete_post_meta($post->ID,$db_id);
                     } else {
                         update_post_meta($post->ID,$db_id,$request);
                     }
-                    $transient['errors'] = $errors;
+                    $transient['errors'] = $validator->get_errors();
                     set_transient('wpsf-wc-mt'.$db_id,$transient,30);
                 }
             }
@@ -186,11 +336,9 @@ if(!class_exists("WPSFramework_WC_Metabox")){
             $return = array();
             $return = array_merge($return,$this->__sh_class($show,'show_if_'));
             $return = array_merge($return,$this->__sh_class($hide,'hide_if_'));
-
             if($_r == 'array'){
                 return $return;
             }
-
             return implode(' ',$return);
         }
         
@@ -215,33 +363,10 @@ if(!class_exists("WPSFramework_WC_Metabox")){
             }
 
             if($type == 'get'){
-                return get_post_meta($post_id,apply_filters('wpsf_sanitize_title','wpsf_'.$key.'_wctabs'),true);
+                return get_post_meta($post_id,apply_filters('wpsf_sanitize_title',$key),true);
             }
 
-            return update_post_meta($post_id,apply_filters('wpsf_sanatize_title','wpsf_'.$key.'_wctabs'),$update_value);
-        }
-
-        private function render_fields($option,$db_key = ''){
-            global $post,$wpsf_errors;
-            $html = '';
-            $values = get_post_meta($post->ID,$db_key,true);
-            $transient = get_transient('wpsf-wc-mt'.$db_key);
-            $wpsf_errors = isset($transient['errors']) ? $transient['errors'] : array();
-
-            if(!is_array($values)){
-                $values = array();
-            }
-            if(isset($option['fields'])){
-                foreach($option['fields'] as $field){
-                    $defaults = array('show' => '','hide' => '','wrap_class' => '');
-                    $field = wp_parse_args($field,$defaults);
-                    $value = isset($values[$field['id']]) ? $values[$field['id']] : '';
-                    $WrapClass = $this->show_hide_class($field['show'],$field['hide']);
-                    $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'],$WrapClass);
-                    $html .= wpsf_add_element ( $field, $value, $db_key);
-                }
-            }
-            return $html;
+            return update_post_meta($post_id,apply_filters('wpsf_sanatize_title',$key),$update_value);
         }
 
         public function add_wc_fields(){
@@ -255,9 +380,7 @@ if(!class_exists("WPSFramework_WC_Metabox")){
                 );
                 $group = wp_parse_args($group,$default);
                 $id = apply_filters('wpsf_sanitize_title','wpsf_'.$group['name'].'_wctab');
-
                 $wc_class = (isset($group['wc_style']) && $group['wc_style'] === true) ? ' wpsf-wc-style ' : '';
-
                 echo '<div id="'.$id.'" class="panel woocommerce_options_panel hidden  wpsf-wc-metabox-fields'.$wc_class.'">';
                 echo $this->render_fields($group,$group['id']);
                 echo '</div>';

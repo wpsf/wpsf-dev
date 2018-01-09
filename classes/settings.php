@@ -73,7 +73,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $this->parent_sectionid = '';
             $this->current_section = '';
             $this->sections = array();
-            $this->options = $this->handle_options();
+            $this->options = $this->map_error_id();
             $this->get_sections();
             $this->cache = get_transient('wpsf_'.$this->get_cache_key());
             $this->find_current_sections();
@@ -191,39 +191,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         
 	}
 
-	private function handle_options($array = array(),$parent_id = ''){
-        $s = empty($array) ? $this->options : $array;
-
-        if(isset($s['sections'])){
-            foreach($s['sections'] as $b => $a){
-                if(isset($a['fields'])){
-
-                    $s['sections'][$b] = $this->handle_options($a,$a['name']);
-                }
-            }
-        } else if(isset($s['fields'])){
-            foreach($s['fields'] as $f => $e){
-                $field_id = isset($e['id']) ? $e['id'] : '';
-                $pid = $parent_id.'_'.$field_id;
-                $s['fields'][$f]['error_id'] = $pid;
-
-                if(isset($e['fields'])){
-                    $s['fields'][$f] = $this->handle_options($e,$pid);
-                }
-            }
-        } else {
-            foreach($s as $i => $v){
-                if(isset($v['fields']) || isset($v['sections'])){
-                    $s[$i] = $this->handle_options($v,'');
-                }
-            }
-        }
-
-
-        return $s;
-
-    }
-
     private function get_sections() {
         if(!empty($this->sections)){
             return $this->sections;
@@ -330,7 +297,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 
         $request = apply_filters("wpsf_validate_save",$request,$this);
         do_action("wpsf_validate_save_after",$request);
-        $time =(wpsf_language_defaults() !== false ) ? 30000 : 100000;
+        $time =(wpsf_language_defaults() !== false ) ? 30 : 10;
         set_transient('wpsf_'.$this->get_cache_key(),array('errors' => $add_errors,'section_id' => $section_id,'parent_section_id' => $parent_section_id,),$time);
         return $request;
     }
