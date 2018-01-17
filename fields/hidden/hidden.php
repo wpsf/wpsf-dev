@@ -1,7 +1,8 @@
 <?php
-if (! defined ( 'ABSPATH' )) {
+if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
+
 /**
  *
  * Field: Hidden
@@ -12,9 +13,10 @@ if (! defined ( 'ABSPATH' )) {
  */
 class WPSFramework_Option_hidden extends WPSFramework_Options {
     public function __construct($field, $value = '', $unique = '') {
-        parent::__construct ( $field, $value, $unique );
+        parent::__construct($field, $value, $unique);
     }
+
     public function output() {
-        echo '<input type="hidden" name="' . $this->element_name () . '" value="' . $this->element_value () . '"' . $this->element_class () . $this->element_attributes () . '/>';
+        echo '<input type="hidden" name="' . $this->element_name() . '" value="' . $this->element_value() . '"' . $this->element_class() . $this->element_attributes() . '/>';
     }
 }

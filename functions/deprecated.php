@@ -1,6 +1,6 @@
 <?php
-if (! defined ( 'ABSPATH' )) {
-	die ();
+if( ! defined('ABSPATH') ) {
+    die ();
 } // Cannot access pages directly.
 /**
  * Deprecated framework functions from past framework versions.

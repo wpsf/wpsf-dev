@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: varun
@@ -6,94 +7,140 @@
  * Time: 07:25 PM
  */
 
-global $wpsf_wc_metabox;
+$fields = array(
+    array(
+        'id'       => 'section_4_texts',
+        'type'     => 'text',
+        'title'    => 'Text Field With Help',
+        'help'     => 'Some help text here',
+        'hide'     => 'downloadable|virtual',
+        'desc'     => 'This field will be hidden if product type selected as virtual / downloadable',
+        'validate' => 'required',
+    ),
 
-$fields = wpsf_basic_inputs('wc_inputs');
-$fields[] = wpsf_accordion('wc_inputs');
+    array(
+        'id'    => 'section_4_textarea',
+        'type'  => 'textarea',
+        'title' => 'Textarea Field',
+    ),
 
-$wpsf_wc_metabox = array(
-    'plugin1' => array(
-        array(
-            'id' => '_wpsf_wc_metabox_1',
-            'sections' => array(
-                array('group' => 'general','fields' => wpsf_very_basic_inputs(), ),
-                array(
-                    'name' => 'both',
-                    'title' => 'Product + Variations',
-                    'is_variation' => true,
-                    'fields' => wpsf_very_basic_inputs(''),
-                ),
-                array(
-                    'name' => 'wsproduct',
-                    'title' => 'Only Product',
-                    'fields' => wpsf_very_basic_inputs('ac'),
-                ),
-                array(
-                    'name' => 'product',
-                    'title' => 'Only A Field',
-                    'fields' => array(
-                        array(
-                            'title' => 'Only Product',
-                            'type' =>'text',
-                            'validate' => 'required',
-                            'id' => '_',
-                        ),
-                        array(
-                            'title' => 'Only Variation',
-                            'type' => 'text',
-                            'is_variation' => true,
-                            'only_variation' => true,
-                            'validate' => 'required',
-                            'id' => '___ACE',
-                        ),
-                        array(
-                            'title' => 'Both',
-                            'type' => 'switcher',
-                            'is_variation' => 'pricing',
-                            'id' => "____",
-                        )
-                    )
-                ),
+    array(
+        'id'    => 'section_4_switcher',
+        'type'  => 'switcher',
+        'after'    => '<br/><p>This switcher field will be shown in products quick edit view.</p>',
+        'title' => 'Upload A File ?',
+        'label' => 'Yes, Please do it.',
+    ),
 
-            )
+    array(
+        'id'         => 'section_4_upload',
+        'type'       => 'upload',
+        'title'      => 'Upload Field',
+        'dependency' => array(
+            'section_4_switcher',
+            '==',
+            'true',
         ),
+    ),
 
+    array(
+        'id'      => 'section_4_select',
+        'type'    => 'select',
+        'title'   => 'Select',
+        'options' => array(
+            'option1' => 'Option 1',
+            'option2' => 'Option 2',
+            'option3' => 'Option 3',
+        ),
+    ),
+
+    array(
+        'id'       => 'section_4_multi_select',
+        'type'     => 'select',
+        'title'    => 'Multi Select',
+        'multiple' => TRUE,
+        'options'  => array(
+            'option1' => 'Option 1',
+            'option2' => 'Option 2',
+            'option3' => 'Option 3',
+        ),
+    ),
+
+    array(
+        'id'      => 'section4_multi_radio',
+        'type'    => 'radio',
+        'title'   => 'Radio',
+        'options' => array(
+            'option1' => 'Option 1',
+            'option2' => 'Option 2',
+            'option3' => 'Option 3',
+        ),
+    ),
+
+    array(
+        'id'      => 'section4_multi_checkbox',
+        'type'    => 'checkbox',
+        'after'    => '<p>This checkbox field will be shown in products quick edit view.</p>',
+        'title'   => 'Checkbox',
+        'options' => array(
+            'option1' => 'Option 1',
+            'option2' => 'Option 2',
+            'option3' => 'Option 3',
+        ),
     ),
 );
-$_instance = WPSFramework_WC_Metabox::instance();
-$_instance->init($wpsf_wc_metabox);
 
-new WPSFramework_User_Profile(array(
+new WPSFramework_WC_Metabox(array(
     array(
-        'id' => '_custom_wpsf_fields',
-        'title' => __("Some Title"),
-        'style' => 'modern',
-        'fields' => array(
+        'id'       => '_wpsf_wc_metabox1',
+        'sections' => array(
             array(
-                'id' => '_switcher',
-                'type' => 'switcher',
-                'title' => 'Switcher',
-            ) ,
-            array(
-                'id' => '_text',
-                'type' => 'text',
-                'title' => 'Title',
-                'validate' => 'required',
-            )
+                'group'    => 'general',
+                'wc_style' => FALSE,
+                'fields'   => $fields,
+            ),
 
-        )
-    )
-));
-
-new WPSFramework_Settings(array('menu_title' => 'Framework','menu_slug' => 'fuck'),array(
-    'general' => array(
-        'name' => 'general',
-        'title' => 'general',
-        'fields' => array(
             array(
-                'type' => 'icon',
-                'id' => 'icon'
-            )
-        )
-    )
+                'name'     => 'section1',
+                'title'    => 'WPSF Section1',
+                'wc_style' => FALSE,
+                'hide'     => 'downloadable|virtual',
+                'fields'   => array(
+                    array(
+                        'class'   => 'info',
+                        'type'    => 'notice',
+                        'content' => "This section will be hidden if product type selected as downloadable / virtual",
+                    ),
+                    array(
+                        'type'  => 'text',
+                        'title' => 'Sample Text',
+                        'desc'  => 'This text box will be hidden if product type selected as grouped',
+                        'hide'  => 'grouped',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'         => 'section_variable',
+                'title'        => 'WPSF Variable',
+                'is_variation' => TRUE,
+                'wc_style'     => FALSE,
+                'hide'         => 'downloadable|virtual',
+                'fields'       => array(
+                    array(
+                        'class'   => 'info',
+                        'type'    => 'notice',
+                        'content' => "This section will shown for both parent product and child products (variations)   ",
+                    ),
+                    array(
+                        'id'    => '_wpsf_wc_variation_1',
+                        'type'  => 'text',
+                        'title' => 'Sample Text',
+                        'desc'  => 'This text box will be hidden if product type selected as grouped',
+                        'hide'  => 'grouped',
+                    ),
+                ),
+            ),
+        ),
+    ),
 ));

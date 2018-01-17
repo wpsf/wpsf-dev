@@ -6,7 +6,7 @@
  * -----------------------------------------------------------
  */
 ;
-(function ($, window, document, undefined) {
+( function ($, window, document, undefined) {
     'use strict';
     $.WPSFRAMEWORK = $.WPSFRAMEWORK || {};
     // caching selector
@@ -20,7 +20,7 @@
             var wpsf_theme = $(this).attr("data-theme");
             var is_single_page = $(this).attr("data-single-page");
 
-            if (wpsf_theme == 'modern') {
+            if ( wpsf_theme == 'modern' ) {
                 var $this = $(this),
                     $nav = $this.find('.wpsf-nav'),
                     $reset = $this.find('.wpsf-reset'),
@@ -37,12 +37,12 @@
                         $parent = $el.data("parent-section");
 
 
-                    if ($next.is('ul')) {
+                    if ( $next.is('ul') ) {
                         $next.slideToggle('fast');
                         $el.closest('li').toggleClass('wpsf-tab-active');
                     } else {
-                        if (is_single_page === 'yes') {
-                            if ($parent) {
+                        if ( is_single_page === 'yes' ) {
+                            if ( $parent ) {
                                 var $is_parent = $parent + '-';
                             } else {
                                 var $is_parent = '';
@@ -59,7 +59,7 @@
                         }
                     }
 
-                    $('body').trigger('wpsf_settings_nav_updated', [$parent,$target,$el]);
+                    $('body').trigger('wpsf_settings_nav_updated', [$parent, $target, $el]);
 
                 });
 
@@ -84,7 +84,7 @@
                         $target = $el.data('section'),
                         $parent = $el.data('parent-section');
 
-                    if (is_single_page === 'yes') {
+                    if ( is_single_page === 'yes' ) {
                         var $cdiv = $this.find('#wpsf-tab-' + $target);
                         $cdiv.show().siblings().hide();
 
@@ -97,7 +97,7 @@
                         window.location.href = $el.attr("href");
                     }
 
-                    $('body').trigger('wpsf_settings_nav_updated', [$target,$parent,$el]);
+                    $('body').trigger('wpsf_settings_nav_updated', [$target, $parent, $el]);
 
                 });
 
@@ -114,10 +114,10 @@
                     $reset.val($target);
                     $reset_parent.val($parent);
 
-                    $('body').trigger('wpsf_settings_nav_updated', [$parent,$target,$el]);
+                    $('body').trigger('wpsf_settings_nav_updated', [$parent, $target, $el]);
                 })
 
-                if (is_single_page === 'no') {
+                if ( is_single_page === 'no' ) {
                     var $parent = $main_nav.find('a.nav-tab-active').data('section');
                     var $section = $sub_nav.find("a.current").attr('data-section');
                     $reset_parent.val($parent);
@@ -151,7 +151,7 @@
                 checkTargets: false
             };
 
-            if (param !== undefined) {
+            if ( param !== undefined ) {
                 base.depSub();
             } else {
                 base.depRoot();
@@ -217,7 +217,6 @@
 
         };
 
-
         base.init();
     };
 
@@ -231,7 +230,7 @@
     $.fn.WPSFRAMEWORK_CONFIRM = function () {
         return this.each(function () {
             $(this).on('click', function (e) {
-                if (!confirm('Are you sure?')) {
+                if ( !confirm('Are you sure?') ) {
                     e.preventDefault();
                 }
             });
@@ -248,8 +247,8 @@
                 $ajax = $('#wpsf-save-ajax');
 
             $(document).on('keydown', function (event) {
-                if (event.ctrlKey || event.metaKey) {
-                    if (String.fromCharCode(event.which).toLowerCase() === 's') {
+                if ( event.ctrlKey || event.metaKey ) {
+                    if ( String.fromCharCode(event.which).toLowerCase() === 's' ) {
                         event.preventDefault();
                         $this.trigger('click');
                     }
@@ -258,9 +257,9 @@
 
             $this.on('click', function (e) {
 
-                if ($ajax.length) {
+                if ( $ajax.length ) {
 
-                    if (typeof tinyMCE === 'object') {
+                    if ( typeof tinyMCE === 'object' ) {
                         tinyMCE.triggerSave();
                     }
 
@@ -299,7 +298,7 @@
     // TOOLTIP HELPER
     $.fn.WPSFRAMEWORK_TOOLTIP = function () {
         return this.each(function () {
-            var placement = (wpsf_is_rtl) ? 'right' : 'left';
+            var placement = ( wpsf_is_rtl ) ? 'right' : 'left';
             $(this).tooltip({
                 html: true,
                 placement: placement,
@@ -310,13 +309,13 @@
 
     // CSFRAMEWORK STICKY HEADER
     $.fn.WPSFRAMEWORK_STICKYHEADER = function () {
-        if (this.length) {
+        if ( this.length ) {
             var header = this,
                 headerOffset = header.offset().top;
 
-            if ($(this).hasClass('wpsf-sticky-header')) {
+            if ( $(this).hasClass('wpsf-sticky-header') ) {
                 $(window).on('scroll.wpsfStickyHeader', function () {
-                    if ($(this).scrollTop() > 1) {
+                    if ( $(this).scrollTop() > 1 ) {
                         $('.wpsf-header').addClass("sticky").css('width', $('.wpsf-body').width());
                     } else {
                         $('.wpsf-header').removeClass("sticky").css('width', 'auto');
@@ -339,15 +338,17 @@
             $('.wpsf-field-sorter', this).WPSFRAMEWORK_FIELDS_SORTER();
             $('.wpsf-field-upload', this).WPSFRAMEWORK_FIELDS_UPLOADER();
             $('.wpsf-field-typography', this).WPSFRAMEWORK_FIELDS_TYPOGRAPHY();
+            $('.wpsf-field-typography_advanced',this).WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY();
             $('.wpsf-field-color-picker', this).WPSFRAMEWORK_FIELDS_COLORPICKER();
             $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
             $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
-            $('.wpsf-field-accordion',this).WPSFRAMEWORK_FIELDS_ACCORDION();
+            $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
+            $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
         });
     };
 
-    $(window).on('load',function(){
-        if($('.wpsf-wc-metabox-fields').length > 0){
+    $(window).on('load', function () {
+        if ( $('.wpsf-wc-metabox-fields').length > 0 ) {
             $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
         }
     })
@@ -356,7 +357,7 @@
         $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
         $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
         $('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
-        $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy').WPSFRAMEWORK_DEPENDENCY();
+        $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
         $('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
         $('.wpsf-save').WPSFRAMEWORK_SAVE();
         $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
@@ -367,4 +368,4 @@
         $.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS();
     });
 
-})(jQuery, window, document);
+} )(jQuery, window, document);
