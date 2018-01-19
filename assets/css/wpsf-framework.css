@@ -1,14 +1,20 @@
-/**
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
  *
- * -----------------------------------------------------------
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
  *
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- *
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- *
- * -----------------------------------------------------------
- *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 .wpsf-framework {
   position: relative;
@@ -250,6 +256,15 @@
   box-shadow: none;
 }
 
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
 .wpsf-framework.wpsf-theme-simple .inside {
   padding: 0;
   margin-top: 0;
@@ -295,6 +310,15 @@
   margin-left: 15px;
 }
 
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
 .wpsf-metabox-framework {
   margin: -6px -12px -12px -12px;
 }
@@ -302,6 +326,15 @@
   padding: 20px;
 }
 
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
 .wpsf-wc-style {
   margin: 9px 0;
   padding: 9px 0;
@@ -367,6 +400,15 @@
   vertical-align: top;
 }
 
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
 .wpsf_quick_edit_fields .wpsf-element {
   padding: 5px 0;
   margin: 5px 0;
@@ -386,6 +428,24 @@
   font-weight: normal !important;
 }
 
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
 .wpsf-element {
   position: relative;
   padding: 30px;
@@ -455,6 +515,9 @@
   line-height: 10px;
 }
 
+.wpsf-field-group span.ui-accordion-header-icon.ui-icon, .wpsf-field-accordion span.ui-accordion-header-icon.ui-icon {
+  background-image: none !important;
+}
 .wpsf-field-group .wpsf-element, .wpsf-field-accordion .wpsf-element {
   padding: 20px;
 }
@@ -1876,6 +1939,310 @@
 .wpsf-element-color-scheme fieldset .color-option label {
   margin-bottom: 15px !important;
   display: inline-block;
+}
+
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+.wpsf-field-tab .wpsf-user-tabs-nav {
+  margin-bottom: -1px;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav > li {
+  margin: 0;
+  display: inline-block;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav > .wpsf-user-tabs-active {
+  border: 1px solid #dfdfdf;
+  border-bottom-color: transparent;
+  background: #fdfdfd;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav > li > a {
+  display: block;
+  padding: 3px 5px 5px;
+  text-decoration: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav > li > a:active, .wpsf-field-tab .wpsf-user-tabs-nav > li > a:focus {
+  outline: none;
+  box-shadow: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav i, .wpsf-field-tab .wpsf-user-tabs-nav img {
+  vertical-align: middle;
+  margin-right: .3em;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav i {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+.wpsf-field-tab .wpsf-user-tabs-nav img {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+.wpsf-field-tab .wpsf-user-tabs-active > a {
+  color: #333;
+}
+.wpsf-field-tab .wpsf-user-tabs-panel {
+  padding: 10px 5px 0;
+  border: solid 1px #dfdfdf;
+  background: #fdfdfd;
+  display: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-left {
+  overflow: hidden;
+  margin: -6px -12px 0;
+  padding: 0;
+  border: 1px solid #eee;
+  margin-right: 10px;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav {
+  float: left;
+  margin: 0 -1px 0 0;
+  background: #fdfdfd;
+  border-right: 1px solid #dfdfdf;
+  z-index: 9;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li {
+  display: block;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li:first-child {
+  border-top: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li:last-child {
+  border-bottom: none !important;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li > a {
+  padding: 5px 20px 8px 10px;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > ul > li.wpsf-user-tabs-active {
+  border: 1px solid #dfdfdf;
+  border-right-color: #fdfdfd;
+  border-left: 2px #2ea2cc;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .02), 0 1px 0 rgba(0, 0, 0, .02);
+  position: relative;
+  right: -1px;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels {
+  overflow: auto;
+  border-left: 1px solid #dfdfdf;
+  z-index: 1;
+}
+.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels > .wpsf-user-tabs-panel {
+  padding: 3px 20px 0;
+  background: transparent;
+  border: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-no-controls {
+  border: 0;
+  background: transparent;
+}
+.wpsf-field-tab .wpsf-user-tabs-no-controls .hndle, .wpsf-field-tab .wpsf-user-tabs-no-controls .handlediv {
+  display: none;
+}
+.wpsf-field-tab .wpsf-user-tabs-no-controls .inside {
+  margin: 0;
+  padding: 0;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav li {
+  background: #ebebeb;
+  border: 1px solid #dedede;
+  margin-right: 5px;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav li:hover {
+  background: #fff;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav a {
+  color: #777;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active {
+  border-bottom-color: transparent;
+  background: #f5f5f5;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active:hover {
+  background: #f5f5f5;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active a {
+  color: #555;
+}
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-panel {
+  background: #f5f5f5;
+  border: solid 1px #dedede;
+}
+
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+.wpsf-framework.wpsf-light.wpsf-theme-modern {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, .04);
+  border: 1px solid #e5e5e5;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-header {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #eee;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-header h1 {
+  color: #333;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-footer {
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav-background {
+  background-color: #f9f9f9;
+  border-right: 1px solid #eee;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav .wpsf-seperator {
+  color: #888;
+  border-bottom-color: #dadada;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul li .wpsf-section-active, .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul ul li .wpsf-section-active {
+  background-color: #fff;
+  color: #333;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul li a {
+  border-bottom-color: #eee;
+  background-color: transparent;
+  color: #555;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul li a:hover {
+  color: #333;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul ul {
+  border-bottom-color: #eee;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul ul::before {
+  background-color: #eee;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-nav ul ul li a {
+  padding: 12px 12px 12px 24px;
+  background-color: transparent;
+  border-bottom-color: #eee;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-body:before, .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-body:after {
+  display: table;
+  content: "";
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-body:after {
+  clear: both;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-content .wpsf-section-title {
+  background-color: #00a0d2;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element .wpsf-title {
+  width: 35%;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element .wpsf-fieldset {
+  margin-left: 38%;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element .wpsf-fieldset .wp-editor-wrap {
+  float: left;
+  width: 100%;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element .wpsf-fieldset .wp-editor-tools {
+  padding-top: 0 !important;
+  background-color: transparent !important;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element input[type="text"], .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element input[type="number"], .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element select, .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element textarea {
+  width: 100%;
+  padding: 6px 8px;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element input[type="text"], .wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element input[type="number"] {
+  height: 34px;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-switcher label em {
+  background-color: #c5c5c5;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-switcher .wpsf-text-desc {
+  margin: 0;
+  clear: both;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-switcher label input:checked ~ em {
+  background-color: #00a0d2;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-heading,
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-subheading,
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-element .wpsf-title h4 {
+  color: #333;
+  font-weight: 400;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-upload {
+  position: relative;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-upload input[type="text"] {
+  padding-right: 75px;
+}
+.wpsf-framework.wpsf-light.wpsf-theme-modern .wpsf-field-upload .button {
+  position: absolute;
+  top: 34px;
+  right: 32px;
+}
+
+.wpsf-element .fieldset-horizontal {
+  display: inline-block;
+  padding: 0;
+  margin-right: 5px;
+  border: none;
+}
+.wpsf-element .fieldset-horizontal.hidden {
+  display: none;
+  /* override our inline-block so this doesn't display when dependent */
+}
+.wpsf-element .fieldset-horizontal .wpsf-title {
+  width: 100%;
+  float: none;
+  margin-bottom: 5px;
+}
+.wpsf-element .fieldset-horizontal .wpsf-fieldset {
+  margin: 0;
+}
+.wpsf-element .fieldset-horizontal .wpsf-inner {
+  border: none;
+  background-color: transparent;
+}
+.wpsf-element .fieldset-horizontal h4 {
+  text-align: center;
+}
+
+.wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal {
+  display: inline-block;
+  padding: 0;
+  margin-right: 5px;
+  border: none;
+}
+.wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal.wpsf-fieldset {
+  margin: 0;
+  /* This may get a little too big in a grouped field, so lets apply the max-width of an open color picker */
+  max-width: 256px;
+}
+.wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal .wpsf-title {
+  width: 100%;
+  float: none;
+  margin-bottom: 5px;
+}
+.wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal .wpsf-inner {
+  border: none;
+  background-color: transparent;
 }
 
 

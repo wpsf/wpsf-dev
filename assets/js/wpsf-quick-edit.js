@@ -1,15 +1,12 @@
-/**
- *
- * -----------------------------------------------------------
- *
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- *
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- *
- * -----------------------------------------------------------
- *
- */
+/*-------------------------------------------------------------------------------------------------
+ This file is part of the WPSF package.                                                           -
+ This package is Open Source Software. For the full copyright and license                         -
+ information, please view the LICENSE file which was distributed with this                        -
+ source code.                                                                                     -
+                                                                                                  -
+ @package    WPSF                                                                                 -
+ @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
+ -------------------------------------------------------------------------------------------------*/
 ;
 ( function ($, window, document, undefined) {
     'use strict';

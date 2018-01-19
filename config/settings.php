@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 /**
  * Created by PhpStorm.
  * User: varun
@@ -106,34 +116,48 @@ $options[] = array(
     // begin: fields
     'fields' => array(
         array(
-            'id'        => 'content_font',
-            'type'      => 'typography_advanced',
-            'title'     => __('Typography Advanced', ''),
-            'chosen' => true,
-            'select2' => false,
-            'default'   => array(
+            'id'      => 'content_font',
+            'type'    => 'typography_advanced',
+            'title'   => __('Typography Advanced', ''),
+            'chosen'  => TRUE,
+            'select2' => FALSE,
+            'default' => array(
                 'family'  => 'Indie Flower',
                 'variant' => 'regular',
                 'font'    => 'google',
                 'size'    => '20',
                 'height'  => '18',
-                'color'   => '#e2e2e2'
+                'color'   => '#e2e2e2',
             ),
-            'preview'   => true, //Enable or disable preview box
+            'preview' => TRUE,
+            //Enable or disable preview box
             //'preview_text' => 'hello world', //Replace preview text with any text you like.
         ),
         array(
-            'id' => 'unique_color_scheme',
-            'title' => 'Color Scheme',
-            'type' => 'color_scheme',
+            'id'      => 'unique_color_scheme',
+            'title'   => 'Color Scheme',
+            'type'    => 'color_scheme',
             'options' => array(
-                'Cool White' => array('222','333','0073aa','#00a0d2'),
-                'Blue Red' => array('e5e5e5','999','d64e07','04a4cc'),
-                'Blue White' => array('e5e5e5','999','d64e07','04a4cc','222','333'),
-                'Cool White1' => array('222','333','0073aa','#00a0d2'),
-                'Blue Red1' => array('e5e5e5','999','d64e07','04a4cc'),
-                'Blue White1' => array('e5e5e5','999','d64e07','04a4cc','222','333'),
-            )
+                'Cool Black' => array(
+                    '222',
+                    '333',
+                    '0073aa',
+                    '00a0d2',
+                ),
+                'Blue'       => array(
+                    '096484',
+                    '4796b3',
+                    '52accc',
+                    '74B6CE',
+                    '222',
+                ),
+                'Sun Rise'   => array(
+                    'b43c38',
+                    'cf4944',
+                    'dd823b',
+                    'ccaf0b',
+                ),
+            ),
         ),
         // begin: a field
         array(
@@ -260,6 +284,159 @@ $options[] = array(
     ),
     // end: fields
 );
+
+$options[] = array(
+    'name'  => 'tabs',
+    'title' => 'Tabs',
+    'icon'  => 'fa fa-bars',
+    'fields' => array(
+    array(
+        'id'        => 'custom_tabs',
+        'type'      => 'tab',
+        'tab_style' => 'left',
+        # 'default', 'box' or 'left'. Optional
+        'sections'  => array(
+            array(
+                'name'   => 'section1',
+                'icon'   => 'fa fa-star',
+                'title'  => 'Section 1',
+                'icon'   => 'https://i.ytimg.com/vi/eEN8s492ta0/hqdefault.jpg',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section2',
+                'icon'   => 'fa fa-star',
+                'title'  => 'Section 2',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section4',
+                'icon'   => 'fa fa-star',
+                'title'  => 'Section 4',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    array(
+        'title'       => 'box Tab',
+        'id'          => 'custom_tabs2',
+        'type'        => 'tab',
+        'tab_wrapper' => FALSE,
+        'tab_style'   => 'box',
+        # 'default', 'box' or 'left'. Optional
+        'sections'    => array(
+            array(
+                'name'   => 'section1',
+                'title'  => 'Section 1',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section2',
+                'title'  => 'Section 2',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section4',
+                'title'  => 'Section 4',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    array(
+        'title'     => 'left Tab',
+        'id'        => 'custom_tabs_left',
+        'type'      => 'tab',
+        'tab_style' => 'left',
+        # 'default', 'box' or 'left'. Optional
+        'sections'  => array(
+            array(
+                'name'   => 'section1',
+                'title'  => 'Section 1',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section2',
+                'title'  => 'Section 2',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+
+            array(
+                'name'   => 'section4',
+                'title'  => 'Section 4',
+                'icon'   => 'fa fa-star',
+                'fields' => array(
+                    array(
+                        'id'    => 'text_1',
+                        'type'  => 'text',
+                        'title' => 'Text',
+                    ),
+                ),
+            ),
+        ),
+    ),
+),
+);
+
 // ------------------------------
 // a option section with tabs   -
 // ------------------------------
@@ -3788,7 +3965,7 @@ $options[] = array(
         ),
         array(
             'type'    => 'content',
-            'content' => 'Codestar Framework is <strong>free</strong> to use both personal and commercial. If you used commercial, <strong>please credit</strong>. Read more about <a href="http://www.gnu.org/licenses/gpl-2.0.txt" target="_blank">GNU License</a>',
+            'content' => 'WPSF Framework is <strong>free</strong> to use both personal and commercial. If you used commercial, <strong>please credit</strong>. Read more about <a href="http://www.gnu.org/licenses/gpl-2.0.txt" target="_blank">GNU License</a>',
         ),
     ),
 );

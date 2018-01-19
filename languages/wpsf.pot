@@ -227,7 +227,7 @@ msgid "WordPress-Settings-Framework Framework"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://codestarframework.com/"
+msgid "http://wpsf.com/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -239,5 +239,5 @@ msgid "WordPress-Settings-Framework"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://codestarlive.com/"
+msgid "http://varunsridharan.in/"
 msgstr ""

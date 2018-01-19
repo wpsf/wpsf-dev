@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
@@ -26,6 +36,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             $this->parent_sectionid = '';
             $this->current_section = '';
             $this->sections = array();
+            wpsf_register_settings($this->unique);
             $this->options = $this->map_error_id();
             $this->get_sections();
             $this->cache = get_transient('wpsf_' . $this->get_cache_key());
@@ -34,6 +45,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             if( ! is_array($this->get_option) ) {
                 $this->get_option = array();
             }
+
             $this->addAction("admin_enqueue_scripts", 'load_style_script');
             $this->addAction('admin_menu', 'admin_menu');
             $this->addAction('admin_init', 'register_settings');

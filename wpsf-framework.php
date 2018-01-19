@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 if( ! defined('ABSPATH') ) {
     die ();
 }
@@ -7,7 +17,7 @@ if( ! defined('ABSPATH') ) {
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
  *
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
+ * Copyright 2015 WordPress-Settings-Framework <info@wpsf.com>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -69,9 +79,46 @@ if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') )
             }
         }
 
+        wpsf_load_options();
+
         spl_autoload_register('wpsf_autoloader');
         do_action("wpsf_framework_loaded");
     }
 
     add_action('init', 'wpsf_framework_init', 1);
+}
+
+if( ! function_exists('wpsf_register_settings') ) {
+    function wpsf_register_settings($slug = '') {
+        $ex_data = get_option('_wpsf_registered_settings', TRUE);
+        if( ! is_array($ex_data) ) {
+            $ex_data = array();
+        }
+
+        if( ! in_array($slug, $ex_data) ) {
+            $ex_data[] = $slug;
+        }
+
+        update_option('_wpsf_registered_settings', $ex_data);
+    }
+}
+
+if( ! function_exists("wpsf_load_options") ) {
+    function wpsf_load_options() {
+
+        $ex_data = get_option('_wpsf_registered_settings', TRUE);
+        if( ! is_array($ex_data) ) {
+            $ex_data = array();
+        }
+
+        if( ! empty($ex_data) ) {
+            foreach( $ex_data as $slug ) {
+                $mslug = ltrim($slug,"_");
+                $mslug = rtrim($mslug,"_");
+                $data = get_option($slug, TRUE);
+                $data = ( ! is_array($data) ) ? array() : $data;
+                $GLOBALS[$mslug] = $data;
+            }
+        }
+    }
 }

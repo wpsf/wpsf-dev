@@ -1,11 +1,15 @@
-/**
- * -----------------------------------------------------------
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- * -----------------------------------------------------------
- */
+/*-------------------------------------------------------------------------------------------------
+ This file is part of the WPSF package.                                                           -
+ This package is Open Source Software. For the full copyright and license                         -
+ information, please view the LICENSE file which was distributed with this                        -
+ source code.                                                                                     -
+                                                                                                  -
+ @package    WPSF                                                                                 -
+ @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
+ -------------------------------------------------------------------------------------------------*/
 ;
+
+
 ( function ($, window, document, undefined) {
     'use strict';
     $.WPSFRAMEWORK = $.WPSFRAMEWORK || {};
@@ -127,6 +131,34 @@
         })
     };
 
+    $.WPSFRAMEWORK.DEPENDENCY_ELEMENT = function ($elem, $is_sub) {
+        switch ( $elem ) {
+            case 'page_template' :
+                return 'select#page_template';
+                break;
+            case 'menu_order':
+                return 'input#menu_order';
+                break;
+            case 'parent_id':
+                return 'select#parent_id';
+                break;
+            case 'post_status':
+                return 'select#post_status';
+                break;
+            case 'visibility':
+                return 'input[name=visibility]';
+                break;
+            case 'post_format':
+                return 'input[name=post_format]';
+                break;
+        }
+        if ( $is_sub === true ) {
+            return '[data-sub-depend-id="' + $elem + '"]';
+
+        }
+        return '[data-depend-id="' + $elem + '"]';
+    }
+
     // WPSFRAMEWORK DEPENDENCY
     $.WPSFRAMEWORK.DEPENDENCY = function (el, param) {
 
@@ -178,7 +210,7 @@
                         var value = _value[index] || '',
                             condition = _condition[index] || _condition[0];
 
-                        _rules = _rules.createRule('[data-depend-id="' + element + '"]', condition, value);
+                        _rules = _rules.createRule($.WPSFRAMEWORK.DEPENDENCY_ELEMENT(element, false), condition, value);
                         _rules.include($this);
 
                     });
@@ -206,7 +238,7 @@
                         var value = _value[index] || '',
                             condition = _condition[index] || _condition[0];
 
-                        _rules = _rules.createRule('[data-sub-depend-id="' + element + '"]', condition, value);
+                        _rules = _rules.createRule($.WPSFRAMEWORK.DEPENDENCY_ELEMENT(element, true), condition, value);
                         _rules.include($this);
 
                     });
@@ -338,30 +370,35 @@
             $('.wpsf-field-sorter', this).WPSFRAMEWORK_FIELDS_SORTER();
             $('.wpsf-field-upload', this).WPSFRAMEWORK_FIELDS_UPLOADER();
             $('.wpsf-field-typography', this).WPSFRAMEWORK_FIELDS_TYPOGRAPHY();
-            $('.wpsf-field-typography_advanced',this).WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY();
+            $('.wpsf-field-typography_advanced', this).WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY();
             $('.wpsf-field-color-picker', this).WPSFRAMEWORK_FIELDS_COLORPICKER();
             $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
             $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
             $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
             $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
+            $('.wpsf-field-tab').WPSFRAMEWORK_FIELDS_TABS();
         });
     };
 
     $(window).on('load', function () {
+
         if ( $('.wpsf-wc-metabox-fields').length > 0 ) {
             $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
+            $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
+                $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
+            });
         }
     })
 
     $(document).ready(function () {
         $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
         $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
-        $('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
-        $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
         $('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
-        $('.wpsf-save').WPSFRAMEWORK_SAVE();
         $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
         $('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
+        $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
+        $('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
+        $('.wpsf-save').WPSFRAMEWORK_SAVE();
 
         $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER();
         $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER();

@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 $theme = isset ($class->settings ['style']) ? $class->settings ['style'] : 'modern';
 $is_ajax = isset ($class->settings ['ajax_save']) ? $class->settings ['ajax_save'] : FALSE;
 $framework_title = isset ($class->settings ['framework_title']) ? $class->settings ['framework_title'] : 'WPSF';

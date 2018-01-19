@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
@@ -9,9 +19,9 @@ if( ! defined('ABSPATH') ) {
  * A Lightweight and easy-to-use WordPress Options Framework
  *
  * Plugin Name: WordPress-Settings-Framework Framework
- * Plugin URI: http://codestarframework.com/
+ * Plugin URI: http://wpsf.com/
  * Author: WordPress-Settings-Framework
- * Author URI: http://codestarlive.com/
+ * Author URI: http://varunsridharan.in/
  * Version: 1.0.2
  * Description: A Lightweight and easy-to-use WordPress Options Framework
  * License: GPLv2 or later
@@ -20,7 +30,7 @@ if( ! defined('ABSPATH') ) {
  *
  * ------------------------------------------------------------------------------------------------
  *
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
+ * Copyright 2015 WordPress-Settings-Framework <info@wpsf.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -1,11 +1,12 @@
-/**
- * -----------------------------------------------------------
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- * -----------------------------------------------------------
- *
- */
+/*-------------------------------------------------------------------------------------------------
+ This file is part of the WPSF package.                                                           -
+ This package is Open Source Software. For the full copyright and license                         -
+ information, please view the LICENSE file which was distributed with this                        -
+ source code.                                                                                     -
+                                                                                                  -
+ @package    WPSF                                                                                 -
+ @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
+ -------------------------------------------------------------------------------------------------*/
 ;
 'use strict';
 
@@ -475,6 +476,27 @@ $.fn.WPSFRAMEWORK_FIELDS_TAXONOMY = function () {
 
     });
 };
+
+$.fn.WPSFRAMEWORK_FIELDS_TABS = function () {
+    return this.each(function () {
+
+        $(this).find('.wpsf-user-tabs-nav').on('click', 'a', function (e) {
+            e.preventDefault();
+
+            var $li = $(this).parent(),
+                panel = $li.data('panel'),
+                $wrapper = $li.closest('.wpsf-user-tabs'),
+                $panel = $wrapper.find('.wpsf-user-tabs-panel-' + panel);
+
+            $li.addClass('wpsf-user-tabs-active').siblings().removeClass('wpsf-user-tabs-active');
+            $panel.siblings().hide();
+            $panel.show();
+        });
+
+
+        $(this).find('.wpsf-user-tabs-nav li:first a').click();
+    });
+}
 
 $.fn.WPSFRAMEWORK_FIELDS_ACCORDION = function () {
     return this.each(function () {

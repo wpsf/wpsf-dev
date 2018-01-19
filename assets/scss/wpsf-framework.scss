@@ -1,14 +1,11 @@
-/**
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
  *
- * -----------------------------------------------------------
- *
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- *
- * Copyright 2015 WordPress-Settings-Framework <info@codestarlive.com>
- *
- * -----------------------------------------------------------
- *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 @import "compass";
 @import "vendor/dark-theme";
@@ -17,9 +14,6 @@
 @import "vendor/wc-metabox";
 @import "vendor/quick-edit";
 @import "vendor/mixins";
-
-
-
 @import "vendor/base";
 @import "vendor/fields/text";
 @import "vendor/fields/textarea";
@@ -47,4 +41,58 @@
 @import "vendor/fields/css-builder";
 @import "vendor/fields/image-size";
 @import "vendor/fields/color-scheme";
+@import "vendor/fields/tabs";
+@import "wpsf-framework-light";
 
+.wpsf-element {
+  .fieldset-horizontal {
+    display: inline-block;
+    padding: 0;
+    margin-right: 5px;
+    border: none;
+    &.hidden {
+      display: none; /* override our inline-block so this doesn't display when dependent */
+    }
+    .wpsf-title {
+      width: 100%;
+      float: none;
+      margin-bottom: 5px;
+    }
+    .wpsf-fieldset {
+      margin: 0;
+    }
+    .wpsf-inner {
+      border: none;
+      background-color: transparent;
+    }
+    h4 {
+      text-align: center;
+    }
+  }
+}
+.wpsf-groups {
+  .wpsf-group {
+    .wpsf-element {
+      .fieldset-horizontal {
+        display: inline-block;
+        padding: 0;
+        margin-right: 5px;
+        border: none;
+        &.wpsf-fieldset {
+          margin: 0;
+          /* This may get a little too big in a grouped field, so lets apply the max-width of an open color picker */
+          max-width: 256px;
+        }
+        .wpsf-title {
+          width: 100%;
+          float: none;
+          margin-bottom: 5px;
+        }
+        .wpsf-inner {
+          border: none;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
