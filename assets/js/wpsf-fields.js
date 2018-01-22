@@ -7,7 +7,53 @@
  @package    WPSF                                                                                 -
  @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
  -------------------------------------------------------------------------------------------------*/
-;
+
+function wpsf_str_replace(search, replace, subject, countObj) {
+    var i = 0
+    var j = 0
+    var temp = ''
+    var repl = ''
+    var sl = 0
+    var fl = 0
+    var f = [].concat(search)
+    var r = [].concat(replace)
+    var s = subject
+    var ra = Object.prototype.toString.call(r) === '[object Array]'
+    var sa = Object.prototype.toString.call(s) === '[object Array]'
+    s = [].concat(s)
+    var $global = ( typeof window !== 'undefined' ? window : global )
+    $global.$locutus = $global.$locutus || {}
+    var $locutus = $global.$locutus
+    $locutus.php = $locutus.php || {}
+    if ( typeof ( search ) === 'object' && typeof ( replace ) === 'string' ) {
+        temp = replace
+        replace = []
+        for ( i = 0; i < search.length; i += 1 ) {
+            replace[i] = temp
+        }
+        temp = ''
+        r = [].concat(replace)
+        ra = Object.prototype.toString.call(r) === '[object Array]'
+    }
+    if ( typeof countObj !== 'undefined' ) {
+        countObj.value = 0
+    }
+    for ( i = 0, sl = s.length; i < sl; i++ ) {
+        if ( s[i] === '' ) {
+            continue
+        }
+        for ( j = 0, fl = f.length; j < fl; j++ ) {
+            temp = s[i] + ''
+            repl = ra ? ( r[j] !== undefined ? r[j] : '' ) : r[0]
+            s[i] = ( temp ).split(f[j]).join(repl)
+            if ( typeof countObj !== 'undefined' ) {
+                countObj.value += ( ( temp.split(f[j]) ).length - 1 )
+            }
+        }
+    }
+    return sa ? s : s[0]
+}
+
 'use strict';
 
 $.WPSFRAMEWORK_FIELDS = $.WPSFRAMEWORK_FIELDS || {};
@@ -327,8 +373,6 @@ $.fn.WPSFRAMEWORK_FIELDS_TYPOGRAPHY = function () {
 };
 
 $.fn.WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY = function () {
-
-
     this.each(function () {
         var $main = $(this);
         $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO($main);
@@ -340,32 +384,35 @@ $.fn.WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY = function () {
 
 $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
     return this.each(function () {
-
         var _this = $(this),
-            field_groups = _this.find('.wpsf-groups'),
-            accordion_group = _this.find('.wpsf-accordion'),
-            clone_group = _this.find('.wpsf-group:first').clone();
+            field_groups = _this.find('> .wpsf-fieldset > .wpsf-groups'),
+            accordion_group = _this.find('> .wpsf-fieldset > .wpsf-accordion'),
+            clone_group = _this.find('> .wpsf-fieldset .wpsf-group:first').clone();
 
+
+        var $heading = field_groups.find(' > .wpsf-group > .wpsf-group-title');
         if ( accordion_group.length ) {
-            accordion_group.accordion({
-                header: '.wpsf-group-title',
-                collapsible: true,
-                active: false,
-                animate: 250,
-                heightStyle: 'content',
-                icons: {
-                    'header': 'dashicons dashicons-arrow-right',
-                    'activeHeader': 'dashicons dashicons-arrow-down'
-                },
-                beforeActivate: function (event, ui) {
-                    $(ui.newPanel).WPSFRAMEWORK_DEPENDENCY('sub');
-                }
+            accordion_group.each(function () {
+                $(this).accordion({
+                    header: '> .wpsf-group > .wpsf-group-title',
+                    collapsible: true,
+                    active: false,
+                    animate: 250,
+                    heightStyle: 'content',
+                    icons: {
+                        'header': 'dashicons dashicons-arrow-right',
+                        'activeHeader': 'dashicons dashicons-arrow-down'
+                    },
+                    beforeActivate: function (event, ui) {
+                        $(ui.newPanel).WPSFRAMEWORK_DEPENDENCY('sub');
+                    }
+                });
             });
         }
 
         field_groups.sortable({
             axis: 'y',
-            handle: '.wpsf-group-title',
+            handle: $heading,
             helper: 'original',
             cursor: 'move',
             placeholder: 'widget-placeholder',
@@ -384,23 +431,75 @@ $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
             }
         });
 
-        var i = 0;
-        $('.wpsf-add-group', _this).on('click', function (e) {
 
+        _this.find('> .wpsf-fieldset > .wpsf-add-group').on('click', function (e) {
             e.preventDefault();
+            var $ex_c = $(this).attr('data-count');
+            if ( $ex_c === undefined ) {
+                $ex_c = $(this).parent().find('> .wpsf-groups > .wpsf-group').length;
+                if ( !$ex_c ) {
+                    $ex_c = -1;
+                }
+            }
+
+            $ex_c = parseInt($ex_c, 10) + 1;
+
+
+            var $is_child = $(this).attr('data-child');
+            var $db_id = $(this).attr('data-group-id');
+            if ( $db_id === undefined ) {
+                $db_id = $db_id.replace('[_nonce]','');
+                //$db_id = wpsf_str_replace('[_nonce]', '', $db_id);
+                $db_id = '';
+            }
+            $db_id = $db_id.replace('[_nonce]', '');
+
+            /*clone_group.find('input, select, textarea').each(function () {
+
+                var split = this.name.split(/\[(\d+)\]/g);
+                var final_change = split.length - 2;
+                var final_name = '';
+
+                $.each(split, function (i, value) {
+                    if ( $.isNumeric(value) ) {
+                        if ( i === final_change ) {
+                            value = ( parseInt(value, 10) + 1 );
+                        }
+                        value = '[' + value + ']';
+                    }
+                    final_name += value;
+                });
+                this.name = final_name;
+
+            });*/
+
 
             clone_group.find('input, select, textarea').each(function () {
-                this.name = this.name.replace(/\[(\d+)\]/, function (string, id) {
-                    return '[' + ( parseInt(id, 10) + 1 ) + ']';
-                });
+                if ( $is_child === 'yes' ) {
+                    var $sp = this.name.split('[_nonce]');
+                    var $H = '';
+                    $.each($sp, function ($ec, $c) {
+                        if ( $ec !== 0 ) {
+                            $c = $c.replace(/\[(\d+)\]/, function (string, id) {
+                                return '[' + $ex_c + ']';
+                            });
+                            $c = '[_nonce]' + $c;
+                        }
+                        $H += $c;
+                    });
+
+                    this.name = $H;
+
+                } else {
+                    this.name = this.name.replace(/\[(\d+)\]/, function (string, id) {
+                        return '[' + $ex_c + ']';
+                    });
+                }
+
             });
 
             var cloned = clone_group.clone().removeClass('hidden');
-
             field_groups.append(cloned);
-            field_groups.find('textarea').each(function () {
-                wp.editor.initialize($(this).attr("id"));
-            });
 
             if ( accordion_group.length ) {
                 field_groups.accordion('refresh');
@@ -413,12 +512,11 @@ $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
                 this.name = this.name.replace('[_nonce]', '');
             });
 
-            // run all field plugins
             cloned.WPSFRAMEWORK_DEPENDENCY('sub');
             cloned.WPSFRAMEWORK_RELOAD_PLUGINS();
-
-            i++;
-
+            $(this).attr('data-count', $ex_c);
+            _this.find('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
+            _this.find('.wpsf-field-group .wpsf-add-group').attr('data-child', 'yes');
         });
 
         field_groups.on('click', '.wpsf-remove-group', function (e) {

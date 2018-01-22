@@ -26,7 +26,7 @@ if( ! function_exists("enqueue_fields_styles") ) {
         wp_enqueue_script('wpsf-framework');
 
 
-        wp_enqueue_style( 'wp-jquery-ui-dialog' );
+        wp_enqueue_style('wp-jquery-ui-dialog');
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_style('font-awesome');
         wp_enqueue_style('wpsf-plugins');
@@ -110,7 +110,7 @@ if( ! function_exists('wpsf_admin_enqueue_scripts') ) {
         }
 
         foreach( $js_files as $id => $file ) {
-            wp_register_script($id, WPSF_URI . $file[0], $file[1], $file[2], true);
+            wp_register_script($id, WPSF_URI . $file[0], $file[1], $file[2], FALSE);
         }
     }
 

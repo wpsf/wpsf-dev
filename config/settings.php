@@ -286,155 +286,155 @@ $options[] = array(
 );
 
 $options[] = array(
-    'name'  => 'tabs',
-    'title' => 'Tabs',
-    'icon'  => 'fa fa-bars',
+    'name'   => 'tabs',
+    'title'  => 'Tabs',
+    'icon'   => 'fa fa-bars',
     'fields' => array(
-    array(
-        'id'        => 'custom_tabs',
-        'type'      => 'tab',
-        'tab_style' => 'left',
-        # 'default', 'box' or 'left'. Optional
-        'sections'  => array(
-            array(
-                'name'   => 'section1',
-                'icon'   => 'fa fa-star',
-                'title'  => 'Section 1',
-                'icon'   => 'https://i.ytimg.com/vi/eEN8s492ta0/hqdefault.jpg',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
+        array(
+            'id'        => 'custom_tabs',
+            'type'      => 'tab',
+            'tab_style' => 'left',
+            # 'default', 'box' or 'left'. Optional
+            'sections'  => array(
+                array(
+                    'name'   => 'section1',
+                    'icon'   => 'fa fa-star',
+                    'title'  => 'Section 1',
+                    'icon'   => 'https://i.ytimg.com/vi/eEN8s492ta0/hqdefault.jpg',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section2',
+                    'icon'   => 'fa fa-star',
+                    'title'  => 'Section 2',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section4',
+                    'icon'   => 'fa fa-star',
+                    'title'  => 'Section 4',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
                     ),
                 ),
             ),
+        ),
 
-            array(
-                'name'   => 'section2',
-                'icon'   => 'fa fa-star',
-                'title'  => 'Section 2',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
+        array(
+            'title'       => 'box Tab',
+            'id'          => 'custom_tabs2',
+            'type'        => 'tab',
+            'tab_wrapper' => FALSE,
+            'tab_style'   => 'box',
+            # 'default', 'box' or 'left'. Optional
+            'sections'    => array(
+                array(
+                    'name'   => 'section1',
+                    'title'  => 'Section 1',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section2',
+                    'title'  => 'Section 2',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section4',
+                    'title'  => 'Section 4',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
                     ),
                 ),
             ),
+        ),
 
-            array(
-                'name'   => 'section4',
-                'icon'   => 'fa fa-star',
-                'title'  => 'Section 4',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
+        array(
+            'title'     => 'left Tab',
+            'id'        => 'custom_tabs_left',
+            'type'      => 'tab',
+            'tab_style' => 'left',
+            # 'default', 'box' or 'left'. Optional
+            'sections'  => array(
+                array(
+                    'name'   => 'section1',
+                    'title'  => 'Section 1',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section2',
+                    'title'  => 'Section 2',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
+                    ),
+                ),
+
+                array(
+                    'name'   => 'section4',
+                    'title'  => 'Section 4',
+                    'icon'   => 'fa fa-star',
+                    'fields' => array(
+                        array(
+                            'id'    => 'text_1',
+                            'type'  => 'text',
+                            'title' => 'Text',
+                        ),
                     ),
                 ),
             ),
         ),
     ),
-
-    array(
-        'title'       => 'box Tab',
-        'id'          => 'custom_tabs2',
-        'type'        => 'tab',
-        'tab_wrapper' => FALSE,
-        'tab_style'   => 'box',
-        # 'default', 'box' or 'left'. Optional
-        'sections'    => array(
-            array(
-                'name'   => 'section1',
-                'title'  => 'Section 1',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-
-            array(
-                'name'   => 'section2',
-                'title'  => 'Section 2',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-
-            array(
-                'name'   => 'section4',
-                'title'  => 'Section 4',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-        ),
-    ),
-
-    array(
-        'title'     => 'left Tab',
-        'id'        => 'custom_tabs_left',
-        'type'      => 'tab',
-        'tab_style' => 'left',
-        # 'default', 'box' or 'left'. Optional
-        'sections'  => array(
-            array(
-                'name'   => 'section1',
-                'title'  => 'Section 1',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-
-            array(
-                'name'   => 'section2',
-                'title'  => 'Section 2',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-
-            array(
-                'name'   => 'section4',
-                'title'  => 'Section 4',
-                'icon'   => 'fa fa-star',
-                'fields' => array(
-                    array(
-                        'id'    => 'text_1',
-                        'type'  => 'text',
-                        'title' => 'Text',
-                    ),
-                ),
-            ),
-        ),
-    ),
-),
 );
 
 // ------------------------------
@@ -2620,7 +2620,6 @@ $options[] = array(
             'icon'   => 'fa fa-check',
             'fields' => array(
 
-
                 array(
                     'id'              => 'unique_group_2',
                     'type'            => 'group',
@@ -2657,6 +2656,120 @@ $options[] = array(
                         ),
                     ),
                 ),
+
+
+                array(
+                    'id'              => 'unique_group_subgs',
+                    'type'            => 'group',
+                    'title'           => 'Group Field with Sub Group',
+                    'button_title'    => 'Add New',
+                    'accordion_title' => 'Add New Field',
+                    'fields'          => array(
+                        array(
+                            'id'              => 'unique_group_subg_1',
+                            'type'            => 'group',
+                            'title'           => 'Group Inside A Group',
+                            'button_title'    => 'Add Sub Group',
+                            'accordion_title' => 'Sub Group Level1',
+                            'fields'          => array(
+                                array(
+                                    'id'              => 'unique_group_subg_1_1',
+                                    'type'            => 'group',
+                                    'title'           => 'Group Inside A Group',
+                                    'button_title'    => 'Add Sub Group',
+                                    'accordion_title' => 'Sub Group Level1',
+                                    'fields'          => array(
+                                        array(
+                                            'id'    => 'unique_group_subg_1_1_text',
+                                            'type'  => 'text',
+                                            'title' => 'Text Field',
+                                        ),
+                                        array(
+                                            'id'    => 'unique_group_subg_1_1_switcher',
+                                            'type'  => 'switcher',
+                                            'title' => 'Switcher Field',
+                                        ),
+                                        array(
+                                            'id'    => 'unique_group_subg_1_1_textarea',
+                                            'type'  => 'textarea',
+                                            'title' => 'Upload Field',
+                                        ),
+                                    ),
+                                ),
+
+                                array(
+                                    'id'    => 'unique_group_subg_1_text',
+                                    'type'  => 'text',
+                                    'title' => 'Text Field',
+                                ),
+                                array(
+                                    'id'    => 'unique_group_subg_1_switcher',
+                                    'type'  => 'switcher',
+                                    'title' => 'Switcher Field',
+                                ),
+                                array(
+                                    'id'    => 'unique_group_subg_1_textarea',
+                                    'type'  => 'textarea',
+                                    'title' => 'Upload Field',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'id'    => 'unique_group_2_text',
+                            'type'  => 'text',
+                            'title' => 'Text Field',
+                        ),
+                        array(
+                            'id'    => 'unique_group_2_switcher',
+                            'type'  => 'switcher',
+                            'title' => 'Switcher Field',
+                        ),
+                        array(
+                            'id'    => 'unique_group_2_textarea',
+                            'type'  => 'textarea',
+                            'title' => 'Upload Field',
+                        ),
+                    ),
+
+                ),
+
+                array(
+                    'id'              => 'unique_group_12',
+                    'type'            => 'group',
+                    'title'           => 'Group Field with 1',
+                    'button_title'    => 'Add New1',
+                    'accordion_title' => 'Add New Field1',
+                    'fields'          => array(
+
+                        array(
+                            'id'    => 'unique_group_12_text',
+                            'type'  => 'text',
+                            'title' => 'Text Field',
+                        ),
+                        array(
+                            'id'    => 'unique_group_12_switcher',
+                            'type'  => 'switcher',
+                            'title' => 'Switcher Field',
+                        ),
+                        array(
+                            'id'    => 'unique_group_12_textarea',
+                            'type'  => 'textarea',
+                            'title' => 'Upload Field',
+                        ),
+                    ),
+                    'default'         => array(
+                        array(
+                            'unique_group_12_text'     => 'Some text',
+                            'unique_group_12_switcher' => TRUE,
+                            'unique_group_12_textarea' => 'Some content',
+                        ),
+                        array(
+                            'unique_group_12_text'     => 'Some text 2',
+                            'unique_group_12_switcher' => TRUE,
+                            'unique_group_12_textarea' => 'Some content 2',
+                        ),
+                    ),
+                ),
                 array(
                     'id'              => 'unique_group_3',
                     'type'            => 'group',
@@ -2680,6 +2793,11 @@ $options[] = array(
                     'button_title'    => 'Add New',
                     'accordion_title' => 'unique_group_4_text_2',
                     'fields'          => array(
+                        array(
+                            'id'    => 'richtxt',
+                            'type'  => 'wysiwyg',
+                            'title' => 'wysiwyg',
+                        ),
                         array(
                             'id'    => 'unique_group_4_text_1',
                             'type'  => 'text',
@@ -3974,7 +4092,7 @@ $options[] = array(
 new WPSFramework_Settings(array(
     'menu_title'     => 'WPSF Modern',
     'menu_slug'      => 'wpsf-modern',
-    'is_single_page' => TRUE,
+    'is_single_page' => FALSE,
     'option_name'    => '_wpsf_new_option',
 ), $options);
 

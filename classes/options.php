@@ -29,15 +29,88 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->org_value = $value;
         $this->unique = $unique;
         $this->multilang = $this->element_multilang();
+        $this->row_after = NULL;
     }
 
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
     }
 
+    public function final_output() {
+        if( $this->element_type() === 'hidden' ) {
+            echo $this->output();
+        } else {
+            echo $this->element_wrapper();
+            echo $this->output();
+            echo $this->element_wrapper(FALSE);
+        }
+    }
+
     public function element_type() {
         $type = ( isset ($this->field ['attributes'] ['type']) ) ? $this->field ['attributes'] ['type'] : $this->field ['type'];
         return $type;
+    }
+
+    public function element_wrapper($is_start = TRUE) {
+        if( $is_start === TRUE ) {
+            $depend = '';
+            static $total_columns = 0;
+            $sub = ( isset ($field ['sub']) ) ? 'sub-' : '';
+            $languages = wpsf_language_defaults();
+            $wrap_class = 'wpsf-element wpsf-element-' . $this->element_type() . ' wpsf-field-'.$this->element_type().' ';
+            $wrap_class .= ( isset($this->field['wrap_class']) ) ? ' ' . $this->field['wrap_class'] : '';
+            $wrap_class .= ( isset($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
+            $wrap_class .= ( isset ($this->field ['pseudo']) ) ? ' wpsf-pseudo-field' : '';
+            $is_hidden = ( isset ($this->field ['show_only_language']) && ( $this->field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden ' : '';
+
+            if( isset ($field ['dependency']) ) {
+                $is_hidden = ' hidden';
+                $depend .= ' data-' . $sub . 'controller="' . $this->field ['dependency'] [0] . '"';
+                $depend .= ' data-' . $sub . 'condition="' . $this->field ['dependency'] [1] . '"';
+                $depend .= ' data-' . $sub . 'value="' . $this->field ['dependency'] [2] . '"';
+            }
+
+            if( isset($field['columns']) ) {
+                $wrap_class .= ' wpsf-column wpsf-column-' . $this->field['columns'] . ' ';
+
+                if( 0 == $total_columns ) {
+                    $wrap_class .= ' wpsf-column-first ';
+                    echo '<div class="wpsf-row">';
+                }
+
+                $total_columns += $this->field['columns'];
+
+                if( 12 == $total_columns ) {
+                    $wrap_class .= ' wpsf-column-last ';
+                    $this->row_after = '</div>';
+                    $total_columns = 0;
+                }
+            }
+
+            echo '<div class="' . $wrap_class . '" ' . $depend . ' >';
+            $this->element_title();
+            echo ( isset ($this->field ['title']) ) ? '<div class="wpsf-fieldset">' : '';
+        } else {
+            $this->element_title_after();
+            echo '<div class="clear"></div>';
+            echo '</div>';
+            echo $this->row_after;
+        }
+    }
+
+    public function element_title() {
+        if( isset ($this->field ['title']) ) {
+            $field_desc = ( isset ($this->field ['desc']) ) ? '<p class="wpsf-text-desc">' . $this->field ['desc'] . '</p>' : '';
+            echo '<div class="wpsf-title"><h4>' . $this->field ['title'] . '</h4>' . $this->element_desc() . ' '.$this->element_help(true).'</div>';
+        }
+    }
+
+    public function element_desc() {
+        return ( isset($this->field['desc']) ) ? '<p class="wpsf-text-desc">' . $this->field['desc'] . '</p>' : '';
+    }
+
+    public function element_title_after() {
+        echo ( isset ($this->field ['title']) ) ? '</div>' : '';
     }
 
     public function element_class($el_class = '') {
@@ -81,13 +154,17 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     }
 
     public function element_after() {
-        $out = ( isset ($this->field ['info']) ) ? '<p class="wpsf-text-desc">' . $this->field ['info'] . '</p>' : '';
+        $out = $this->element_desc_after();
         $out .= ( isset ($this->field ['after']) ) ? $this->field ['after'] : '';
         $out .= $this->element_after_multilang();
         $out .= $this->element_get_error();
-        $out .= $this->element_help();
+        //$out .= $this->element_help();
         $out .= $this->element_debug();
         return $out;
+    }
+
+    public function element_desc_after() {
+        return ( isset ($this->field ['desc_field']) ) ? '<p class="wpsf-text-desc">' . $this->field ['desc_field'] . '</p>' : '';
     }
 
     public function element_after_multilang() {
@@ -157,7 +234,20 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     }
 
     public function element_help() {
-        return ( isset ($this->field ['help']) ) ? '<span class="wpsf-help" data-title="' . $this->field ['help'] . '"><span class="fa fa-question-circle"></span></span>' : '';
+        $defaults = array(
+            'icon'     => 'fa fa-question-circle',
+            'content'  => '',
+            'position' => 'bottom',
+        );
+        $help = array();
+        if( isset($this->field['help'] ) ) {
+            if( ! is_array($this->field['help']) ) {
+                $this->field['help'] = array( 'content' => $this->field['help'] );
+            }
+            $help = wp_parse_args($this->field['help'], $defaults);
+        }
+
+        return (!empty($help['content'])) ? '<span class="wpsf-help" data-placement="'.$help['position'].'" data-title="'.$help['content'].'"><span class="'.$help['icon'].'"></span></span>' : '';
     }
 
     public function element_debug() {
@@ -252,7 +342,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
 
             case 'posts' :
             case 'post' :
@@ -265,7 +355,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
 
             case 'categories' :
             case 'category' :
@@ -280,7 +370,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
 
             case 'tags' :
             case 'tag' :
@@ -296,7 +386,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
 
             case 'menus' :
             case 'menu' :
@@ -311,7 +401,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
 
             case 'post_types' :
             case 'post_type' :
@@ -326,7 +416,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     }
                 }
 
-                break;
+            break;
         }
 
         return $options;

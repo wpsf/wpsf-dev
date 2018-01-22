@@ -9,9 +9,9 @@
  */
 .wpsf-help {
   position: absolute;
-  top: 5px;
+  top: 0px;
   right: 5px;
-  padding: 5px;
+  padding: 0px;
   font-size: 14px;
   color: #aaa;
 }

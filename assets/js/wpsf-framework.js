@@ -7,10 +7,7 @@
  @package    WPSF                                                                                 -
  @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
  -------------------------------------------------------------------------------------------------*/
-;
-
-
-( function ($, window, document, undefined) {
+;( function ($, window, document, undefined) {
     'use strict';
     $.WPSFRAMEWORK = $.WPSFRAMEWORK || {};
     // caching selector
@@ -132,32 +129,37 @@
     };
 
     $.WPSFRAMEWORK.DEPENDENCY_ELEMENT = function ($elem, $is_sub) {
+        var $return = null;
         switch ( $elem ) {
             case 'page_template' :
-                return 'select#page_template';
+                $return = 'select#page_template';
                 break;
             case 'menu_order':
-                return 'input#menu_order';
+                $return = 'input#menu_order';
                 break;
             case 'parent_id':
-                return 'select#parent_id';
+                $return = 'select#parent_id';
                 break;
             case 'post_status':
-                return 'select#post_status';
+                $return = 'select#post_status';
                 break;
             case 'visibility':
-                return 'input[name=visibility]';
+                $return = 'input[name=visibility]';
                 break;
             case 'post_format':
-                return 'input[name=post_format]';
+                $return = 'input[name=post_format]';
                 break;
         }
+        if ( $return !== null ) {
+            return $return;
+        }
+
         if ( $is_sub === true ) {
             return '[data-sub-depend-id="' + $elem + '"]';
-
         }
         return '[data-depend-id="' + $elem + '"]';
-    }
+
+    };
 
     // WPSFRAMEWORK DEPENDENCY
     $.WPSFRAMEWORK.DEPENDENCY = function (el, param) {
@@ -330,10 +332,11 @@
     // TOOLTIP HELPER
     $.fn.WPSFRAMEWORK_TOOLTIP = function () {
         return this.each(function () {
-            var placement = ( wpsf_is_rtl ) ? 'right' : 'left';
+           //// var $attr_placement = $(this).attr('data-placement');
+           // var placement = ( wpsf_is_rtl ) ? 'right' : 'left';
             $(this).tooltip({
                 html: true,
-                placement: placement,
+               // placement: placement,
                 container: 'body'
             });
         });
@@ -388,7 +391,7 @@
                 $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
             });
         }
-    })
+    });
 
     $(document).ready(function () {
         $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();

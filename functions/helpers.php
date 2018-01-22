@@ -12,6 +12,26 @@
 if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
+
+if(!function_exists('wpsf_add_element')){
+    function wpsf_add_element($field = array(),$value = '',$unique=''){
+        static $total_columns = 0;
+        $output = '';
+        $class = 'WPSFramework_Option_' . $field ['type'];
+        wpsf_autoloader($class, TRUE);
+
+        if(class_exists($class)){
+            ob_start();
+            $element = new $class($field,$value,$unique);
+            $element->final_output();
+            $output .= ob_get_clean();
+        }else {
+            $output .= '<p>' . esc_html__('This field class is not available!', 'wpsf-framework') . '</p>';
+        }
+        return $output;
+    }
+}
+
 /**
  *
  * Add framework element
@@ -21,7 +41,8 @@ if( ! defined('ABSPATH') ) {
  *
  */
 if( ! function_exists('wpsf_add_element') ) {
-    function wpsf_add_element($field = array(), $value = '', $unique = '') {
+    function _wpsf_add_element($field = array(), $value = '', $unique = '') {
+        static $total_columns = 0;
         $output = '';
         $depend = '';
         $sub = ( isset ($field ['sub']) ) ? 'sub-' : '';
@@ -32,7 +53,7 @@ if( ! function_exists('wpsf_add_element') ) {
         $el_class = ( isset ($field ['title']) ) ? sanitize_title($field ['title']) : 'no-title';
         $hidden = ( isset ($field ['show_only_language']) && ( $field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden' : '';
         $is_pseudo = ( isset ($field ['pseudo']) ) ? ' wpsf-pseudo-field' : '';
-
+        $_row_after = '';
         if( isset ($field ['dependency']) ) {
             $hidden = ' hidden';
             $depend .= ' data-' . $sub . 'controller="' . $field ['dependency'] [0] . '"';
@@ -40,7 +61,24 @@ if( ! function_exists('wpsf_add_element') ) {
             $depend .= ' data-' . $sub . 'value="' . $field ['dependency'] [2] . '"';
         }
 
-        $output .= '<div class="wpsf-element wpsf-element-'.$el_class.' wpsf-field-'.$field['type'].$is_pseudo.$wrap_class.$hidden. '"'.$depend.'>';
+        if( isset($field['columns']) ) {
+            $wrap_class .= ' wpsf-column wpsf-column-' . $field['columns'];
+
+            if( 0 == $total_columns ) {
+                $wrap_class .= ' wpsf-column-first';
+                $output .= '<div class="wpsf-row">';
+            }
+
+            $total_columns += $field['columns'];
+
+            if( 12 == $total_columns ) {
+                $wrap_class .= ' wpsf-column-last';
+                $_row_after = '</div>';
+                $total_columns = 0;
+            }
+        }
+
+        $output .= '<div class="wpsf-element wpsf-element-' . $el_class . ' wpsf-field-' . $field['type'] . $is_pseudo . $wrap_class . $hidden . '"' . $depend . '>';
 
         if( isset ($field ['title']) ) {
             $field_desc = ( isset ($field ['desc']) ) ? '<p class="wpsf-text-desc">' . $field ['desc'] . '</p>' : '';
@@ -72,6 +110,8 @@ if( ! function_exists('wpsf_add_element') ) {
         $output .= '<div class="clear"></div>';
         $output .= '</div>';
 
+
+        $output .= $_row_after;
         return $output;
     }
 }

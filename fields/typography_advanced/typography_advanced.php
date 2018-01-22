@@ -58,7 +58,7 @@ class WPSFramework_Option_typography_advanced extends WPSFramework_Options {
         echo wpsf_add_element(array(
             'pseudo'  => TRUE,
             'type'    => 'typography',
-            'id'      => $this->field['id'],
+            'id'      => $this->field['id'].'_typography',
             'variant' => isset($this->field['variant']) ? $this->field['variant'] : TRUE,
             'chosen'  => isset($this->field['chosen']) ? $this->field['chosen'] : NULL,
             'select2' => isset($this->field['select2']) ? $this->field['select2'] : NULL,
@@ -67,6 +67,7 @@ class WPSFramework_Option_typography_advanced extends WPSFramework_Options {
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'type'       => 'number',
+            'id'      => $this->field['id'].'_size',
             'name'       => $this->element_name('[size]'),
             'value'      => $value['size'],
             'default'    => ( isset($this->field['default']['size']) ) ? $this->field['default']['size'] : '',
@@ -78,6 +79,7 @@ class WPSFramework_Option_typography_advanced extends WPSFramework_Options {
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'type'       => 'number',
+            'id'      => $this->field['id'].'_height',
             'name'       => $this->element_name('[height]'),
             'value'      => $value['height'],
             'default'    => ( isset($this->field['default']['height']) ) ? $this->field['default']['height'] : '',
@@ -90,6 +92,7 @@ class WPSFramework_Option_typography_advanced extends WPSFramework_Options {
             'pseudo'     => TRUE,
             'id'         => $this->field['id'] . '_color',
             'type'       => 'color_picker',
+            'id'      => $this->field['id'].'_color',
             'name'       => $this->element_name('[color]'),
             'attributes' => array(
                 'data-atts' => 'bgcolor',

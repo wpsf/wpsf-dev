@@ -223,7 +223,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         if( isset($request['_nonce']) ) {
             unset ($request ['_nonce']);
         }
-
         if( isset ($request ['import']) && ! empty ($request ['import']) ) {
             $decode_string = wpsf_decode_string($request ['import']);
             if( is_array($decode_string) ) {
@@ -262,6 +261,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             'db_key'             => $this->unique,
             'posted_values'      => $request,
         ), $this->get_sections());
+
 
         $add_errors = $save_handler->get_errors();
         $request = apply_filters("wpsf_validate_save", $request, $this);

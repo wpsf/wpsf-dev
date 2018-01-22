@@ -147,7 +147,7 @@
     margin-bottom: 8px;
   }
 
-  .ui-accordion .wpsf-group {
+  .ui-accordion > .wpsf-group {
     display: block;
   }
 
@@ -293,6 +293,8 @@
   font-weight: 400;
   margin-top: 10px;
   color: #999;
+  display: inline-block;
+  width: 100%;
 }
 
 .wpsf-text-success {

@@ -79,15 +79,15 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
             $nav_class = 'wpsf-user-tabs-' . $section['name'];
 
             $navs .= sprintf('<li class="%s" data-panel="%s"><a href="#">%s%s</a></li>', $nav_class, $section['name'], $section['icon'], $section['title']);
-
+            $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-'.$section['name'].'">';
             foreach($section['fields'] as $field){
-                $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-'.$section['name'].'">';
+
                 $Uid = $this->_unique();
                 $Uid = (empty($field['un_array'])) ? $Uid.'['.$section['name'].']' : $Uid;
 
                 $contents .= wpsf_add_element($field, $this->value, $Uid);
-                $contents .= '</div>';
             }
+            $contents .= '</div>';
 
         }
 

@@ -49,6 +49,21 @@ if( ! function_exists("wpsf_template") ) {
     }
 }
 
+if( ! function_exists("wpsf_autoloader") ) {
+    function wpsf_autoloader($class, $check = FALSE) {
+        if( $class === TRUE && class_exists($class) === TRUE ) {
+            return TRUE;
+        }
+
+        if( 0 === strpos($class, 'WPSFramework_Option_') ) {
+            $path = strtolower(substr($class, 20));
+            wpsf_locate_template('fields/' . $path . '/' . $path . '.php');
+        } else if( 0 === strpos($class, 'WPSFramework_') ) {
+            $path = strtolower(substr(str_replace('_', '-', $class), 13));
+            wpsf_locate_template('classes/' . $path . '.php');
+        }
+    }
+}
 if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') ) {
     function wpsf_framework_init() {
         defined('WPSF_ACTIVE_LIGHT_THEME') or define('WPSF_ACTIVE_LIGHT_THEME', FALSE);
@@ -64,20 +79,6 @@ if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') )
         wpsf_locate_template('classes/abstract.php');
         wpsf_locate_template('classes/options.php');
         wpsf_locate_template('classes/framework.php');
-
-        function wpsf_autoloader($class, $check = FALSE) {
-            if( $class === TRUE && class_exists($class) === TRUE ) {
-                return TRUE;
-            }
-
-            if( 0 === strpos($class, 'WPSFramework_Option_') ) {
-                $path = strtolower(substr($class, 20));
-                wpsf_locate_template('fields/' . $path . '/' . $path . '.php');
-            } else if( 0 === strpos($class, 'WPSFramework_') ) {
-                $path = strtolower(substr(str_replace('_', '-', $class), 13));
-                wpsf_locate_template('classes/' . $path . '.php');
-            }
-        }
 
         wpsf_load_options();
 
@@ -113,8 +114,8 @@ if( ! function_exists("wpsf_load_options") ) {
 
         if( ! empty($ex_data) ) {
             foreach( $ex_data as $slug ) {
-                $mslug = ltrim($slug,"_");
-                $mslug = rtrim($mslug,"_");
+                $mslug = ltrim($slug, "_");
+                $mslug = rtrim($mslug, "_");
                 $data = get_option($slug, TRUE);
                 $data = ( ! is_array($data) ) ? array() : $data;
                 $GLOBALS[$mslug] = $data;
