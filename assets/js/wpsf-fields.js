@@ -448,7 +448,7 @@ $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
             var $is_child = $(this).attr('data-child');
             var $db_id = $(this).attr('data-group-id');
             if ( $db_id === undefined ) {
-                $db_id = $db_id.replace('[_nonce]','');
+                $db_id = $db_id.replace('[_nonce]', '');
                 //$db_id = wpsf_str_replace('[_nonce]', '', $db_id);
                 $db_id = '';
             }
@@ -1317,6 +1317,24 @@ $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_BORDER = function ($this) {
     })
 };
 
+$.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER = function (val, countByWord) {
+    if ( $.trim(val) == '' ) {
+        return 0;
+    }
+
+    return countByWord ? val.match(/\S+/g).length : val.length;
+}
+
+$.WPSFRAMEWORK_FIELDS.LIMITER_SUBSTR = function (val, start, len, subByWord) {
+    if ( !subByWord ) {
+        return val.substr(start, len);
+    }
+
+    var lastIndexSpace = val.lastIndexOf(' ');
+
+    return val.substr(start, lastIndexSpace);
+}
+
 $.fn.WPSFRAMEWORK_FIELDS_COLORPICKER = function () {
     return this.each(function () {
         var $this = $(this);
@@ -1588,5 +1606,35 @@ $.fn.WPSFRAMEWORK_FIELDS_CSS_BUILDER = function () {
         $this.find('.wpsf-element-background-color input.wpsf-field-color-picker').on('change', function () {
             $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_BORDER($this);
         });
+    })
+}
+
+$.fn.WPSFRAMEWORK_FIELDS_LIMITER = function () {
+    return this.each(function () {
+        var $this = $(this),
+            $parent = $this.parent(),
+            $limiter = $parent.find('> .text-limiter'),
+            $counter = $limiter.find('span.counter'),
+            $limit = parseInt($limiter.find('span.maximum').html()),
+            $countByWord = 'word' == $limiter.data('limit-type');
+        console.log($limiter.find('span.maximum'))
+
+        var $val = $.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER($this.val(), $countByWord);
+        $counter.html($val);
+
+        $this.on('input', function () {
+            var text = $this.val();
+            var length = $.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER(text, $countByWord);
+console.log(length + ' - '+$limit);
+
+            if ( length > $limit ) {
+                text = $.WPSFRAMEWORK_FIELDS.LIMITER_SUBSTR(text, 0, $limit, $countByWord);
+                $this.val(text);
+                $counter.html($limit);
+            } else {
+                $counter.html(length);
+            }
+        });
+
     })
 }

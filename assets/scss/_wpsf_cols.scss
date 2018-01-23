@@ -24,6 +24,7 @@
 
   .wpsf-column {
     float: left;
+    border: none;
     &:last-of-type {
       margin-right: 0;
     }
@@ -33,8 +34,13 @@
   }
 }
 
-.wpsf-element .wpsf-row {
-  display: block;
+.wpsf-element.wpsf-row {
+  padding: 0;
+  .wpsf-element {
+    padding-left: 1.98%;
+    padding-right: 1.98%;
+
+  }
 }
 
 .wpsf-column-12 {

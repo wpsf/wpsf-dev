@@ -24,7 +24,7 @@
       }
       li > a {
         display: block;
-        padding: 3px 5px 5px;
+        padding: 5px 9px 5px;
         text-decoration: none;
         &:active, &:focus {
           outline: none;
@@ -58,6 +58,7 @@
     background: #fdfdfd;
     display: none;
     float:left;
+    width:100%;
   }
 
   .wpsf-user-tabs-left {

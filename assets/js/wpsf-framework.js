@@ -380,6 +380,7 @@
             $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
             $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
             $('.wpsf-field-tab').WPSFRAMEWORK_FIELDS_TABS();
+            $('input[data-limit-element="1"],textarea[data-limit-element="1"]').WPSFRAMEWORK_FIELDS_LIMITER();
         });
     };
 

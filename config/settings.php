@@ -164,13 +164,16 @@ $options[] = array(
             'id'    => 'text_1',
             'type'  => 'text',
             'title' => 'Text',
+            'limit' => 10,
         ),
         // end: a field
         array(
-            'id'    => 'textarea_1',
-            'type'  => 'textarea',
-            'title' => 'Textarea',
-            'help'  => 'This option field is useful. You will love it!',
+            'id'         => 'textarea_1',
+            'type'       => 'textarea',
+            'title'      => 'Textarea',
+            'limit'      => 10,
+            'limit_type' => 'word',
+            'help'       => 'This option field is useful. You will love it!',
         ),
         array(
             'id'    => 'upload_1',
@@ -661,7 +664,11 @@ $options[] = array(
                     'type'    => 'checkbox',
                     'title'   => 'Checkbox Field with Options',
                     'options' => array(
-                        'blue'   => 'Blue',
+                        'blue'   => array(
+                            'label'      => 'Blue',
+                            'disabled'   => TRUE,
+                            'attributes' => array( 'data-help' => 'yes' ),
+                        ),
                         'green'  => 'Green',
                         'yellow' => 'Yellow',
                     ),
@@ -673,7 +680,10 @@ $options[] = array(
                     'title'   => 'Checkbox Field with Group Options',
                     'options' => array(
                         'Group 1' => array(
-                            'blue'   => 'Blue',
+                            'blue'   => array(
+                                'label'    => 'Blue',
+                                'disabled' => TRUE,
+                            ),
                             'green'  => 'Green',
                             'yellow' => 'Yellow',
                         ),
@@ -1437,9 +1447,14 @@ $options[] = array(
                     'type'    => 'radio',
                     'title'   => 'Radio with Default Value',
                     'options' => array(
-                        'yes'     => 'Yes, Please.',
-                        'no'      => 'No, Thank you.',
-                        'nothing' => 'I am not sure, yet!',
+                        'yes'      => 'Yes, Please.',
+                        'no'       => 'No, Thank you.',
+                        'disabled' => array(
+                            'label'      => 'Disabled',
+                            'disabled'   => TRUE,
+                            'attributes' => array( 'data-help' => 'yes' ),
+                        ),
+                        'nothing'  => 'I am not sure, yet!',
                     ),
                     'default' => 'nothing',
                     'help'    => 'Reference site about Lorem Ipsum, a random Lipsum generator.',
@@ -1451,7 +1466,11 @@ $options[] = array(
                     'title'   => 'Radio Field with Group Options',
                     'options' => array(
                         'Group 1' => array(
-                            'blue'   => 'Blue',
+                            'blue'   => array(
+                                'label'      => 'Blue',
+                                'disabled'   => TRUE,
+                                'attributes' => array( 'data-help' => 'yes' ),
+                            ),
                             'green'  => 'Green',
                             'yellow' => 'Yellow',
                         ),
@@ -2680,14 +2699,40 @@ $options[] = array(
                                     'accordion_title' => 'Sub Group Level1',
                                     'fields'          => array(
                                         array(
-                                            'id'    => 'unique_group_subg_1_1_text',
-                                            'type'  => 'text',
-                                            'title' => 'Text Field',
+                                            'id'              => 'unique_group_subg_1_1_1',
+                                            'type'            => 'group',
+                                            'title'           => 'Group Inside A Group',
+                                            'button_title'    => 'Add Sub Group',
+                                            'accordion_title' => 'Sub Group Level1',
+                                            'fields'          => array(
+                                                array(
+                                                    'id'    => 'unique_group_subg_1_1_1_text',
+                                                    'type'  => 'text',
+                                                    'title' => 'Text Field',
+                                                ),
+                                                array(
+                                                    'id'    => 'unique_group_subg_1_1_1_switcher',
+                                                    'type'  => 'switcher',
+                                                    'title' => 'Switcher Field',
+                                                ),
+                                                array(
+                                                    'id'    => 'unique_group_subg_1_1_1_textarea',
+                                                    'type'  => 'textarea',
+                                                    'title' => 'Upload Field',
+                                                ),
+                                            ),
                                         ),
                                         array(
-                                            'id'    => 'unique_group_subg_1_1_switcher',
-                                            'type'  => 'switcher',
-                                            'title' => 'Switcher Field',
+                                            'id'      => 'unique_group_subg_1_1_text',
+                                            'type'    => 'text',
+                                            'title'   => 'Text Field',
+                                            'columns' => 6,
+                                        ),
+                                        array(
+                                            'id'      => 'unique_group_subg_1_1_switcher',
+                                            'type'    => 'switcher',
+                                            'title'   => 'Switcher Field',
+                                            'columns' => 6,
                                         ),
                                         array(
                                             'id'    => 'unique_group_subg_1_1_textarea',
@@ -2698,14 +2743,16 @@ $options[] = array(
                                 ),
 
                                 array(
-                                    'id'    => 'unique_group_subg_1_text',
-                                    'type'  => 'text',
-                                    'title' => 'Text Field',
+                                    'id'      => 'unique_group_subg_1_text',
+                                    'type'    => 'text',
+                                    'title'   => 'Text Field',
+                                    'columns' => 6,
                                 ),
                                 array(
-                                    'id'    => 'unique_group_subg_1_switcher',
-                                    'type'  => 'switcher',
-                                    'title' => 'Switcher Field',
+                                    'id'      => 'unique_group_subg_1_switcher',
+                                    'type'    => 'switcher',
+                                    'title'   => 'Switcher Field',
+                                    'columns' => 6,
                                 ),
                                 array(
                                     'id'    => 'unique_group_subg_1_textarea',
@@ -2715,14 +2762,16 @@ $options[] = array(
                             ),
                         ),
                         array(
-                            'id'    => 'unique_group_2_text',
-                            'type'  => 'text',
-                            'title' => 'Text Field',
+                            'id'      => 'unique_group_2_text',
+                            'type'    => 'text',
+                            'title'   => 'Text Field',
+                            'columns' => 6,
                         ),
                         array(
-                            'id'    => 'unique_group_2_switcher',
-                            'type'  => 'switcher',
-                            'title' => 'Switcher Field',
+                            'id'      => 'unique_group_2_switcher',
+                            'type'    => 'switcher',
+                            'title'   => 'Switcher Field',
+                            'columns' => 6,
                         ),
                         array(
                             'id'    => 'unique_group_2_textarea',
@@ -4092,7 +4141,7 @@ $options[] = array(
 new WPSFramework_Settings(array(
     'menu_title'     => 'WPSF Modern',
     'menu_slug'      => 'wpsf-modern',
-    'is_single_page' => FALSE,
+    'is_single_page' => TRUE,
     'option_name'    => '_wpsf_new_option',
 ), $options);
 

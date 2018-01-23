@@ -1966,7 +1966,7 @@
 }
 .wpsf-field-tab .wpsf-user-tabs-nav > li > a {
   display: block;
-  padding: 3px 5px 5px;
+  padding: 5px 9px 5px;
   text-decoration: none;
 }
 .wpsf-field-tab .wpsf-user-tabs-nav > li > a:active, .wpsf-field-tab .wpsf-user-tabs-nav > li > a:focus {
@@ -1996,6 +1996,7 @@
   background: #fdfdfd;
   display: none;
   float: left;
+  width: 100%;
 }
 .wpsf-field-tab .wpsf-user-tabs-left {
   overflow: hidden;
@@ -2223,6 +2224,7 @@
 }
 .wpsf-row .wpsf-column {
   float: left;
+  border: none;
 }
 .wpsf-row .wpsf-column:last-of-type {
   margin-right: 0;
@@ -2231,8 +2233,12 @@
   max-width: 100%;
 }
 
-.wpsf-element .wpsf-row {
-  display: block;
+.wpsf-element.wpsf-row {
+  padding: 0;
+}
+.wpsf-element.wpsf-row .wpsf-element {
+  padding-left: 1.98%;
+  padding-right: 1.98%;
 }
 
 .wpsf-column-12 {
@@ -2290,6 +2296,17 @@
   margin-left: 5%;
 }
 
+.wpsf-element .text-limiter {
+  margin-top: -2px;
+}
+.wpsf-element .text-limiter > span {
+  background-color: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  margin-left: 1px;
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 12px;
+}
 .wpsf-element .fieldset-horizontal {
   display: inline-block;
   padding: 0;
@@ -2338,3 +2355,5 @@
 }
 
 
+
+/*# sourceMappingURL=wpsf-framework.css.map */

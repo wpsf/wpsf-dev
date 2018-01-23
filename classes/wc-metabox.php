@@ -185,7 +185,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                         'hide' => '',
                     );
                     $fields = wp_parse_args($fields, $defaults);
-                    $WrapClass = $this->show_hide_class($fields['show'], $fields['hide']);
+                    $WrapClass = $this->show_hide_class($fields['show'], $fields['hide'],'string');
                     $final .= '<div class="wpsf-wc-metabox-fields ' . $WrapClass . '">' . $output . '</div>';
                 }
             }
@@ -418,6 +418,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             if( $_r == 'array' ) {
                 return $return;
             }
+
             return implode(' ', $return);
         }
 
