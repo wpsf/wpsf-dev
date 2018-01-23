@@ -74,6 +74,76 @@ abstract class WPSFramework_Abstract {
         return $s;
     }
 
+    protected function get_field_values($field,$values){
+        $value = (isset($field['id']) && isset($values[$field['id']])) ? $values[$field['id']] : '';
+        $value = (empty($value) && isset($field['default'])) ? $field['default'] : $value;
+
+        if(in_array($field['type'],array('fieldset','accordion'))&& (isset($field['un_array']) && $field['un_array'] === true)){
+            $value = array();
+            foreach($field['fields'] as $_field){
+                $value[$_field['id']] = $this->get_field_values($_field,$values);
+            }
+        } else if($field['type'] == 'tab'){
+            $value = array();
+            $_tab_values = array();
+            $_tab_vals = (isset($field['id']) && isset($values[$field['id']])) ? $values[$field['id']] : '';
+            if((isset($field['un_array']) && $field['un_array'] === true)){
+                $_tab_vals = $values;
+            }
+
+            foreach($field['sections'] as $section){
+                $_section_vals = (isset($section['name']) && isset($_tab_vals[$section['name']])) ? $_tab_vals[$section['name']] : $_tab_vals;
+
+                $_section_values = array();
+                foreach($section['fields'] as $_field){
+                    $_section_values[$_field['id']] = $this->get_field_values($_field,$_section_vals);
+                }
+
+                if(isset($section['un_array']) && $section['un_array'] === true){
+                    $_tab_values = array_merge($_section_values,$_tab_values);
+                } else {
+                    $_tab_values[$section['name']] = $_section_values;
+                }
+            }
+
+            if(isset($field['un_array']) && $field['un_array'] === true){
+                $value = $_tab_values;
+            } else {
+                $value[$field['id']] = $_tab_values;
+            }
+        }
+        //var_dump($value);
+        return $value;
+    }
+
+    protected function _get_field_values($field,$values){
+        $value = ( isset ($field ['id']) && isset ($values[$field ['id']]) ) ? $values[$field ['id']] : '';
+        if( in_array($field['type'],array('fieldset','accordion')) && (isset($field['un_array']) && $field['un_array'] === true) ) {
+            $value = array();
+            foreach( $field['fields'] as $f ) {
+                $value[$f['id']] = ( isset($values[$f['id']]) ) ? $values[$f['id']] : '';
+            }
+        } else if( in_array($field['type'],array('tab')) && (isset($field['un_array']) && $field['un_array'] === true) ) {
+            $value = array();
+            foreach( $field['sections'] as $section ) {
+                foreach( $section['fields'] as $f ) {
+                    if(isset($section['un_array']) && $section['un_array'] === true){
+                        $value[$f['id']] = ( isset($values[$f['id']]) ) ? $values[$f['id']] : '';
+                    } else {
+                        if(!isset($value[$section['id']])){
+                            $value[$section['id']] = array();
+                        }
+                        $value[$section['id']][$f['id']] = ( isset($values[$section['id']][$f['id']]) ) ? $values[$section['id']][$f['id']] : '';
+                    }
+                }
+
+
+            }
+        }
+        var_dump($field);
+        return $value;
+    }
+
     protected function catch_output($status = 'start') {
         $data = '';
         if( $status == 'start' ) {

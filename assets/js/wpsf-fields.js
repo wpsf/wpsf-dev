@@ -7,53 +7,6 @@
  @package    WPSF                                                                                 -
  @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
  -------------------------------------------------------------------------------------------------*/
-
-function wpsf_str_replace(search, replace, subject, countObj) {
-    var i = 0
-    var j = 0
-    var temp = ''
-    var repl = ''
-    var sl = 0
-    var fl = 0
-    var f = [].concat(search)
-    var r = [].concat(replace)
-    var s = subject
-    var ra = Object.prototype.toString.call(r) === '[object Array]'
-    var sa = Object.prototype.toString.call(s) === '[object Array]'
-    s = [].concat(s)
-    var $global = ( typeof window !== 'undefined' ? window : global )
-    $global.$locutus = $global.$locutus || {}
-    var $locutus = $global.$locutus
-    $locutus.php = $locutus.php || {}
-    if ( typeof ( search ) === 'object' && typeof ( replace ) === 'string' ) {
-        temp = replace
-        replace = []
-        for ( i = 0; i < search.length; i += 1 ) {
-            replace[i] = temp
-        }
-        temp = ''
-        r = [].concat(replace)
-        ra = Object.prototype.toString.call(r) === '[object Array]'
-    }
-    if ( typeof countObj !== 'undefined' ) {
-        countObj.value = 0
-    }
-    for ( i = 0, sl = s.length; i < sl; i++ ) {
-        if ( s[i] === '' ) {
-            continue
-        }
-        for ( j = 0, fl = f.length; j < fl; j++ ) {
-            temp = s[i] + ''
-            repl = ra ? ( r[j] !== undefined ? r[j] : '' ) : r[0]
-            s[i] = ( temp ).split(f[j]).join(repl)
-            if ( typeof countObj !== 'undefined' ) {
-                countObj.value += ( ( temp.split(f[j]) ).length - 1 )
-            }
-        }
-    }
-    return sa ? s : s[0]
-}
-
 'use strict';
 
 $.WPSFRAMEWORK_FIELDS = $.WPSFRAMEWORK_FIELDS || {};
@@ -73,13 +26,13 @@ $.WPSFRAMEWORK_FIELDS.get_element_args = function (elem, $options) {
     });
 
     return $final_data;
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_SELECT2 = function () {
     return this.each(function () {
         $(this).select2();
-    })
-}
+    });
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_CHOSEN = function () {
     return this.each(function () {
@@ -361,7 +314,7 @@ $.fn.WPSFRAMEWORK_FIELDS_TYPOGRAPHY = function () {
                     variants_select.append('<option value="' + text + '">' + text + '</option>');
                 });
 
-                variants_select.find('option[value="regular"]').attr('selected', 'selected').trigger('chosen:updated');
+                variants_select.find('option[value="regular"]').prop('selected', 'selected').trigger('chosen:updated');
 
             }
 
@@ -375,12 +328,13 @@ $.fn.WPSFRAMEWORK_FIELDS_TYPOGRAPHY = function () {
 $.fn.WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY = function () {
     this.each(function () {
         var $main = $(this);
+        $main.find('.wpsf-font-preview').attr('contenteditable', 'true');
         $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO($main);
         $main.find(':input').on('change', function () {
             $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO($main);
-        })
+        });
     });
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
     return this.each(function () {
@@ -454,33 +408,13 @@ $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
             }
             $db_id = $db_id.replace('[_nonce]', '');
 
-            /*clone_group.find('input, select, textarea').each(function () {
-
-                var split = this.name.split(/\[(\d+)\]/g);
-                var final_change = split.length - 2;
-                var final_name = '';
-
-                $.each(split, function (i, value) {
-                    if ( $.isNumeric(value) ) {
-                        if ( i === final_change ) {
-                            value = ( parseInt(value, 10) + 1 );
-                        }
-                        value = '[' + value + ']';
-                    }
-                    final_name += value;
-                });
-                this.name = final_name;
-
-            });*/
-
-
             clone_group.find('input, select, textarea').each(function () {
                 if ( $is_child === 'yes' ) {
                     var $sp = this.name.split('[_nonce]');
                     var $H = '';
                     $.each($sp, function ($ec, $c) {
                         if ( $ec !== 0 ) {
-                            $c = $c.replace(/\[(\d+)\]/, function (string, id) {
+                            $c = $c.replace(/\[(\d+)\]/, function () {
                                 return '[' + $ex_c + ']';
                             });
                             $c = '[_nonce]' + $c;
@@ -529,13 +463,10 @@ $.fn.WPSFRAMEWORK_FIELDS_GROUP = function () {
 
 $.fn.WPSFRAMEWORK_FIELDS_TAXONOMY = function () {
     return this.each(function () {
-
         var $this = $(this),
             $parent = $this.parent();
-
         // Only works in add-tag form
         if ( $parent.attr('id') === 'addtag' ) {
-
             var $submit = $parent.find('#submit'),
                 $name = $parent.find('#tag-name'),
                 $wrap = $parent.find('.wpsf-framework'),
@@ -544,34 +475,21 @@ $.fn.WPSFRAMEWORK_FIELDS_TAXONOMY = function () {
                 flooding = false;
 
             $submit.on('click', function () {
-
                 if ( !flooding ) {
-
                     $list.on('DOMNodeInserted', function () {
-
                         if ( flooding ) {
-
                             $wrap.empty();
                             $wrap.html($clone);
                             $clone = $clone.clone();
-
                             $wrap.WPSFRAMEWORK_RELOAD_PLUGINS();
                             $wrap.WPSFRAMEWORK_DEPENDENCY();
-
                             flooding = false;
-
                         }
-
                     });
-
                 }
-
                 flooding = true;
-
             });
-
         }
-
     });
 };
 
@@ -594,7 +512,7 @@ $.fn.WPSFRAMEWORK_FIELDS_TABS = function () {
 
         $(this).find('.wpsf-user-tabs-nav li:first a').click();
     });
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_ACCORDION = function () {
     return this.each(function () {
@@ -613,26 +531,6 @@ $.fn.WPSFRAMEWORK_FIELDS_ACCORDION = function () {
                 $(ui.newPanel).WPSFRAMEWORK_DEPENDENCY('sub');
             }
         });
-        /*
-        if($(this).find(' .wpsf-cover , > .wpsf-fieldset > .wpsf-cover').is(":visible") === false){
-            $(this).toggleClass('is-closed');
-        }
-        $(this).find(' > .wpsf-field-subheading , > .wpsf-fieldset > .wpsf-field-subheading').on('click',function(){
-
-            var $icon = $(this).find("span.accordion > i");
-            var $parent = $(this).parent();
-            var $wpsf_cover = $parent.find("> .wpsf-cover");
-            var $is_open = $wpsf_cover.is(":visible");
-
-            if($is_open === true){
-                $icon.removeClass($icon.attr("data-up")).addClass($icon.attr("data-down"));
-                $wpsf_cover.slideUp();
-            } else {
-                $icon.removeClass($icon.attr("data-down")).addClass($icon.attr("data-up"));
-                $wpsf_cover.slideDown('slow');
-            }
-
-        })*/
     });
 };
 
@@ -663,7 +561,6 @@ $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO = function ($elem) {
 
     var font = fontFamily.val();
     var fontWeightStyle = fontWeight.find(':selected').text();
-
 
     var fontWeightValue = '400';
     var fontStyleValue = 'normal';
@@ -713,9 +610,9 @@ $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO = function ($elem) {
     var href = 'http://fonts.googleapis.com/css?family=' + font + ':' + fontWeightValue;
     var html = '<link href="' + href + '" class="wpsf-font-preview-' + parentName + '" rel="stylesheet" type="text/css" />';
     if ( jQuery('.wpsf-font-preview-' + parentName).length > 0 ) {
-        jQuery('.wpsf-font-preview-' + parentName).attr('href', href).load();
+        jQuery('.wpsf-font-preview-' + parentName).attr('href', href);
     } else {
-        jQuery('head').append(html).load();
+        jQuery('head').append(html);
     }
 
     var $attrs = '';
@@ -728,7 +625,7 @@ $.WPSFRAMEWORK_FIELDS.ADVANCED_TYPO = function ($elem) {
     $attrs += ' font-size:' + fontSize.val() + 'px !important; ';
     preview.attr("style", $attrs);
 
-}
+};
 
 $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER = function () {
 
@@ -1281,7 +1178,7 @@ $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_CHECK_VALUES = function (value) {
     } else {
         return "0px";
     }
-}
+};
 
 $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_MBP = function ($elem, $type, $this) {
     var $newVal = $elem.val();
@@ -1296,7 +1193,7 @@ $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_MBP = function ($elem, $type, $thi
     }
 
     $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_BORDER($this);
-}
+};
 
 $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_BORDER = function ($this) {
     $this.find('.wpsf-css-builder-border').css({
@@ -1323,7 +1220,7 @@ $.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER = function (val, countByWord) {
     }
 
     return countByWord ? val.match(/\S+/g).length : val.length;
-}
+};
 
 $.WPSFRAMEWORK_FIELDS.LIMITER_SUBSTR = function (val, start, len, subByWord) {
     if ( !subByWord ) {
@@ -1333,7 +1230,7 @@ $.WPSFRAMEWORK_FIELDS.LIMITER_SUBSTR = function (val, start, len, subByWord) {
     var lastIndexSpace = val.lastIndexOf(' ');
 
     return val.substr(start, lastIndexSpace);
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_COLORPICKER = function () {
     return this.each(function () {
@@ -1505,7 +1402,7 @@ $.fn.WPSFRAMEWORK_FIELDS_WPLINKS = function () {
             });
         });
     })
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_ICHECK = function () {
     return this.each(function () {
@@ -1517,13 +1414,12 @@ $.fn.WPSFRAMEWORK_FIELDS_ICHECK = function () {
             inheritID: false,
             aria: false,
             checkboxClass: 'icheckbox_minimal-green',
-            radioClass: 'iradio_minimal-green',
+            radioClass: 'iradio_minimal-green'
         };
 
         var $is_group = false;
         if ( $this.find("li").length > 0 ) {
             $this.find(':input').each(function () {
-
                 if ( $(this).attr('type') != 'checkbox' && $(this).attr('type') != 'radio' ) {
                 } else {
                     var $final_data = $.WPSFRAMEWORK_FIELDS.get_element_args($(this), $options);
@@ -1549,7 +1445,6 @@ $.fn.WPSFRAMEWORK_FIELDS_ICHECK = function () {
                     }
                 }
             });
-
         } else {
             var $final_data = $.WPSFRAMEWORK_FIELDS.get_element_args($this, $options);
             var $theme = $this.data('theme');
@@ -1559,10 +1454,8 @@ $.fn.WPSFRAMEWORK_FIELDS_ICHECK = function () {
             }
             $this.iCheck($final_data);
         }
-
-
     })
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_CSS_BUILDER = function () {
 
@@ -1607,7 +1500,7 @@ $.fn.WPSFRAMEWORK_FIELDS_CSS_BUILDER = function () {
             $.WPSFRAMEWORK_FIELDS.CSS_BUILDER_LIVE_UPDATE_BORDER($this);
         });
     })
-}
+};
 
 $.fn.WPSFRAMEWORK_FIELDS_LIMITER = function () {
     return this.each(function () {
@@ -1617,7 +1510,6 @@ $.fn.WPSFRAMEWORK_FIELDS_LIMITER = function () {
             $counter = $limiter.find('span.counter'),
             $limit = parseInt($limiter.find('span.maximum').html()),
             $countByWord = 'word' == $limiter.data('limit-type');
-        console.log($limiter.find('span.maximum'))
 
         var $val = $.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER($this.val(), $countByWord);
         $counter.html($val);
@@ -1625,7 +1517,6 @@ $.fn.WPSFRAMEWORK_FIELDS_LIMITER = function () {
         $this.on('input', function () {
             var text = $this.val();
             var length = $.WPSFRAMEWORK_FIELDS.LIMITER_COUNTER(text, $countByWord);
-console.log(length + ' - '+$limit);
 
             if ( length > $limit ) {
                 text = $.WPSFRAMEWORK_FIELDS.LIMITER_SUBSTR(text, 0, $limit, $countByWord);
@@ -1637,4 +1528,4 @@ console.log(length + ' - '+$limit);
         });
 
     })
-}
+};

@@ -46,7 +46,8 @@
 
   .wpsf-field-color_picker {
     position: relative;
-    top: 10px;
+    vertical-align: middle;
+    top: 3px;
   }
 
   .wpsf-field-number:before {
@@ -76,8 +77,6 @@
     font-size: 16px;
   }
 }
-
-
 
 @media only screen and (max-width: 782px) {
   .wpsf-field-typography_advanced .small-input {

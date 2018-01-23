@@ -574,14 +574,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     }
 
     public function field_callback($field) {
-        $value = ( isset ($field ['id']) && isset ($this->get_option [$field ['id']]) ) ? $this->get_option [$field ['id']] : '';
-        if( $field['type'] === 'fieldset' && isset($field['un_array']) ) {
-            $value = array();
-            foreach( $field['fields'] as $f ) {
-                $value[$f['id']] = ( isset($this->get_option[$f['id']]) ) ? $this->get_option[$f['id']] : '';
-            }
-        }
-
+        $value = $this->get_field_values($field,$this->get_option);
         return wpsf_add_element($field, $value, $this->unique);
     }
 

@@ -364,9 +364,14 @@
     // RELOAD FRAMEWORK PLUGINS
     $.fn.WPSFRAMEWORK_RELOAD_PLUGINS = function () {
         return this.each(function () {
+            console.time('cp1');
+            $('.wpsf-field-tab').WPSFRAMEWORK_FIELDS_TABS();
+            $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
+            $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
+            $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
+            $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
             $('.chosen', this).WPSFRAMEWORK_FIELDS_CHOSEN();
             $('.select2', this).WPSFRAMEWORK_FIELDS_SELECT2();
-            $('.icheck', this).WPSFRAMEWORK_FIELDS_ICHECK();
             $('.wpsf-field-image-select', this).WPSFRAMEWORK_FIELDS_IMAGE_SELECTOR();
             $('.wpsf-field-image', this).WPSFRAMEWORK_FIELDS_IMAGE_UPLOADER();
             $('.wpsf-field-gallery', this).WPSFRAMEWORK_FIELDS_IMAGE_GALLERY();
@@ -375,12 +380,9 @@
             $('.wpsf-field-typography', this).WPSFRAMEWORK_FIELDS_TYPOGRAPHY();
             $('.wpsf-field-typography_advanced', this).WPSFRAMEWORK_FIELDS_ADVANCED_TYPOGRAPHY();
             $('.wpsf-field-color-picker', this).WPSFRAMEWORK_FIELDS_COLORPICKER();
-            $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
-            $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
-            $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
-            $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
-            $('.wpsf-field-tab').WPSFRAMEWORK_FIELDS_TABS();
             $('input[data-limit-element="1"],textarea[data-limit-element="1"]').WPSFRAMEWORK_FIELDS_LIMITER();
+            $('.icheck', this).WPSFRAMEWORK_FIELDS_ICHECK();
+            console.timeEnd('cp1');
         });
     };
 
@@ -395,18 +397,31 @@
     });
 
     $(document).ready(function () {
-        $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
-        $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
-        $('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
-        $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
         $('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
+        $('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
         $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
-        $('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
+        $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
+        $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
+        $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
         $('.wpsf-save').WPSFRAMEWORK_SAVE();
-
+        $('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
         $.WPSFRAMEWORK_FIELDS.ICONS_MANAGER();
         $.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER();
         $.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS();
     });
 
 } )(jQuery, window, document);
+/*
+jQuery(document).ready(function () {
+    jQuery('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
+    jQuery('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
+    jQuery('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
+    jQuery('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
+    jQuery('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
+    jQuery('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
+    jQuery('.wpsf-save').WPSFRAMEWORK_SAVE();
+    jQuery('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
+    jQuery.WPSFRAMEWORK_FIELDS.ICONS_MANAGER();
+    jQuery.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER();
+    jQuery.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS();
+});*/

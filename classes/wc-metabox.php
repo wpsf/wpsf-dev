@@ -171,9 +171,9 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
 
                                 $field = wp_parse_args($field, $defaults);
                                 $field['error_id'] = '_' . $loop . $field['error_id'];
-                                $value = isset($options[$field['id']]) ? $options[$field['id']] : '';
                                 $WrapClass = $this->show_hide_class($field['show'], $field['hide']);
                                 $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'], $WrapClass);
+                                $value = $this->get_field_values($field,$options);
                                 $output .= wpsf_add_element($field, $value, $meta_id . '[' . $loop . ']');
 
                             }
@@ -240,9 +240,10 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                     );
                     $field = wp_parse_args($field, $defaults);
                     $field_id = isset($field['id']) ? $field['id'] : "";
-                    $value = isset($values[$field_id]) ? $values[$field_id] : '';
                     $WrapClass = $this->show_hide_class($field['show'], $field['hide']);
                     $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'], $WrapClass);
+                    $value = $this->get_field_values($field,$values);
+                    var_dump($value);
                     $html .= wpsf_add_element($field, $value, $db_key);
                 }
             }

@@ -110,7 +110,7 @@ if( ! function_exists('wpsf_admin_enqueue_scripts') ) {
         }
 
         foreach( $js_files as $id => $file ) {
-            wp_register_script($id, WPSF_URI . $file[0], $file[1], $file[2], FALSE);
+            wp_register_script($id, WPSF_URI . $file[0], $file[1], $file[2], TRUE);
         }
     }
 

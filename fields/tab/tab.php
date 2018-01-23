@@ -84,8 +84,8 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 
                 $Uid = $this->_unique();
                 $Uid = (empty($field['un_array'])) ? $Uid.'['.$section['name'].']' : $Uid;
-
-                $contents .= wpsf_add_element($field, $this->value, $Uid);
+                $value = (isset($this->value[$section['name']][$field['id']])) ? $this->value[$section['name']][$field['id']] : $this->value;
+                $contents .= wpsf_add_element($field,$value, $Uid);
             }
             $contents .= '</div>';
 

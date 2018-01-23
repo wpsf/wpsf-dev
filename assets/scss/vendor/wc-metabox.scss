@@ -85,4 +85,24 @@
       vertical-align: top;
     }
   }
+
+  .wpsf-element {
+    &.wpsf-field-accordion {
+      padding: 15px;
+    }
+  }
+}
+
+.woocommerce_variation {
+  .wpsf-wc-metabox-fields {
+    .wpsf-element {
+      &.wpsf-field-accordion {
+        padding: 0px;
+      }
+
+      .wpsf-user-tabs-panel {
+        float: none;
+      }
+    }
+  }
 }

@@ -399,6 +399,16 @@
   padding: 0;
   vertical-align: top;
 }
+.wpsf-wc-metabox-fields .wpsf-element.wpsf-field-accordion {
+  padding: 15px;
+}
+
+.woocommerce_variation .wpsf-wc-metabox-fields .wpsf-element.wpsf-field-accordion {
+  padding: 0px;
+}
+.woocommerce_variation .wpsf-wc-metabox-fields .wpsf-element .wpsf-user-tabs-panel {
+  float: none;
+}
 
 /*!
  * This file is part of the WPSF package.
@@ -1108,7 +1118,8 @@
 }
 .wpsf-field-typography_advanced .wpsf-field-color_picker {
   position: relative;
-  top: 10px;
+  vertical-align: middle;
+  top: 3px;
 }
 .wpsf-field-typography_advanced .wpsf-field-number:before {
   content: "\f034";
@@ -1474,7 +1485,7 @@
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 .wpsf-field-accordion {
-  margin-bottom: 25px;
+  margin-bottom: 0px;
 }
 .wpsf-field-accordion:last-child {
   margin-bottom: 0;
@@ -1996,7 +2007,6 @@
   background: #fdfdfd;
   display: none;
   float: left;
-  width: 100%;
 }
 .wpsf-field-tab .wpsf-user-tabs-left {
   overflow: hidden;
@@ -2296,41 +2306,30 @@
   margin-left: 5%;
 }
 
-.wpsf-element .text-limiter {
-  margin-top: -2px;
+.wpsf-field-accordion .wpsf-field-fieldset .wpsf-row {
+  padding: 0;
 }
-.wpsf-element .text-limiter > span {
-  background-color: #f7f7f7;
-  border: 1px solid #e5e5e5;
-  margin-left: 1px;
-  display: inline-block;
-  padding: 0 5px;
-  font-size: 12px;
-}
-.wpsf-element .fieldset-horizontal {
+
+.wpsf-element div.horizontal {
   display: inline-block;
   padding: 0;
   margin-right: 5px;
   border: none;
 }
-.wpsf-element .fieldset-horizontal.hidden {
+.wpsf-element div.horizontal.hidden {
   display: none;
-  /* override our inline-block so this doesn't display when dependent */
 }
-.wpsf-element .fieldset-horizontal .wpsf-title {
+.wpsf-element div.horizontal .wpsf-title {
   width: 100%;
   float: none;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
-.wpsf-element .fieldset-horizontal .wpsf-fieldset {
+.wpsf-element div.horizontal .wpsf-fieldset {
   margin: 0;
 }
-.wpsf-element .fieldset-horizontal .wpsf-inner {
+.wpsf-element div.horizontal .wpsf-inner {
   border: none;
   background-color: transparent;
-}
-.wpsf-element .fieldset-horizontal h4 {
-  text-align: center;
 }
 
 .wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal {
@@ -2352,6 +2351,18 @@
 .wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal .wpsf-inner {
   border: none;
   background-color: transparent;
+}
+
+.wpsf-element .text-limiter {
+  margin-top: -2px;
+}
+.wpsf-element .text-limiter > span {
+  background-color: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  margin-left: 1px;
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 12px;
 }
 
 

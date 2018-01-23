@@ -44,6 +44,7 @@
 @import "vendor/fields/tabs";
 @import "wpsf-framework-light";
 @import 'wpsf_cols';
+@import "vendor/horizontal";
 
 .wpsf-element {
 
@@ -59,55 +60,5 @@
     font-size: 12px;
   }
 
-  .fieldset-horizontal {
-    display: inline-block;
-    padding: 0;
-    margin-right: 5px;
-    border: none;
-    &.hidden {
-      display: none; /* override our inline-block so this doesn't display when dependent */
-    }
-    .wpsf-title {
-      width: 100%;
-      float: none;
-      margin-bottom: 5px;
-    }
-    .wpsf-fieldset {
-      margin: 0;
-    }
-    .wpsf-inner {
-      border: none;
-      background-color: transparent;
-    }
-    h4 {
-      text-align: center;
-    }
-  }
 }
 
-.wpsf-groups {
-  .wpsf-group {
-    .wpsf-element {
-      .fieldset-horizontal {
-        display: inline-block;
-        padding: 0;
-        margin-right: 5px;
-        border: none;
-        &.wpsf-fieldset {
-          margin: 0;
-          /* This may get a little too big in a grouped field, so lets apply the max-width of an open color picker */
-          max-width: 256px;
-        }
-        .wpsf-title {
-          width: 100%;
-          float: none;
-          margin-bottom: 5px;
-        }
-        .wpsf-inner {
-          border: none;
-          background-color: transparent;
-        }
-      }
-    }
-  }
-}
