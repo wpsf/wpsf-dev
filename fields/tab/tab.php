@@ -23,12 +23,9 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 
     public function output() {
         echo $this->element_before();
-
         echo '<div class="' . $this->tab_style() . '">';
         echo $this->render_tabs();
         echo '</div>';
-
-
         echo $this->element_after();
     }
 
@@ -36,15 +33,7 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
         # 'default', 'box' or 'left'. Optional
         $class = 'wpsf-user-tabs';
         $class = ( isset($this->field['tab_style']) ) ? $class . ' wpsf-user-tabs-' . $this->field['tab_style'] : $class;
-        return ( isset($this->field['tab_wrapper']) ) ? $class . ' wpsf-user-tabs-no-wrapper' : $class;
-    }
-
-    private function _unique(){
-        if(!empty($this->field['un_array'])){
-            return $this->unique;
-        }
-
-        return (isset($this->field['id'])) ?  $this->unique.'['.$this->field['id'].']' : $this->unique;
+        return ( isset($this->field['tab_wrapper']) ) ? $class . ' wpsf-user-tabs-no-wrapper ' : $class;
     }
 
     public function render_tabs() {
@@ -77,23 +66,38 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 
             $section['name'] = ( empty($section['name']) ) ? wpsf_sanitize_title($section['title']) : $section['name'];
             $nav_class = 'wpsf-user-tabs-' . $section['name'];
-
             $navs .= sprintf('<li class="%s" data-panel="%s"><a href="#">%s%s</a></li>', $nav_class, $section['name'], $section['icon'], $section['title']);
-            $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-'.$section['name'].'">';
-            foreach($section['fields'] as $field){
+            $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-' . $section['name'] . '">';
 
+            foreach( $section['fields'] as $field ) {
                 $Uid = $this->_unique();
-                $Uid = (empty($field['un_array'])) ? $Uid.'['.$section['name'].']' : $Uid;
-                $value = (isset($this->value[$section['name']][$field['id']])) ? $this->value[$section['name']][$field['id']] : $this->value;
-                $contents .= wpsf_add_element($field,$value, $Uid);
+                $Uid = ( empty($section['un_array']) ) ? $Uid . '[' . $section['name'] . ']' : $Uid;
+                $value = $this->field_value($section, $field['id']);
+                $contents .= wpsf_add_element($field, $value, $Uid);
             }
-            $contents .= '</div>';
 
+            $contents .= '</div>';
         }
 
         $navs .= '</ul>';
         $contents .= '</div>';
+        return $navs . $contents;
+    }
 
-        return $navs.$contents;
+    private function _unique() {
+        if( ! empty($this->field['un_array']) ) {
+            return $this->unique;
+        }
+        return ( isset($this->field['id']) ) ? $this->unique . '[' . $this->field['id'] . ']' : $this->unique;
+    }
+
+    public function field_value($section = '', $field_id) {
+        $arr = $this->value;
+
+        if( empty($section['un_array']) ) {
+            $arr = isset($arr[$section['name']]) ? $arr[$section['name']] : array();
+        }
+
+        return isset($arr[$field_id]) ? $arr[$field_id] : FALSE;
     }
 }

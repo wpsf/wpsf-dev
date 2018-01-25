@@ -332,11 +332,11 @@
     // TOOLTIP HELPER
     $.fn.WPSFRAMEWORK_TOOLTIP = function () {
         return this.each(function () {
-           //// var $attr_placement = $(this).attr('data-placement');
-           // var placement = ( wpsf_is_rtl ) ? 'right' : 'left';
+            //// var $attr_placement = $(this).attr('data-placement');
+            // var placement = ( wpsf_is_rtl ) ? 'right' : 'left';
             $(this).tooltip({
                 html: true,
-               // placement: placement,
+                // placement: placement,
                 container: 'body'
             });
         });
@@ -364,10 +364,9 @@
     // RELOAD FRAMEWORK PLUGINS
     $.fn.WPSFRAMEWORK_RELOAD_PLUGINS = function () {
         return this.each(function () {
-            console.time('cp1');
             $('.wpsf-field-tab').WPSFRAMEWORK_FIELDS_TABS();
-            $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
             $('.wpsf-field-accordion', this).WPSFRAMEWORK_FIELDS_ACCORDION();
+            $('.wpsf-field-css_builder', this).WPSFRAMEWORK_FIELDS_CSS_BUILDER();
             $('.wpsf-wp-link', this).WPSFRAMEWORK_FIELDS_WPLINKS();
             $('.wpsf-help', this).WPSFRAMEWORK_TOOLTIP();
             $('.chosen', this).WPSFRAMEWORK_FIELDS_CHOSEN();
@@ -382,12 +381,10 @@
             $('.wpsf-field-color-picker', this).WPSFRAMEWORK_FIELDS_COLORPICKER();
             $('input[data-limit-element="1"],textarea[data-limit-element="1"]').WPSFRAMEWORK_FIELDS_LIMITER();
             $('.icheck', this).WPSFRAMEWORK_FIELDS_ICHECK();
-            console.timeEnd('cp1');
         });
     };
 
     $(window).on('load', function () {
-
         if ( $('.wpsf-wc-metabox-fields').length > 0 ) {
             $('.wpsf-wc-metabox-fields').WPSFRAMEWORK_RELOAD_PLUGINS();
             $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
@@ -397,10 +394,11 @@
     });
 
     $(document).ready(function () {
+        $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
         $('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
         $('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
         $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
-        $('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
+
         $('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
         $('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
         $('.wpsf-save').WPSFRAMEWORK_SAVE();
@@ -411,17 +409,3 @@
     });
 
 } )(jQuery, window, document);
-/*
-jQuery(document).ready(function () {
-    jQuery('.wpsf-framework, #widgets-right').WPSFRAMEWORK_RELOAD_PLUGINS();
-    jQuery('.wpsf-field-group').WPSFRAMEWORK_FIELDS_GROUP();
-    jQuery('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSFRAMEWORK_DEPENDENCY();
-    jQuery('.wpsf-framework').WPSFRAMEWORK_TAB_NAVIGATION();
-    jQuery('.wpsf-taxonomy').WPSFRAMEWORK_FIELDS_TAXONOMY();
-    jQuery('.wpsf-header').WPSFRAMEWORK_STICKYHEADER();
-    jQuery('.wpsf-save').WPSFRAMEWORK_SAVE();
-    jQuery('.wpsf-reset-confirm, .wpsf-import-backup').WPSFRAMEWORK_CONFIRM();
-    jQuery.WPSFRAMEWORK_FIELDS.ICONS_MANAGER();
-    jQuery.WPSFRAMEWORK_FIELDS.SHORTCODE_MANAGER();
-    jQuery.WPSFRAMEWORK.WIDGET_RELOAD_PLUGINS();
-});*/

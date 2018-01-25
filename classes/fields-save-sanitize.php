@@ -15,8 +15,7 @@
  * Date: 05-01-2018
  * Time: 07:14 AM
  */
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 if( ! defined("ABSPATH") ) {
     die;
 }
@@ -36,6 +35,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     public $field_ids = array();
 
     public function __construct() {
+        $this->total_loops = 0;
     }
 
     public static function instance() {
@@ -56,6 +56,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
 
     private function _remove_nonce($values) {
         foreach( $values as $id => $value ) {
+            $this->total_loops++;
             if( $id === '_nonce' ) {
                 unset($values[$id]);
             }
@@ -71,12 +72,10 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return $values;
     }
 
-    /**
-     * @todo Need to remove unknow field ids
-     */
     public function loop_fields($current_fields = array(), $values = array(), $db_value = array(), $force_valdiate = TRUE) {
         if( isset($current_fields['fields']) ) {
             foreach( $current_fields['fields'] as $field ) {
+                $this->total_loops++;
                 if( isset($field['type']) && ! isset($field['multilang']) && isset($field['id']) ) {
                     $fid = $field['id'];
 
@@ -102,8 +101,9 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
             }
         } else {
             foreach( $current_fields as $section ) {
+                $this->total_loops++;
                 if( isset($section['fields']) ) {
-                    $values = $this->_loop_fields($section, $values, $db_value);
+                    $values = $this->loop_fields($section, $values, $db_value);
                 } else {
                     $value = $this->loop_fields(array( 'fields' => $section ), $values, $db_value);
                 }
@@ -126,7 +126,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     }
 
     public function _handle_single_field($field, $values = array(), $fields) {
-        $value = ( is_array($values) && isset($values[$field['id']]) ) ? $values[$field['id']] : $values; ///$values; //(is_array($values) && isset($values[$field['id']])) ? $values[$field['id']] : $values;
+        $value = ( is_array($values) && isset($values[$field['id']]) ) ? $values[$field['id']] : $values;
         $value = $this->_sanitize_field($field, $value, $fields);
         $value = $this->_validate_field($field, $value, $fields);
         $values = $this->_manage_data($values, $value, $field['id']);
@@ -190,48 +190,9 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return $orginal_data;
     }
 
-    /**
-     * @todo Need to remove unknow field ids
-     */
-    public function _loop_fields($is_current_fields = FALSE, $values = array(), $db_val = array(), $validate_arr = TRUE) {
-        $fields = ( $is_current_fields === FALSE ) ? $this->fields : $is_current_fields;
-
-        if( isset($fields['fields']) ) {
-            foreach( $fields['fields'] as $field ) {
-                if( isset($field['type']) && ! isset($field['multilang']) && isset($field['id']) ) {
-                    $value = isset($values[$field['id']]) ? $values[$field['id']] : $values;
-                    $ex_val = isset($db_val[$field['id']]) ? $db_val[$field['id']] : '';
-                    $field['pre_value'] = $ex_val;
-                    $value = $this->_handle_single_field($field, $value, $fields);
-
-                    if( isset($field['fields']) && ! empty($value) ) {
-                        $value = $this->_loop_fields($field, $value, $ex_val, FALSE);
-                    }
-
-                    $values = $this->_manage_data($values, $value, $field['id']);
-
-                    if( $this->is_settings === TRUE && $this->is_single_page === FALSE && $validate_arr === TRUE ) {
-                        if( ! isset($this->posted[$field['id']]) && isset($values[$field['id']]) ) {
-                            $values[$field['id']] = '';
-                        }
-                    }
-                }
-            }
-        } else {
-            foreach( $fields as $section ) {
-                if( isset($section['fields']) ) {
-                    $values = $this->_loop_fields($section, $values, $db_val);
-                }
-            }
-        }
-        return $values;
-    }
-
-    /**
-     * @todo Need to remove unknow field ids
-     */
     public function handle_settings_page($options = array(), $fields = array()) {
         $this->is_settings = TRUE;
+
         $defaults = array(
             'is_single_page'     => FALSE,
             'current_section_id' => FALSE,
@@ -254,6 +215,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         $this->fields = $fields;
 
         foreach( $this->fields as $section ) {
+            $this->total_loops++;
             if( $this->is_single_page === FALSE && ( $csid != $section['name'] && $cpid != $section['page_id'] ) ) {
                 continue;
             }
@@ -264,7 +226,42 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
             $this->return_values = array_merge($this->db_values, $this->return_values);
         }
 
+        $this->remove_unknown_fields();
         return $this->return_values;
+    }
+
+    public function remove_unknown_fields() {
+        if( $this->is_single_page === FALSE ) {
+            $this->field_ids = array();
+
+            foreach( $this->fields as $section ) {
+                $this->total_loops++;
+                $this->extract_field_ids($section);
+            }
+
+            $delete_keys = array_diff_key($this->return_values, $this->field_ids);
+            $delete_keys = array_keys($delete_keys);
+
+            foreach( $delete_keys as $d ) {
+                unset($this->field_ids[$d]);
+                unset($this->return_values[$d]);
+            }
+        }
+    }
+
+    public function extract_field_ids($fields) {
+        if( isset($fields['fields']) ) {
+            foreach( $fields['fields'] as $field ) {
+                $this->total_loops++;
+                if( isset($field['un_array']) && $field['un_array'] === TRUE ) {
+                    $this->extract_field_ids($field);
+                } else {
+                    if( isset($field['id']) ) {
+                        $this->field_ids[$field['id']] = $field['id'];
+                    }
+                }
+            }
+        }
     }
 
     public function get_errors() {
