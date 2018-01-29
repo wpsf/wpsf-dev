@@ -7,7 +7,7 @@
  * @package    WPSF
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
-@import "compass";
+
 @import "vendor/dark-theme";
 @import "vendor/simple-theme";
 @import "vendor/wp-metabox";
@@ -42,6 +42,8 @@
 @import "vendor/fields/image-size";
 @import "vendor/fields/color-scheme";
 @import "vendor/fields/tabs";
+@import "vendor/fields/spacing";
+@import "vendor/fields/datepicker";
 @import "wpsf-framework-light";
 @import 'wpsf_cols';
 @import "vendor/horizontal";

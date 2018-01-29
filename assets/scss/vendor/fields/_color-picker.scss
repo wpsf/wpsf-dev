@@ -40,9 +40,9 @@
       margin: 0 -5px;
       background: none;
       cursor: ew-resize;
-      @include opacity(0.9);
-      @include border-radius(4px);
-      @include box-shadow(0 1px 2px rgba(black, 0.2));
+      opacity: 0.9;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 
       &:before {
         content: " ";
@@ -52,7 +52,7 @@
         top: -3px;
         bottom: -3px;
         border: 2px solid #fff;
-        @include border-radius(3px);
+        border-radius: 3px;
       }
     }
   }
@@ -61,8 +61,8 @@
     height: 18px;
     width: 200px;
     background: url(../images/checkerboard.png) repeat-y center left scroll #fff;
-    @include box-shadow(0 0 5px rgba(black, 0.4) inset);
-    @include border-radius(2px);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .4) inset;
+    border-radius: 2px;
   }
 
   .wpsf-alpha-text {

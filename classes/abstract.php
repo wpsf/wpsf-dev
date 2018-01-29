@@ -28,9 +28,9 @@ abstract class WPSFramework_Abstract {
 
     public function is_not_ajax() {
         if( isset ($_POST) && isset ($_POST['action']) && $_POST['action'] == 'heartbeat' ) {
-            return false;
+            return FALSE;
         }
-        return true;
+        return TRUE;
     }
 
     public function addAction($hook, $function_to_add, $priority = 30, $accepted_args = 1) {
@@ -45,37 +45,7 @@ abstract class WPSFramework_Abstract {
         wpsf_template($this->override_location, $template_name, $args);
     }
 
-    protected function map_error_id($array = array(), $parent_id = '') {
-        $s = empty($array) ? $this->options : $array;
-
-        if( isset($s['sections']) ) {
-            foreach( $s['sections'] as $b => $a ) {
-                if( isset($a['fields']) ) {
-                    $name = ( isset($a['name']) ) ? $a['name'] : '';
-                    $s['sections'][$b] = $this->map_error_id($a, $name);
-                }
-            }
-        } else if( isset($s['fields']) ) {
-            foreach( $s['fields'] as $f => $e ) {
-                $field_id = isset($e['id']) ? $e['id'] : '';
-                $pid = $parent_id . '_' . $field_id;
-                $s['fields'][$f]['error_id'] = $pid;
-
-                if( isset($e['fields']) ) {
-                    $s['fields'][$f] = $this->map_error_id($s['fields'][$f], $pid);
-                }
-            }
-        } else {
-            foreach( $s as $i => $v ) {
-                if( isset($v['fields']) || isset($v['sections']) ) {
-                    $s[$i] = $this->map_error_id($v, '');
-                }
-            }
-        }
-        return $s;
-    }
-
-    protected function get_field_values($field, $values) {
+    public function get_field_values($field, $values) {
         $value = ( isset($field['id']) && isset($values[$field['id']]) ) ? $values[$field['id']] : FALSE;
         $value = ( empty($value) && isset($field['default']) ) ? $field['default'] : $value;
 
@@ -114,6 +84,41 @@ abstract class WPSFramework_Abstract {
         }
 
         return $value;
+    }
+
+    protected function map_error_id($array = array(), $parent_id = '') {
+        $s = empty($array) ? $this->options : $array;
+
+        if( isset($s['sections']) ) {
+            $fname = '';
+            if(isset($s['type']) && $s['type'] === 'tab'){
+                $fname = $parent_id.'_'.$s['id'].'_';
+            }
+            foreach( $s['sections'] as $b => $a ) {
+                if( isset($a['fields']) ) {
+                    $fname .= ( isset($a['name']) ) ? $a['name'] : '';
+                    $s['sections'][$b] = $this->map_error_id($a, $fname);
+                }
+            }
+        } else if( isset($s['fields']) ) {
+            foreach( $s['fields'] as $f => $e ) {
+                $field_id = isset($e['id']) ? $e['id'] : '';
+                $pid = $parent_id . '_' . $field_id;
+                $s['fields'][$f]['error_id'] = $pid;
+
+                if( isset($e['fields']) || isset($e['sections']) ) {
+                    $s['fields'][$f] = $this->map_error_id($s['fields'][$f], $pid);
+                }
+
+            }
+        } else {
+            foreach( $s as $i => $v ) {
+                if( isset($v['fields']) || isset($v['sections']) ) {
+                    $s[$i] = $this->map_error_id($v, $parent_id);
+                }
+            }
+        }
+        return $s;
     }
 
     protected function catch_output($status = 'start') {

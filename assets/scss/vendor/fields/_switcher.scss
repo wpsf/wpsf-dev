@@ -20,7 +20,7 @@
     padding: 0;
     margin: 0;
     overflow: hidden;
-    @include border-radius(20px);
+    border-radius: 20px;
 
     span {
       position: absolute;
@@ -29,8 +29,8 @@
       width: 18px;
       height: 18px;
       background-color: #fff;
-      @include border-radius(16px);
-      @include transition(left 0.15s ease-out);
+      border-radius: 16px;
+      transition: left 0.15s ease-out;
     }
 
     input {
@@ -67,13 +67,13 @@
       text-transform: uppercase;
       color: #fff;
       background-color: #ed6f6f;
-      @include transition(background 0.15s ease-out);
+      transition: background 0.15s ease-out;
     }
 
     em:before,
     em:after {
       position: absolute;
-      @include transition(opacity 0.15s ease-out);
+      transition: opacity 0.15s ease-out;
     }
 
     em:before {

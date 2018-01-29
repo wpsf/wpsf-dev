@@ -34,12 +34,12 @@
 
   .wpsf-disabled {
     li {
-      @include transition(opacity 0.15s);
-      @include opacity(0.5);
+      transition: opacity 0.15s;
+      opacity: 0.5;
     }
 
     .ui-sortable-helper {
-      @include opacity(1);
+      opacity: 1;
     }
   }
 
@@ -62,7 +62,7 @@
       text-align: center;
       border: 1px solid #e5e5e5;
       background-color: #fafafa;
-      @include transition(border-color 0.15s);
+      transition: border-color 0.15s;
 
       &:hover {
         border-color: #bbb;

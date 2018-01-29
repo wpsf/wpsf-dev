@@ -62,7 +62,7 @@
 .wpsf-wc-metabox-fields {
   label {
     float: none;
-    margin: 0px;
+    margin: 0;
   }
 
   .wpsf-title {
@@ -97,7 +97,7 @@
   .wpsf-wc-metabox-fields {
     .wpsf-element {
       &.wpsf-field-accordion {
-        padding: 0px;
+        padding: 0;
       }
 
       .wpsf-user-tabs-panel {

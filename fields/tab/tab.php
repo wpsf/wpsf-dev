@@ -46,6 +46,9 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
         $navs = '<ul class="wpsf-user-tabs-nav">';
         $contents = '<div class="wpsf-user-tabs-panels">';
 
+        $first_section = current($sections);
+        $first_section = isset($first_section['name']) ? $first_section['name'] : FALSE;
+
         foreach( $sections as $section ) {
             $defaults = array(
                 'name'   => '',
@@ -55,6 +58,8 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
             );
             $icon = '';
             $section = wp_parse_args($section, $defaults);
+            $is_active = ( $first_section === $section['name'] ) ? TRUE : FALSE;
+            $is_display = ( $is_active === TRUE ) ? 'display:block;' : 'display:none;';
 
             if( ! empty($section['icon']) ) {
                 if( filter_var($section['icon'], FILTER_VALIDATE_URL) ) {
@@ -66,8 +71,10 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 
             $section['name'] = ( empty($section['name']) ) ? wpsf_sanitize_title($section['title']) : $section['name'];
             $nav_class = 'wpsf-user-tabs-' . $section['name'];
-            $navs .= sprintf('<li class="%s" data-panel="%s"><a href="#">%s%s</a></li>', $nav_class, $section['name'], $section['icon'], $section['title']);
-            $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-' . $section['name'] . '">';
+            $nav_class = ( $is_active === TRUE ) ? $nav_class . ' wpsf-user-tabs-active ' : $nav_class;
+
+            $navs .= sprintf('<li class="%s" data-panel="%s"><a href="#" class="wpsf-tab-a">%s%s</a></li>', $nav_class, $section['name'], $section['icon'], $section['title']);
+            $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-' . $section['name'] . '" style="' . $is_display . '">';
 
             foreach( $section['fields'] as $field ) {
                 $Uid = $this->_unique();

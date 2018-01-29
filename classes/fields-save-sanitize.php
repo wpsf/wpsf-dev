@@ -45,12 +45,12 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         return self::$_instance;
     }
 
-    public function general_save_handler($options = array(), $fields = array()) {
+    public function general_save_handler($posted_values = array(), $ex_values = array(), $fields = array()) {
         $this->is_settings = FALSE;
-        $this->return_values = $options;
-        $this->posted = $this->_remove_nonce($this->posted);
-        $this->return_values = $this->_remove_nonce($this->return_values);
-        $this->return_values = $this->loop_fields($fields, $this->return_values);
+        $this->return_values = $this->_remove_nonce($posted_values);
+        $this->posted = $this->return_values;
+        $this->db_values = $ex_values;
+        $this->return_values = $this->loop_fields($fields, $this->return_values, $this->db_values);
         return $this->return_values;
     }
 
@@ -86,11 +86,14 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
                         $db_val = $db_value;
                         $field['pre_value'] = NULL;
                     }
-                    if( isset($field['fields']) && $field['type'] !== 'group' ) {
+
+                    if( isset($field['sections']) && $field['type'] === 'tab' ) {
+                        $f_val = $this->get_field_value($values, $fid, $force_valdiate);
+                        $value = $this->loop_fields($field['sections'], $f_val, $db_value);
+                    } else if( isset($field['fields']) && $field['type'] !== 'group' ) {
                         $f_val = $this->get_field_value($values, $fid, $force_valdiate);
                         $value = $this->_handle_single_field($field, $f_val, $current_fields);
                         $value = $this->loop_fields($field, $f_val, $db_val, FALSE);
-
                     } else {
                         $f_val = $this->get_field_value($values, $fid, $force_valdiate);
                         $value = $this->_handle_single_field($field, $f_val, $current_fields);

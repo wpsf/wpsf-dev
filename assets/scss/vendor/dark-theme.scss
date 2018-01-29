@@ -41,7 +41,7 @@
     position: relative;
     background-color: #050505;
     padding: 25px;
-    @include border-radius(2px 2px 0 0);
+    border-radius: 2px 2px 0 0;
     &.wpsf-sticky-header.sticky {
       position: fixed;
       margin-top: 0;
@@ -103,7 +103,7 @@
           color: #999;
           background-color: #222;
           border-bottom: 1px solid #2f2f2f;
-          @include transition(all 0.2s ease-out);
+          transition: all 0.2s ease-out;
 
           &:hover {
             color: #fff;
@@ -111,7 +111,7 @@
 
           &:focus {
             outline: none;
-            @include box-shadow(none);
+            box-shadow:none;
           }
         }
 
@@ -144,12 +144,12 @@
           right: 10px;
           top: 50%;
           margin-top: -4px;
-          @include transform(rotate(0));
-          @include transition(transform 0.2s);
+          transform: rotate(0);
+          transition: transform 0.2s;
         }
 
         &.wpsf-tab-active .wpsf-arrow:after {
-          @include transform( rotate(90deg));
+          transform: rotate(90deg);
         }
       }
 
@@ -236,7 +236,7 @@
         padding: 0 !important;
         font-weight: bold;
         text-transform: uppercase;
-        @include text-shadow(1px 1px 0 rgba(#44a7c5, 0.5));
+        text-shadow: 1px 1px 0 rgba(68, 167, 197, .5);
       }
     }
 
@@ -252,7 +252,7 @@
     text-align: right;
     font-size: 11px;
     background-color: #050505;
-    @include border-radius(0 0 2px 2px);
+    border-radius: 0 0 2px 2px;
   }
 
   .wpsf-show-all {
@@ -286,7 +286,7 @@
     }
 
     &:focus {
-      @include box-shadow(none);
+      box-shadow:none;
     }
   }
 }

@@ -19,8 +19,8 @@
       vertical-align: bottom;
       background-color: #fff;
       border: 2px solid #eee;
-      @include opacity(0.75);
-      @include transition(all 0.15s ease-out);
+      opacity: 0.75;
+      transition: all 0.15s ease-out;
     }
   }
 
@@ -29,7 +29,7 @@
 
     &:checked ~ img {
       border-color: #333;
-      @include opacity(1);
+      opacity: 1;
     }
   }
 }
