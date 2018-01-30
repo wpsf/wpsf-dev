@@ -91,8 +91,8 @@ abstract class WPSFramework_Abstract {
 
         if( isset($s['sections']) ) {
             $fname = '';
-            if(isset($s['type']) && $s['type'] === 'tab'){
-                $fname = $parent_id.'_'.$s['id'].'_';
+            if( isset($s['type']) && $s['type'] === 'tab' ) {
+                $fname = $parent_id . '_' . $s['id'] . '_';
             }
             foreach( $s['sections'] as $b => $a ) {
                 if( isset($a['fields']) ) {

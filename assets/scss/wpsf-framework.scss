@@ -8,6 +8,10 @@
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 
+div#screen-meta-links + div.wpsf-framework{
+  margin-top: 40px;
+}
+
 @import "vendor/dark-theme";
 @import "vendor/simple-theme";
 @import "vendor/wp-metabox";
@@ -47,6 +51,7 @@
 @import "wpsf-framework-light";
 @import 'wpsf_cols';
 @import "vendor/horizontal";
+@import "vendor/help-tabs";
 
 .wpsf-element {
 

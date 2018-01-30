@@ -31,6 +31,8 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 
     public $sec_names = array();
 
+    public $help_tabs = NULL;
+
     public function __construct($settings = array(), $options = array()) {
         if( ( is_admin() || is_ajax() ) && $this->is_not_ajax() === TRUE ) {
             $this->init_admin($settings, $options);
@@ -75,6 +77,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 'is_single_page'    => FALSE,
                 'is_sticky_header'  => FALSE,
                 'style'             => 'modern',
+                'help_tabs'         => array(),
             );
 
             $this->settings = wp_parse_args($settings, $defaults);
@@ -94,6 +97,8 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             if( isset($this->settings['override_location']) ) {
                 $this->override_location = $this->settings['override_location'];
             }
+
+
         }
 
         if( ! empty ($options) ) {
@@ -230,6 +235,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         }
 
         $this->addAction('load-' . $this->settings_page, 'on_admin_page_load');
+        if( ! empty($this->settings['help_tabs']) ) {
+            $this->help_tabs = new WPSFramework_Help_Tabs(array(
+                $this->settings_page => $this->settings['help_tabs'],
+            ));
+        }
     }
 
     public function load_style_script($hook) {

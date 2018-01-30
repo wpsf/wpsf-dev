@@ -1315,7 +1315,7 @@
 
                 $wpsf_body.on('click', '.wpsf-shortcode', function (e) {
                     e.preventDefault();
-                    $selector.WPSF_chosen();
+                    $selector.WPSF_CHOSEN();
                     $shortcode_button = $(this);
                     shortcode_target = $shortcode_button.hasClass('wpsf-shortcode-textarea');
                     editor_id = $shortcode_button.data('editor-id');

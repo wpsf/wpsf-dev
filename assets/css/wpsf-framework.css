@@ -7,6 +7,10 @@
  * @package    WPSF
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
+div#screen-meta-links + div.wpsf-framework {
+  margin-top: 40px;
+}
+
 /*!
  * This file is part of the WPSF package.
  * This package is Open Source Software. For the full copyright and license
@@ -2731,6 +2735,32 @@
 .wpsf-groups .wpsf-group .wpsf-element .fieldset-horizontal .wpsf-inner {
   border: none;
   background-color: transparent;
+}
+
+.wpsf-framework.wpsf-help-tabs {
+  margin-right: 0;
+  margin-top: 0;
+  padding-top: 15px;
+}
+
+.wpsf-framework.wpsf-help-tabs > .wpsf-element {
+  padding: 0;
+  margin-bottom: 15px;
+  border: none;
+}
+
+.wpsf-framework.wpsf-help-tabs > .wpsf-element.wpsf-field-heading, .wpsf-framework.wpsf-help-tabs > .wpsf-element.wpsf-field-subheading, .wpsf-framework.wpsf-help-tabs > .wpsf-element.wpsf-field-content {
+  background: none !important;
+}
+
+.wpsf-framework.wpsf-help-tabs > .wpsf-element.wpsf-field-tab .wpsf-user-tabs-panel {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.wpsf-framework.wpsf-help-tabs > .wpsf-element .wpsf-element {
+  padding: 15px 20px;
 }
 
 .wpsf-element .text-limiter {

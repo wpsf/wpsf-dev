@@ -494,9 +494,10 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             $option['key'] = $key;
         }
 
-        return array( 'id'         => $option['key'],
-                      'value'      => $option['label'],
-                      'attributes' => $option['attributes'],
+        return array(
+            'id'         => $option['key'],
+            'value'      => $option['label'],
+            'attributes' => $option['attributes'],
         );
     }
 }

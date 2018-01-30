@@ -3623,7 +3623,7 @@ $options[] = array(
 
                 array(
                     'id'              => 'nested_gr11oups',
-                     'type'            => 'group',
+                    'type'            => 'group',
                     'button_title'    => 'Add Nested Group',
                     'accordion_title' => 'Nested Group',
                     'fields'          => array(
@@ -3868,9 +3868,9 @@ $options[] = array(
                     'id'    => 'spacing',
                 ),
                 array(
-                    'title'    => 'Date Picker',
-                    'type'     => 'date_picker',
-                    'id'       => 'date_picker',
+                    'title' => 'Date Picker',
+                    'type'  => 'date_picker',
+                    'id'    => 'date_picker',
                 ),
             ),
         ),
@@ -4459,7 +4459,6 @@ $options[] = array(
         ),
     ),
 );
-
 
 new WPSFramework_Settings(array(
     'menu_title'       => 'WPSF Modern',

@@ -13,16 +13,17 @@
   margin-top: 20px;
   margin-right: 20px;
 
-  &.wpsf-user-profile{
-    .wpsf-element{
-      padding:20px 0;
 
-      .wpsf-fieldset{
+  &.wpsf-user-profile {
+    .wpsf-element {
+      padding: 20px 0;
+
+      .wpsf-fieldset {
         margin-left: 215px;
       }
-      .wpsf-title{
+      .wpsf-title {
         max-width: 200px;
-        width:auto;
+        width: auto;
       }
     }
   }
@@ -111,7 +112,7 @@
 
           &:focus {
             outline: none;
-            box-shadow:none;
+            box-shadow: none;
           }
         }
 
@@ -286,7 +287,7 @@
     }
 
     &:focus {
-      box-shadow:none;
+      box-shadow: none;
     }
   }
 }

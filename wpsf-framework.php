@@ -60,26 +60,27 @@ if( ! function_exists("wpsf_autoloader") ) {
             wpsf_locate_template('fields/' . $path . '/' . $path . '.php');
         } else if( 0 === strpos($class, 'WPSFramework_') ) {
             $path = strtolower(substr(str_replace('_', '-', $class), 13));
-            include('classes/' . $path . '.php');
+            include( 'classes/' . $path . '.php' );
         }
     }
 }
+
 if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') ) {
     function wpsf_framework_init() {
 
         defined('WPSF_ACTIVE_LIGHT_THEME') or define('WPSF_ACTIVE_LIGHT_THEME', FALSE);
         // helpers
-        require_once(WPSF_DIR.'/functions/fallback.php');
-        require_once(WPSF_DIR.'/functions/helpers.php');
-        require_once(WPSF_DIR.'/functions/actions.php');
-        require_once(WPSF_DIR.'/functions/enqueue.php');
-        require_once(WPSF_DIR.'/functions/sanitize.php');
-        require_once(WPSF_DIR.'/functions/validate.php');
+        require_once( WPSF_DIR . '/functions/fallback.php' );
+        require_once( WPSF_DIR . '/functions/helpers.php' );
+        require_once( WPSF_DIR . '/functions/actions.php' );
+        require_once( WPSF_DIR . '/functions/enqueue.php' );
+        require_once( WPSF_DIR . '/functions/sanitize.php' );
+        require_once( WPSF_DIR . '/functions/validate.php' );
 
         // classes
-        require_once(WPSF_DIR.'/classes/abstract.php');
-        require_once(WPSF_DIR.'/classes/options.php');
-        require_once(WPSF_DIR.'/classes/framework.php');
+        require_once( WPSF_DIR . '/classes/abstract.php' );
+        require_once( WPSF_DIR . '/classes/options.php' );
+        require_once( WPSF_DIR . '/classes/framework.php' );
 
         wpsf_load_options();
         add_action('widgets_init', 'wpsf_framework_widgets', 1);
@@ -88,7 +89,7 @@ if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') )
     }
 
     add_action('plugins_loaded', 'wpsf_framework_init', 1);
-    add_filter('widgets_init','wpsf_framework_widgets',10);
+    add_filter('widgets_init', 'wpsf_framework_widgets', 10);
 }
 
 if( ! function_exists('wpsf_framework_widgets') ) {
