@@ -11,72 +11,6 @@
 ;( function ($, window, document, undefined) {
     'use strict';
 
-    $.WPSF_DEPENDENCY = function (el, param) {
-        var base = this;
-        base.$el = $(el);
-        base.el = el;
-
-        base.init = function () {
-            base.ruleset = $.deps.createRuleset();
-            var cfg = {
-                show: function (el) {
-                    el.removeClass('hidden');
-                },
-                hide: function (el) {
-                    el.addClass('hidden');
-                },
-                log: false,
-                checkTargets: false
-            };
-
-            if ( param !== undefined ) {
-                base.depSub();
-            } else {
-                base.depRoot();
-            }
-
-            $.deps.enable(base.$el, base.ruleset, cfg);
-        };
-
-        base.depRoot = function () {
-            base.$el.each(function () {
-                $(this).find('[data-controller]').each(function () {
-                    var $this = $(this),
-                        _controller = $this.data('controller').split('|'),
-                        _condition = $this.data('condition').split('|'),
-                        _value = $this.data('value').toString().split('|'),
-                        _rules = base.ruleset;
-
-                    $.each(_controller, function (index, element) {
-                        var value = _value[index] || '',
-                            condition = _condition[index] || _condition[0];
-                        _rules = _rules.createRule($.WPSF_HELPER.DEP_ELEM(element, false), condition, value);
-                        _rules.include($this);
-                    });
-                });
-            });
-        };
-
-        base.depSub = function () {
-            base.$el.each(function () {
-                $(this).find('[data-sub-controller]').each(function () {
-                    var $this = $(this),
-                        _controller = $this.data('sub-controller').split('|'),
-                        _condition = $this.data('sub-condition').split('|'),
-                        _value = $this.data('sub-value').toString().split('|'),
-                        _rules = base.ruleset;
-                    $.each(_controller, function (index, element) {
-                        var value = _value[index] || '',
-                            condition = _condition[index] || _condition[0];
-                        _rules = _rules.createRule($.WPSF_HELPER.DEP_ELEM(element, true), condition, value);
-                        _rules.include($this);
-                    });
-                });
-            });
-        };
-        base.init();
-    };
-
     $.WPSF_HELPER = {
         COLOR_PICKER: {
             parse: function ($value) {
@@ -379,6 +313,71 @@
             return $final_data;
         },
     };
+    $.WPSF_DEPENDENCY = function (el, param) {
+        var base = this;
+        base.$el = $(el);
+        base.el = el;
+
+        base.init = function () {
+            base.ruleset = $.deps.createRuleset();
+            var cfg = {
+                show: function (el) {
+                    el.removeClass('hidden');
+                },
+                hide: function (el) {
+                    el.addClass('hidden');
+                },
+                log: false,
+                checkTargets: false
+            };
+
+            if ( param !== undefined ) {
+                base.depSub();
+            } else {
+                base.depRoot();
+            }
+
+            $.deps.enable(base.$el, base.ruleset, cfg);
+        };
+
+        base.depRoot = function () {
+            base.$el.each(function () {
+                $(this).find('[data-controller]').each(function () {
+                    var $this = $(this),
+                        _controller = $this.data('controller').split('|'),
+                        _condition = $this.data('condition').split('|'),
+                        _value = $this.data('value').toString().split('|'),
+                        _rules = base.ruleset;
+
+                    $.each(_controller, function (index, element) {
+                        var value = _value[index] || '',
+                            condition = _condition[index] || _condition[0];
+                        _rules = _rules.createRule($.WPSF_HELPER.DEP_ELEM(element, false), condition, value);
+                        _rules.include($this);
+                    });
+                });
+            });
+        };
+
+        base.depSub = function () {
+            base.$el.each(function () {
+                $(this).find('[data-sub-controller]').each(function () {
+                    var $this = $(this),
+                        _controller = $this.data('sub-controller').split('|'),
+                        _condition = $this.data('sub-condition').split('|'),
+                        _value = $this.data('sub-value').toString().split('|'),
+                        _rules = base.ruleset;
+                    $.each(_controller, function (index, element) {
+                        var value = _value[index] || '',
+                            condition = _condition[index] || _condition[0];
+                        _rules = _rules.createRule($.WPSF_HELPER.DEP_ELEM(element, true), condition, value);
+                        _rules.include($this);
+                    });
+                });
+            });
+        };
+        base.init();
+    };
 
     /**
      * Below Code Used To INIT Few WPSF Fields
@@ -629,7 +628,7 @@
                 $elem = $(this);
 
             if ( $this.find('> .wpsf-fieldset').length > 0 ) {
-                $elem = $this.find('.wpsf-fieldset');
+                $elem = $this.find('> .wpsf-fieldset');
             }
 
             var field_groups = $elem.find('> .wpsf-groups'),
@@ -651,7 +650,7 @@
                             'activeHeader': 'dashicons dashicons-arrow-down'
                         },
                         beforeActivate: function (event, ui) {
-                            $(ui.newPanel).WPSFRAMEWORK_DEPENDENCY('sub');
+                            $(ui.newPanel).WPSF_DEPENDENCY('sub');
                         }
                     });
                 });
@@ -736,10 +735,10 @@
                     this.name = this.name.replace('[_nonce]', '');
                 });
 
-                cloned.WPSFRAMEWORK_DEPENDENCY('sub');
-                cloned.WPSFRAMEWORK_RELOAD_PLUGINS();
+                cloned.WPSF_DEPENDENCY('sub');
+                cloned.WPSF_RELOAD();
                 $(this).attr('data-count', $ex_c);
-                $this.find('.wpsf-field-group').WPSF_group();
+                $this.find('.wpsf-field-group').WPSF_GROUP();
                 $this.find('.wpsf-field-group .wpsf-add-group').attr('data-child', 'yes');
             });
 
@@ -780,7 +779,7 @@
                     'activeHeader': 'dashicons dashicons-arrow-down'
                 },
                 beforeActivate: function (event, ui) {
-                    $(ui.newPanel).WPSFRAMEWORK_DEPENDENCY('sub');
+                    $(ui.newPanel).WPSF_DEPENDENCY('sub');
                 }
             });
         });
@@ -805,8 +804,8 @@
                                 $wrap.empty();
                                 $wrap.html($clone);
                                 $clone = $clone.clone();
-                                $wrap.WPSFRAMEWORK_RELOAD_PLUGINS();
-                                $wrap.WPSFRAMEWORK_DEPENDENCY();
+                                $wrap.WPSF_RELOAD();
+                                $wrap.WPSF_DEPENDENCY();
                                 flooding = false;
                             }
                         });
@@ -1377,9 +1376,9 @@
                                 $shortcodeload.html(content);
                                 $insert.parent().removeClass('hidden');
                                 shortcode_clone = $('.wpsf-shortcode-clone', $dialog).clone();
-                                $shortcodeload.WPSFRAMEWORK_DEPENDENCY();
-                                $shortcodeload.WPSFRAMEWORK_DEPENDENCY('sub');
-                                $shortcodeload.WPSFRAMEWORK_RELOAD_PLUGINS();
+                                $shortcodeload.WPSF_DEPENDENCY();
+                                $shortcodeload.WPSF_DEPENDENCY('sub');
+                                $shortcodeload.WPSF_RELOAD();
                             }
                         });
 
@@ -1546,8 +1545,8 @@
                     });
 
                     // reloadPlugins
-                    cloned_el.WPSFRAMEWORK_DEPENDENCY('sub');
-                    cloned_el.WPSFRAMEWORK_RELOAD_PLUGINS();
+                    cloned_el.WPSF_DEPENDENCY('sub');
+                    cloned_el.WPSF_RELOAD();
                     cloned++;
 
                 });
@@ -1642,13 +1641,13 @@
             $('.wpsf-field-typography_advanced', $this).WPSF_ADVANCED_TYPOGRAPHY();
             $('.wpsf-field-typography', $this).WPSF_TYPOGRAPHY();
             $('.wpsf-help', $this).WPSF_TOOLTIP();
-            $('.wpsf-field-date_picker').WPSF_DATE_PICKER();
+
         },
 
         widget_reload: function () {
             $(document).on('widget-added widget-updated', function (event, $widget) {
-                $widget.WPSFRAMEWORK_RELOAD_PLUGINS();
-                $widget.WPSFRAMEWORK_DEPENDENCY();
+                $widget.WPSF_RELOAD();
+                $widget.WPSF_DEPENDENCY();
             });
         },
 
@@ -1694,7 +1693,6 @@
             }
         },
     };
-
     $.WPSF.fixes.popup();
     $.WPSF.fixes.colorpicker();
 
@@ -1706,7 +1704,6 @@
             });
         }
     });
-
     $(document).ready(function () {
         $.WPSF.icons_manager();
         $.WPSF.shortcode_manager();

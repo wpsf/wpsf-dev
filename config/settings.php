@@ -3622,6 +3622,69 @@ $options[] = array(
                 ),
 
                 array(
+                    'id'              => 'nested_gr11oups',
+                     'type'            => 'group',
+                    'button_title'    => 'Add Nested Group',
+                    'accordion_title' => 'Nested Group',
+                    'fields'          => array(
+                        array( 'title' => 'text', 'type' => 'text', 'id' => 'text' ),
+                        array( 'title' => 'switcher', 'type' => 'switcher', 'id' => 'switcher' ),
+                        array(
+                            'type'            => 'group',
+                            'id'              => 'nes33ted_groups_1',
+                            'button_title'    => 'Add',
+                            'accordion_title' => 'Nested Group Level 1',
+                            'fields'          => array(
+                                array( 'title' => 'text', 'type' => 'text', 'id' => 'text' ),
+                                array( 'title' => 'switcher', 'type' => 'switcher', 'id' => 'switcher' ),
+                                array(
+                                    'type'            => 'group',
+                                    'id'              => 'nested_groups_1_1',
+                                    'button_title'    => 'Add',
+                                    'title'           => 'Nested Group With Title',
+                                    'accordion_title' => 'Nested Group Level 2',
+                                    'fields'          => array(
+                                        array( 'title' => 'text', 'type' => 'text', 'id' => 'text' ),
+                                        array( 'title' => 'switcher', 'type' => 'switcher', 'id' => 'switcher' ),
+
+                                        array(
+                                            'type'            => 'group',
+                                            'id'              => 'nested_groups_1_1_1',
+                                            'button_title'    => 'Add',
+                                            'accordion_title' => 'Nested Group Level 3',
+                                            'fields'          => array(
+                                                array( 'title' => 'text', 'type' => 'text', 'id' => 'text' ),
+                                                array(
+                                                    'title' => 'switcher',
+                                                    'type'  => 'switcher',
+                                                    'id'    => 'switcher',
+                                                ),
+
+                                                array(
+                                                    'type'            => 'group',
+                                                    'id'              => 'nested_groups_1_1_1_1',
+                                                    'button_title'    => 'Add',
+                                                    'accordion_title' => 'Nested Group Level 4',
+                                                    'fields'          => array(
+                                                        array( 'title' => 'text', 'type' => 'text', 'id' => 'text' ),
+                                                        array(
+                                                            'title' => 'switcher',
+                                                            'type'  => 'switcher',
+                                                            'id'    => 'switcher',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+
+                    ),
+                ),
+
+                array(
                     'id'              => 'unique_group_12',
                     'type'            => 'group',
                     'title'           => 'Group Field with 1',
