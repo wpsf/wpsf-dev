@@ -55,7 +55,7 @@
     background-color: #222;
     padding: 15px;
     overflow: auto;
-    border-radius:2px;
+    border-radius: 2px;
 
     strong {
       color: #ffbc00;
@@ -339,14 +339,14 @@
   font-size: 90%;
   color: #c7254e;
   background-color: #f9f2f4;
-  border-radius:2px;
+  border-radius: 2px;
 }
 
 .wpsf-text-highlight-gray {
   padding: 2px 4px;
   font-size: 90%;
   background-color: #f0f0f0;
-  border-radius:2px;
+  border-radius: 2px;
 }
 
 #wpsf-save-ajax {
@@ -358,7 +358,7 @@
   padding: 3px 8px;
   color: #fff;
   background-color: #27ae60;
-  border-radius : 2px;
+  border-radius: 2px;
 }
 
 .wpsf-tooltip {
@@ -368,11 +368,11 @@
   visibility: visible;
   font-size: 12px;
   line-height: 1.4;
-  opacity:0;
+  opacity: 0;
   transition: opacity 0.15s linear;
 
   &.in {
-    opacity:1;
+    opacity: 1;
   }
 }
 
@@ -384,7 +384,7 @@
   text-decoration: none;
   background-color: #000;
   background-color: rgba(black, 0.85);
-  border-radius:4px;
+  border-radius: 4px;
 }
 
 .wpsf-dialog {
@@ -453,7 +453,7 @@
     &:active,
     &:focus {
       outline: none;
-      box-shadow:none;
+      box-shadow: none;
     }
   }
 
@@ -495,7 +495,7 @@
       color: #555;
       border: 1px solid #ccc;
       background-color: #f7f7f7;
-      border-radius:3px;
+      border-radius: 3px;
       box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
     }
 

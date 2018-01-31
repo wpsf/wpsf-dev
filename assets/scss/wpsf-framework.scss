@@ -8,7 +8,7 @@
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 
-div#screen-meta-links + div.wpsf-framework{
+div#screen-meta-links + div.wpsf-framework {
   margin-top: 40px;
 }
 
@@ -52,6 +52,7 @@ div#screen-meta-links + div.wpsf-framework{
 @import 'wpsf_cols';
 @import "vendor/horizontal";
 @import "vendor/help-tabs";
+@import "vendor/wpsf-icheck";
 
 .wpsf-element {
 

@@ -23,7 +23,7 @@
     margin-bottom: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-    border-radius:2px;
+    border-radius: 2px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
 
     img {
@@ -45,12 +45,12 @@
     cursor: pointer;
     color: #fff;
     background-color: #e14d43;
-    opacity:0.8;
-    border-radius:2px;
-    transition:opacity 0.2s;
+    opacity: 0.8;
+    border-radius: 2px;
+    transition: opacity 0.2s;
 
     &:hover {
-      opacity:1;
+      opacity: 1;
     }
   }
 }
