@@ -99,7 +99,10 @@
         border-left: 1px solid #dfdfdf;
         z-index: 1;
         > .wpsf-user-tabs-panel {
-          padding: 3px 20px 0;
+          /*padding: 3px 20px 0;*/
+          padding: 3px 0px 0;
+          width: 100%;
+
           background: transparent;
           border: none;
         }

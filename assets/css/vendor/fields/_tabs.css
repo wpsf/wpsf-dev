@@ -1,0 +1,116 @@
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+.wpsf-field-tab .wpsf-user-tabs-nav {
+  margin-bottom: -1px; }
+  .wpsf-field-tab .wpsf-user-tabs-nav > li {
+    margin: 0;
+    display: inline-block; }
+  .wpsf-field-tab .wpsf-user-tabs-nav > .wpsf-user-tabs-active {
+    border: 1px solid #dfdfdf;
+    border-bottom-color: transparent;
+    background: #fdfdfd; }
+  .wpsf-field-tab .wpsf-user-tabs-nav > li > a {
+    display: block;
+    padding: 5px 9px 5px;
+    text-decoration: none; }
+    .wpsf-field-tab .wpsf-user-tabs-nav > li > a:active, .wpsf-field-tab .wpsf-user-tabs-nav > li > a:focus {
+      outline: none;
+      -webkit-box-shadow: none;
+      box-shadow: none; }
+  .wpsf-field-tab .wpsf-user-tabs-nav i, .wpsf-field-tab .wpsf-user-tabs-nav img {
+    vertical-align: middle;
+    margin-right: .3em; }
+  .wpsf-field-tab .wpsf-user-tabs-nav i {
+    width: 16px;
+    height: 16px;
+    font-size: 16px; }
+  .wpsf-field-tab .wpsf-user-tabs-nav img {
+    width: 12px;
+    height: 12px;
+    display: inline-block; }
+
+.wpsf-field-tab .wpsf-user-tabs-active > a {
+  color: #333; }
+
+.wpsf-field-tab .wpsf-user-tabs-panel {
+  padding: 10px 5px 0;
+  border: solid 1px #dfdfdf;
+  background: #fdfdfd;
+  display: none;
+  float: left; }
+
+.wpsf-field-tab .wpsf-user-tabs-left {
+  overflow: hidden;
+  margin: -6px -12px 0;
+  padding: 0;
+  border: 1px solid #eee;
+  margin-right: 10px; }
+  .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav {
+    float: left;
+    margin: 0 -1px 0 0;
+    background: #fdfdfd;
+    border-right: 1px solid #dfdfdf;
+    z-index: 9; }
+    .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li {
+      display: block; }
+      .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li:first-child {
+        border-top: none; }
+      .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li:last-child {
+        border-bottom: none !important; }
+      .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li > a {
+        padding: 5px 20px 8px 10px; }
+  .wpsf-field-tab .wpsf-user-tabs-left > ul > li.wpsf-user-tabs-active {
+    border: 1px solid #dfdfdf;
+    border-right-color: #fdfdfd;
+    border-left: 2px #2ea2cc;
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
+    position: relative;
+    right: -1px; }
+  .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels {
+    overflow: auto;
+    border-left: 1px solid #dfdfdf;
+    z-index: 1; }
+    .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels > .wpsf-user-tabs-panel {
+      /*padding: 3px 20px 0;*/
+      padding: 3px 0px 0;
+      background: transparent;
+      border: none; }
+
+.wpsf-field-tab .wpsf-user-tabs-no-controls {
+  border: 0;
+  background: transparent; }
+  .wpsf-field-tab .wpsf-user-tabs-no-controls .hndle, .wpsf-field-tab .wpsf-user-tabs-no-controls .handlediv {
+    display: none; }
+  .wpsf-field-tab .wpsf-user-tabs-no-controls .inside {
+    margin: 0;
+    padding: 0; }
+
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav li {
+  background: #ebebeb;
+  border: 1px solid #dedede;
+  margin-right: 5px; }
+  .wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav li:hover {
+    background: #fff; }
+
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav a {
+  color: #777; }
+
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active {
+  border-bottom-color: transparent;
+  background: #f5f5f5; }
+  .wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active:hover {
+    background: #f5f5f5; }
+  .wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-nav .wpsf-user-tabs-active a {
+    color: #555; }
+
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-panel {
+  background: #f5f5f5;
+  border: solid 1px #dedede; }

@@ -88,6 +88,43 @@
   input[type="radio"]:checked:before {
     line-height: 10px;
   }
+  label.with-icon-preview {
+
+    .wpsf-icon-preview {
+      &.wpsf-help {
+        position: relative;
+        top: auto;
+        right: auto;
+        padding: 0;
+        color: transparent;
+      }
+      i {
+        display: inline-block;
+        font-size: 14px;
+        width: 30px;
+        height: 26px;
+        line-height: 26px;
+        margin-right: 5px;
+        text-align: center;
+        vertical-align: top;
+        color: #555;
+        border: 1px solid #ccc;
+        background-color: #f7f7f7;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
+      }
+    }
+    input[type='radio'], input[type="checkbox"] {
+      display: none;
+      &:checked + .wpsf-icon-preview i {
+        box-shadow: 0 1px 0 rgba(0, 0, 0, .08) inset;
+        background: #555;
+        color: #f7f7f7;
+        border-color: #555;
+      }
+    }
+  }
+
 }
 
 .wpsf-field-group, .wpsf-field-accordion {

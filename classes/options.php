@@ -570,6 +570,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'key'        => '',
             'attributes' => array(),
             'disabled'   => '',
+            'icon'       => '',
         );
 
         $option = wp_parse_args($option, $defaults);
@@ -586,6 +587,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'id'         => $option['key'],
             'value'      => $option['label'],
             'attributes' => $option['attributes'],
+            'icon'       => $option['icon'],
         );
     }
 }
