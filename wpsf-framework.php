@@ -13,6 +13,7 @@ if( ! defined('ABSPATH') ) {
     die ();
 }
 /**
+ * Small Update From PHPStrom
  * ------------------------------------------------------------------------------------------------
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
