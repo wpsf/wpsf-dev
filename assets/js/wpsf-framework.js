@@ -312,6 +312,18 @@
 
             return $final_data;
         },
+        ELM_ARGS_TYPE: function ($args) {
+            $.each($args, function ($code, $value) {
+                if ( $value == '1' ) {
+                    $args[$code] = true;
+                } else if ( $value == '0' ) {
+                    $args[$code] = false;
+                }
+
+            });
+            return $args;
+
+        }
     };
     $.WPSF_DEPENDENCY = function (el, param) {
         var base = this;
@@ -1067,6 +1079,31 @@
             });
         });
     };
+    $.fn.WPSF_ANIMATE_CSS = function () {
+        return this.each(function () {
+            var $parent = $(this);
+            $parent.find("select").on('change', function () {
+                var $val = $(this).val();
+                var $h3 = $parent.find('.animation-preview h3');
+                $h3.removeClass();
+                $h3.addClass($val + ' animated ').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    $(this).removeClass();
+                });
+            })
+        })
+    };
+    $.fn.WPSF_DATE_PICKER = function () {
+        return this.each(function () {
+            var $input = $(this).find('input.wpsf-datepicker');
+            var $INPUTID = $input.data('datepicker-id');
+            var $settings = {};
+            if ( typeof window[$INPUTID] == 'object' ) {
+                $settings = window[$INPUTID];
+            }
+            $settings = $.WPSF_HELPER.ELM_ARGS_TYPE($settings);
+            $input.flatpickr($settings);
+        });
+    };
     /*$.fn.WPSF_DATE_PICKER = function () {
         return this.each(function () {
 
@@ -1641,7 +1678,8 @@
             $('.wpsf-field-typography_advanced', $this).WPSF_ADVANCED_TYPOGRAPHY();
             $('.wpsf-field-typography', $this).WPSF_TYPOGRAPHY();
             $('.wpsf-help', $this).WPSF_TOOLTIP();
-
+            $('.wpsf-field-animate_css', $this).WPSF_ANIMATE_CSS();
+            $('.wpsf-field-date_picker', $this).WPSF_DATE_PICKER();
         },
 
         widget_reload: function () {

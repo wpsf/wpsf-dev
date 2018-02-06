@@ -37,10 +37,13 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->unique = $unique;
         $this->multilang = $this->element_multilang();
         $this->row_after = NULL;
+        $this->addAction('admin_footer', 'load_styles');
     }
 
+    public function load_styles() {}
+
     /**
-     * @return bool|mixed|void
+     * @return bool|mixed
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;

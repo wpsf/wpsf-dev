@@ -2504,6 +2504,16 @@ div#screen-meta-links + div.wpsf-framework {
   border-bottom: none;
 }
 
+.wpsf-field-animate_css .animation-preview {
+  padding: 10px 0;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.wpsf-field-animate_css .animation-preview h3 {
+  margin: 0;
+}
+
 /*!
  * This file is part of the WPSF package.
  * This package is Open Source Software. For the full copyright and license

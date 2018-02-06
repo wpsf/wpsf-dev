@@ -49,6 +49,18 @@ div#screen-meta-links + div.wpsf-framework {
 @import "vendor/fields/spacing";
 @import "vendor/fields/datepicker";
 @import "vendor/fields/social_icons";
+
+.wpsf-field-animate_css {
+  .animation-preview {
+    padding: 10px 0;
+    display: inline-block;
+    margin: 0 10px;
+    h3 {
+      margin: 0;
+    }
+  }
+}
+
 @import "wpsf-framework-light";
 @import 'wpsf_cols';
 @import "vendor/horizontal";

@@ -1,23 +1,5 @@
 <?php
-/*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
- -------------------------------------------------------------------------------------------------*/
-
-if( ! defined('ABSPATH') ) {
-    die ();
-} // Cannot access pages directly.
-/**
- * ------------------------------------------------------------------------------------------------
- *
- * WordPress-Settings-Framework Framework
- * A Lightweight and easy-to-use WordPress Options Framework
- *
+/*
  * Plugin Name: WordPress-Settings-Framework Framework
  * Plugin URI: http://wpsf.com/
  * Author: WordPress-Settings-Framework
@@ -27,6 +9,13 @@ if( ! defined('ABSPATH') ) {
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: wpsf-framework
+ */
+
+/**
+ * ------------------------------------------------------------------------------------------------
+ *
+ * WordPress-Settings-Framework Framework
+ * A Lightweight and easy-to-use WordPress Options Framework
  *
  * ------------------------------------------------------------------------------------------------
  *
@@ -49,6 +38,19 @@ if( ! defined('ABSPATH') ) {
  * ------------------------------------------------------------------------------------------------
  */
 
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
+if( ! defined('ABSPATH') ) {
+    die ();
+} // Cannot access pages directly.
 require_once plugin_dir_path(__FILE__) . '/wpsf-framework.php';
 
 add_action("wpsf_framework_loaded", 'wpsf_framework_demo', 1);

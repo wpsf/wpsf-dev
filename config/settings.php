@@ -59,6 +59,12 @@ $options[] = array(
     // begin: fields
     'fields' => array(
         array(
+            'id'    => 'animate_css',
+            'type'  => 'animate_css',
+            'title' => 'Animate CSS',
+
+        ),
+        array(
             'id'      => 'content_font',
             'type'    => 'typography_advanced',
             'title'   => __('Typography Advanced', ''),
@@ -3404,11 +3410,55 @@ $options[] = array(
                     'type'  => 'spacing',
                     'id'    => 'spacing',
                 ),
+            ),
+        ),
+
+        array(
+            'name'   => 'datepickers',
+            'title'  => 'DatePicker',
+            'icon'   => 'fa fa-calendar',
+            'fields' => array(
+
                 array(
                     'title' => 'Date Picker',
                     'type'  => 'date_picker',
-                    'id'    => 'date_picker',
+                    'id'    => 'date-picker',
                 ),
+
+                array(
+                    'title'    => 'Date & Time Picker',
+                    'type'     => 'date_picker',
+                    'id'       => 'date-picker3',
+                    'settings' => array(
+                        'enableTime' => TRUE,
+                        'dateFormat' => 'Y-m-d H:i',
+                    ),
+                ),
+
+                array(
+                    'title'    => 'Date Range',
+                    'type'     => 'date_picker',
+                    'id'       => 'date-picker4',
+                    'settings' => array(
+                        'mode' => 'range',
+                    ),
+                ),
+
+
+                array(
+                    'title'    => 'Inline Date Picker',
+                    'type'     => 'date_picker',
+                    'id'       => 'date-picker2',
+                    'settings' => array(
+                        'inline' => TRUE,
+                    ),
+                ),
+
+                array(
+                    'type'    => 'content',
+                    'content' => 'More information about datepicker & docs can be found @ <a href="https://chmln.github.io/flatpickr">https://chmln.github.io/flatpickr</a>',
+                ),
+
             ),
         ),
     ),
