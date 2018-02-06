@@ -1,4 +1,5 @@
 <?php
+
 /*
  -------------------------------------------------------------------------------------------------
  - This file is part of the WPSF package.                                                         -
@@ -15,6 +16,7 @@
  * Date: 12-01-2018
  * Time: 07:48 AM
  */
+
 class WPSFramework_Option_date_picker extends WPSFramework_Options {
     /**
      * WPSFramework_Option_date_picker constructor.
@@ -36,13 +38,19 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
         $elem_args = array_filter(array(
             'id'         => $this->field['id'],
             'type'       => 'text',
-            'class'      => 'wpsf-datepicker',
-            'wrap_class' => 'horizontal',
+            'class'      => 'wpsf-datepicker ',
+            'wrap_class' => 'horizontal ',
             'title'      => $title,
             'pseudo'     => TRUE,
-            'attributes' => array_merge(array( 'data-datepicker-type' => $type ), $extrAttrs),
+            'attributes' => array_merge(array( 'data-datepicker-type'  => $type,
+                                               'data-datepicker-theme' => $this->get_theme(),
+            ), $extrAttrs),
         ));
         echo wpsf_add_element($elem_args, $this->element_value(), $this->unique);
+    }
+
+    public function get_theme() {
+        return ( isset($this->field['theme']) ) ? 'flatpickr-' . $this->field['theme'] : '';
     }
 
     protected function settings() {

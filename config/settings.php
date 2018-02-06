@@ -3458,6 +3458,17 @@ $options[] = array(
                     'type'    => 'content',
                     'content' => 'More information about datepicker & docs can be found @ <a href="https://chmln.github.io/flatpickr">https://chmln.github.io/flatpickr</a>',
                 ),
+                array(
+                    'type'    => 'subheading',
+                    'content' => 'Theme Options',
+                ),
+
+                array(
+                    'title' => 'Dark Theme',
+                    'type'  => 'date_picker',
+                    'id'    => 'date-picker-dark',
+                    'theme' => 'dark',
+                ),
 
             ),
         ),
