@@ -13,9 +13,7 @@ if( ! defined('ABSPATH') ) {
     die ();
 }
 
-
 /**
- * Small Update From PHPStrom
  * ------------------------------------------------------------------------------------------------
  * WordPress-Settings-Framework Framework
  * A Lightweight and easy-to-use WordPress Options Framework
@@ -34,8 +32,9 @@ if( ! defined('ABSPATH') ) {
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * ------------------------------------------------------------------------------------------------
  */
-
+add_action('after_setup_theme', 'wpsf_framework_init');
 require_once plugin_dir_path(__FILE__) . '/wpsf-framework-path.php';
+
 
 if( ! function_exists("wpsf_template") ) {
     /**
@@ -81,8 +80,9 @@ if( ! function_exists("wpsf_autoloader") ) {
     }
 }
 
-if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') ) {
+if( ! function_exists('wpsf_framework_init') ) {
     function wpsf_framework_init() {
+
         if( class_exists('WPSFramework') ) {
             return;
         }
@@ -102,18 +102,15 @@ if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') )
         require_once( WPSF_DIR . '/classes/framework.php' );
 
         wpsf_load_options();
-
+        wpsf_framework_widgets();
         spl_autoload_register('wpsf_autoloader');
+        add_action('widgets_init', 'wpsf_framework_widgets', 10);
         do_action("wpsf_framework_loaded");
     }
-
-    add_action('init', 'wpsf_framework_init', 1);
-    add_action('widgets_init', 'wpsf_framework_widgets', 10);
 }
 
 if( ! function_exists('wpsf_framework_widgets') ) {
     function wpsf_framework_widgets() {
-        wpsf_framework_init();
         wpsf_locate_template('classes/widget.php');
         do_action('wpsf_widgets');
     }

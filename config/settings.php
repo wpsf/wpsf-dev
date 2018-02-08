@@ -4109,6 +4109,6 @@ new WPSFramework_Settings(array(
     'menu_slug'        => 'wpsf-modern',
     'style'            => 'modern',
     'is_sticky_header' => FALSE,
-    'is_single_page'   => FALSE,
+    'is_single_page'   => TRUE,
     'option_name'      => '_wpsf_new_option',
 ), $options);

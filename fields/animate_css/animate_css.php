@@ -27,10 +27,6 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function load_styles() {
-        wp_enqueue_style('animate-css');
-    }
-
     public function output() {
         $this->element_before();
 

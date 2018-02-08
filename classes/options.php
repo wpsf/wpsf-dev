@@ -37,7 +37,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->unique = $unique;
         $this->multilang = $this->element_multilang();
         $this->row_after = NULL;
-        $this->addAction('admin_footer', 'load_styles');
     }
 
     /**
@@ -45,9 +44,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
-    }
-
-    public function load_styles() {
     }
 
     public function final_output() {
@@ -426,6 +422,11 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         return $value;
     }
 
+    /**
+     * @param       $field_id
+     * @param array $default
+     * @return array|string
+     */
     public function _unarray_values($field_id, $default = array()) {
         if( in_array($this->field['type'], array( 'tab', 'group', 'fieldset', 'accordion' )) ) {
             if( isset($this->field['un_array']) === FALSE || $this->field['un_array'] === FALSE ) {
@@ -515,15 +516,5 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'attributes' => $option['attributes'],
             'icon'       => $option['icon'],
         );
-    }
-
-    /**
-     * @param $key
-     * @param $default
-     * @param $data
-     * @return mixed
-     */
-    private function _option_data($key, $default, $data) {
-        return ( isset($data->{$key}) && ! empty($data->{$key}) ) ? $data->{$key} : $data->{$default};
     }
 }

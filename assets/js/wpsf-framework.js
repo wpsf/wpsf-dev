@@ -1309,7 +1309,8 @@
                             type: 'POST',
                             url: ajaxurl,
                             data: {
-                                action: 'wpsf-get-icons'
+                                action: 'wpsf-ajax',
+                                "wpsf-action": "wpsf-get-icons",
                             },
                             success: function (content) {
                                 $load.html(content);

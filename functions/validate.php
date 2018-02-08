@@ -28,7 +28,6 @@ if( ! function_exists('wpsf_get_error_message') ) {
     }
 }
 
-
 /**
  *
  * Email validate
@@ -51,7 +50,6 @@ if( ! function_exists('wpsf_validate_email') ) {
 
     add_filter('wpsf_validate_email', 'wpsf_validate_email', 10, 2);
 }
-
 
 if( ! function_exists('wpsf_validate_website') ) {
     function wpsf_validate_website($value, $field) {
