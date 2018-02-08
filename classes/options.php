@@ -40,13 +40,14 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->addAction('admin_footer', 'load_styles');
     }
 
-    public function load_styles() {}
-
     /**
      * @return bool|mixed
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
+    }
+
+    public function load_styles() {
     }
 
     public function final_output() {
@@ -425,111 +426,33 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         return $value;
     }
 
+    public function _unarray_values($field_id, $default = array()) {
+        if( in_array($this->field['type'], array( 'tab', 'group', 'fieldset', 'accordion' )) ) {
+            if( isset($this->field['un_array']) === FALSE || $this->field['un_array'] === FALSE ) {
+                if( isset($this->value[$field_id]) ) {
+                    return $this->value[$field_id];
+                } else {
+                    return $default;
+                }
+            }
+        }
+        return ( empty($this->value) ) ? $default : $this->value;
+    }
+
     /**
      * @param string $type
      * @return array
      */
     public function element_data($type = '') {
-        $options = array();
+        $is_ajax = ( isset($this->field['settings']) && isset($this->field['settings']['is_ajax']) && $this->field['settings']['is_ajax'] === TRUE );
         $query_args = ( isset ($this->field ['query_args']) ) ? $this->field ['query_args'] : array();
-        $option_key = isset($query_args['option_key']) ? $query_args['option_key'] : 'ID';
-        $option_value = isset($query_args['option_value']) ? $query_args['option_value'] : 'name';
-        unset($query_args['option_key']);
-        unset($query_args['option_value']);
-        switch( $type ) {
 
-            case 'pages' :
-            case 'page' :
-                $pages = get_pages($query_args);
-                if( ! is_wp_error($pages) && ! empty ($pages) ) {
-                    foreach( $pages as $page ) {
-                        $opk = $this->_option_data($option_key, 'ID', $page);
-                        $opv = $this->_option_data($option_value, 'post_title', $page);
-                        $options[$opk] = $opv;
-                    }
-                }
-
-            break;
-
-            case 'posts' :
-            case 'post' :
-                $posts = get_posts($query_args);
-                if( ! is_wp_error($posts) && ! empty ($posts) ) {
-                    foreach( $posts as $post ) {
-                        $opk = $this->_option_data($option_key, 'ID', $post);
-                        $opv = $this->_option_data($option_value, 'post_title', $post);
-                        $options[$opk] = $opv;
-                    }
-                }
-
-            break;
-
-            case 'categories' :
-            case 'category' :
-                $categories = get_categories($query_args);
-                if( ! is_wp_error($categories) && ! empty ($categories) && ! isset ($categories ['errors']) ) {
-                    foreach( $categories as $category ) {
-                        $opk = $this->_option_data($option_key, 'term_id', $category);
-                        $opv = $this->_option_data($option_value, 'name', $category);
-                        $options[$opk] = $opv;
-                    }
-                }
-
-            break;
-
-            case 'tags' :
-            case 'tag' :
-                $taxonomies = ( isset ($query_args ['taxonomies']) ) ? $query_args ['taxonomies'] : 'post_tag';
-                $tags = get_terms($taxonomies, $query_args);
-                if( ! is_wp_error($tags) && ! empty ($tags) ) {
-                    foreach( $tags as $tag ) {
-                        $opk = $this->_option_data($option_key, 'term_id', $tag);
-                        $opv = $this->_option_data($option_value, 'name', $tag);
-                        $options[$opk] = $opv;
-                    }
-                }
-
-            break;
-
-            case 'menus' :
-            case 'menu' :
-                $menus = wp_get_nav_menus($query_args);
-                if( ! is_wp_error($menus) && ! empty ($menus) ) {
-                    foreach( $menus as $menu ) {
-                        $opk = $this->_option_data($option_key, 'term_id', $menu);
-                        $opv = $this->_option_data($option_value, 'name', $menu);
-                        $options [$opk] = $opv;
-                    }
-                }
-
-            break;
-
-            case 'post_types' :
-            case 'post_type' :
-                $post_types = get_post_types(array(
-                    'show_in_nav_menus' => TRUE,
-                ));
-
-                if( ! is_wp_error($post_types) && ! empty ($post_types) ) {
-                    foreach( $post_types as $post_type ) {
-                        $options [$post_type] = ucfirst($post_type);
-                    }
-                }
-
-            break;
+        if( $is_ajax ) {
+            $query_args['post__in'] = ( ! is_array($this->value) ) ? explode(",", $this->value) : $this->value;
         }
 
-        return $options;
-    }
-
-    /**
-     * @param $key
-     * @param $default
-     * @param $data
-     * @return mixed
-     */
-    private function _option_data($key, $default, $data) {
-        return ( isset($data->{$key}) && ! empty($data->{$key}) ) ? $data->{$key} : $data->{$default};
+        $data = WPSFramework_Query::query($type, $query_args, '');
+        return $data;
     }
 
     /**
@@ -592,5 +515,15 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'attributes' => $option['attributes'],
             'icon'       => $option['icon'],
         );
+    }
+
+    /**
+     * @param $key
+     * @param $default
+     * @param $data
+     * @return mixed
+     */
+    private function _option_data($key, $default, $data) {
+        return ( isset($data->{$key}) && ! empty($data->{$key}) ) ? $data->{$key} : $data->{$default};
     }
 }

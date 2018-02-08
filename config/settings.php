@@ -1611,8 +1611,8 @@ $options[] = array(
                 ),
 
                 array(
-                    'content' => 'Select With Chosen',
-                    'fields'  => array(
+                    'accordion_title' => 'Select With Chosen',
+                    'fields'          => array(
                         array(
                             'id'             => 'unique_select_12',
                             'type'           => 'select',
@@ -1673,12 +1673,58 @@ $options[] = array(
                             'info'       => 'and much more select options for you!',
                         ),
                     ),
-                    'id'      => 'unique_select_chosen_011',
-                    'type'    => 'accordion',
+                    'id'              => 'unique_select_chosen_011',
+                    'type'            => 'accordion',
                 ),
                 array(
-                    'content' => 'Select With Select2',
-                    'fields'  => array(
+                    'accordion_title' => 'Select With Select2',
+                    'fields'          => array(
+                        array(
+                            'id'             => 'select2_ajax_pagae1s',
+                            'type'           => 'select',
+                            'title'          => 'Select with select2 with Pages Ajax',
+                            'settings'       => array( 'is_ajax' => TRUE, 'preload' => 2 ),
+                            'query_args'     => array( 'posts_per_page' => 2 ),
+                            'options'        => 'pages',
+                            'class'          => 'select2',
+                            'default_option' => 'Select a page',
+                        ),
+
+                        array(
+                            'id'             => 'select2_multiple_ajax_pages',
+                            'type'           => 'select',
+                            'multiple'       => TRUE,
+                            'title'          => 'Select with select2 with Pages Multiple Ajax',
+                            'settings'       => array( 'is_ajax' => TRUE, 'preload' => 2 ),
+                            'query_args'     => array( 'posts_per_page' => 2 ),
+                            'options'        => 'pages',
+                            'class'          => 'select2',
+                            'default_option' => 'Select a page',
+                        ),
+
+                        array(
+                            'id'             => 'select2_ajax_categories',
+                            'type'           => 'select',
+                            'title'          => 'Select with select2 with Categories Ajax',
+                            'settings'       => array( 'is_ajax' => TRUE ),
+                            'query_args'     => array( 'hide_empty' => FALSE, ),
+                            'options'        => 'categories',
+                            'class'          => 'select2',
+                            'default_option' => 'Select a Category',
+                        ),
+
+                        array(
+                            'id'             => 'select2_ajax_categories_multiple',
+                            'type'           => 'select',
+                            'multiple'       => TRUE,
+                            'title'          => 'Select with select2 with Categories Multiple Ajax',
+                            'settings'       => array( 'is_ajax' => TRUE ),
+                            'query_args'     => array( 'hide_empty' => FALSE, ),
+                            'options'        => 'categories',
+                            'class'          => 'select2',
+                            'default_option' => 'Select a Category',
+                        ),
+
                         array(
                             'id'             => 'unique_select_112',
                             'type'           => 'select',
@@ -1739,8 +1785,8 @@ $options[] = array(
                             'info'       => 'and much more select options for you!',
                         ),
                     ),
-                    'id'      => 'unique_select_select2_011',
-                    'type'    => 'accordion',
+                    'id'              => 'unique_select_select2_011',
+                    'type'            => 'accordion',
                 ),
 
             ),

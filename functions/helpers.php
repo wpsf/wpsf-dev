@@ -338,3 +338,32 @@ if( ! function_exists('wpsf_load_option_fields') ) {
         do_action('wpsf_load_option_fields');
     }
 }
+
+if( ! function_exists("wpsf_js_vars") ) {
+    /**
+     * @param      $object_name
+     * @param      $l10n
+     * @param bool $with_script_tag
+     * @return string
+     */
+    function wpsf_js_vars($object_name = '', $l10n, $with_script_tag = TRUE) {
+        foreach( (array) $l10n as $key => $value ) {
+            if( ! is_scalar($value) )
+                continue;
+            $l10n[$key] = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+        }
+
+        if( ! empty($object_name) ) {
+            $script = "var $object_name = " . wp_json_encode($l10n) . ';';
+        } else {
+            $script = wp_json_encode($l10n);
+        }
+
+        if( ! empty($after) )
+            $script .= "\n$after;";
+        if( $with_script_tag ) {
+            return '<script type="text/javascript">' . $script . '</script>';
+        }
+        return $script;
+    }
+}

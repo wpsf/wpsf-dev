@@ -11,6 +11,7 @@
 ;( function ($, window, document, undefined) {
     'use strict';
 
+
     $.WPSF_HELPER = {
         COLOR_PICKER: {
             parse: function ($value) {
@@ -405,7 +406,34 @@
     };
     $.fn.WPSF_SELECT2 = function () {
         return this.each(function () {
-            $(this).select2();
+            var $settings = {};
+            if ( $(this).attr("data-has-settings") === 'yes' ) {
+                var $parent = $(this).parent();
+                var $request_param = JSON.parse($parent.find('.wpsf-element-settings').html());
+                $settings = {
+                    ajax: {
+                        url: ajaxurl,
+                        data: function ($term) {
+                            $request_param['s'] = $term['term'];
+                            return $request_param;
+                        },
+                        method: 'post',
+                        processResults: function (data, params) {
+                            var terms = [];
+                            if ( data ) {
+                                data = JSON.parse(data);
+                                jQuery.each(data, function (id, text) {
+                                    terms.push({id: id, text: text});
+                                });
+                            }
+                            return {
+                                results: terms
+                            };
+                        }
+                    }
+                }
+            }
+            $(this).select2($settings);
         });
     };
     $.fn.WPSF_IMAGE_SELECT = function () {

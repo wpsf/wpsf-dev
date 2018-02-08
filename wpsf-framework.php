@@ -96,6 +96,8 @@ if( ! function_exists('wpsf_framework_init') && ! class_exists('WPSFramework') )
 
         // classes
         require_once( WPSF_DIR . '/classes/abstract.php' );
+        require_once( WPSF_DIR . '/classes/wpsf-ajax.php' );
+        require_once( WPSF_DIR . '/classes/wpsf-query.php' );
         require_once( WPSF_DIR . '/classes/options.php' );
         require_once( WPSF_DIR . '/classes/framework.php' );
 

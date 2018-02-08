@@ -719,7 +719,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
      * @return string
      */
     protected function is_page_active($status) {
-        return ( $status === TRUE ) ? 'style="display:block";' : '';
+        return ( $status === TRUE ) ? 'style="display:block;"' : '';
     }
 
     /**
