@@ -40,7 +40,7 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
         $query_args = ( isset ($_REQUEST['query_args']) ) ? $_REQUEST['query_args'] : array();
 
         $data = WPSFramework_Query::query($_REQUEST['options'], $query_args, $_REQUEST['s']);
-        echo wp_json_encode($data);
+        wp_send_json($data);
         wp_die();
     }
 

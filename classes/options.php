@@ -446,6 +446,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_data($type = '') {
         $is_ajax = ( isset($this->field['settings']) && isset($this->field['settings']['is_ajax']) && $this->field['settings']['is_ajax'] === TRUE );
+        if( $is_ajax && empty($this->value) ) {
+            return array();
+        }
         $query_args = ( isset ($this->field ['query_args']) ) ? $this->field ['query_args'] : array();
 
         if( $is_ajax ) {

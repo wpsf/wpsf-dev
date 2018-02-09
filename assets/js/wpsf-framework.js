@@ -412,7 +412,9 @@
                 var $request_param = JSON.parse($parent.find('.wpsf-element-settings').html());
                 $settings = {
                     ajax: {
+                        cache: true,
                         url: ajaxurl,
+                        dataType: 'json',
                         data: function ($term) {
                             $request_param['s'] = $term['term'];
                             return $request_param;
@@ -421,7 +423,6 @@
                         processResults: function (data, params) {
                             var terms = [];
                             if ( data ) {
-                                data = JSON.parse(data);
                                 jQuery.each(data, function (id, text) {
                                     terms.push({id: id, text: text});
                                 });
@@ -432,6 +433,10 @@
                         }
                     }
                 }
+            }
+
+            if ( $.WPSF.is_in_popup === true ) {
+                $settings['dropdownParent'] = $('#wpsf-shortcode-dialog');
             }
             $(this).select2($settings);
         });
@@ -1254,6 +1259,8 @@
     $.WPSF = {
         body: $('body'),
 
+        is_in_popup: false,
+
         icons_manager: function () {
             var base = this,
                 onload = true,
@@ -1439,12 +1446,14 @@
                                 shortcode: shortcode_name
                             },
                             success: function (content) {
+                                $.WPSF.is_in_popup = true;
                                 $shortcodeload.html(content);
                                 $insert.parent().removeClass('hidden');
                                 shortcode_clone = $('.wpsf-shortcode-clone', $dialog).clone();
                                 $shortcodeload.WPSF_DEPENDENCY();
                                 $shortcodeload.WPSF_DEPENDENCY('sub');
                                 $shortcodeload.WPSF_RELOAD();
+                                $.WPSF.is_in_popup = false;
                             }
                         });
 
@@ -1588,7 +1597,7 @@
                 // cloner button
                 var cloned = 0;
                 $dialog.on('click', '#shortcode-clone-button', function (e) {
-
+                    $.WPSF.is_in_popup = true;
                     e.preventDefault();
 
                     // clone from cache
@@ -1613,6 +1622,7 @@
                     // reloadPlugins
                     cloned_el.WPSF_DEPENDENCY('sub');
                     cloned_el.WPSF_RELOAD();
+                    $.WPSF.is_in_popup = false;
                     cloned++;
 
                 });
