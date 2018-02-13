@@ -30,6 +30,13 @@ $options[] = array(
             'name'   => 'cs_shortcode_1',
             'title'  => 'Basic Shortcode 1',
             'fields' => array(
+                array(
+                    'id'      => 'select11',
+                    'type'    => 'select',
+                    'options' => array( '1', 2, 3, 4, 5, 6 ),
+                    'class'   => 'select2',
+                    'title'   => 'select',
+                ),
 
                 // shortcode option field
                 array(

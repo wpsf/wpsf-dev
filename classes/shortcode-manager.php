@@ -22,52 +22,11 @@ if( ! defined('ABSPATH') ) {
  *
  */
 class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
-
-    /**
-     *
-     * instance
-     *
-     * @access private
-     * @var class
-     *
-     */
-    private static $instance = NULL;
-    /**
-     *
-     * shortcode options
-     *
-     * @access public
-     * @var array
-     *
-     */
     public $options = array();
-    /**
-     *
-     * shortcodes options
-     *
-     * @access public
-     * @var array
-     *
-     */
     public $shortcodes = array();
-    /**
-     *
-     * exclude_post_types
-     *
-     * @access public
-     * @var array
-     *
-     */
     public $exclude_post_types = array();
 
-    // run shortcode construct
-
-    /**
-     * WPSFramework_Shortcode_Manager constructor.
-     * @param $options
-     */
     public function __construct($options) {
-
         $this->settings = array();
         $this->options = apply_filters('wpsf_shortcode_options', $options);
         $this->exclude_post_types = apply_filters('wpsf_shortcode_exclude', $this->exclude_post_types);
@@ -88,7 +47,6 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
             $this->settings = wp_parse_args($this->settings, $defaults);
             $this->exclude_post_types = array_merge($this->settings['exclude_posttypes'], $this->exclude_post_types);
 
-            $this->shortcodes = $this->get_shortcodes();
             $this->addAction("admin_enqueue_scripts", 'load_style_script');
             $this->addAction('media_buttons', 'media_shortcode_button', 99);
             $this->addAction('admin_footer', 'shortcode_dialog', 99);
@@ -97,46 +55,23 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
         }
     }
 
-    /**
-     * @return array
-     */
-    public function get_shortcodes() {
-        $shortcodes = array();
-
-        foreach( $this->options as $group_value ) {
-            foreach( $group_value ['shortcodes'] as $shortcode ) {
-                $shortcodes [$shortcode ['name']] = $shortcode;
-            }
-        }
-
-        return $shortcodes;
-    }
-
-    // add shortcode button
-
     public function load_style_script() {
         wpsf_load_fields_styles();
     }
 
-    // shortcode dialog
-
-    /**
-     * @param $editor_id
-     */
     public function media_shortcode_button($editor_id) {
         global $post;
 
         $post_type = ( isset ($post->post_type) ) ? $post->post_type : '';
 
         if( ! in_array($post_type, $this->exclude_post_types) ) {
-            echo '<a href="#" class="' . esc_attr($this->settings['button_class']) . ' wpsf-shortcode" data-auto-select="' . esc_attr($this->settings['auto_select']) . '" data-editor-id="' . $editor_id . '">' . esc_html($this->settings['button_title']) . '</a>';
+            echo '<a href="#" class="' . esc_attr($this->settings['button_class']) . ' wpsf-shortcode" 
+            data-auto-select="' . esc_attr($this->settings['auto_select']) . '" data-editor-id="' . $editor_id . '">' . esc_html($this->settings['button_title']) . '</a>';
         }
     }
 
-    // shortcode generator function for dialog
-
     public function shortcode_dialog() {
-
+        $this->shortcodes = $this->get_shortcodes();
         ?>
         <div id="wpsf-shortcode-dialog" class="wpsf-dialog hidden"
              title="<?php esc_html_e('Add Shortcode', 'wpsf-framework'); ?>">
@@ -166,9 +101,20 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
         <?php
     }
 
-    // getting shortcodes from config array
+    public function get_shortcodes() {
+        $shortcodes = array();
+
+        foreach( $this->options as $group_value ) {
+            foreach( $group_value ['shortcodes'] as $shortcode ) {
+                $shortcodes [$shortcode ['name']] = $shortcode;
+            }
+        }
+
+        return $shortcodes;
+    }
 
     public function shortcode_generator() {
+        $this->shortcodes = $this->get_shortcodes();
         $request = wpsf_get_var('shortcode');
 
         if( empty ($request) ) {

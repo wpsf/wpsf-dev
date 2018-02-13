@@ -32,6 +32,19 @@ class WPSFramework_Option_select extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
+    public function assets() {
+        if( ! empty($this->field) ) {
+            if( strpos(self::element_class(), 'chosen') ) {
+                wpsf_assets()->add('chosen');
+            } else if( strpos(self::element_class(), 'select2') ) {
+                wpsf_assets()->add('select2');
+            }
+        } else {
+            wpsf_assets()->add('select2');
+            wpsf_assets()->add('chosen');
+        }
+    }
+
     public function output() {
         echo $this->element_before();
 
@@ -52,6 +65,7 @@ class WPSFramework_Option_select extends WPSFramework_Options {
             $extra_name = ( isset ($this->field ['attributes'] ['multiple']) ) ? '[]' : '';
             $chosen_rtl = ( is_rtl() && strpos($class, 'chosen') ) ? 'chosen-rtl' : '';
             $exAttr = ( $is_ajax ) ? array( 'data-has-settings' => 'yes' ) : array();
+
 
             echo '<select name="' . $this->element_name($extra_name) . '"' . $this->element_class($chosen_rtl) . $this->element_attributes($exAttr) . '>';
 

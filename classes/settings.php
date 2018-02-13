@@ -281,6 +281,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         }
 
         $this->addAction('load-' . $this->settings_page, 'on_admin_page_load');
+        wpsf_assets()->hook($this->settings_page);
         if( ! empty($this->settings['help_tabs']) ) {
             $this->help_tabs = new WPSFramework_Help_Tabs(array(
                 $this->settings_page => $this->settings['help_tabs'],
@@ -293,18 +294,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
      */
     public function load_style_script($hook) {
         if( $this->settings_page == $hook ) {
-            wpsf_load_fields_styles();
+            wpsf_assets()->render_framework_styles();
         }
 
         if( isset($this->settings['extra_css']) && is_array($this->settings['extra_css']) ) {
             foreach( $this->settings['extra_css'] as $id ) {
-                wp_enqueue_style($id);
+                wpsf_assets()->add($id);
             }
         }
 
         if( isset($this->settings['extra_js']) && is_array($this->settings['extra_js']) ) {
             foreach( $this->settings['extra_js'] as $id ) {
-                wp_enqueue_script($id);
+                wpsf_assets()->add($id);
             }
         }
     }
@@ -538,7 +539,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             if( isset($page['sections']) ) {
                 $is_child_active = ( ( isset($page['sections'][$this->current_section()]) || isset($this->sec_names[$page['name']][$this->current_section()]) ) && $is_page_active === TRUE ) ? TRUE : FALSE;
 
-
                 if( $this->is_modern() ) {
                     $active_li = ( $is_page_active === TRUE && $is_child_active === TRUE ) ? ' wpsf-tab-active ' : '';
                     $main_menu .= '<li class="wpsf-sub ' . $active_li . '"> <a href="#" class="wpsf-arrow">' . $page_icon . $page['title'] . '</a> <ul ' . $this->is_page_active(( $is_page_active === TRUE && $is_child_active === TRUE )) . '>';
@@ -552,9 +552,16 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 }
 
                 foreach( $page['sections'] as $section_id => $section ) {
+
                     $is_section_active = ( $is_child_active === TRUE && $this->current_section() == $section['name'] ) ? TRUE : FALSE;
                     $sec_icon = $this->get_icon($section);
-                    $fields = $this->render_fields($section);
+                    $fields = NULL;
+                    if( $this->is_single_page() === FALSE && $this->current_section() === $section['name'] ) {
+                        $fields = $this->render_fields($section);
+                    } else if( $this->is_single_page() === TRUE ) {
+                        $fields = $this->render_fields($section);
+                    }
+
 
                     if( $this->is_simple() ) {
                         $active_class = ( $is_section_active === TRUE ) ? 'current' : '';
@@ -621,7 +628,12 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 
             } else if( isset($page['fields']) ) {
 
-                $fields = $this->render_fields($page);
+                $fields = NULL;
+                if( $this->is_single_page() === FALSE && $this->current_section('parent') === $page['name'] ) {
+                    $fields = $this->render_fields($page);
+                } else if( $this->is_single_page() === TRUE ) {
+                    $fields = $this->render_fields($page);
+                }
 
                 if( $this->is_simple() ) {
                     $sub_navs = '<span class="wpsf-submenus" id="wpsf-tab-' . $page['name'] . '" data-section="' . esc_attr($page['name']) . '">' . $page['title'] . '</span>';

@@ -23,6 +23,12 @@ if( ! defined('ABSPATH') ) {
  */
 abstract class WPSFramework_Options extends WPSFramework_Abstract {
     public static $total_cols = 0;
+    public $field = NULL;
+    public $value = NULL;
+    public $org_value = NULL;
+    public $unique = NULL;
+    public $multilang = NULL;
+    public $row_after = NULL;
 
     /**
      * WPSFramework_Options constructor.
@@ -36,7 +42,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->org_value = $value;
         $this->unique = $unique;
         $this->multilang = $this->element_multilang();
-        $this->row_after = NULL;
+        $this->assets();
     }
 
     /**
@@ -44,6 +50,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
+    }
+
+    public function assets() {
     }
 
     public function final_output() {
@@ -63,6 +72,8 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $type = ( isset ($this->field ['attributes'] ['type']) ) ? $this->field ['attributes'] ['type'] : $this->field ['type'];
         return $type;
     }
+
+    abstract public function output();
 
     /**
      * @param bool $is_start
@@ -117,7 +128,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
     public function element_title() {
         if( isset ($this->field ['title']) ) {
-            $field_desc = ( isset ($this->field ['desc']) ) ? '<p class="wpsf-text-desc">' . $this->field ['desc'] . '</p>' : '';
             echo '<div class="wpsf-title"><h4>' . $this->field ['title'] . '</h4>' . $this->element_desc() . ' ' . $this->element_help() . '</div>';
         }
     }

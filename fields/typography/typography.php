@@ -32,6 +32,11 @@ class WPSFramework_Option_typography extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
+    public function assets() {
+        wpsf_assets()->add('select2');
+        wpsf_assets()->add('chosen');
+    }
+
     public function output() {
         echo $this->element_before();
 

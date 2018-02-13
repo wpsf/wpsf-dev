@@ -1,4 +1,4 @@
-/* flatpickr v4.2.4, @license MIT */
+/* flatpickr v4.3.2, @license MIT */
 ( function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -7,19 +7,19 @@
     'use strict';
 
     /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+    Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+    this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+    MERCHANTABLITY OR NON-INFRINGEMENT.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
+    See the Apache Version 2.0 License for specific language governing permissions
+    and limitations under the License.
+    ***************************************************************************** */
     /* global Reflect, Promise */
 
 
@@ -59,11 +59,6 @@ and limitations under the License.
     var arrayify = function (obj) {
         return obj instanceof Array ? obj : [obj];
     };
-
-    function mouseDelta(e) {
-        var delta = e.wheelDelta || -e.deltaY;
-        return delta >= 0 ? 1 : -1;
-    }
 
     var do_nothing = function () {
         return undefined;
@@ -296,14 +291,15 @@ and limitations under the License.
 
     var createDateFormatter = function (_a) {
         var _b = _a.config, config = _b === void 0 ? defaults : _b, _c = _a.l10n, l10n = _c === void 0 ? english : _c;
-        return function (dateObj, frmt) {
+        return function (dateObj, frmt, overrideLocale) {
             if ( config.formatDate !== undefined )
                 return config.formatDate(dateObj, frmt);
+            var locale = overrideLocale || l10n;
             return frmt
                 .split("")
                 .map(function (c, i, arr) {
                     return formats[c] && arr[i - 1] !== "\\"
-                        ? formats[c](dateObj, l10n, config)
+                        ? formats[c](dateObj, locale, config)
                         : c !== "\\" ? c : "";
                 })
                 .join("");
@@ -533,7 +529,6 @@ and limitations under the License.
             l10n: english,
         };
         self.parseDate = createDateParser({config: self.config, l10n: self.l10n});
-        self._animationLoop = [];
         self._handlers = [];
         self._bind = bind;
         self._setHoursFromDate = setHoursFromDate;
@@ -589,8 +584,12 @@ and limitations under the License.
             self.showTimeInput =
                 self.selectedDates.length > 0 || self.config.noCalendar;
             if ( self.weekWrapper !== undefined && self.daysContainer !== undefined ) {
+                self.calendarContainer.style.visibility = "hidden";
+                self.calendarContainer.style.display = "block";
                 self.calendarContainer.style.width =
                     self.daysContainer.offsetWidth + self.weekWrapper.offsetWidth + "px";
+                self.calendarContainer.style.visibility = "visible";
+                self.calendarContainer.style.display = null;
             }
             var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
             if ( !self.isMobile && isSafari ) {
@@ -749,11 +748,10 @@ and limitations under the License.
             }
             var debouncedResize = debounce(onResize, 50);
             self._debouncedChange = debounce(triggerChange, DEBOUNCED_CHANGE_MS);
-            if ( self.config.mode === "range" &&
-                self.daysContainer &&
-                !/iPhone|iPad|iPod/i.test(navigator.userAgent) )
+            if ( self.daysContainer && !/iPhone|iPad|iPod/i.test(navigator.userAgent) )
                 bind(self.daysContainer, "mouseover", function (e) {
-                    return onMouseOver(e.target);
+                    if ( self.config.mode === "range" )
+                        onMouseOver(e.target);
                 });
             bind(window.document.body, "keydown", onKeyDown);
             if ( !self.config.static )
@@ -761,22 +759,17 @@ and limitations under the License.
             if ( !self.config.inline && !self.config.static )
                 bind(window, "resize", debouncedResize);
             if ( window.ontouchstart !== undefined )
-                bind(window.document.body, "touchstart", documentClick);
-            bind(window.document.body, "mousedown", onClick(documentClick));
-            bind(window.document.body, "focus", documentClick, {capture: true});
+                bind(window.document, "touchstart", documentClick);
+            bind(window.document, "mousedown", onClick(documentClick));
+            bind(window.document, "focus", documentClick, {capture: true});
             if ( self.config.clickOpens === true ) {
                 bind(self._input, "focus", self.open);
                 bind(self._input, "mousedown", onClick(self.open));
             }
             if ( self.daysContainer !== undefined ) {
-                bind(self.monthNav, "wheel", onMonthNavScroll);
                 bind(self.monthNav, "mousedown", onClick(onMonthNavClick));
                 bind(self.monthNav, ["keyup", "increment"], onYearInput);
                 bind(self.daysContainer, "mousedown", onClick(selectDate));
-                if ( self.config.animate ) {
-                    bind(self.daysContainer, ["webkitAnimationEnd", "animationend"], animateDays);
-                    bind(self.monthNav, ["webkitAnimationEnd", "animationend"], animateMonths);
-                }
             }
             if ( self.timeContainer !== undefined &&
                 self.minuteElement !== undefined &&
@@ -784,9 +777,11 @@ and limitations under the License.
                 var selText = function (e) {
                     return e.target.select();
                 };
-                bind(self.timeContainer, ["wheel", "input", "increment"], updateTime);
+                bind(self.timeContainer, ["input", "increment"], updateTime);
                 bind(self.timeContainer, "mousedown", onClick(timeIncrement));
-                bind(self.timeContainer, ["wheel", "input", "increment"], self._debouncedChange, {passive: true});
+                bind(self.timeContainer, ["input", "increment"], self._debouncedChange, {
+                    passive: true,
+                });
                 bind([self.hourElement, self.minuteElement], ["focus", "click"], selText);
                 if ( self.secondElement !== undefined )
                     bind(self.secondElement, "focus", function () {
@@ -798,56 +793,6 @@ and limitations under the License.
                         triggerChange();
                     }));
                 }
-            }
-        }
-
-        function processPostDayAnimation() {
-            self._animationLoop.forEach(function (f) {
-                return f();
-            });
-            self._animationLoop = [];
-        }
-
-        function animateDays(e) {
-            if ( self.daysContainer && self.daysContainer.childNodes.length > 1 ) {
-                switch ( e.animationName ) {
-                    case "fpSlideLeft":
-                        self.daysContainer.lastChild &&
-                        self.daysContainer.lastChild.classList.remove("slideLeftNew");
-                        self.daysContainer.removeChild(self.daysContainer
-                            .firstChild);
-                        self.days = self.daysContainer.firstChild;
-                        processPostDayAnimation();
-                        break;
-                    case "fpSlideRight":
-                        self.daysContainer.firstChild &&
-                        self.daysContainer.firstChild.classList.remove("slideRightNew");
-                        self.daysContainer.removeChild(self.daysContainer
-                            .lastChild);
-                        self.days = self.daysContainer.firstChild;
-                        processPostDayAnimation();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        function animateMonths(e) {
-            switch ( e.animationName ) {
-                case "fpSlideLeftNew":
-                case "fpSlideRightNew":
-                    self.navigationCurrentMonth.classList.remove("slideLeftNew");
-                    self.navigationCurrentMonth.classList.remove("slideRightNew");
-                    var nav = self.navigationCurrentMonth;
-                    while ( nav.nextSibling &&
-                    /curr/.test(nav.nextSibling.className) )
-                        self.monthNav.removeChild(nav.nextSibling);
-                    while ( nav.previousSibling &&
-                    /curr/.test(nav.previousSibling.className) )
-                        self.monthNav.removeChild(nav.previousSibling);
-                    self.oldCurMonth = undefined;
-                    break;
             }
         }
 
@@ -888,11 +833,8 @@ and limitations under the License.
         }
 
         function build() {
-            var $theme = element.getAttribute('data-datepicker-theme');
-            $theme = 'flatpickr-calendar ' + $theme;
-            var $main_container = createElement('div', $theme);
             var fragment = window.document.createDocumentFragment();
-            self.calendarContainer = createElement("div", $theme);
+            self.calendarContainer = createElement("div", "flatpickr-calendar");
             self.calendarContainer.tabIndex = -1;
             if ( !self.config.noCalendar ) {
                 fragment.appendChild(buildMonthNav());
@@ -1013,23 +955,18 @@ and limitations under the License.
             };
             if ( targetNode === undefined && offset !== 0 ) {
                 if ( offset > 0 ) {
-                    self.changeMonth(1, true, undefined, true);
+                    self.changeMonth(1, true, true);
                     newIndex = newIndex % 42;
                 }
                 else if ( offset < 0 ) {
-                    self.changeMonth(-1, true, undefined, true);
+                    self.changeMonth(-1, true, true);
                     newIndex += 42;
                 }
-                return afterDayAnim(focus);
             }
             focus();
         }
 
-        function afterDayAnim(fn) {
-            self.config.animate === true ? self._animationLoop.push(fn) : fn();
-        }
-
-        function buildDays(delta) {
+        function buildDays() {
             if ( self.daysContainer === undefined ) {
                 return;
             }
@@ -1070,17 +1007,9 @@ and limitations under the License.
                 updateNavigationCurrentMonth();
             var dayContainer = createElement("div", "dayContainer");
             dayContainer.appendChild(days);
-            if ( !self.config.animate || delta === undefined )
-                clearNode(self.daysContainer);
-            else {
-                while ( self.daysContainer.childNodes.length > 1 )
-                    self.daysContainer.removeChild(self.daysContainer.firstChild);
-            }
-            if ( delta && delta >= 0 )
-                self.daysContainer.appendChild(dayContainer);
-            else
-                self.daysContainer.insertBefore(dayContainer, self.daysContainer.firstChild);
-            self.days = self.daysContainer.childNodes[0];
+            clearNode(self.daysContainer);
+            self.daysContainer.insertBefore(dayContainer, self.daysContainer.firstChild);
+            self.days = self.daysContainer.firstChild;
         }
 
         function buildMonthNav() {
@@ -1089,10 +1018,8 @@ and limitations under the License.
             self.prevMonthNav = createElement("span", "flatpickr-prev-month");
             self.prevMonthNav.innerHTML = self.config.prevArrow;
             self.currentMonthElement = createElement("span", "cur-month");
-            self.currentMonthElement.title = self.l10n.scrollTitle;
             var yearInput = createNumberInput("cur-year", {tabindex: "-1"});
             self.currentYearElement = yearInput.childNodes[0];
-            self.currentYearElement.title = self.l10n.scrollTitle;
             if ( self.config.minDate )
                 self.currentYearElement.setAttribute("data-min", self.config.minDate.getFullYear().toString());
             if ( self.config.maxDate ) {
@@ -1160,7 +1087,6 @@ and limitations under the License.
             self.hourElement.setAttribute("data-max", self.config.time_24hr ? "23" : "12");
             self.minuteElement.setAttribute("data-min", "0");
             self.minuteElement.setAttribute("data-max", "59");
-            self.hourElement.title = self.minuteElement.title = self.l10n.scrollTitle;
             self.timeContainer.appendChild(hourInput);
             self.timeContainer.appendChild(separator);
             self.timeContainer.appendChild(minuteInput);
@@ -1214,12 +1140,9 @@ and limitations under the License.
             };
         }
 
-        function changeMonth(value, is_offset, animate, from_keyboard) {
+        function changeMonth(value, is_offset, from_keyboard) {
             if ( is_offset === void 0 ) {
                 is_offset = true;
-            }
-            if ( animate === void 0 ) {
-                animate = self.config.animate;
             }
             if ( from_keyboard === void 0 ) {
                 from_keyboard = false;
@@ -1234,56 +1157,14 @@ and limitations under the License.
                 self.currentMonth = ( self.currentMonth + 12 ) % 12;
                 triggerEvent("onYearChange");
             }
-            buildDays(animate ? delta : undefined);
-            if ( !animate ) {
-                triggerEvent("onMonthChange");
-                return updateNavigationCurrentMonth();
-            }
-            var nav = self.navigationCurrentMonth;
-            if ( delta < 0 ) {
-                while ( nav.nextSibling &&
-                /curr/.test(nav.nextSibling.className) )
-                    self.monthNav.removeChild(nav.nextSibling);
-            }
-            else if ( delta > 0 ) {
-                while ( nav.previousSibling &&
-                /curr/.test(nav.previousSibling.className) )
-                    self.monthNav.removeChild(nav.previousSibling);
-            }
-            self.oldCurMonth = self.navigationCurrentMonth;
-            self.navigationCurrentMonth = self.monthNav.insertBefore(self.oldCurMonth.cloneNode(true), delta > 0 ? self.oldCurMonth.nextSibling : self.oldCurMonth);
-            var daysContainer = self.daysContainer;
-            if ( daysContainer.firstChild && daysContainer.lastChild ) {
-                if ( delta > 0 ) {
-                    daysContainer.firstChild.classList.add("slideLeft");
-                    daysContainer.lastChild.classList.add("slideLeftNew");
-                    self.oldCurMonth.classList.add("slideLeft");
-                    self.navigationCurrentMonth.classList.add("slideLeftNew");
-                }
-                else if ( delta < 0 ) {
-                    daysContainer.firstChild.classList.add("slideRightNew");
-                    daysContainer.lastChild.classList.add("slideRight");
-                    self.oldCurMonth.classList.add("slideRight");
-                    self.navigationCurrentMonth.classList.add("slideRightNew");
-                }
-            }
-            self.currentMonthElement = self.navigationCurrentMonth
-                .firstChild;
-            self.currentYearElement = self.navigationCurrentMonth.lastChild
-                .childNodes[0];
+            buildDays();
+            triggerEvent("onMonthChange");
             updateNavigationCurrentMonth();
-            if ( self.oldCurMonth.firstChild )
-                self.oldCurMonth.firstChild.textContent = monthToStr(self.currentMonth - delta, self.config.shorthandCurrentMonth, self.l10n);
-            afterDayAnim(function () {
-                return triggerEvent("onMonthChange");
-            });
             if ( from_keyboard &&
                 document.activeElement &&
                 document.activeElement.$i ) {
-                var index_1 = document.activeElement.$i;
-                afterDayAnim(function () {
-                    focusOnDay(index_1, 0);
-                });
+                var index = document.activeElement.$i;
+                focusOnDay(index, 0);
             }
         }
 
@@ -1530,7 +1411,7 @@ and limitations under the License.
                                 if ( !e.ctrlKey )
                                     focusOnDay(e.target.$i, delta_1);
                                 else
-                                    changeMonth(delta_1, true, undefined, true);
+                                    changeMonth(delta_1, true, true);
                             }
                         }
                         else if ( self.hourElement )
@@ -1896,10 +1777,13 @@ and limitations under the License.
 
         function focusAndClose() {
             self._input.focus();
-            if ( window.navigator.userAgent.indexOf("MSIE") === -1 )
-                self.close();
-            else
+            if ( window.navigator.userAgent.indexOf("MSIE") !== -1 ||
+                navigator.msMaxTouchPoints !== undefined ) {
                 setTimeout(self.close, 0);
+            }
+            else {
+                self.close();
+            }
         }
 
         function selectDate(e) {
@@ -1977,9 +1861,7 @@ and limitations under the License.
             if ( !shouldChangeMonth )
                 focusOnDay(target.$i, 0);
             else
-                afterDayAnim(function () {
-                    return self.selectedDateElem && self.selectedDateElem.focus();
-                });
+                self.selectedDateElem && self.selectedDateElem.focus();
             if ( self.hourElement !== undefined )
                 setTimeout(function () {
                     return self.hourElement !== undefined && self.hourElement.select();
@@ -2050,9 +1932,10 @@ and limitations under the License.
             self.selectedDates = dates.filter(function (d) {
                 return d instanceof Date && isEnabled(d, false);
             });
-            self.selectedDates.sort(function (a, b) {
-                return a.getTime() - b.getTime();
-            });
+            if ( self.config.mode === "range" )
+                self.selectedDates.sort(function (a, b) {
+                    return a.getTime() - b.getTime();
+                });
         }
 
         function setDate(date, triggerChange, format) {
@@ -2162,6 +2045,7 @@ and limitations under the License.
                 self.altInput.placeholder = self.input.placeholder;
                 self.altInput.disabled = self.input.disabled;
                 self.altInput.required = self.input.required;
+                self.altInput.tabIndex = self.input.tabIndex;
                 self.altInput.type = "text";
                 self.input.type = "hidden";
                 if ( !self.config.static && self.input.parentNode )
@@ -2298,34 +2182,22 @@ and limitations under the License.
                 triggerEvent("onValueUpdate");
         }
 
-        function onMonthNavScroll(e) {
-            e.preventDefault();
-            var isYear = self.currentYearElement.parentNode &&
-                self.currentYearElement.parentNode.contains(e.target);
-            if ( e.target === self.currentMonthElement || isYear ) {
-                var delta = mouseDelta(e);
-                if ( isYear ) {
-                    changeYear(self.currentYear + delta);
-                    e.target.value = self.currentYear.toString();
-                }
-                else
-                    self.changeMonth(delta, true, false);
-            }
-        }
-
         function onMonthNavClick(e) {
+            e.preventDefault();
             var isPrevMonth = self.prevMonthNav.contains(e.target);
             var isNextMonth = self.nextMonthNav.contains(e.target);
-            if ( isPrevMonth || isNextMonth )
+            if ( isPrevMonth || isNextMonth ) {
                 changeMonth(isPrevMonth ? -1 : 1);
+            }
             else if ( e.target === self.currentYearElement ) {
-                e.preventDefault();
                 self.currentYearElement.select();
             }
-            else if ( e.target.className === "arrowUp" )
+            else if ( e.target.className === "arrowUp" ) {
                 self.changeYear(self.currentYear + 1);
-            else if ( e.target.className === "arrowDown" )
+            }
+            else if ( e.target.className === "arrowDown" ) {
                 self.changeYear(self.currentYear - 1);
+        }
         }
 
         function timeWrapper(e) {
@@ -2338,9 +2210,7 @@ and limitations under the License.
             var min = parseFloat(input.getAttribute("data-min")), max = parseFloat(input.getAttribute("data-max")),
                 step = parseFloat(input.getAttribute("data-step")), curValue = parseInt(input.value, 10),
                 delta = e.delta ||
-                    ( isKeyDown
-                        ? e.which === 38 ? 1 : -1
-                        : Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY)) || 0 );
+                    ( isKeyDown ? ( e.which === 38 ? 1 : -1 ) : 0 );
             var newValue = curValue + step * delta;
             if ( typeof input.value !== "undefined" && input.value.length === 2 ) {
                 var isHourElem = input === self.hourElement, isMinuteElem = input === self.minuteElement;
@@ -2439,7 +2309,7 @@ and limitations under the License.
     };
     var flatpickr$1 = flatpickr;
 
-    exports['default'] = flatpickr$1;
+    exports.default = flatpickr$1;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 

@@ -32,6 +32,10 @@ class WPSFramework_Option_Sorter extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
+    public function assets() {
+        wpsf_assets()->add('jquery-ui-sortable');
+    }
+
     public function output() {
         echo $this->element_before();
         $value = $this->get_element_values();
