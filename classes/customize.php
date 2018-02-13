@@ -53,7 +53,7 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
 
         if( ! empty($this->options) ) {
             $this->addAction('customize_register', 'customize_register');
-            add_action('customize_controls_enqueue_scripts', 'wpsf_load_fields_styles');
+            add_action('customize_controls_enqueue_scripts', 'wpsf_load_customizer_assets');
         }
 
     }

@@ -28,10 +28,6 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->add('flatpickr');
-    }
-
     public function output() {
         echo $this->element_before();
         $this->simple_datepicker('simple', $this->settings(), '');

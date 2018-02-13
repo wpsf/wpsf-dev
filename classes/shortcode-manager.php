@@ -56,7 +56,6 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
     }
 
     public function load_style_script() {
-        wpsf_load_fields_styles();
     }
 
     public function media_shortcode_button($editor_id) {

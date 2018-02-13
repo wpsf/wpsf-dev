@@ -68,7 +68,7 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
         global $pagenow, $typenow;
 
         if( ( $pagenow === 'edit.php' ) && isset($this->post_types[$typenow]) ) {
-            wpsf_load_fields_styles();
+            wpsf_assets()->render_framework_style_scripts();
             wp_enqueue_script('wpsf-quick-edit');
         }
     }

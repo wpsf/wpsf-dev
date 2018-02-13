@@ -22,11 +22,6 @@ class WPSFramework_Option_group extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->add('jquery-ui-accordion');
-        wpsf_assets()->add('jquery-ui-sortable');
-    }
-
     public function output() {
 
         echo $this->element_before();

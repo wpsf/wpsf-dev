@@ -32,10 +32,6 @@ class WPSFramework_Option_upload extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->load_media();
-    }
-
     public function output() {
         echo $this->element_before();
 

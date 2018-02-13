@@ -27,10 +27,6 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->add('animatecss');
-    }
-
     public function output() {
         $this->element_before();
 

@@ -33,10 +33,6 @@ class WPSFramework_Option_Gallery extends WPSFramework_Options {
 
     }
 
-    public function assets() {
-        wpsf_assets()->load_media();
-    }
-
     public function output() {
         echo $this->element_before();
 

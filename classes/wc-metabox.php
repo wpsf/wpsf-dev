@@ -446,7 +446,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
         public function load_style_script() {
             global $typenow;
             if( $typenow === 'product' ) {
-                wpsf_load_fields_styles();
+                wpsf_assets()->render_framework_style_scripts();
             }
         }
 

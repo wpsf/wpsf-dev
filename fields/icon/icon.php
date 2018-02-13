@@ -30,7 +30,6 @@ class WPSFramework_Option_icon extends WPSFramework_Options {
      */
     public function __construct($field, $value = '', $unique = '') {
         parent::__construct($field, $value, $unique);
-        wpsf_assets()->load_dialog();
     }
 
     public function output() {

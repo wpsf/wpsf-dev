@@ -26,10 +26,6 @@ class WPSFramework_Option_accordion extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->add('jquery-ui-accordion');
-    }
-
     public function output() {
         echo $this->element_before();
         $fields = array_values($this->field['fields']);

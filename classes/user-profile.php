@@ -70,7 +70,7 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
     public function load_style_script() {
         global $pagenow;
         if( $pagenow === 'profile.php' || $pagenow === 'user-edit.php' ) {
-            wpsf_load_fields_styles();
+            wpsf_assets()->render_framework_style_scripts();
         }
     }
 

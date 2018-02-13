@@ -32,10 +32,6 @@ class WPSFramework_Option_color_picker extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
-    public function assets() {
-        wpsf_assets()->add('wp-color-picker');
-    }
-
     public function output() {
         echo $this->element_before();
         echo '<input type="text" name="' . $this->element_name() . '" value="' . $this->element_value() . '"' . $this->element_class('wpsf-field-color-picker') . $this->element_attributes($this->extra_attributes()) . '/>';

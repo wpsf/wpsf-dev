@@ -86,7 +86,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
         global $pagenow, $typenow;
 
         if( ( $pagenow === 'post-new.php' || $pagenow === 'post.php' ) && isset($this->posttypes[$typenow]) ) {
-            wpsf_load_fields_styles();
+            wpsf_assets()->render_framework_style_scripts();
         }
     }
 

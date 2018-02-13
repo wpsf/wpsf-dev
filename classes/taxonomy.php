@@ -71,7 +71,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 
         if( $pagenow === 'term.php' || $pagenow === 'edit-tags.php' ) {
             if( isset($this->taxes[$taxnow]) ) {
-                wpsf_load_fields_styles();
+                wpsf_assets()->render_framework_style_scripts();
             }
         }
     }

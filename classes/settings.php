@@ -281,7 +281,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         }
 
         $this->addAction('load-' . $this->settings_page, 'on_admin_page_load');
-        wpsf_assets()->hook($this->settings_page);
         if( ! empty($this->settings['help_tabs']) ) {
             $this->help_tabs = new WPSFramework_Help_Tabs(array(
                 $this->settings_page => $this->settings['help_tabs'],
@@ -294,18 +293,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
      */
     public function load_style_script($hook) {
         if( $this->settings_page == $hook ) {
-            wpsf_assets()->render_framework_styles();
+            wpsf_assets()->render_framework_style_scripts();
         }
 
         if( isset($this->settings['extra_css']) && is_array($this->settings['extra_css']) ) {
             foreach( $this->settings['extra_css'] as $id ) {
-                wpsf_assets()->add($id);
+                wp_enqueue_style($id);
             }
         }
 
         if( isset($this->settings['extra_js']) && is_array($this->settings['extra_js']) ) {
             foreach( $this->settings['extra_js'] as $id ) {
-                wpsf_assets()->add($id);
+                wp_enqueue_script($id);
             }
         }
     }
