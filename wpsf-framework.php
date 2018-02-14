@@ -102,7 +102,7 @@ if( ! function_exists('wpsf_framework_init') ) {
         require_once( WPSF_DIR . '/classes/framework.php' );
 
         wpsf_load_options();
-        wpsf_framework_widgets();
+
         spl_autoload_register('wpsf_autoloader');
         add_action('widgets_init', 'wpsf_framework_widgets', 10);
         do_action("wpsf_framework_loaded");

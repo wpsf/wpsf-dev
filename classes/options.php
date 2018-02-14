@@ -42,7 +42,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $this->org_value = $value;
         $this->unique = $unique;
         $this->multilang = $this->element_multilang();
-        $this->assets();
     }
 
     /**
@@ -50,9 +49,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
-    }
-
-    public function assets() {
     }
 
     public function final_output() {
@@ -189,6 +185,11 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_attributes($el_attributes = array(), $extra_more = array()) {
         $attributes = ( isset ($this->field ['attributes']) ) ? $this->field ['attributes'] : array();
+
+        if( isset($this->field['style']) ) {
+            $attributes['style'] = $this->field['style'];
+        }
+
         $element_id = ( isset ($this->field ['id']) ) ? $this->field ['id'] : '';
 
         if( $el_attributes !== FALSE ) {
