@@ -1,0 +1,62 @@
+.tooltip {
+  z-index: 999999;
+}
+
+.edit_form_line .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-heading, .edit_form_line .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-subheading {
+  margin-left: -18px;
+  margin-right: -18px;
+}
+
+.wpsf-framework.wpsf-vc-framework {
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.wpsf-framework.wpsf-vc-framework input, .wpsf-framework.wpsf-vc-framework select {
+  padding: 3px 5px;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element {
+  padding: 0;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-heading, .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-subheading {
+  padding: 15px;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-checkbox .wpsf-fieldset ul li h3 {
+  margin-top: 0;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-radio .wpsf-fieldset ul li input {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-upload input, .wpsf-framework.wpsf-vc-framework .wpsf-element .wpsf-field-upload input {
+  width: 75%;
+  margin-right: 15px;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-upload input + a, .wpsf-framework.wpsf-vc-framework .wpsf-element .wpsf-field-upload input + a {
+  vertical-align: top;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-upload + fieldset, .wpsf-framework.wpsf-vc-framework .wpsf-element .wpsf-field-upload + fieldset {
+  margin-top: 10px;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-upload + fieldset .wpsf-element, .wpsf-framework.wpsf-vc-framework .wpsf-element .wpsf-field-upload + fieldset .wpsf-element {
+  vertical-align: middle;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-image_select input {
+  display: none;
+}
+
+.wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-fieldset .wpsf-element, .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-accordion .wpsf-element, .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-tab .wpsf-element, .wpsf-framework.wpsf-vc-framework .wpsf-element.wpsf-field-group .wpsf-element {
+  padding: 15px;
+}

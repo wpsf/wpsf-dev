@@ -55,22 +55,13 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
     }
 
     protected function settings() {
-        $return = array();
-
         $randID = sanitize_key($this->field['id']) . intval(microtime(TRUE));
         $randID = str_replace(array( '-', '_' ), '', $randID);
         if( ! empty($this->field['settings']) ) {
-            wp_localize_script('wpsf-framework', $randID, $this->field['settings']);
+            $this->localize_field($randID, $this->field['settings'], TRUE);
         }
 
-        return array( 'data-datepicker-id' => $randID, 'data-second-id' => $randID . 'Second' );
-    }
-
-    protected function _is_set($key, $default = FALSE) {
-        if( isset($this->field['settings'][$key]) ) {
-            return $this->field['settings'][$key];
-        }
-        return $default;
+        return array( 'data-datepicker-id' => $randID );
     }
 }
 

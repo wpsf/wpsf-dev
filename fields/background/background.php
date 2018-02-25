@@ -50,9 +50,9 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             extract($this->field ['settings']);
         }
 
-        $upload_type = ( isset ($upload_type) ) ? $upload_type : 'image';
+        $upload_type  = ( isset ($upload_type) ) ? $upload_type : 'image';
         $button_title = ( isset ($button_title) ) ? $button_title : esc_html__('Upload', 'wpsf-framework');
-        $frame_title = ( isset ($frame_title) ) ? $frame_title : esc_html__('Upload', 'wpsf-framework');
+        $frame_title  = ( isset ($frame_title) ) ? $frame_title : esc_html__('Upload', 'wpsf-framework');
         $insert_title = ( isset ($insert_title) ) ? $insert_title : esc_html__('Use Image', 'wpsf-framework');
 
         echo '<div class="wpsf-field-upload">';
@@ -77,8 +77,8 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'repeat',
             ),
-            'value'      => $this->value ['repeat'],
-        ));
+
+        ), $this->value['repeat']);
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
@@ -98,8 +98,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'position',
             ),
-            'value'      => $this->value ['position'],
-        ));
+        ), $this->value ['position']);
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
@@ -112,8 +111,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'attachment',
             ),
-            'value'      => $this->value ['attachment'],
-        ));
+        ), $this->value ['attachment']);
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
@@ -129,8 +127,8 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'size',
             ),
-            'value'      => $this->value ['size'],
-        ));
+
+        ), $this->value ['size']);
         echo wpsf_add_element(array(
             'pseudo'     => TRUE,
             'id'         => $this->field ['id'] . '_color',
@@ -139,10 +137,10 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'bgcolor',
             ),
-            'value'      => $this->value ['color'],
-            'default'    => ( isset ($this->field ['default'] ['color']) ) ? $this->field ['default'] ['color'] : '',
-            'rgba'       => ( isset ($this->field ['rgba']) && $this->field ['rgba'] === FALSE ) ? FALSE : '',
-        ));
+
+            'default' => ( isset ($this->field ['default'] ['color']) ) ? $this->field ['default'] ['color'] : '',
+            'rgba'    => ( isset ($this->field ['rgba']) && $this->field ['rgba'] === FALSE ) ? FALSE : '',
+        ), $this->value ['color']);
         echo '</fieldset>';
 
         echo $this->element_after();

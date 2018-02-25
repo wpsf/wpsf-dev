@@ -39,15 +39,15 @@ class WPSFramework_Option_fieldset extends WPSFramework_Options {
 
         foreach( $this->field ['fields'] as $field ) {
 
-            $field_id = ( isset ($field ['id']) ) ? $field ['id'] : '';
+            $field_id      = ( isset ($field ['id']) ) ? $field ['id'] : '';
             $field_default = ( isset ($field ['default']) ) ? $field ['default'] : '';
-            $field_value = ( isset ($this->value [$field_id]) ) ? $this->value [$field_id] : $field_default;
-            $unique_id = $this->unique . '[' . $this->field ['id'] . ']';
+            $field_value   = ( isset ($this->value [$field_id]) ) ? $this->value [$field_id] : $field_default;
+            $unique_id     = $this->unique . '[' . $this->field ['id'] . ']';
 
             if( ! empty ($this->field ['un_array']) ) {
                 echo wpsf_add_element($field, $field_value, $this->unique);
             } else {
-                echo wpsf_add_element($field, $field_value, $unique_id);
+                echo wpsf_add_element($field, $field_value, $this->get_unique($this->field['id']));
             }
         }
 

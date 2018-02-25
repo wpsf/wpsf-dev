@@ -14,16 +14,17 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
     public function output() {
         echo $this->element_before();
 
-        $unique = $this->unique . '[' . $this->field['id'] . ']';
-        $icons = ( isset($this->field['options']) && ! empty($this->field['options']) ) ? $this->field['options'] : $this->social_icons();
-        $type = ( isset($this->field['icon_type']) && ! empty($this->field['icon_type']) ) ? $this->field['icon_type'] : 'checkbox';
+        $unique       = $this->get_unique($this->field['id']);
+        $icons        = ( isset($this->field['options']) && ! empty($this->field['options']) ) ? $this->field['options'] : $this->social_icons();
+        $type         = ( isset($this->field['icon_type']) && ! empty($this->field['icon_type']) ) ? $this->field['icon_type'] : 'checkbox';
         $extra_fields = ( isset($this->field['extra_fields']) && is_array($this->field['extra_fields']) ) ? $this->field['extra_fields'] : array();
-        $extra_icons = ( isset($this->field['extra_icons']) && is_array($this->field['extra_icons']) ) ? $this->field['extra_icons'] : array();
-        $icons = array_merge($icons, $extra_icons);
-        $disabled = ( isset($this->field['disabled']) ) ? $this->field['disabled'] : '';
-        $icons = $this->disabled_icons($disabled, $icons);
-        $icons = $this->handle_icons($icons);
+        $extra_icons  = ( isset($this->field['extra_icons']) && is_array($this->field['extra_icons']) ) ? $this->field['extra_icons'] : array();
+        $icons        = array_merge($icons, $extra_icons);
+        $disabled     = ( isset($this->field['disabled']) ) ? $this->field['disabled'] : '';
+        $icons        = $this->disabled_icons($disabled, $icons);
+        $icons        = $this->handle_icons($icons);
 
+        echo '<div class="wpsf-social-icons-wraper">';
         echo wpsf_add_element(array(
             'type'     => $type,
             'icon_box' => TRUE,
@@ -34,7 +35,7 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
         ), $this->_value('active_icons'), $unique);
 
         echo '<div class="wpsf-social-icons-fields">';
-        $_unique = $unique . '[enabled]';
+        $_unique   = $unique . '[enabled]';
         $field_set = ( isset($this->value['enabled']) ) ? $this->value['enabled'] : array();
 
         foreach( $icons as $icon => $data ) {
@@ -58,6 +59,7 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
             ), $this->_value($icon, $field_set), $_unique);
         }
 
+        echo '</div>';
         echo '</div>';
         echo $this->element_after();
     }

@@ -30,7 +30,7 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
         echo $this->element_before();
 
         $is_select2 = ( isset($this->field['select2']) && $this->field['select2'] === TRUE ) ? 'select2' : '';
-        $is_chosen = ( isset($this->field['chosen']) && $this->field['chosen'] === TRUE ) ? 'chosen' : '';
+        $is_chosen  = ( isset($this->field['chosen']) && $this->field['chosen'] === TRUE ) ? 'chosen' : '';
         echo '<div class="wpsf-css-builder-container">';
 
         echo wpsf_add_element(array(
@@ -61,7 +61,8 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 
 
         echo '<div class="wpsf-css-builder-extra-options">';
-        $id = $this->unique . '[' . $this->field['id'] . ']';
+        $id = $this->get_unique($this->field['id']);
+
         echo wpsf_add_element(array(
             'type'  => 'color_picker',
             'id'    => 'background-color',
@@ -131,7 +132,7 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
      * @param $type
      */
     private function _css_fields($type) {
-        $id = $this->unique . '[' . $this->field['id'] . ']';
+        $id = $this->get_unique($this->field['id']);
         echo wpsf_add_element($this->carr(array(
             'wrap_class' => 'wpsf-' . $type . ' wpsf-' . $type . '-top',
             'id'         => $type . '-top',

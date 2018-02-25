@@ -458,7 +458,6 @@
                 connectWith: $disabled,
                 placeholder: 'ui-sortable-placeholder',
                 update: function (event, ui) {
-
                     var $el = ui.item.find('input');
 
                     if ( ui.item.parent().hasClass('wpsf-enabled') ) {
@@ -467,13 +466,14 @@
                         $el.attr('name', $el.attr('name').replace('enabled', 'disabled'));
                     }
 
+                    $this.trigger("wpsf-sorter-updated");
                 }
             });
 
             // avoid conflict
             $disabled.sortable({
                 connectWith: $enabled,
-                placeholder: 'ui-sortable-placeholder'
+                placeholder: 'ui-sortable-placeholder',
             });
 
         });
@@ -655,7 +655,6 @@
                 var _this = $(this),
                     _type = _this.find(':selected').data('type') || 'custom',
                     _variants = _this.find(':selected').data('variants');
-                console.log(_variants);
                 if ( variants_select.length ) {
                     variants_select.find('option').remove();
                     $.each(_variants.split('|'), function (key, text) {
@@ -912,6 +911,8 @@
                         $wpsf_link_submit.remove(),
                         $("#wp-link-cancel").unbind("click.wpsf-wpLink"),
                         window.wpLink.textarea = "";
+
+                    $this.trigger('wpsf-links-updated');
                 });
 
                 $("#wp-link-cancel").unbind("click.wpsf-wpLink").bind("click.wpsf-wpLink", function (e) {
@@ -921,6 +922,8 @@
                         $wpsf_link_submit.remove(),
                         $("#wp-link-cancel").unbind("click.wpsf-wpLink"),
                         window.wpLink.textarea = ""
+
+                    $this.trigger('wpsf-links-updated');
                 });
             })
         })

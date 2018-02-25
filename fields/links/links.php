@@ -42,14 +42,14 @@ class WPSFramework_Option_links extends WPSFramework_Options {
             'title'  => '',
             'target' => '',
         );
-        $data = empty($this->element_value()) ? array() : $this->element_value();
-        $arg = wp_parse_args($data, $default);
+        $data    = empty($this->element_value()) ? array() : $this->element_value();
+        $arg     = wp_parse_args($data, $default);
 
         echo $this->element_before();
         $link = array();
 
-        echo '<div class="wpsf_wp_link_picker_container">';
-        echo '<input id="sample_wplinks" type="hidden" />';
+        $attributes = $this->element_attributes(array( 'class' => 'wpsf_wp_link_picker_container' ));
+        echo '<div ' . $attributes . '>';
 
         echo '<input type="hidden" value="' . $arg['url'] . '" class="wpsf-url" name="' . $this->element_name('[url]') . '"/>';
         echo '<input type="hidden" value="' . $arg['title'] . '" class="wpsf-title" name="' . $this->element_name('[title]') . '"/>';
@@ -59,6 +59,8 @@ class WPSFramework_Option_links extends WPSFramework_Options {
         echo '<span class="link-title"><strong>' . __("Title :", 'wpsf-framework') . '</strong> <span class="link-title-value">' . $arg['title'] . '</span> </span> <br/> ';
         echo '<span class="target"><strong>' . __("Target :", 'wpsf-framework') . '</strong> <span class="target-value">' . $arg['target'] . '</span> </span> <br/><br/> ';
         echo '<a href="#" class="button wpsf-wp-link">' . __("Select URL", 'wpsf-framework') . '</a>';
+
+        echo '<input id="sample_wplinks" type="hidden" />';
         echo '</div>';
         echo $this->element_after();
     }

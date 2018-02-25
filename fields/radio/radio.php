@@ -45,22 +45,23 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
                 foreach( $options as $key => $value ) {
                     if( is_array($value) && ! isset($value['label']) ) {
                         $values = $this->element_value();
-                        $gid = wpsf_sanitize_title($key);
+                        $gid    = wpsf_sanitize_title($key);
                         $values = isset($values[$gid]) ? $values[$gid] : $values;
 
                         echo '<li><h3>' . $key . '</h3> <ul>';
                         $rid = '[' . wpsf_sanitize_title($key) . ']';
                         foreach( $value as $k => $v ) {
-                            $data = $this->element_handle_option($v, $k);
-                            $k = $data['id'];
-                            $v = $data['value'];
-                            $attr = $data['attributes'];
-                            echo '<li>' . $this->_element($rid, $k, $v, $values, $attr,$data) . '</li>';
+                            $data               = $this->element_handle_option($v, $k);
+                            $k                  = $data['id'];
+                            $v                  = $data['value'];
+                            $attr               = $data['attributes'];
+                            $attr['data-group'] = wpsf_sanitize_title($key);
+                            echo '<li>' . $this->_element($rid, $k, $v, $values, $attr, $data) . '</li>';
                         }
                         echo '</ul></li>';
                     } else {
                         $data = $this->element_handle_option($value, $key);
-                        echo '<li>' . $this->_element('', $data['id'], $data['value'], $this->element_value(), $data['attributes'],$data) . '</li>';
+                        echo '<li>' . $this->_element('', $data['id'], $data['value'], $this->element_value(), $data['attributes'], $data) . '</li>';
                     }
                 }
                 echo '</ul>';
@@ -81,12 +82,12 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
      * @param string $attributes
      * @return string
      */
-    public function _element($name = '', $value = '', $title = '', $chboxval = array(), $attributes = '',$data = array()) {
+    public function _element($name = '', $value = '', $title = '', $chboxval = array(), $attributes = '', $data = array()) {
         if( isset($this->field['icon_box']) && $this->field['icon_box'] === TRUE ) {
-            $attr = $this->element_attributes($value, $attributes);
+            $attr       = $this->element_attributes($value, $attributes);
             $is_checked = $this->checked($chboxval, $value);
-            $checkbox = '<input type="radio" name="' . $this->element_name($name) . '" value="' . $value . '" ' . $attr . ' ' . $is_checked . '/>';
-            $icon = '<span class="wpsf-icon-preview wpsf-help" data-title="' . $title . '"><i class="' . $data['icon'] . '"></i></span>';
+            $checkbox   = '<input type="radio" name="' . $this->element_name($name) . '" value="' . $value . '" ' . $attr . ' ' . $is_checked . '/>';
+            $icon       = '<span class="wpsf-icon-preview wpsf-help" data-title="' . $title . '"><i class="' . $data['icon'] . '"></i></span>';
             return ' <label class="with-icon-preview">' . $checkbox . ' ' . $icon . '</label > ';
         }
 

@@ -22,13 +22,14 @@ if( ! defined('ABSPATH') ) {
  *
  */
 abstract class WPSFramework_Options extends WPSFramework_Abstract {
-    public static $total_cols = 0;
-    public $field = NULL;
-    public $value = NULL;
-    public $org_value = NULL;
-    public $unique = NULL;
-    public $multilang = NULL;
-    public $row_after = NULL;
+    public static $total_cols  = 0;
+    public        $field       = NULL;
+    public        $value       = NULL;
+    public        $org_value   = NULL;
+    public        $unique      = NULL;
+    public        $multilang   = NULL;
+    public        $row_after   = NULL;
+    public        $js_settings = NULL;
 
     /**
      * WPSFramework_Options constructor.
@@ -37,10 +38,10 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @param string $unique
      */
     public function __construct($field = array(), $value = '', $unique = '') {
-        $this->field = $field;
-        $this->value = $value;
+        $this->field     = $field;
+        $this->value     = $value;
         $this->org_value = $value;
-        $this->unique = $unique;
+        $this->unique    = $unique;
         $this->multilang = $this->element_multilang();
     }
 
@@ -65,34 +66,36 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return mixed
      */
     public function element_type() {
-        $type = ( isset ($this->field ['attributes'] ['type']) ) ? $this->field ['attributes'] ['type'] : $this->field ['type'];
-        return $type;
+        return ( isset ($this->field ['attributes'] ['type']) ) ? $this->field ['attributes'] ['type'] : $this->field ['type'];
     }
 
     abstract public function output();
 
     /**
+     * @todo Check $hidden attribute
      * @param bool $is_start
      */
     public function element_wrapper($is_start = TRUE) {
         if( $is_start === TRUE ) {
-            $depend = '';
+
             $this->row_after = '';
 
-            $sub = ( isset ($this->field['sub']) ) ? 'sub-' : '';
-            $languages = wpsf_language_defaults();
+            $sub        = ( isset ($this->field['sub']) ) ? 'sub-' : '';
+            $languages  = wpsf_language_defaults();
             $wrap_class = 'wpsf-element wpsf-element-' . $this->element_type() . ' wpsf-field-' . $this->element_type() . ' ';
             $wrap_class .= ( isset($this->field['wrap_class']) ) ? ' ' . $this->field['wrap_class'] : '';
             $wrap_class .= ( isset($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
             $wrap_class .= ( isset ($this->field ['pseudo']) ) ? ' wpsf-pseudo-field' : '';
-            $is_hidden = ( isset ($this->field ['show_only_language']) && ( $this->field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden ' : '';
+            $is_hidden  = ( isset ($this->field ['show_only_language']) && ( $this->field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden ' : '';
 
+            $wrap_attr = ( isset($this->field['wrap_attributes']) && is_array($this->field['wrap_attributes']) ) ? $this->field['wrap_attributes'] : array();
             if( isset ($this->field['dependency']) ) {
-                $is_hidden = ' hidden';
-                $depend .= ' data-' . $sub . 'controller="' . $this->field ['dependency'] [0] . '"';
-                $depend .= ' data-' . $sub . 'condition="' . $this->field ['dependency'] [1] . '"';
-                $depend .= ' data-' . $sub . 'value="' . $this->field ['dependency'] [2] . '"';
+                $is_hidden                                = ' hidden';
+                $wrap_attr['data-' . $sub . 'controller'] = $this->field ['dependency'] [0];
+                $wrap_attr['data-' . $sub . 'condition']  = $this->field ['dependency'] [1];
+                $wrap_attr['data-' . $sub . 'value']      = $this->field ['dependency'] [2];
             }
+            $wrap_attr = $this->array_to_html_attrs($wrap_attr);
 
             if( isset($this->field['columns']) ) {
                 $wrap_class .= ' wpsf-column wpsf-column-' . $this->field['columns'] . ' ';
@@ -105,13 +108,13 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                 self::$total_cols += $this->field['columns'];
 
                 if( 12 == self::$total_cols ) {
-                    $wrap_class .= ' wpsf-column-last ';
-                    $this->row_after = '</div>';
+                    $wrap_class       .= ' wpsf-column-last ';
+                    $this->row_after  = '</div>';
                     self::$total_cols = 0;
                 }
             }
 
-            echo '<div class="' . $wrap_class . '" ' . $depend . ' >';
+            echo '<div class="' . $wrap_class . '" ' . $wrap_attr . ' >';
             $this->element_title();
             echo $this->element_title_before();
         } else {
@@ -120,6 +123,22 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             echo '</div>';
             echo $this->row_after;
         }
+    }
+
+    public function array_to_html_attrs($attributes) {
+        $atts = '';
+
+        if( ! empty ($attributes) ) {
+            foreach( $attributes as $key => $value ) {
+                if( $value === 'only-key' ) {
+                    $atts .= ' ' . esc_attr($key);
+                } else {
+                    $atts .= ' ' . esc_attr($key) . '="' . esc_attr($value) . '"';
+                }
+            }
+        }
+
+        return $atts;
     }
 
     public function element_title() {
@@ -144,7 +163,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'content'  => '',
             'position' => 'bottom',
         );
-        $help = array();
+        $help     = array();
         if( isset($this->field['help']) ) {
             if( ! is_array($this->field['help']) ) {
                 $this->field['help'] = array( 'content' => $this->field['help'] );
@@ -193,7 +212,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $element_id = ( isset ($this->field ['id']) ) ? $this->field ['id'] : '';
 
         if( $el_attributes !== FALSE ) {
-            $sub_elemenet = ( isset ($this->field ['sub']) ) ? 'sub-' : '';
+            $sub_elemenet  = ( isset ($this->field ['sub']) ) ? 'sub-' : '';
             $el_attributes = ( is_string($el_attributes) || is_numeric($el_attributes) ) ? array(
                 'data-' . $sub_elemenet . 'depend-id' => $element_id . '_' . $el_attributes,
             ) : $el_attributes;
@@ -215,19 +234,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
         $attributes = wp_parse_args($attributes, $el_attributes);
 
-        $atts = '';
-
-        if( ! empty ($attributes) ) {
-            foreach( $attributes as $key => $value ) {
-                if( $value === 'only-key' ) {
-                    $atts .= ' ' . $key;
-                } else {
-                    $atts .= ' ' . $key . '="' . $value . '"';
-                }
-            }
-        }
-
-        return $atts;
+        return $this->array_to_html_attrs($attributes);
     }
 
     /**
@@ -246,8 +253,8 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         $out .= ( isset ($this->field ['after']) ) ? $this->field ['after'] : '';
         $out .= $this->element_after_multilang();
         $out .= $this->element_get_error();
-        //$out .= $this->element_help();
         $out .= $this->element_debug();
+        $out .= $this->element_js_settings();
         return $out;
     }
 
@@ -260,7 +267,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                 'text',
                 'textarea',
             )) && ( isset($this->field['limit']) && $this->field['limit'] > 0 ) ) {
-
             if( $this->field['limit'] > 0 ) {
                 $type = isset($this->field['limit_type']) ? $this->field['limit_type'] : 'character';
                 $text = 'word' === $type ? __('Word Count', 'text-limiter') : __('Character Count', 'text-limiter');
@@ -306,7 +312,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                     unset ($cache_field ['multilang']);
                     $cache_field ['name'] = $this->element_name('[' . $key . ']', TRUE);
 
-                    $class = 'WPSFramework_Option_' . $this->field ['type'];
+                    $class   = 'WPSFramework_Option_' . $this->field ['type'];
                     $element = new $class ($cache_field, $value, $this->unique);
 
                     ob_start();
@@ -329,9 +335,21 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return string
      */
     public function element_name($extra_name = '', $multilang = FALSE) {
-        $element_id = ( isset ($this->field ['id']) ) ? $this->field ['id'] : '';
+        $element_id      = ( isset ($this->field ['id']) ) ? $this->field ['id'] : '';
         $extra_multilang = ( ! $multilang && is_array($this->multilang) ) ? '[' . $this->multilang ['current'] . ']' : '';
-        return ( isset ($this->field ['name']) ) ? $this->field ['name'] . $extra_name : $this->unique . '[' . $element_id . ']' . $extra_multilang . $extra_name;
+        $unique          = $this->get_unique($element_id) . $extra_multilang . $extra_name;
+
+        return ( isset ($this->field ['name']) ) ? $this->field ['name'] . $extra_name : $unique;
+    }
+
+    public function get_unique($extra = '', $base = '') {
+        if( empty($base) ) {
+            $base = $this->unique;
+        }
+        if( ! empty($base) ) {
+            return $base . '[' . $extra . ']';
+        }
+        return $extra;
     }
 
     /**
@@ -339,9 +357,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function element_get_error() {
         global $wpsf_errors;
-
         $out = '';
-
         if( ! empty ($wpsf_errors) ) {
             foreach( $wpsf_errors as $key => $value ) {
                 $fid = isset($this->field['error_id']) ? $this->field['error_id'] : $this->field['id'];
@@ -350,7 +366,6 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                 }
             }
         }
-
         return $out;
     }
 
@@ -431,6 +446,10 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         }
 
         return $value;
+    }
+
+    public function element_js_settings() {
+        return $this->js_settings;
     }
 
     /**
@@ -530,5 +549,9 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             'attributes' => $option['attributes'],
             'icon'       => $option['icon'],
         );
+    }
+
+    public function localize_field($object_name = '', $settings = array(), $with_script = TRUE) {
+        $this->js_settings = '<div class="wpsf-element-settings hidden" style="display:none;visibility: hidden;">' . wpsf_js_vars($object_name, $settings, $with_script) . '</div>';
     }
 }

@@ -31,13 +31,14 @@ class WPSFramework_Option_color_scheme extends WPSFramework_Options {
             return;
         }
         echo $this->element_before();
-        $field_name = $this->unique . '[' . $this->field['id'] . ']';
-        echo '<fieldset id="wpsf-color-scheme">';
+        $field_name = $this->get_unique($this->field['id']);
+        $class      = ( isset($this->field['class']) ) ? $this->field['class'] : '';
+        echo '<fieldset id="wpsf-color-scheme" ' . $this->element_attributes() . '>';
         foreach( $this->field['options'] as $label => $colors ) {
             $is_text = is_string($label);
 
             echo '<label><div class="color_palette_option">';
-            echo '<input type="radio" name="' . $field_name . '" value="' . $label . '" ' . $this->checked($this->value, $label) . '>';
+            echo '<input  class="' . $class . '" type="radio" name="' . $field_name . '" value="' . $label . '" ' . $this->checked($this->value, $label) . '>';
             echo '<div class="color-option">';
             echo '<label>' . $label . '</label>';
             echo '<table class="color-palette"> <tr>';

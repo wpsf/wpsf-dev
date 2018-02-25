@@ -34,6 +34,7 @@ if( ! defined('ABSPATH') ) {
  */
 add_action('after_setup_theme', 'wpsf_framework_init');
 require_once plugin_dir_path(__FILE__) . '/wpsf-framework-path.php';
+require_once( WPSF_DIR . '/functions/visual-composer.php' );
 
 
 if( ! function_exists("wpsf_template") ) {
@@ -65,9 +66,10 @@ if( ! function_exists("wpsf_autoloader") ) {
      * @return bool
      */
     function wpsf_autoloader($class, $check = FALSE) {
-        if( $class === TRUE && class_exists($class) === TRUE ) {
+        if( $class === TRUE && class_exists($class, FALSE) === TRUE ) {
             return TRUE;
         }
+
 
         if( 0 === strpos($class, 'WPSFramework_Option_') ) {
             $path = strtolower(substr($class, 20));
@@ -144,10 +146,10 @@ if( ! function_exists("wpsf_load_options") ) {
 
         if( ! empty($ex_data) ) {
             foreach( $ex_data as $slug ) {
-                $mslug = ltrim($slug, "_");
-                $mslug = rtrim($mslug, "_");
-                $data = get_option($slug, TRUE);
-                $data = ( ! is_array($data) ) ? array() : $data;
+                $mslug           = ltrim($slug, "_");
+                $mslug           = rtrim($mslug, "_");
+                $data            = get_option($slug, TRUE);
+                $data            = ( ! is_array($data) ) ? array() : $data;
                 $GLOBALS[$mslug] = $data;
             }
         }
