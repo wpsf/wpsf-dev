@@ -34,7 +34,6 @@ if( ! defined('ABSPATH') ) {
  */
 add_action('after_setup_theme', 'wpsf_framework_init');
 require_once plugin_dir_path(__FILE__) . '/wpsf-framework-path.php';
-require_once( WPSF_DIR . '/functions/visual-composer.php' );
 
 
 if( ! function_exists("wpsf_template") ) {
@@ -95,6 +94,10 @@ if( ! function_exists('wpsf_framework_init') ) {
         require_once( WPSF_DIR . '/functions/enqueue.php' );
         require_once( WPSF_DIR . '/functions/sanitize.php' );
         require_once( WPSF_DIR . '/functions/validate.php' );
+
+        if( defined('WPSF_VC') && WPSF_VC === TRUE ) {
+            require_once( WPSF_DIR . '/functions/visual-composer.php' );
+        }
 
         // classes
         require_once( WPSF_DIR . '/classes/abstract.php' );

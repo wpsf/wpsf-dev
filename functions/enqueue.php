@@ -23,6 +23,7 @@ if( ! class_exists('WPSFramework_Assets') ) {
 
         public function __construct() {
             $this->init_array();
+            add_action('admin_enqueue_scripts', array( &$this, 'register_assets' ));
         }
 
         public function init_array() {
@@ -60,7 +61,7 @@ if( ! class_exists('WPSFramework_Assets') ) {
                 WPSF_VERSION,
                 TRUE,
             );
-            $this->scripts['wpsf-vc']  = array(
+            $this->scripts['wpsf-vc']         = array(
                 WPSF_URI . '/assets/js/wpsf-vc.js',
                 array( 'wpsf-framework' ),
                 WPSF_VERSION,
@@ -177,7 +178,6 @@ if( ! class_exists('WPSFramework_Assets') ) {
             foreach( $this->scripts as $iid => $ffile ) {
                 wp_register_script($iid, self::is_debug($ffile[0], 'js'), $ffile[1], $ffile[2], TRUE);
             }
-            self::render_framework_style_scripts();
         }
 
         private static function is_debug($file_name = '', $ext = 'css') {
