@@ -154,7 +154,6 @@ if( ! class_exists('WPSFramework_Assets') ) {
             wp_enqueue_script('wp-color-picker');
             wp_enqueue_script('jquery-ui-datepicker');
             wp_enqueue_script('wpsf-plugins');
-            wp_enqueue_script('wpsf-plugins');
             wp_enqueue_script('wpsf-framework');
             wp_enqueue_script('wplink');
 

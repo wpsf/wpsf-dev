@@ -52,7 +52,7 @@
             if ( $this.element.is('input[type=checkbox]') || $this.element.is('input[type=radio]') ) {
                 $value = ( $this.element.is(":checked") ) ? $this.element.val() : false;
             } else if ( $this.element.is('textarea') ) {
-                $value = $this.element.html();
+                $value = $this.element.val();
             } else {
                 $value = $this.element.val();
             }
@@ -316,7 +316,7 @@
         return this.each(function () {
             if ( $.WPSF_VC_TYPES.is_vc_param_elem($(this)) === true ) {
                 var $parent = $(this);
-                if ( $parent.find("input").length > 1 ) {
+                if ( ( $parent.find("input").length > 1 || $parent.find("input").length > 0 ) && $parent.find("ul").length > 0 ) {
                     var $type = 'array';
                     if ( $parent.find('ul').length === 1 ) {
                         $type = 'array';
@@ -588,13 +588,13 @@
         },
         work: function () {
             var $elem = $.WPSF_VC.el;
-            $.WPSF_VC.reload();
             $.WPSF.icons_manager();
             $.WPSF.shortcode_manager();
             $.WPSF.widget_reload();
             $elem.WPSF_DEPENDENCY();
             $elem.WPSF_RELOAD();
             $elem.find('.wpsf-field-group').WPSF_GROUP();
+            $.WPSF_VC.reload();
         }
     };
 

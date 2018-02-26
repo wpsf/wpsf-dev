@@ -23,18 +23,18 @@ final class WPSFramework_Query {
 
     public static function query($type = '', $args = array(), $search = '') {
         self::$query_args = array();
-        self::$query = NULL;
+        self::$query      = NULL;
 
-        $option_key = 'ID';
-        $option_value = 'name';
-        $default_key = 'ID';
+        $option_key    = 'ID';
+        $option_value  = 'name';
+        $default_key   = 'ID';
         $default_value = 'name';
         if( ! empty($search) ) {
             self::$query_args['s'] = $search;
         }
 
         if( ! empty($args) ) {
-            $option_key = isset($args['option_key']) ? $args['option_key'] : 'ID';
+            $option_key   = isset($args['option_key']) ? $args['option_key'] : 'ID';
             $option_value = isset($args['option_value']) ? $args['option_value'] : 'name';
             unset($args['option_key']);
             unset($args['option_value']);
@@ -49,13 +49,13 @@ final class WPSFramework_Query {
             case 'page' :
             case 'posts' :
             case 'post' :
-                $_q_type = 'cpt';
-                $default_key = 'ID';
+                $_q_type       = 'cpt';
+                $default_key   = 'ID';
                 $default_value = 'post_title';
 
                 if( in_array($type, array( 'posts', 'post' )) ) {
                     if( ! isset(self::$query_args['post_type']) ) {
-                        self::$query_args['post_type'] = $type;
+                        self::$query_args['post_type'] = 'post';
                     }
                 } else {
                     self::$query_args['post_type'] = 'page';
@@ -66,8 +66,8 @@ final class WPSFramework_Query {
             case 'category' :
             case 'tags':
             case 'tag':
-                $_q_type = 'cat';
-                $default_key = 'term_id';
+                $_q_type       = 'cat';
+                $default_key   = 'term_id';
                 $default_value = 'name';
 
 
@@ -85,13 +85,13 @@ final class WPSFramework_Query {
 
             case 'menus' :
             case 'menu' :
-                $default_key = 'term_id';
+                $default_key   = 'term_id';
                 $default_value = 'name';
             break;
 
             case 'post_types' :
             case 'post_type' :
-                $options = array();
+                $options    = array();
                 $post_types = get_post_types(array(
                     'show_in_nav_menus' => TRUE,
                 ));
@@ -110,7 +110,7 @@ final class WPSFramework_Query {
         switch( $_q_type ) {
             case "cpt":
                 self::$query = new WP_Query(self::$query_args);
-                $result = self::$query->posts;
+                $result      = self::$query->posts;
             break;
             case 'cat':
                 $result = get_terms(self::$query_args);
@@ -148,8 +148,8 @@ final class WPSFramework_Query {
         $return = array();
 
         foreach( $data as $values ) {
-            $opk = self::option_data($required[0], $default[0], $values);
-            $opv = self::option_data($required[1], $default[1], $values);
+            $opk          = self::option_data($required[0], $default[0], $values);
+            $opv          = self::option_data($required[1], $default[1], $values);
             $return[$opk] = $opv;
         }
 
