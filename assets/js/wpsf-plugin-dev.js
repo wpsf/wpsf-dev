@@ -9,6 +9,7 @@
  -------------------------------------------------------------------------------------------------*/
 
 //@codekit-append ../vendors/interdependencies/jquery.interdependencies.min.js
+//@codekit-append ../vendors/inputToArrays/inputToArray.min.js
 //@codekit-append ../vendors/actual/jquery.actual.min.js
 //@codekit-append ../vendors/bootstrap/bootstrap.min.js
 //@codekit-append ../vendors/chosen/chosen.min.js

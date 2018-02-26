@@ -19,7 +19,7 @@
 function render_wpsf_icons($max = 25) {
     $icons = json_decode(file_get_contents(WPSF_DIR . '/fields/icon/01-font-awesome.json'), TRUE);
     $icons = ( isset($icons['icons']) ) ? $icons['icons'] : array();
-    $_max = count($icons);
+    $_max  = count($icons);
 
     $e = 0;
     while( $e <= $max ) {
@@ -27,8 +27,8 @@ function render_wpsf_icons($max = 25) {
         if( ! isset($icons[$rand]) ) {
             continue;
         }
-        $i = $icons[$rand];
-        $slug = str_replace('fa fa-', '', $i);
+        $i             = $icons[$rand];
+        $slug          = str_replace('fa fa-', '', $i);
         $return[$slug] = array(
             'label' => $slug,
             'icon'  => $i,
@@ -531,7 +531,7 @@ $_icons_options = array(
         'title' => 'file-code-o',
     ),
 );
-$_icons_mini = array(
+$_icons_mini    = array(
     'wheelchair-alt'      => array(
         'label' => 'wheelchair-alt',
         'icon'  => 'fa fa-wheelchair-alt',
@@ -2291,6 +2291,13 @@ $options[] = array(
                         'font'   => 'websafe',
                     ),
                     'variant' => FALSE,
+                ),
+                array(
+                    'type'    => 'font_container',
+                    'title'   => 'font_container',
+                    'id'      => 'font_container',
+                    'preview' => TRUE,
+
                 ),
             ),
         ),

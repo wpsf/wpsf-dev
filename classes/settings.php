@@ -84,7 +84,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 'menu_capability'   => 'manage_options',
                 'menu_icon'         => NULL,
                 'menu_position'     => NULL,
-                'show_submenus'     => TRUE,
+                'show_submenus'     => FALSE,
                 'ajax_save'         => FALSE,
                 'buttons'           => array(),
                 'option_name'       => $this->unique,
@@ -291,7 +291,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
             ));
         }
 
-        if( $menu_type === 'parent' ) {
+        if( $menu_type === 'parent' && $this->settings['show_submenus'] === TRUE ) {
             global $menu, $submenu, $submenu_file;
             foreach( $this->options as $option ) {
                 if( isset($option['fields']) || isset($option['sections']) ) {

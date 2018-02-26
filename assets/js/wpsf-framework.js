@@ -91,7 +91,7 @@
                 return val.substr(start, lastIndexSpace);
             }
         },
-        ADVANCED_TYPO: {
+        FONT_CONTAINER: {
             font_style: function ($fontWeightStyle) {
                 var $weight_val = '400',
                     $style_val = 'normal';
@@ -139,18 +139,18 @@
                 return {weight: $weight_val, style: $style_val}
             },
             update: function ($el) {
-                var $font_field = $el.find('.wpsf_font_field'),
-                    $parentName = $font_field.attr('data-id'),
-                    $preview = $font_field.find('#preview-' + $parentName),
-                    $fontColor = $font_field.find('.wp-picker-input-wrap input'),
-                    $fontSize = $font_field.find('input[data-font-size=""]'),
-                    $lineHeight = $font_field.find('input[data-font-line-height=""]'),
-                    $fontFamily = $font_field.find('.wpsf-typo-family'),
-                    $fontWeight = $font_field.find('.wpsf-typo-variant'),
-                    $font = $fontFamily.val(),
-                    $fontWeightStyle = $fontWeight.find(':selected').text(),
-                    $font_style = $.WPSF_HELPER.ADVANCED_TYPO.font_style($fontWeightStyle),
-                    $attrs = '',
+                var $parentName = $el.find('.wpsf_font_field').attr('data-id'),
+                    $font_field = $el.find('.wpsf-element-font-family'),
+                    $preview = $el.find('.wpsf-font-preview'),
+                    $tag = $el.find('.wpsf-element-tag select').val(),
+                    $color = $el.find('.wpsf-field-color_picker input.wp-color-picker').val(),
+                    $font = $font_field.find('.wpsf-typo-family').val(),
+                    $fontWeightStyle = $font_field.find('.wpsf-typo-variant > :selected').text(),
+                    $align = $el.find('.wpsf-element-text-align select').val(),
+                    $fontSize = $el.find('.wpsf-element-font-size input').val(),
+                    $lineHeight = $el.find('.wpsf-element-line-height input').val(),
+                    $letterSpacing = $el.find('.wpsf-element-letter-spacing input').val(),
+                    $font_style = $.WPSF_HELPER.FONT_CONTAINER.font_style($fontWeightStyle),
                     href = 'http://fonts.googleapis.com/css?family=' + $font + ':' + $font_style.weight,
                     html = '<link href="' + href + '" class="wpsf-font-preview-' + $parentName + '" rel="stylesheet" type="text/css" />';
 
@@ -160,16 +160,35 @@
                     jQuery('head').append(html);
                 }
 
-                $attrs = ' font-family:' + $font + '; ' +
+                if ( $fontSize === '' || $fontSize === undefined ) {
+                    $fontSize = '18px';
+                }
+
+                if ( $letterSpacing === '' || $letterSpacing === undefined ) {
+                    $letterSpacing = '1px';
+                }
+
+                if ( $lineHeight === '' || $lineHeight === undefined ) {
+                    $lineHeight = '20px';
+                }
+
+                var $attrs = ' font-family:' + $font + '; ' +
                     ' font-weight:' + $font_style.weight + '; ' +
                     ' font-style:' + $font_style.style + '; ' +
-                    ' color:' + $fontColor.val() + ' !important; ' +
-                    ' line-height:' + $lineHeight.val() + 'px !important; ' +
-                    ' font-size:' + $fontSize.val() + 'px !important; ';
+                    ' text-align:' + $align + '; ' +
+                    ' color: ' + $color + ';' +
+                    ' font-size:' + $.WPSF_HELPER.CSS_BUILDER.validate($fontSize) + '; ' +
+                    ' letter-spacing:' + $.WPSF_HELPER.CSS_BUILDER.validate($letterSpacing) + '; ' +
+                    ' line-height:' + $.WPSF_HELPER.CSS_BUILDER.validate($lineHeight) + '; ';
 
-                $preview.attr("style", $attrs);
+                var $text = $preview.text();
+                $preview.html('');
+                $preview.append($('<' + $tag + '>' + $text + '</' + $tag + '>'));
+                $preview.find($tag).attr("style", $attrs);
+
             }
         },
+
         NAV_BAR: {
             modern: function ($el, $single_page) {
                 var $this = $el,
@@ -258,7 +277,7 @@
                     $reset_parent.val($parent);
 
                     $('body').trigger('wpsf_settings_nav_updated', [$parent, $target, $el]);
-                })
+                });
 
                 if ( $single_page === 'no' ) {
                     var $parent = $main_nav.find('a.nav-tab-active').data('section');
@@ -921,7 +940,7 @@
                         $wpsf_link_submit.unbind("click.wpsf-wpLink"),
                         $wpsf_link_submit.remove(),
                         $("#wp-link-cancel").unbind("click.wpsf-wpLink"),
-                        window.wpLink.textarea = ""
+                        window.wpLink.textarea = "";
 
                     $this.trigger('wpsf-links-updated');
                 });
@@ -1096,16 +1115,15 @@
             });
         })
     };
-    $.fn.WPSF_ADVANCED_TYPOGRAPHY = function () {
+    $.fn.WPSF_FONT_CONTAINER = function () {
         return this.each(function () {
-            var $main = $(this);
-            $main.find('.wpsf-font-preview').attr('contenteditable', true);
-            $.WPSF_HELPER.ADVANCED_TYPO.update($main);
-
-            $main.find(':input').on('change', function () {
-                $.WPSF_HELPER.ADVANCED_TYPO.update($main);
+            var $this = $(this);
+            $.WPSF_HELPER.FONT_CONTAINER.update($this);
+            $this.find(':input').on('change', function () {
+                $.WPSF_HELPER.FONT_CONTAINER.update($this);
             });
         })
+
     };
     $.fn.WPSF_TOOLTIP = function () {
         return this.each(function () {
@@ -1257,7 +1275,7 @@
         return this.each(function () {
             $.WPSF.reload_fields($(this));
         });
-    }
+    };
 
     $.WPSF = {
         body: $('body'),
@@ -1717,10 +1735,11 @@
             $('.wpsf-field-color-picker', $this).WPSF_COLOR_PICKER();
             $('.wpsf-field-css_builder', $this).WPSF_CSS_BUILDER();
             $('input[data-limit-element="1"],textarea[data-limit-element="1"]', $this).WPSF_LIMITER();
-            $('.wpsf-field-typography_advanced', $this).WPSF_ADVANCED_TYPOGRAPHY();
+            $('.wpsf-field-font_container', $this).WPSF_FONT_CONTAINER();
             $('.wpsf-field-typography', $this).WPSF_TYPOGRAPHY();
             $('.wpsf-help', $this).WPSF_TOOLTIP();
             $('.wpsf-field-animate_css', $this).WPSF_ANIMATE_CSS();
+            $('[data-toggle="wpsftooltip"]').WPSF_TOOLTIP();
             $('.wpsf-field-date_picker', $this).WPSF_DATE_PICKER();
         },
 
@@ -1789,9 +1808,10 @@
         $.WPSF.shortcode_manager();
         $.WPSF.widget_reload();
 
+
         $('.wpsf-framework').WPSF_TAB_NAVIGATION();
         $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSF_DEPENDENCY();
-        $('.wpsf-framework, #widgets-right').WPSF_RELOAD()
+        $('.wpsf-framework, #widgets-right').WPSF_RELOAD();
         $('.wpsf-taxonomy').WPSF_TAXONOMY();
         $('.wpsf-field-group').WPSF_GROUP();
         $('.wpsf-header').WPSF_STICKY_HEADER();
