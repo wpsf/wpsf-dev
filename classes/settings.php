@@ -632,7 +632,9 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 
             } else if( isset($page['callback_hook']) ) {
                 $is_callback = TRUE;
-                $fields      = $this->render_fields($page);
+                if( ( $this->is_single_page() === FALSE && $is_page_active === TRUE ) || ( $this->is_single_page() === TRUE ) ) {
+                    $fields = $this->render_fields($page);
+                }
 
                 if( $this->is_simple() ) {
                     if( $this->is_single_page() === FALSE && $is_page_active === TRUE ) {

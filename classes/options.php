@@ -56,9 +56,13 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         if( $this->element_type() === 'hidden' ) {
             echo $this->output();
         } else {
-            echo $this->element_wrapper();
-            echo $this->output();
-            echo $this->element_wrapper(FALSE);
+            if( isset($this->field['only_field']) && $this->field['only_field'] === TRUE ) {
+                echo $this->output();
+            } else {
+                echo $this->element_wrapper();
+                echo $this->output();
+                echo $this->element_wrapper(FALSE);
+            }
         }
     }
 

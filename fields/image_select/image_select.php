@@ -41,8 +41,18 @@ class WPSFramework_Option_image_select extends WPSFramework_Options {
 
         if( isset ($this->field ['options']) ) {
             $options = $this->field ['options'];
+
             foreach( $options as $key => $value ) {
-                echo '<label><input type="' . $input_type . '" name="' . $this->element_name($input_attr) . '" value="' . $key . '"' . $this->element_class() . $this->element_attributes($key) . $this->checked($this->element_value(), $key) . '/><img src="' . $value . '" alt="' . $key . '" /></label>';
+                $ex_attr = array();
+                $label   = $value;
+                if( is_array($value) ) {
+                    $ex_attr = isset($value['attributes']) ? $value['attributes'] : array();
+                    $label   = isset($value['label']) ? $value['label'] : '';
+                }
+
+                echo '<label>';
+                echo '<input type="' . $input_type . '" name="' . $this->element_name($input_attr) . '" value="' . $key . '"' . $this->element_class() . $this->element_attributes($key, $ex_attr) . $this->checked($this->element_value(), $key) . '/>';
+                echo '<img src="' . $label . '" alt="' . $key . '" /></label>';
             }
         }
 
