@@ -41,7 +41,7 @@ class WPSFramework_Option_image_select extends WPSFramework_Options {
 
         if( isset ($this->field ['options']) ) {
             $options = $this->field ['options'];
-
+            
             foreach( $options as $key => $value ) {
                 $ex_attr = array();
                 $label   = $value;

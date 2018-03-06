@@ -101,6 +101,7 @@ if( ! function_exists('wpsf_framework_init') ) {
 
         // classes
         require_once( WPSF_DIR . '/classes/abstract.php' );
+        require_once( WPSF_DIR . '/classes/fields.php' );
         require_once( WPSF_DIR . '/classes/wpsf-ajax.php' );
         require_once( WPSF_DIR . '/classes/wpsf-query.php' );
         require_once( WPSF_DIR . '/classes/options.php' );

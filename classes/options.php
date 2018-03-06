@@ -88,7 +88,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             $languages  = wpsf_language_defaults();
             $wrap_class = 'wpsf-element wpsf-element-' . $this->element_type() . ' wpsf-field-' . $this->element_type() . ' ';
             $wrap_class .= ( isset($this->field['wrap_class']) ) ? ' ' . $this->field['wrap_class'] : '';
-            $wrap_class .= ( isset($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
+            $wrap_class .= ( isset($this->field['title']) && ! empty($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
             $wrap_class .= ( isset ($this->field ['pseudo']) ) ? ' wpsf-pseudo-field' : '';
             $is_hidden  = ( isset ($this->field ['show_only_language']) && ( $this->field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden ' : '';
 
@@ -146,8 +146,10 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     }
 
     public function element_title() {
-        if( isset ($this->field ['title']) ) {
-            echo '<div class="wpsf-title"><h4>' . $this->field ['title'] . '</h4>' . $this->element_desc() . ' ' . $this->element_help() . '</div>';
+        if( isset ($this->field ['title']) === TRUE ) {
+            if( ! empty($this->field ['title']) ) {
+                echo '<div class="wpsf-title"><h4>' . $this->field ['title'] . '</h4>' . $this->element_desc() . ' ' . $this->element_help() . '</div>';
+            }
         }
     }
 
@@ -182,14 +184,14 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return string
      */
     public function element_title_before() {
-        return ( isset ($this->field ['title']) ) ? '<div class="wpsf-fieldset">' : '';
+        return ( isset ($this->field ['title']) && ! empty($this->field ['title']) ) ? '<div class="wpsf-fieldset">' : '';
     }
 
     /**
      * @return string
      */
     public function element_title_after() {
-        return ( isset ($this->field ['title']) ) ? '</div>' : '';
+        return ( isset ($this->field ['title']) && ! empty($this->field ['title']) ) ? '</div>' : '';
     }
 
     /**

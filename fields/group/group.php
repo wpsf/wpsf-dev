@@ -26,17 +26,17 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 
         echo $this->element_before();
 
-        $fields = array_values($this->field['fields']);
-        $last_id = ( is_array($this->value) ) ? max(array_keys($this->value)) : 0;
-        $acc_title = ( isset($this->field['accordion_title']) ) ? $this->field['accordion_title'] : esc_html__('Adding', 'wpsf-framework');
+        $fields      = array_values($this->field['fields']);
+        $last_id     = ( is_array($this->value) && ! empty($this->value) ) ? max(array_keys($this->value)) : 0;
+        $acc_title   = ( isset($this->field['accordion_title']) ) ? $this->field['accordion_title'] : esc_html__('Adding', 'wpsf-framework');
         $field_title = ( isset($fields[0]['title']) ) ? $fields[0]['title'] : $fields[1]['title'];
-        $field_id = ( isset($fields[0]['id']) ) ? $fields[0]['id'] : $fields[1]['id'];
-        $el_class = ( isset($this->field['title']) ) ? sanitize_title($field_title) : 'no-title';
-        $search_id = wpsf_array_search($fields, 'id', $acc_title);
+        $field_id    = ( isset($fields[0]['id']) ) ? $fields[0]['id'] : $fields[1]['id'];
+        $el_class    = ( isset($this->field['title']) ) ? sanitize_title($field_title) : 'no-title';
+        $search_id   = wpsf_array_search($fields, 'id', $acc_title);
 
         if( ! empty($search_id) ) {
             $acc_title = ( isset($search_id[0]['title']) ) ? $search_id[0]['title'] : $acc_title;
-            $field_id = ( isset($search_id[0]['id']) ) ? $search_id[0]['id'] : $field_id;
+            $field_id  = ( isset($search_id[0]['id']) ) ? $search_id[0]['id'] : $field_id;
         }
 
         echo '<div class="wpsf-group wpsf-group-' . $el_class . '-adding hidden">';
@@ -44,8 +44,8 @@ class WPSFramework_Option_group extends WPSFramework_Options {
         echo '<h4 class="wpsf-group-title">' . $acc_title . '</h4>';
         echo '<div class="wpsf-group-content">';
         foreach( $fields as $field ) {
-            $field['sub'] = TRUE;
-            $unique = $this->unique . '[_nonce][' . $this->field['id'] . '][' . $last_id . ']';
+            $field['sub']  = TRUE;
+            $unique        = $this->unique . '[_nonce][' . $this->field['id'] . '][' . $last_id . ']';
             $field_default = ( isset($field['default']) ) ? $field['default'] : '';
             echo wpsf_add_element($field, $field_default, $unique);
         }
@@ -59,7 +59,7 @@ class WPSFramework_Option_group extends WPSFramework_Options {
                 if( isset($this->multilang) && $this->multilang !== FALSE ) {
                     $title = $this->_get_title($this->value[$key], TRUE);
                     if( is_array($title) ) {
-                        $lang = wpsf_language_defaults();
+                        $lang  = wpsf_language_defaults();
                         $title = isset($title[$lang['current']]) ? $title[$lang['current']] : $title;
                         $title = is_array($title) ? $title[0] : $title;
                     }
@@ -76,8 +76,8 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 
                 foreach( $fields as $field ) {
                     $field['sub'] = TRUE;
-                    $unique = $this->unique . '[' . $this->field['id'] . '][' . $key . ']';
-                    $value = ( isset($field['id']) && isset($this->value[$key][$field['id']]) ) ? $this->value[$key][$field['id']] : '';
+                    $unique       = $this->unique . '[' . $this->field['id'] . '][' . $key . ']';
+                    $value        = ( isset($field['id']) && isset($this->value[$key][$field['id']]) ) ? $this->value[$key][$field['id']] : '';
                     echo wpsf_add_element($field, $value, $unique);
                 }
 
