@@ -19,7 +19,7 @@ if( ! defined('ABSPATH') ) {
  * @version 1.0.0
  *
  */
-defined('WPSF_VERSION') or define('WPSF_VERSION', '0.8Beta');
+defined('WPSF_VERSION') or define('WPSF_VERSION', '080320180722 Build 1');
 defined('WPSF_OPTION') or define('WPSF_OPTION', '_wpsf_options');
 defined('WPSF_CUSTOMIZE') or define('WPSF_CUSTOMIZE', '_wpsf_customize_options');
 
@@ -35,14 +35,14 @@ if( ! function_exists('wpsf_get_path_locate') ) {
      * @return mixed
      */
     function wpsf_get_path_locate() {
-        $dirname = wp_normalize_path(dirname(__FILE__));
-        $plugin_dir = wp_normalize_path(WP_PLUGIN_DIR);
+        $dirname        = wp_normalize_path(dirname(__FILE__));
+        $plugin_dir     = wp_normalize_path(WP_PLUGIN_DIR);
         $located_plugin = ( preg_match('#' . preg_replace('/[^A-Za-z]/', '', $plugin_dir) . '#', preg_replace('/[^A-Za-z]/', '', $dirname)) ) ? TRUE : FALSE;
-        $directory = ( $located_plugin ) ? $plugin_dir : get_template_directory();
-        $directory_uri = ( $located_plugin ) ? WP_PLUGIN_URL : get_template_directory_uri();
-        $basename = str_replace(wp_normalize_path($directory), '', $dirname);
-        $dir = $directory . $basename;
-        $uri = $directory_uri . $basename;
+        $directory      = ( $located_plugin ) ? $plugin_dir : get_template_directory();
+        $directory_uri  = ( $located_plugin ) ? WP_PLUGIN_URL : get_template_directory_uri();
+        $basename       = str_replace(wp_normalize_path($directory), '', $dirname);
+        $dir            = $directory . $basename;
+        $uri            = $directory_uri . $basename;
 
         return apply_filters('wpsf_get_path_locate', array(
             'basename' => wp_normalize_path($basename),
@@ -77,18 +77,18 @@ if( ! function_exists('wpsf_locate_template') ) {
      * @return string
      */
     function wpsf_locate_template($template_name) {
-        $located = '';
-        $override = apply_filters('wpsf_framework_override', 'wpsf-framework-override');
-        $dir_plugin = wp_normalize_path(WP_PLUGIN_DIR);
-        $dir_theme = get_template_directory();
-        $dir_child = get_stylesheet_directory();
-        $dir_override = '/' . $override . '/' . $template_name;
-        $dir_template = WPSF_BASENAME . '/' . $template_name;
-        $child_force_overide = $dir_child . $dir_override;
-        $child_normal_override = $dir_child . $dir_template;
-        $theme_force_override = $dir_theme . $dir_override;
-        $theme_normal_override = $dir_theme . $dir_template;
-        $plugin_force_override = $dir_plugin . $dir_override;
+        $located                = '';
+        $override               = apply_filters('wpsf_framework_override', 'wpsf-framework-override');
+        $dir_plugin             = wp_normalize_path(WP_PLUGIN_DIR);
+        $dir_theme              = get_template_directory();
+        $dir_child              = get_stylesheet_directory();
+        $dir_override           = '/' . $override . '/' . $template_name;
+        $dir_template           = WPSF_BASENAME . '/' . $template_name;
+        $child_force_overide    = $dir_child . $dir_override;
+        $child_normal_override  = $dir_child . $dir_template;
+        $theme_force_override   = $dir_theme . $dir_override;
+        $theme_normal_override  = $dir_theme . $dir_template;
+        $plugin_force_override  = $dir_plugin . $dir_override;
         $plugin_normal_override = $dir_plugin . $dir_template;
 
 
@@ -130,10 +130,10 @@ if( ! function_exists('wpsf_get_multilang_option') ) {
      * @return mixed|string
      */
     function wpsf_get_multilang_option($option_name = '', $default = '') {
-        $value = wpsf_get_option($option_name, $default);
+        $value     = wpsf_get_option($option_name, $default);
         $languages = wpsf_language_defaults();
-        $default = $languages ['default'];
-        $current = $languages ['current'];
+        $default   = $languages ['default'];
+        $current   = $languages ['current'];
 
         if( is_array($value) && is_array($languages) && isset ($value [$current]) ) {
             return $value [$current];
@@ -159,8 +159,8 @@ if( ! function_exists('wpsf_get_multilang_value') ) {
      */
     function wpsf_get_multilang_value($value = '', $default = '') {
         $languages = wpsf_language_defaults();
-        $default = $languages ['default'];
-        $current = $languages ['current'];
+        $default   = $languages ['default'];
+        $current   = $languages ['current'];
 
         if( is_array($value) && is_array($languages) && isset ($value [$current]) ) {
             return $value [$current];
@@ -244,26 +244,26 @@ if( ! function_exists('wpsf_language_defaults') ) {
         if( wpsf_is_wpml_activated() || wpsf_is_qtranslate_activated() || wpsf_is_polylang_activated() ) {
             if( wpsf_is_wpml_activated() ) {
                 global $sitepress;
-                $multilang ['default'] = $sitepress->get_default_language();
-                $multilang ['current'] = $sitepress->get_current_language();
+                $multilang ['default']   = $sitepress->get_default_language();
+                $multilang ['current']   = $sitepress->get_current_language();
                 $multilang ['languages'] = $sitepress->get_active_languages();
             } else if( wpsf_is_polylang_activated() ) {
                 global $polylang;
-                $current = pll_current_language();
-                $default = pll_default_language();
-                $current = ( empty ($current) ) ? $default : $current;
+                $current    = pll_current_language();
+                $default    = pll_default_language();
+                $current    = ( empty ($current) ) ? $default : $current;
                 $poly_langs = $polylang->model->get_languages_list();
-                $languages = array();
+                $languages  = array();
                 foreach( $poly_langs as $p_lang ) {
                     $languages [$p_lang->slug] = $p_lang->slug;
                 }
-                $multilang ['default'] = $default;
-                $multilang ['current'] = $current;
+                $multilang ['default']   = $default;
+                $multilang ['current']   = $current;
                 $multilang ['languages'] = $languages;
             } else if( wpsf_is_qtranslate_activated() ) {
                 global $q_config;
-                $multilang ['default'] = $q_config ['default_language'];
-                $multilang ['current'] = $q_config ['language'];
+                $multilang ['default']   = $q_config ['default_language'];
+                $multilang ['current']   = $q_config ['language'];
                 $multilang ['languages'] = array_flip(qtrans_getSortedLanguages());
             }
         }
