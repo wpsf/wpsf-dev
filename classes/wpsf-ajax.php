@@ -36,7 +36,7 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
     }
 
     public function query_select_data() {
-        $options = array();
+        $options    = array();
         $query_args = ( isset ($_REQUEST['query_args']) ) ? $_REQUEST['query_args'] : array();
 
         $data = WPSFramework_Query::query($_REQUEST['options'], $query_args, $_REQUEST['s']);
@@ -64,6 +64,26 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
 
         do_action('wpsf_add_icons');
         do_action('wpsf_add_icons_after');
+    }
+
+    public function wpsf_modal_select() {
+        if( ! isset($_REQUEST['data']) ) {
+            wp_send_json_error();
+        }
+
+        $data = $_REQUEST['data'];
+
+        $data['query_args']['option_key']   = FALSE;
+        $data['query_args']['option_value'] = FALSE;
+        $selected                           = ( isset($_REQUEST['selected']) && is_array($_REQUEST['selected']) ) ? $_REQUEST['selected'] : array();
+
+        $post_data = WPSFramework_Query::query($data['type'], $data['query_args'], $_REQUEST['search']);
+        ob_start();
+        new WPSFramework_Modal_Search_Handler($data['type'], $selected, $post_data, $data);
+        $data = ob_get_clean();
+        ob_flush();
+        wp_send_json_success($data);
+        wp_die();
     }
 
 }

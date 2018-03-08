@@ -29,6 +29,7 @@ final class WPSFramework_Query {
         $option_value  = 'name';
         $default_key   = 'ID';
         $default_value = 'name';
+        $is_all        = FALSE;
         if( ! empty($search) ) {
             self::$query_args['s'] = $search;
         }
@@ -36,6 +37,7 @@ final class WPSFramework_Query {
         if( ! empty($args) ) {
             $option_key   = isset($args['option_key']) ? $args['option_key'] : 'ID';
             $option_value = isset($args['option_value']) ? $args['option_value'] : 'name';
+            $is_all       = ( $option_key === FALSE && $option_value === FALSE ) ? TRUE : FALSE;
             unset($args['option_key']);
             unset($args['option_value']);
             self::$query_args = array_merge($args, self::$query_args);
@@ -58,7 +60,9 @@ final class WPSFramework_Query {
                         self::$query_args['post_type'] = 'post';
                     }
                 } else {
-                    self::$query_args['post_type'] = 'page';
+                    if( ! isset(self::$query_args['post_type']) ) {
+                        self::$query_args['post_type'] = 'page';
+                    }
                 }
             break;
 
@@ -71,10 +75,12 @@ final class WPSFramework_Query {
                 $default_value = 'name';
 
 
-                if( in_array($type, array( 'tags', 'tag' )) ) {
-                    self::$query_args ['taxonomies'] = ( isset(self::$query_args ['taxonomies']) ) ? self::$query_args['taxonomies'] : 'post_tag';
-                } else {
-                    self::$query_args['taxonomy'] = 'category';
+                if( ! isset(self::$query_args['taxonomies']) && ! self::$query_args['taxonomy'] ) {
+                    if( in_array($type, array( 'tags', 'tag' )) ) {
+                        self::$query_args ['taxonomies'] = ( isset(self::$query_args ['taxonomies']) ) ? self::$query_args['taxonomies'] : 'post_tag';
+                    } else {
+                        self::$query_args['taxonomy'] = 'category';
+                    }
                 }
 
                 if( ! empty($search) ) {
@@ -124,10 +130,12 @@ final class WPSFramework_Query {
             return array();
         }
 
-        $result = self::handle_query_data($result, array( $option_key, $option_value ), array(
-            $default_key,
-            $default_value,
-        ));
+        if( $is_all === FALSE ) {
+            $result = self::handle_query_data($result, array( $option_key, $option_value ), array(
+                $default_key,
+                $default_value,
+            ));
+        }
 
         return $result;
     }

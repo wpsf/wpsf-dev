@@ -560,4 +560,10 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     public function localize_field($object_name = '', $settings = array(), $with_script = TRUE) {
         $this->js_settings = '<div class="wpsf-element-settings hidden" style="display:none;visibility: hidden;">' . wpsf_js_vars($object_name, $settings, $with_script) . '</div>';
     }
+
+    public function js_settings_id() {
+        $randID = sanitize_key($this->field['id']) . intval(microtime(TRUE));
+        $randID = str_replace(array( '-', '_' ), '', $randID);
+        return $randID;
+    }
 }

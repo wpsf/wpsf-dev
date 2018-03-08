@@ -1294,33 +1294,33 @@ div#screen-meta-links + div.wpsf-framework {
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 .wpsf-field-font_container .font_container_inline .wpsf-element {
-    margin-left: 25px;
+  margin-left: 25px;
   border: none;
   vertical-align: middle;
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-element:first-child {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-element .wpsf-title {
-    display: none;
+  display: none;
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-element .wpsf-fieldset {
-    margin: 0;
+  margin: 0;
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-field-text {
-    display: inline-block;
-    width: auto;
-    max-width: 50px;
+  display: inline-block;
+  width: auto;
+  max-width: 50px;
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-field-text:before, .wpsf-field-font_container .font_container_inline .wpsf-element-tag:before, .wpsf-field-font_container .font_container_inline .wpsf-element-text-align:before {
   content: "\f034";
   position: absolute;
-    margin-left: -24px;
+  margin-left: -24px;
   top: 1px;
   left: 0;
   height: 28px;
@@ -1333,19 +1333,19 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-field-text.wpsf-element-line-height:before {
-    content: "\f034";
+  content: "\f034";
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-field-text.wpsf-element-letter-spacing:before {
-    content: "\f035";
+  content: "\f035";
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-element-tag:before {
-    content: "\f121";
+  content: "\f121";
 }
 
 .wpsf-field-font_container .font_container_inline .wpsf-element-text-align:before {
-    content: "\f037";
+  content: "\f037";
 }
 
 .wpsf-field-font_container .wpsf-font-preview {
@@ -2486,6 +2486,81 @@ div#screen-meta-links + div.wpsf-framework {
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
   border-bottom: none;
+}
+
+.wpsf-modal-search-result {
+  padding: 10px;
+  background: #fff;
+  margin: 10px 0;
+  box-shadow: 0px 0px 3px #d5d2d2 inset;
+}
+
+.wpsf-modal-search-result ul {
+  margin: 0;
+}
+
+.wpsf-modal-search-result ul li {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #dbdbdb;
+  margin-bottom: 5px;
+  margin-left: 0;
+  margin-right: 5px;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+}
+
+.wpsf-modal-search-result ul li:hover {
+  background: #fff;
+  padding: 4px 9px;
+  border: 1px solid #dbdbdb;
+}
+
+.wpsf-modal-search-result ul li:first-child {
+  margin-left: 0;
+}
+
+.wpsf-modal-search-result ul li:last-child {
+  margin-right: 0;
+}
+
+.wpsf-modal-search-result ul li span.id {
+  margin-right: 5px;
+}
+
+.wpsf-modal-search-result ul li span.close {
+  color: #7e7e7e;
+  font-size: 18px;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+#wpsf-modal-search-view-modal_search span.spinner {
+  position: relative;
+  vertical-align: middle;
+  left: 0;
+  right: 0;
+  margin: 0;
+}
+
+#wpsf-modal-search-view-modal_search .wpsf-modal-search-view-search {
+  padding-bottom: 5px;
+}
+
+#wpsf-modal-search-view-modal_search input#wpsf-modal-search-view-input {
+  display: inline-block;
+  padding: 5px;
+  margin: 0;
+  width: 75%;
+  min-height: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+#wpsf-modal-search-view-modal_search #wpsf-modal-search-view-search {
+  vertical-align: middle;
 }
 
 .wpsf-field-animate_css .animation-preview {
