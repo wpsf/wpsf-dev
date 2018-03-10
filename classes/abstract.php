@@ -79,12 +79,15 @@ abstract class WPSFramework_Abstract {
             )) && ( isset($field['un_array']) && $field['un_array'] === TRUE ) ) {
             $value = array();
             foreach( $field['fields'] as $_field ) {
+                if( ! isset($_field['id']) ) {
+                    continue;
+                }
                 $value[$_field['id']] = $this->get_field_values($_field, $values);
             }
         } else if( $field['type'] == 'tab' ) {
-            $value = array();
+            $value       = array();
             $_tab_values = array();
-            $_tab_vals = ( isset($field['id']) && isset($values[$field['id']]) ) ? $values[$field['id']] : '';
+            $_tab_vals   = ( isset($field['id']) && isset($values[$field['id']]) ) ? $values[$field['id']] : '';
             if( ( isset($field['un_array']) && $field['un_array'] === TRUE ) ) {
                 $_tab_vals = $values;
             }
@@ -125,14 +128,14 @@ abstract class WPSFramework_Abstract {
             }
             foreach( $s['sections'] as $b => $a ) {
                 if( isset($a['fields']) ) {
-                    $fname .= ( isset($a['name']) ) ? $a['name'] : '';
+                    $fname             .= ( isset($a['name']) ) ? $a['name'] : '';
                     $s['sections'][$b] = $this->map_error_id($a, $fname);
                 }
             }
         } else if( isset($s['fields']) ) {
             foreach( $s['fields'] as $f => $e ) {
-                $field_id = isset($e['id']) ? $e['id'] : '';
-                $pid = $parent_id . '_' . $field_id;
+                $field_id                    = isset($e['id']) ? $e['id'] : '';
+                $pid                         = $parent_id . '_' . $field_id;
                 $s['fields'][$f]['error_id'] = $pid;
 
                 if( isset($e['fields']) || isset($e['sections']) ) {

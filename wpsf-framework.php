@@ -83,7 +83,6 @@ if( ! function_exists("wpsf_autoloader") ) {
 
 if( ! function_exists('wpsf_framework_init') ) {
     function wpsf_framework_init() {
-
         if( class_exists('WPSFramework') ) {
             return;
         }

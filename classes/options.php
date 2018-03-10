@@ -465,7 +465,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      */
     public function _unarray_values($field_id, $default = array()) {
         if( in_array($this->field['type'], array( 'tab', 'group', 'fieldset', 'accordion' )) ) {
-            if( isset($this->field['un_array']) === FALSE || $this->field['un_array'] === FALSE ) {
+            if( isset($this->field['un_array']) === TRUE && $this->field['un_array'] === TRUE ) {
                 if( isset($this->value[$field_id]) ) {
                     return $this->value[$field_id];
                 } else {

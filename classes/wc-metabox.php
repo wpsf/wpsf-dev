@@ -193,17 +193,15 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             if( empty($this->fields) ) {
                 $this->handle_options();
             }
-            $fieldss = isset($this->variation_fields[$type]) ? $this->variation_fields[$type] : $this->fields;
+            $fieldss      = isset($this->variation_fields[$type]) ? $this->variation_fields[$type] : $this->fields;
             $variation_id = is_object($variation) ? $variation->ID : absint($variation);
-            $final = '';
-
-            $output = '';
-
+            $final        = '';
+            $output       = '';
 
             foreach( $fieldss as $meta_id => $sections ) {
                 foreach( $sections as $fields ) {
                     global $wpsf_errors;
-                    $errors = get_transient('_wpsf_variation_' . $variation_id . '_' . $loop);
+                    $errors  = get_transient('_wpsf_variation_' . $variation_id . '_' . $loop);
                     $options = get_post_meta($variation_id, $meta_id, TRUE);
                     $options = ( ! is_array($options) ) ? array() : $options;
 
@@ -224,24 +222,24 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                                     'wrap_class' => '',
                                 );
 
-                                $field = wp_parse_args($field, $defaults);
-                                $field['error_id'] = '_' . $loop . $field['error_id'];
-                                $WrapClass = $this->show_hide_class($field['show'], $field['hide']);
+                                $field               = wp_parse_args($field, $defaults);
+                                $field['error_id']   = '_' . $loop . $field['error_id'];
+                                $WrapClass           = $this->show_hide_class($field['show'], $field['hide']);
                                 $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'], $WrapClass);
-                                $value = $this->get_field_values($field, $options);
-                                $output .= wpsf_add_element($field, $value, $meta_id . '[' . $loop . ']');
+                                $value               = $this->get_field_values($field, $options);
+                                $output              .= wpsf_add_element($field, $value, $meta_id . '[' . $loop . ']');
 
                             }
                         }
                     }
 
-                    $defaults = array(
+                    $defaults  = array(
                         'show' => '',
                         'hide' => '',
                     );
-                    $fields = wp_parse_args($fields, $defaults);
+                    $fields    = wp_parse_args($fields, $defaults);
                     $WrapClass = $this->show_hide_class($fields['show'], $fields['hide'], 'string');
-                    $final .= '<div class="wpsf-wc-metabox-fields ' . $WrapClass . '">' . $output . '</div>';
+                    $final     .= '<div class="wpsf-wc-metabox-fields ' . $WrapClass . '">' . $output . '</div>';
                 }
             }
 
@@ -259,13 +257,12 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             $validator = new WPSFramework_Fields_Save_Sanitize;
             foreach( $this->fields as $meta_id => $fields ) {
                 $posted_values = wpsf_get_var($meta_id);
-
                 foreach( $fields as $field ) {
                     if( isset($field['is_variation']) != FALSE ) {
                         $field['error_id'] = '_' . $loop . $field['error_id'];
-                        $val = isset($posted_values[$loop][$field['id']]) ? $posted_values[$loop][$field['id']] : "";
-                        $val = $validator->_sanitize_field($field, $val, $fields);
-                        $val = $validator->_validate_field($field, $val, $fields);
+                        $val               = isset($posted_values[$loop][$field['id']]) ? $posted_values[$loop][$field['id']] : "";
+                        $val               = $validator->_sanitize_field($field, $val, $fields);
+                        $val               = $validator->_validate_field($field, $val, $fields);
 
                         if( isset($posted_values[$loop][$field['id']]) ) {
                             $posted_values[$loop][$field['id']] = $val;
@@ -273,6 +270,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                     }
                 }
                 update_post_meta($variation_id, $meta_id, $posted_values[$loop]);
+                do_action('wpsf_wc_metabox_variation_saved', $variation_id, $meta_id, $posted_values[$loop], $loop);
                 set_transient('_wpsf_variation_' . $variation_id . '_' . $loop, array( 'errors' => $validator->get_errors() ), 50);
             }
         }
@@ -284,9 +282,9 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
          */
         private function render_fields($option, $db_key = '') {
             global $post, $wpsf_errors;
-            $html = '';
-            $values = get_post_meta($post->ID, $db_key, TRUE);
-            $transient = get_transient('wpsf-wc-mt' . $db_key);
+            $html        = '';
+            $values      = get_post_meta($post->ID, $db_key, TRUE);
+            $transient   = get_transient('wpsf-wc-mt' . $db_key);
             $wpsf_errors = isset($transient['errors']) ? $transient['errors'] : array();
 
             if( ! is_array($values) ) {
@@ -297,17 +295,17 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                     if( isset($field['is_variation']) && ( isset($field['only_variation']) && $field['only_variation'] === TRUE ) ) {
                         continue;
                     }
-                    $defaults = array(
+                    $defaults            = array(
                         'show'       => '',
                         'hide'       => '',
                         'wrap_class' => '',
                     );
-                    $field = wp_parse_args($field, $defaults);
-                    $field_id = isset($field['id']) ? $field['id'] : "";
-                    $WrapClass = $this->show_hide_class($field['show'], $field['hide']);
+                    $field               = wp_parse_args($field, $defaults);
+                    $field_id            = isset($field['id']) ? $field['id'] : "";
+                    $WrapClass           = $this->show_hide_class($field['show'], $field['hide']);
                     $field['wrap_class'] = $this->_merge_wrap_class($field['wrap_class'], $WrapClass);
-                    $value = $this->get_field_values($field, $values);
-                    $html .= wpsf_add_element($field, $value, $db_key);
+                    $value               = $this->get_field_values($field, $values);
+                    $html                .= wpsf_add_element($field, $value, $db_key);
                 }
             }
             return $html;
@@ -335,20 +333,20 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
          * @param $section_variation
          */
         private function _handle_fields($section, $db_id, $section_variation) {
-            $place = 'default';
+            $place    = 'default';
             $add_vars = FALSE;
             foreach( $section['fields'] as $field_id => $field ) {
                 if( $section_variation !== FALSE ) {
-                    $place = ( $section_variation === TRUE ) ? 'default' : $section_variation;
+                    $place                                        = ( $section_variation === TRUE ) ? 'default' : $section_variation;
                     $section['fields'][$field_id]['is_variation'] = $place;
-                    $add_vars = TRUE;
+                    $add_vars                                     = TRUE;
                 } else if( isset($field['only_variation']) ) {
-                    $place = ( $field['is_variation'] === TRUE ) ? 'default' : $field['is_variation'];
+                    $place    = ( $field['is_variation'] === TRUE ) ? 'default' : $field['is_variation'];
                     $add_vars = TRUE;
                 } else {
                     $this->fields[$db_id][] = $field;
                     if( isset($field['is_variation']) ) {
-                        $place = ( $field['is_variation'] === TRUE ) ? 'default' : $field['is_variation'];
+                        $place    = ( $field['is_variation'] === TRUE ) ? 'default' : $field['is_variation'];
                         $add_vars = TRUE;
                     }
                 }
@@ -373,7 +371,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
         public function handle_options() {
             foreach( $this->options as $page_id => $page ) {
                 $sec_id = $this->_get_page_id($page);
-                $page = $this->map_error_id($page, $sec_id);
+                $page   = $this->map_error_id($page, $sec_id);
 
                 if( isset($page['sections']) ) {
                     foreach( $page['sections'] as $section_id => $section ) {
@@ -394,7 +392,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                 if( isset($page['sections']) ) {
                     foreach( $page['sections'] as $section_id => $section ) {
                         $parent_variation = ( isset($section['is_variation']) ) ? $section['is_variation'] : FALSE;
-                        $only_variation = ( isset($section['only_variation']) ) ? $section['only_variation'] : FALSE;
+                        $only_variation   = ( isset($section['only_variation']) ) ? $section['only_variation'] : FALSE;
 
                         if( $only_variation == FALSE ) {
                             if( isset($section['group']) ) {
@@ -410,7 +408,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                     }
                 } else {
                     $parent_variation = ( isset($page['is_variation']) ) ? $page['is_variation'] : FALSE;
-                    $only_variation = ( isset($page['only_variation']) ) ? $page['only_variation'] : FALSE;
+                    $only_variation   = ( isset($page['only_variation']) ) ? $page['only_variation'] : FALSE;
                     if( $only_variation == FALSE ) {
                         $this->groups_to_add[] = $page;
                     }
@@ -427,16 +425,18 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                 $validator = new WPSFramework_Fields_Save_Sanitize;
                 foreach( $this->fields as $db_id => $fields ) {
                     $transient = array();
-                    $request = wpsf_get_var($db_id);
-                    $ex_value = $this->_post_data('get', $db_id);
-                    $request = $validator->loop_fields(array( 'fields' => $fields ), $request, $ex_value, TRUE);
-                    $request = apply_filters('wpsf_wc_metabox_save', $request, $db_id, $post);
+                    $request   = wpsf_get_var($db_id);
+                    $ex_value  = $this->_post_data('get', $db_id);
+                    $request   = $validator->loop_fields(array( 'fields' => $fields ), $request, $ex_value, TRUE);
+                    $request   = apply_filters('wpsf_wc_metabox_save', $request, $db_id, $post);
 
                     if( empty($request) ) {
                         delete_post_meta($post->ID, $db_id);
                     } else {
                         update_post_meta($post->ID, $db_id, $request);
                     }
+
+                    do_action('wpsf_wc_metabox_saved', $post->ID, $db_id, $request);
                     $transient['errors'] = $validator->get_errors();
                     set_transient('wpsf-wc-mt' . $db_id, $transient, 30);
                 }
@@ -465,10 +465,10 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                     'hide'     => '',
                 );
 
-                $group = wp_parse_args($group, $defaults);
-                $default_class = array( 'wpsf-wc-tab' );
-                $default_class = is_array($group['class']) ? array_merge($group['class'], $default_class) : array_merge(array( $group['class'] ), $default_class);
-                $default_class = array_merge($default_class, $this->show_hide_class($group['show'], $group['hide']));
+                $group                = wp_parse_args($group, $defaults);
+                $default_class        = array( 'wpsf-wc-tab' );
+                $default_class        = is_array($group['class']) ? array_merge($group['class'], $default_class) : array_merge(array( $group['class'] ), $default_class);
+                $default_class        = array_merge($default_class, $this->show_hide_class($group['show'], $group['hide']));
                 $tabs[$group['name']] = array(
                     'label'    => $group['title'],
                     'target'   => apply_filters('wpsf_sanitize_title', 'wpsf_' . $group['name'] . '_wctab'),
@@ -554,13 +554,13 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             wp_nonce_field('wpsf-framework-wc-metabox', 'wpsf-framework-wc-metabox-nonce');
 
             foreach( $this->groups_to_add as $group ) {
-                $default = array(
+                $default  = array(
                     'fields' => '',
                     'name'   => '',
                     'title'  => '',
                 );
-                $group = wp_parse_args($group, $default);
-                $id = apply_filters('wpsf_sanitize_title', 'wpsf_' . $group['name'] . '_wctab');
+                $group    = wp_parse_args($group, $default);
+                $id       = apply_filters('wpsf_sanitize_title', 'wpsf_' . $group['name'] . '_wctab');
                 $wc_class = ( isset($group['wc_style']) && $group['wc_style'] === TRUE ) ? ' wpsf-wc-style ' : '';
                 echo '<div id="' . $id . '" class="panel woocommerce_options_panel hidden  wpsf-wc-metabox-fields' . $wc_class . '">';
                 echo $this->render_fields($group, $group['id']);
