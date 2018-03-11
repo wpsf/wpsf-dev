@@ -108,7 +108,7 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
      * @param $user_id
      */
     public function save_customer_meta_fields($user_id) {
-        $save_handler = new WPSFramework_Fields_Save_Sanitize;
+        $save_handler = new WPSFramework_DB_Save_Handler;
         foreach( $this->options as $options ) {
             $posted_data = wpsf_get_var($options['id']);
 

@@ -69,13 +69,19 @@ if( ! function_exists("wpsf_autoloader") ) {
             return TRUE;
         }
 
-
         if( 0 === strpos($class, 'WPSFramework_Option_') ) {
             $path = strtolower(substr($class, 20));
             wpsf_locate_template('fields/' . $path . '/' . $path . '.php');
         } else if( 0 === strpos($class, 'WPSFramework_') ) {
-            $path = strtolower(substr(str_replace('_', '-', $class), 13));
-            include( 'classes/' . $path . '.php' );
+            $path  = strtolower(substr(str_replace('_', '-', $class), 13));
+            $path1 = WPSF_DIR . '/classes/' . $path . '.php';
+            $path2 = WPSF_DIR . '/classes/core/' . $path . '.php';
+
+            if( file_exists($path1) ) {
+                include( $path1 );
+            } else if( file_exists($path2) ) {
+                include( $path2 );
+            }
         }
         return TRUE;
     }
@@ -99,14 +105,11 @@ if( ! function_exists('wpsf_framework_init') ) {
         }
 
         // classes
-        require_once( WPSF_DIR . '/classes/abstract.php' );
-        require_once( WPSF_DIR . '/classes/fields.php' );
-        require_once( WPSF_DIR . '/classes/wpsf-ajax.php' );
-        require_once( WPSF_DIR . '/classes/wpsf-query.php' );
-        require_once( WPSF_DIR . '/classes/options.php' );
-        require_once( WPSF_DIR . '/classes/framework.php' );
-
-        wpsf_load_options();
+        require_once( WPSF_DIR . '/classes/core/abstract.php' );
+        require_once( WPSF_DIR . '/classes/core/fields.php' );
+        require_once( WPSF_DIR . '/classes/core/wpsf-ajax.php' );
+        require_once( WPSF_DIR . '/classes/core/wpsf-query.php' );
+        require_once( WPSF_DIR . '/classes/core/options.php' );
 
         spl_autoload_register('wpsf_autoloader');
         add_action('widgets_init', 'wpsf_framework_widgets', 10);
@@ -118,43 +121,5 @@ if( ! function_exists('wpsf_framework_widgets') ) {
     function wpsf_framework_widgets() {
         wpsf_locate_template('classes/widget.php');
         do_action('wpsf_widgets');
-    }
-}
-
-if( ! function_exists('wpsf_register_settings') ) {
-    /**
-     * @param string $slug
-     */
-    function wpsf_register_settings($slug = '') {
-        $ex_data = get_option('_wpsf_registered_settings', TRUE);
-        if( ! is_array($ex_data) ) {
-            $ex_data = array();
-        }
-
-        if( ! in_array($slug, $ex_data) ) {
-            $ex_data[] = $slug;
-        }
-
-        update_option('_wpsf_registered_settings', $ex_data);
-    }
-}
-
-if( ! function_exists("wpsf_load_options") ) {
-    function wpsf_load_options() {
-
-        $ex_data = get_option('_wpsf_registered_settings', TRUE);
-        if( ! is_array($ex_data) ) {
-            $ex_data = array();
-        }
-
-        if( ! empty($ex_data) ) {
-            foreach( $ex_data as $slug ) {
-                $mslug           = ltrim($slug, "_");
-                $mslug           = rtrim($mslug, "_");
-                $data            = get_option($slug, TRUE);
-                $data            = ( ! is_array($data) ) ? array() : $data;
-                $GLOBALS[$mslug] = $data;
-            }
-        }
     }
 }

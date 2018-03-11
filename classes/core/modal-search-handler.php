@@ -162,9 +162,10 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
      *
      * @since 4.4.0
      *
-     * @param array  $args URL parameters for the link.
+     * @param array  $args  URL parameters for the link.
      * @param string $label Link text.
      * @param string $class Optional. Class attribute. Default empty string.
+     *
      * @return string The formatted link string.
      */
     protected function get_edit_link($args, $label, $class = '') {
@@ -185,6 +186,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
     /**
      * @param object $item
      * @param string $col_name
+     *
      * @return mixed
      */
     public function column_default($item, $col_name) {

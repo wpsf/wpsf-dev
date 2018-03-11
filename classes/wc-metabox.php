@@ -254,7 +254,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             if( empty($this->fields) ) {
                 $this->handle_options();
             }
-            $validator = new WPSFramework_Fields_Save_Sanitize;
+            $validator = new WPSFramework_DB_Save_Handler;
             foreach( $this->fields as $meta_id => $fields ) {
                 $posted_values = wpsf_get_var($meta_id);
                 foreach( $fields as $field ) {
@@ -422,12 +422,12 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
             global $post;
 
             if( wp_verify_nonce(wpsf_get_var('wpsf-framework-wc-metabox-nonce'), 'wpsf-framework-wc-metabox') ) {
-                $validator = new WPSFramework_Fields_Save_Sanitize;
+                $validator = new WPSFramework_DB_Save_Handler;
                 foreach( $this->fields as $db_id => $fields ) {
                     $transient = array();
                     $request   = wpsf_get_var($db_id);
                     $ex_value  = $this->_post_data('get', $db_id);
-                    $request   = $validator->loop_fields(array( 'fields' => $fields ), $request, $ex_value, TRUE);
+                    $request   = $validator->loop_fields(array( 'fields' => $fields ), $request, $ex_value);
                     $request   = apply_filters('wpsf_wc_metabox_save', $request, $db_id, $post);
 
                     if( empty($request) ) {

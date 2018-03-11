@@ -21,25 +21,25 @@ if( ! defined("ABSPATH") ) {
 }
 
 /**
- * Class WPSFramework_Fields_Save_Sanitize
+ * Class WPSFramework_DB_Save_Handler
  */
-class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
-    public static $_instance = NULL;
-    public $errors = array();
-    public $fields = array();
-    public $db_values = array();
-    public $posted = array();
-    public $cur_posted = array();
-    public $is_settings = FALSE;
-    public $return_values = array();
-    public $field_ids = array();
+class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
+    public static $_instance      = NULL;
+    public        $errors         = array();
+    public        $fields         = array();
+    public        $db_values      = array();
+    public        $posted         = array();
+    public        $cur_posted     = array();
+    public        $is_settings    = FALSE;
+    public        $return_values  = array();
+    public        $field_ids      = array();
+    public        $is_single_page = NULL;
 
     public function __construct() {
-        $this->total_loops = 0;
     }
 
     /**
-     * @return null|\WPSFramework_Fields_Save_Sanitize
+     * @return null|\WPSFramework_DB_Save_Handler
      */
     public static function instance() {
         if( self::$_instance === NULL ) {
@@ -52,19 +52,21 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param array $posted_values
      * @param array $ex_values
      * @param array $fields
+     *
      * @return array|mixed
      */
     public function general_save_handler($posted_values = array(), $ex_values = array(), $fields = array()) {
-        $this->is_settings = FALSE;
+        $this->is_settings   = FALSE;
         $this->return_values = $this->_remove_nonce($posted_values);
-        $this->posted = $this->return_values;
-        $this->db_values = $ex_values;
+        $this->posted        = $this->return_values;
+        $this->db_values     = $ex_values;
         $this->return_values = $this->loop_fields($fields, $this->return_values, $this->db_values);
         return $this->return_values;
     }
 
     /**
      * @param $values
+     *
      * @return mixed
      */
     private function _remove_nonce($values) {
@@ -88,20 +90,20 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param array $current_fields
      * @param array $values
      * @param array $db_value
-     * @param bool  $force_valdiate
+     *
      * @return array
      */
-    public function loop_fields($current_fields = array(), $values = array(), $db_value = array(), $force_valdiate = TRUE) {
+    public function loop_fields($current_fields = array(), $values = array(), $db_value = array()) {
         if( isset($current_fields['fields']) ) {
             foreach( $current_fields['fields'] as $field ) {
                 if( isset($field['type']) && ! isset($field['multilang']) && isset($field['id']) ) {
                     $fid = $field['id'];
 
                     if( isset($db_value[$fid]) ) {
-                        $db_val = $db_value[$fid];
+                        $db_val             = $db_value[$fid];
                         $field['pre_value'] = $db_val;
                     } else {
-                        $db_val = $db_value;
+                        $db_val             = $db_value;
                         $field['pre_value'] = NULL;
                     }
 
@@ -111,7 +113,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
                     } else if( isset($field['fields']) && $field['type'] !== 'group' ) {
                         $f_val = $this->get_field_value($values, $fid);
                         $value = $this->_handle_single_field($field, $f_val, $current_fields);
-                        $value = $this->loop_fields($field, $f_val, $db_val, FALSE);
+                        $value = $this->loop_fields($field, $f_val, $db_val);
                     } else {
                         $f_val = $this->get_field_value($values, $fid);
                         $value = $this->_handle_single_field($field, $f_val, $current_fields);
@@ -123,12 +125,10 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
         } else {
             foreach( $current_fields as $section ) {
                 if( isset($section['fields']) ) {
-                    $f_val = $this->get_field_value($values, $section['name']);
-                    $f_val = ( $f_val === FALSE ) ? $values : $f_val;
-                    $value = $this->loop_fields($section, $f_val, $db_value);
+                    $f_val  = $this->get_field_value($values, $section['name']);
+                    $f_val  = ( $f_val === FALSE ) ? $values : $f_val;
+                    $value  = $this->loop_fields($section, $f_val, $db_value);
                     $values = $this->_manage_data($values, $value, $section['name']);
-                } else {
-                    //$values = $this->loop_fields(array( 'fields' => $section ), $values, $db_value);
                 }
             }
         }
@@ -139,7 +139,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     /**
      * @param $values
      * @param $id
-     * @param $force
+     *
      * @return bool|mixed
      */
     private function get_field_value($values, $id) {
@@ -158,15 +158,14 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param       $field
      * @param array $values
      * @param       $fields
-     * @return array|bool|mixed|void
+     *
+     * @return array|bool|mixed
      */
     public function _handle_single_field($field, $values = array(), $fields) {
         $value = ( is_array($values) && isset($values[$field['id']]) ) ? $values[$field['id']] : $values;
-
         $value = $this->_sanitize_field($field, $value, $fields);
         $value = $this->_validate_field($field, $value, $fields);
-        $values = $this->_manage_data($values, $value, $field['id']);
-
+        //$values = $this->_manage_data($values, $value, $field['id']);
         return $value;
     }
 
@@ -174,7 +173,8 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param $field
      * @param $value
      * @param $fields
-     * @return mixed|void
+     *
+     * @return mixed
      */
     public function _sanitize_field($field, $value, $fields) {
         $type = $field['type'];
@@ -194,13 +194,14 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param $field
      * @param $value
      * @param $fields
+     *
      * @return bool
      */
     public function _validate_field($field, $value, $fields) {
         if( isset($field['validate']) && has_filter('wpsf_validate_' . $field['validate']) ) {
             $validate = apply_filters('wpsf_validate_' . $field['validate'], $value, $field, $fields);
             if( ! empty($validate) ) {
-                $fid = isset($field['error_id']) ? $field['error_id'] : $field['id'];
+                $fid            = isset($field['error_id']) ? $field['error_id'] : $field['id'];
                 $this->errors[] = $this->_error($validate, 'error', $fid);
 
                 if( isset($field['pre_value']) && $field['pre_value'] !== NULL ) {
@@ -220,6 +221,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param        $message
      * @param string $type
      * @param string $id
+     *
      * @return array
      */
     private function _error($message, $type = 'error', $id = 'global') {
@@ -235,6 +237,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @param $orginal_data
      * @param $_new
      * @param $field_id
+     *
      * @return array
      */
     private function _manage_data($orginal_data, $_new, $field_id) {
@@ -254,6 +257,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     /**
      * @param array $options
      * @param array $fields
+     *
      * @return array
      */
     public function handle_settings_page($options = array(), $fields = array()) {
@@ -267,22 +271,21 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
             'posted_values'      => array(),
         );
 
-        $options = wp_parse_args($options, $defaults);
-        $csid = $options['current_section_id'];
-        $cpid = $options['current_parent_id'];
-        $isp = $options['is_single_page'];
+        $options              = wp_parse_args($options, $defaults);
+        $csid                 = $options['current_section_id'];
+        $cpid                 = $options['current_parent_id'];
+        $isp                  = $options['is_single_page'];
         $this->is_single_page = $isp;
-        $this->db_values = get_option($options['db_key'], TRUE);
-        $this->db_values = ( $this->db_values === TRUE || empty($this->db_values) ) ? array() : $this->db_values;
-        $this->posted = $options['posted_values'];
-        $this->posted = $this->_remove_nonce($this->posted);
-        $this->return_values = $this->posted;
+        $this->db_values      = get_option($options['db_key'], TRUE);
+        $this->db_values      = ( $this->db_values === TRUE || empty($this->db_values) ) ? array() : $this->db_values;
+        $this->posted         = $options['posted_values'];
+        $this->posted         = $this->_remove_nonce($this->posted);
+        $this->return_values  = $this->posted;
 
 
         $this->fields = $fields;
 
         foreach( $this->fields as $section ) {
-            $this->total_loops++;
             if( $this->is_single_page === FALSE && ( $csid != $section['name'] && $cpid != $section['page_id'] ) ) {
                 continue;
             }
@@ -301,6 +304,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     /**
      * @param array $new_values
      * @param array $old_values
+     *
      * @return array
      */
     public function array_merge($new_values = array(), $old_values = array()) {
@@ -318,7 +322,6 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
             $this->field_ids = array();
 
             foreach( $this->fields as $section ) {
-                $this->total_loops++;
                 $this->extract_field_ids($section);
             }
 
@@ -338,7 +341,6 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
     public function extract_field_ids($fields) {
         if( isset($fields['fields']) ) {
             foreach( $fields['fields'] as $field ) {
-                $this->total_loops++;
                 if( isset($field['un_array']) && $field['un_array'] === TRUE ) {
                     $this->extract_field_ids($field);
                 } else {
@@ -354,7 +356,7 @@ class WPSFramework_Fields_Save_Sanitize extends WPSFramework_Abstract {
      * @return array
      */
     public function get_errors() {
-        $errors = $this->errors;
+        $errors       = $this->errors;
         $this->errors = array();
         return $errors;
     }

@@ -13,6 +13,9 @@ final class WPSFramework_Query {
 
     private static $query_args = array();
 
+    /**
+     * @return null|\WPSFramework_Query
+     */
     public static function instance() {
         if( self::$_instance === NULL ) {
             self::$_instance = new self;
@@ -21,6 +24,13 @@ final class WPSFramework_Query {
         return self::$_instance;
     }
 
+    /**
+     * @param string $type
+     * @param array  $args
+     * @param string $search
+     *
+     * @return array|int|\WP_Error
+     */
     public static function query($type = '', $args = array(), $search = '') {
         self::$query_args = array();
         self::$query      = NULL;
@@ -152,6 +162,13 @@ final class WPSFramework_Query {
         }
     }
 
+    /**
+     * @param array $data
+     * @param array $required
+     * @param array $default
+     *
+     * @return array
+     */
     public static function handle_query_data($data = array(), $required = array(), $default = array()) {
         $return = array();
 
@@ -164,6 +181,13 @@ final class WPSFramework_Query {
         return $return;
     }
 
+    /**
+     * @param $key
+     * @param $default
+     * @param $data
+     *
+     * @return mixed
+     */
     private static function option_data($key, $default, $data) {
         return ( isset($data->{$key}) && ! empty($data->{$key}) ) ? $data->{$key} : $data->{$default};
     }

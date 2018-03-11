@@ -1,4 +1,5 @@
 <?php
+
 /*-------------------------------------------------------------------------------------------------
  - This file is part of the WPSF package.                                                         -
  - This package is Open Source Software. For the full copyright and license                       -
@@ -17,9 +18,10 @@
  */
 
 function render_wpsf_icons($max = 25) {
-    $icons = json_decode(file_get_contents(WPSF_DIR . '/fields/icon/01-font-awesome.json'), TRUE);
-    $icons = ( isset($icons['icons']) ) ? $icons['icons'] : array();
-    $_max  = count($icons);
+    $icons  = json_decode(file_get_contents(WPSF_DIR . '/fields/icon/01-font-awesome.json'), TRUE);
+    $icons  = ( isset($icons['icons']) ) ? $icons['icons'] : array();
+    $_max   = count($icons);
+    $return = array();
 
     $e = 0;
     while( $e <= $max ) {
@@ -42,7 +44,6 @@ function render_wpsf_icons($max = 25) {
     return $return;
 }
 
-
 // ===============================================================================================
 // -----------------------------------------------------------------------------------------------
 // FRAMEWORK OPTIONS
@@ -59,28 +60,22 @@ $options[] = array(
     // begin: fields
     'fields' => array(
         array(
+            'id'         => '_backbone_modal',
+            'settings'   => array(),
+            'type'       => 'model_search',
+            'options'    => 'page',
+            'query_args' => array(
+                'post_type' => array( 'product', 'product_variations' ),
+                'orderby'   => 'post_date',
+                'order'     => 'ASC',
+            ),
+
+        ),
+        array(
             'id'    => 'animate_css',
             'type'  => 'animate_css',
             'title' => 'Animate CSS',
 
-        ),
-        array(
-            'id'      => 'content_font',
-            'type'    => 'typography_advanced',
-            'title'   => __('Typography Advanced', ''),
-            'chosen'  => TRUE,
-            'select2' => FALSE,
-            'default' => array(
-                'family'  => 'Indie Flower',
-                'variant' => 'regular',
-                'font'    => 'google',
-                'size'    => '20',
-                'height'  => '18',
-                'color'   => '#e2e2e2',
-            ),
-            'preview' => TRUE,
-            //Enable or disable preview box
-            //'preview_text' => 'hello world', //Replace preview text with any text you like.
         ),
         array(
             'id'      => 'unique_color_scheme',
@@ -579,7 +574,6 @@ $_icons_mini    = array(
     ),
     'krw'                 => array( 'label' => 'krw', 'icon' => 'fa fa-krw', 'title' => 'krw', ),
 );
-
 
 $options[] = array(
     'name'     => 'options',
@@ -3109,6 +3103,105 @@ $options[] = array(
                         ),
                     ),
                 ),
+
+
+                array(
+                    'id'        => 'tab_4',
+                    'type'      => 'tab',
+                    'title'     => 'Tab (Style 4)',
+                    'tab_style' => 'cmb',
+                    'sections'  => array(
+                        array(
+                            'name'   => 'section1',
+                            'title'  => 'section 1',
+                            'icon'   => 'fa fa-star',
+                            'fields' => array(
+                                array(
+                                    'type'  => 'switcher',
+                                    'id'    => 'switcher',
+                                    'title' => 'Switcher',
+                                ),
+                                array(
+                                    'type'  => 'text',
+                                    'id'    => 'text',
+                                    'title' => 'Text',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'name'   => 'tab_accordion',
+                            'title'  => 'Tab Accordion',
+                            'icon'   => 'fa fa-list',
+                            'fields' => array(
+                                array(
+                                    'id'              => 'accordion_1',
+                                    'type'            => 'accordion',
+                                    'accordion_title' => 'Accordion 1',
+                                    'title'           => 'Accordion With Title',
+                                    'fields'          => array(
+                                        array(
+                                            'type'  => 'switcher',
+                                            'id'    => 'switcher',
+                                            'title' => 'Switcher',
+                                        ),
+                                        array(
+                                            'type'  => 'text',
+                                            'id'    => 'text',
+                                            'title' => 'Text',
+                                        ),
+                                    ),
+                                ),
+                                array(
+                                    'type'  => 'switcher',
+                                    'id'    => 'switcher',
+                                    'title' => 'Switcher',
+                                ),
+                                array(
+                                    'type'  => 'text',
+                                    'id'    => 'text',
+                                    'title' => 'Text',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'name'   => 'tab_group',
+                            'title'  => 'Tab group',
+                            'icon'   => 'fa fa-object-group',
+                            'fields' => array(
+                                array(
+                                    'id'              => 'group',
+                                    'type'            => 'group',
+                                    'title'           => 'Group',
+                                    'button_title'    => 'Add More',
+                                    'accordion_title' => 'Accordion With Group',
+                                    'fields'          => array(
+                                        array(
+                                            'type'  => 'switcher',
+                                            'id'    => 'switcher',
+                                            'title' => 'Switcher',
+                                        ),
+                                        array(
+                                            'type'  => 'text',
+                                            'id'    => 'text',
+                                            'title' => 'Text',
+                                        ),
+                                    ),
+                                ),
+
+                                array(
+                                    'type'  => 'switcher',
+                                    'id'    => 'switcher',
+                                    'title' => 'Switcher',
+                                ),
+                                array(
+                                    'type'  => 'text',
+                                    'id'    => 'text',
+                                    'title' => 'Text',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             ),
         ),
         array(
@@ -4116,6 +4209,6 @@ new WPSFramework_Settings(array(
     'menu_slug'        => 'wpsf-modern',
     'style'            => 'modern',
     'is_sticky_header' => FALSE,
-    'is_single_page'   => FALSE,
+    'is_single_page'   => TRUE,
     'option_name'      => '_wpsf_new_option',
 ), $options);

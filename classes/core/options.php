@@ -17,7 +17,7 @@ if( ! defined('ABSPATH') ) {
  *
  * Options Class
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -33,6 +33,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
     /**
      * WPSFramework_Options constructor.
+     *
      * @param array  $field
      * @param string $value
      * @param string $unique
@@ -73,10 +74,12 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         return ( isset ($this->field ['attributes'] ['type']) ) ? $this->field ['attributes'] ['type'] : $this->field ['type'];
     }
 
+    /**
+     * @return mixed
+     */
     abstract public function output();
 
     /**
-     * @todo Check $hidden attribute
      * @param bool $is_start
      */
     public function element_wrapper($is_start = TRUE) {
@@ -118,6 +121,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
                 }
             }
 
+            $wrap_class .= ' ' . $is_hidden;
             echo '<div class="' . $wrap_class . '" ' . $wrap_attr . ' >';
             $this->element_title();
             echo $this->element_title_before();
@@ -129,6 +133,13 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         }
     }
 
+    /**
+     * Converts Array into HTML Attribute String
+     *
+     * @param $attributes
+     *
+     * @return string
+     */
     public function array_to_html_attrs($attributes) {
         $atts = '';
 
@@ -196,6 +207,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
     /**
      * @param string $el_class
+     *
      * @return string
      */
     public function element_class($el_class = '') {
@@ -206,6 +218,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     /**
      * @param array $el_attributes
      * @param array $extra_more
+     *
      * @return string
      */
     public function element_attributes($el_attributes = array(), $extra_more = array()) {
@@ -338,6 +351,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     /**
      * @param string $extra_name
      * @param bool   $multilang
+     *
      * @return string
      */
     public function element_name($extra_name = '', $multilang = FALSE) {
@@ -348,6 +362,14 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         return ( isset ($this->field ['name']) ) ? $this->field ['name'] . $extra_name : $unique;
     }
 
+    /**
+     * Returns Unique DB KEY For each field
+     *
+     * @param string $extra
+     * @param string $base
+     *
+     * @return string
+     */
     public function get_unique($extra = '', $base = '') {
         if( empty($base) ) {
             $base = $this->unique;
@@ -426,6 +448,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
     /**
      * @param string $value
+     *
      * @return array|mixed|string
      */
     public function element_value($value = '') {
@@ -454,6 +477,11 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         return $value;
     }
 
+    /**
+     * outputs JS settings HTML
+     *
+     * @return null
+     */
     public function element_js_settings() {
         return $this->js_settings;
     }
@@ -461,6 +489,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     /**
      * @param       $field_id
      * @param array $default
+     *
      * @return array|string
      */
     public function _unarray_values($field_id, $default = array()) {
@@ -478,6 +507,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
     /**
      * @param string $type
+     *
      * @return array
      */
     public function element_data($type = '') {
@@ -500,6 +530,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @param string $current
      * @param string $type
      * @param bool   $echo
+     *
      * @return string
      */
     public function checked($helper = '', $current = '', $type = 'checked', $echo = FALSE) {
@@ -521,6 +552,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     /**
      * @param $option
      * @param $key
+     *
      * @return array
      */
     public function element_handle_option($option, $key) {
@@ -557,10 +589,20 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         );
     }
 
+    /**
+     * @param string $object_name
+     * @param array  $settings
+     * @param bool   $with_script
+     */
     public function localize_field($object_name = '', $settings = array(), $with_script = TRUE) {
         $this->js_settings = '<div class="wpsf-element-settings hidden" style="display:none;visibility: hidden;">' . wpsf_js_vars($object_name, $settings, $with_script) . '</div>';
     }
 
+    /**
+     * Generates Unique Rand ID For each field
+     *
+     * @return mixed|string
+     */
     public function js_settings_id() {
         $randID = sanitize_key($this->field['id']) . intval(microtime(TRUE));
         $randID = str_replace(array( '-', '_' ), '', $randID);

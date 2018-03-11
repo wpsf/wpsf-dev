@@ -20,14 +20,15 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
 
         echo '<div class="modal_search_value hidden">';
         echo '<textarea type="hidden" name="' . $this->unique . '[' . $this->field['id'] . ']">' . $this->value . '</textarea>';
-
         echo '</div>';
+
         $settings_id               = $this->js_settings_id();
         $this->field['query_args'] = ( isset($this->field['query_args']) && is_array($this->field['query_args']) ) ? $this->field['query_args'] : array();
+
         $this->localize_field($settings_id, array(
             'ajax'       => 'wpsf_modal_select',
-            'query_args' => $this->field['query_args'],
-            'settings'   => $this->field['settings'],
+            'query_args' => isset($this->field['query_args']) ? $this->field['query_args'] : array(),
+            'settings'   => isset($this->field['settings']) ? $this->field['settings'] : array(),
             'type'       => $this->field['options'],
         ), TRUE);
 
@@ -77,7 +78,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
         <div id="wpsf-modal-search-view-<?php echo $this->field['id']; ?>" class="find-box wpsf-modal-search-view"
              style="display: none;">
             <div class="find-box-head wpsf-modal-search-view-head">
-                <?php echo $this->field['title']; ?>
+                <?php echo isset($this->field['title']) ? $this->field['title'] : ''; ?>
                 <div id="wpsf-modal-search-view-close"></div>
             </div>
             <div class="find-box-inside wpsf-modal-search-view-inside">

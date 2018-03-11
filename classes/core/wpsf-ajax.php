@@ -14,6 +14,9 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
         add_action('wp_ajax_nopriv_wpsf-ajax', array( &$this, 'handle_ajax' ));
     }
 
+    /**
+     * @return null|\WPSFramework_Ajax
+     */
     public static function instance() {
         if( self::$_instance == NULL ) {
             self::$_instance = new self;
@@ -36,10 +39,8 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
     }
 
     public function query_select_data() {
-        $options    = array();
         $query_args = ( isset ($_REQUEST['query_args']) ) ? $_REQUEST['query_args'] : array();
-
-        $data = WPSFramework_Query::query($_REQUEST['options'], $query_args, $_REQUEST['s']);
+        $data       = WPSFramework_Query::query($_REQUEST['options'], $query_args, $_REQUEST['s']);
         wp_send_json($data);
         wp_die();
     }

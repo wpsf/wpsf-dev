@@ -2239,6 +2239,19 @@ div#screen-meta-links + div.wpsf-framework {
  * @package    WPSF
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
+.wpsf-field-tab .wpsf-user-tabs-panels {
+    float      : left;
+    width      : 100%;
+    padding    : 10px 5px 0;
+    border     : solid 1px #dfdfdf;
+    background : #fdfdfd;
+}
+
+.wpsf-field-tab .wpsf-user-tabs-panel {
+    background : transparent;
+    border     : none;
+}
+
 .wpsf-field-tab .wpsf-user-tabs-nav {
   margin-bottom: -1px;
 }
@@ -2287,11 +2300,7 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-panel {
-  padding: 10px 5px 0;
-  border: solid 1px #dfdfdf;
-  background: #fdfdfd;
   display: none;
-  float: left;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left {
@@ -2303,11 +2312,12 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav {
-  float: left;
-  margin: 0 -1px 0 0;
-  background: #fdfdfd;
-  border-right: 1px solid #dfdfdf;
-  z-index: 9;
+  float        : left;
+    width      : 15%;
+  margin       : 0 -1px 0 0;
+  background   : #fdfdfd;
+  border-right : 1px solid #dfdfdf;
+  z-index      : 9;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li {
@@ -2336,17 +2346,11 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels {
-  overflow: auto;
-  border-left: 1px solid #dfdfdf;
-  z-index: 1;
-}
-
-.wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels > .wpsf-user-tabs-panel {
-  /*padding: 3px 20px 0;*/
-  padding: 3px 0px 0;
-  width: 100%;
-  background: transparent;
-  border: none;
+  overflow    : auto;
+    border    : none;
+  border-left : 1px solid #dfdfdf;
+  z-index     : 1;
+    width     : 83%;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-no-controls {
@@ -2390,7 +2394,7 @@ div#screen-meta-links + div.wpsf-framework {
   color: #555;
 }
 
-.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-panel {
+.wpsf-field-tab .wpsf-user-tabs-box .wpsf-user-tabs-panels {
   background: #f5f5f5;
   border: solid 1px #dedede;
 }

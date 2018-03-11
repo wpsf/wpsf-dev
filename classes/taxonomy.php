@@ -122,7 +122,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
     public function save_taxonomy($term_id) {
         if( wp_verify_nonce(wpsf_get_var('wpsf-taxonomy-nonce'), 'wpsf-taxonomy') ) {
             $taxonomy  = wpsf_get_var('taxonomy');
-            $validator = new WPSFramework_Fields_Save_Sanitize;
+            $validator = new WPSFramework_DB_Save_Handler;
             foreach( $this->options as $request_value ) {
                 if( $taxonomy == $request_value ['taxonomy'] ) {
                     $request_key = $request_value ['id'];
@@ -134,7 +134,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 
                     if( isset ($request_value ['fields']) ) {
                         $meta_value = wpsf_get_term_meta($term_id, $request_key, TRUE);
-                        $request    = $validator->loop_fields($request_value, $request, $meta_value, TRUE);
+                        $request    = $validator->loop_fields($request_value, $request, $meta_value);
                     }
 
                     $request = apply_filters('wpsf_save_taxonomy', $request, $request_key, $term_id);

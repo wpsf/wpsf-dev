@@ -97,9 +97,9 @@ class WPSFramework_Widget extends WP_Widget {
      * @return array|mixed
      */
     public function update($new_instance, $old_instance) {
-        $field = new WPSFramework_Fields_Save_Sanitize();
-        $fields = array( 'fields' => $this->get_form_fields() );
-        $final = $field->general_save_handler($new_instance, $old_instance, $fields);
+        $field        = new WPSFramework_DB_Save_Handler();
+        $fields       = array( 'fields' => $this->get_form_fields() );
+        $final        = $field->general_save_handler($new_instance, $old_instance, $fields);
         $this->errors = $field->get_errors();
         return $final;
     }

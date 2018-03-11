@@ -438,7 +438,6 @@ new WPSFramework_Help_Tabs(array(
                 ),
             ),
         ),
-
     ),
 ));
 

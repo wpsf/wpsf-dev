@@ -18,11 +18,15 @@ if( ! defined('ABSPATH') ) {
  * Abstract Class
  * A helper class for action and filter hooks
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 abstract class WPSFramework_Abstract {
+    public $override_location = '';
+    public $options           = array();
+    public $settings          = array();
+
     public function __construct() {
     }
 
@@ -67,6 +71,7 @@ abstract class WPSFramework_Abstract {
     /**
      * @param $field
      * @param $values
+     *
      * @return array|bool
      */
     public function get_field_values($field, $values) {
@@ -85,7 +90,6 @@ abstract class WPSFramework_Abstract {
                 $value[$_field['id']] = $this->get_field_values($_field, $values);
             }
         } else if( $field['type'] == 'tab' ) {
-            $value       = array();
             $_tab_values = array();
             $_tab_vals   = ( isset($field['id']) && isset($values[$field['id']]) ) ? $values[$field['id']] : '';
             if( ( isset($field['un_array']) && $field['un_array'] === TRUE ) ) {
@@ -116,6 +120,7 @@ abstract class WPSFramework_Abstract {
     /**
      * @param array  $array
      * @param string $parent_id
+     *
      * @return array
      */
     protected function map_error_id($array = array(), $parent_id = '') {
@@ -155,6 +160,7 @@ abstract class WPSFramework_Abstract {
 
     /**
      * @param string $status
+     *
      * @return string
      */
     protected function catch_output($status = 'start') {
@@ -171,6 +177,7 @@ abstract class WPSFramework_Abstract {
 
     /**
      * @param array $data
+     *
      * @return bool|mixed|string
      */
     protected function get_cache_key($data = array()) {

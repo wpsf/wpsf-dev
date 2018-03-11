@@ -23,7 +23,7 @@ if( ! function_exists('wpsf_add_element') ) {
     function wpsf_add_element($field = array(), $value = '', $unique = '') {
         static $total_columns = 0;
         $output = '';
-        $class = 'WPSFramework_Option_' . $field ['type'];
+        $class  = 'WPSFramework_Option_' . $field ['type'];
         wpsf_autoloader($class, TRUE);
 
         if( class_exists($class) ) {
@@ -32,7 +32,7 @@ if( ! function_exists('wpsf_add_element') ) {
             $element->final_output();
             $output .= ob_get_clean();
         } else {
-            $output .= '<p>' . esc_html__('This field class is not available!', 'wpsf-framework') . '</p>';
+            $output .= '<p>' . sprintf(esc_html__('This field class is not available! %s', 'wpsf-framework'), '<strong>' . $class . '</strong>') . ' </p > ';
         }
         return $output;
     }
@@ -95,7 +95,7 @@ if( ! function_exists('wpsf_get_google_fonts') ) {
         } else {
 
             ob_start();
-            wpsf_locate_template('fields/typography/google-fonts.json');
+            wpsf_locate_template('fields / typography / google - fonts . json');
             $json = ob_get_clean();
 
             $wpsf_google_fonts = json_decode($json);
@@ -237,7 +237,7 @@ if( ! function_exists("wpsf_js_vars") ) {
         if( ! empty($after) )
             $script .= "\n$after;";
         if( $with_script_tag ) {
-            return '<script type="text/javascript">' . $script . '</script>';
+            return ' <script type = "text/javascript" > ' . $script . '</script> ';
         }
         return $script;
     }

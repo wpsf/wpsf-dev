@@ -462,22 +462,3 @@ $options[] = array(
 );
 
 new WPSFramework_Customize($options, '_wpsf_customizer_demo1');
-new WPSFramework_Customize(array(
-    array(
-        'name'     => '1wp_core_fields',
-        'title'    => '1WP Core Fields',
-        'settings' => array(
-
-            // color
-            array(
-                'name'    => '1color_option_with_default',
-                'default' => '#d80039',
-                'control' => array(
-                    'label' => 'Color',
-                    'type'  => 'color',
-                ),
-            ),
-
-        ),
-    ),
-), '_wpsf_customizer_demo2');
