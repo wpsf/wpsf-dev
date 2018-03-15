@@ -4228,8 +4228,8 @@ new WPSFramework_Settings(array(
     'menu_title'       => 'WPSF Modern',
     'menu_slug'        => 'wpsf-modern',
     'framework_title'  => "WPSF Settings Panel",
-    'style'            => 'simple',
+    'style'            => 'modern',
     'is_sticky_header' => FALSE,
-    'is_single_page'   => FALSE,
+    'is_single_page'   => TRUE,
     'option_name'      => '_wpsf_new_option11a',
 ), $options);

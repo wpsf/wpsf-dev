@@ -354,7 +354,6 @@
                             if ( $parent ) {
                                 var $is_parent = $parent + '-';
                             }
-
                             $this.find('#wpsf-tab-' + $is_parent + $target).show().siblings().hide();
                             $nav.find('a').removeClass('wpsf-section-active');
                             $el.addClass('wpsf-section-active');
@@ -2008,7 +2007,6 @@
         $.WPSF.icons_manager();
         $.WPSF.shortcode_manager();
         $.WPSF.widget_reload();
-
 
         $('.wpsf-framework').WPSF_TAB_NAVIGATION();
         $('.wpsf-content, .wp-customizer, .widget-content, .wpsf-taxonomy , .wpsf-wc-metabox-fields').WPSF_DEPENDENCY();

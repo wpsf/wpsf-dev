@@ -195,6 +195,11 @@ div#screen-meta-links + div.wpsf-framework {
   border-bottom: 0;
 }
 
+.wpsf-framework .wpsf-nav ul ul li .wpsf-seperator {
+    padding      : 10px;
+    padding-left : 25px;
+}
+
 .wpsf-framework .wpsf-nav ul ul:before {
   content: '';
   position: absolute;
@@ -2312,12 +2317,12 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav {
-  float        : left;
-    width      : 15%;
-  margin       : 0 -1px 0 0;
-  background   : #fdfdfd;
-  border-right : 1px solid #dfdfdf;
-  z-index      : 9;
+    float        : left;
+    width        : 15%;
+    margin       : 0 -1px 0 0;
+    background   : #fdfdfd;
+    border-right : 1px solid #dfdfdf;
+    z-index      : 9;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li {
@@ -2346,11 +2351,11 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels {
-  overflow    : auto;
-    border    : none;
-  border-left : 1px solid #dfdfdf;
-  z-index     : 1;
-    width     : 83%;
+    overflow    : auto;
+    border      : none;
+    border-left : 1px solid #dfdfdf;
+    z-index     : 1;
+    width       : 83%;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-no-controls {
