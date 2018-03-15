@@ -181,7 +181,7 @@ abstract class WPSFramework_Abstract {
         if( isset($s['sections']) ) {
             $fname = '';
             if( isset($s['type']) && $s['type'] === 'tab' ) {
-                $fname = $parent_id . '_' . $s['id'] . '_';
+                $fname = $this->type . '_' . $parent_id . '_' . $s['id'] . '_';
             }
             foreach( $s['sections'] as $b => $a ) {
                 if( isset($a['fields']) ) {
@@ -303,6 +303,27 @@ abstract class WPSFramework_Abstract {
             ob_flush();
         }
         return $data;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return bool|mixed|string
+     */
+    protected function get_cache_key($data = array()) {
+        if( empty($data) ) {
+            $data = $this->settings;
+        }
+        if( isset($data['uid']) ) {
+            return $data['uid'];
+        } else if( isset($data['id']) ) {
+            return $data['id'];
+        } else if( isset($data['title']) ) {
+            return sanitize_title($data['title']);
+        } else if( isset($data['menu_title']) ) {
+            return sanitize_title($data['menu_title']);
+        }
+        return FALSE;
     }
 
 }

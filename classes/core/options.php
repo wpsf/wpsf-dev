@@ -425,15 +425,14 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return string
      */
     public function element_get_error() {
-        $out = '';
-        if( isset($this->field['error_id']) ) {
-            $errors = apply_filters('wpsf_element_errors', $this->field['error_id']);
-            if( is_array($errors) && ! empty($errors) ) {
-                foreach( array_filter($errors) as $err ) {
-                    $out .= '<p class="wpsf-text-warning">' . $err['message'] . '</p>';
+        $wpsf_errors = wpsf_get_errors();
+        $out         = '';
+        if( ! empty ($wpsf_errors) ) {
+            foreach( $wpsf_errors as $key => $value ) {
+                $fid = isset($this->field['error_id']) ? $this->field['error_id'] : $this->field['id'];
+                if( isset ($this->field ['id']) && $value ['code'] == $fid ) {
+                    $out .= '<p class="wpsf-text-warning">' . $value ['message'] . '</p>';
                 }
-            } else if( ! empty($errors) ) {
-                $out .= '<p class="wpsf-text-warning">' . $errors . '</p>';
             }
         }
         return $out;

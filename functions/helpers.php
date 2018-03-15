@@ -8,7 +8,8 @@
  - @package    WPSF                                                                               -
  - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
  -------------------------------------------------------------------------------------------------*/
-
+global $wpsf_errors;
+$wpsf_errors = array();
 if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
@@ -316,5 +317,23 @@ if( ! function_exists("wpsf_js_vars") ) {
             return ' <script type = "text/javascript" > ' . $script . '</script> ';
         }
         return $script;
+    }
+}
+
+if( ! function_exists('wpsf_add_errors') ) {
+    function wpsf_add_errors($errs) {
+        global $wpsf_errors;
+        if( is_array($wpsf_errors) ) {
+            $wpsf_errors = array_merge($wpsf_errors, $errs);
+        } else {
+            $wpsf_errors = $errs;
+        }
+    }
+}
+
+if( ! function_exists('wpsf_get_errors') ) {
+    function wpsf_get_errors() {
+        global $wpsf_errors;
+        return $wpsf_errors;
     }
 }

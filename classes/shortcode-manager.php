@@ -17,18 +17,21 @@ if( ! defined('ABSPATH') ) {
  *
  * Shortcodes Class
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
-    public $options = array();
-    public $shortcodes = array();
-    public $exclude_post_types = array();
+    protected static $is_added           = FALSE;
+    protected static $isBtnAdded         = FALSE;
+    public           $options            = array();
+    public           $shortcodes         = array();
+    public           $exclude_post_types = array();
+    protected        $type               = 'shortcode';
 
     public function __construct($options) {
-        $this->settings = array();
-        $this->options = apply_filters('wpsf_shortcode_options', $options);
+        $this->settings           = array();
+        $this->options            = apply_filters('wpsf_shortcode_options', $options);
         $this->exclude_post_types = apply_filters('wpsf_shortcode_exclude', $this->exclude_post_types);
 
         if( ! empty ($this->options) ) {
@@ -44,10 +47,9 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
                 'exclude_posttypes' => array(),
             );
 
-            $this->settings = wp_parse_args($this->settings, $defaults);
+            $this->settings           = wp_parse_args($this->settings, $defaults);
             $this->exclude_post_types = array_merge($this->settings['exclude_posttypes'], $this->exclude_post_types);
 
-            $this->addAction("admin_enqueue_scripts", 'load_style_script');
             $this->addAction('media_buttons', 'media_shortcode_button', 99);
             $this->addAction('admin_footer', 'shortcode_dialog', 99);
             $this->addAction('customize_controls_print_footer_scripts', 'shortcode_dialog', 99);
@@ -55,13 +57,10 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
         }
     }
 
-    public function load_style_script() {
-    }
-
     public function media_shortcode_button($editor_id) {
         global $post;
-
-        $post_type = ( isset ($post->post_type) ) ? $post->post_type : '';
+        self::$isBtnAdded = TRUE;
+        $post_type        = ( isset ($post->post_type) ) ? $post->post_type : '';
 
         if( ! in_array($post_type, $this->exclude_post_types) ) {
             echo '<a href="#" class="' . esc_attr($this->settings['button_class']) . ' wpsf-shortcode" 
@@ -70,6 +69,13 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
     }
 
     public function shortcode_dialog() {
+        if( self::$is_added === TRUE ) {
+            return;
+        }
+        if( self::$isBtnAdded !== TRUE ) {
+            return;
+        }
+        self::$is_added   = TRUE;
         $this->shortcodes = $this->get_shortcodes();
         ?>
         <div id="wpsf-shortcode-dialog" class="wpsf-dialog hidden"
@@ -114,7 +120,7 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
 
     public function shortcode_generator() {
         $this->shortcodes = $this->get_shortcodes();
-        $request = wpsf_get_var('shortcode');
+        $request          = wpsf_get_var('shortcode');
 
         if( empty ($request) ) {
             die ();
@@ -156,13 +162,13 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
 
             foreach( $shortcode ['clone_fields'] as $key => $field ) {
 
-                $field ['sub'] = TRUE;
+                $field ['sub']        = TRUE;
                 $field ['attributes'] = ( isset ($field ['attributes']) ) ? wp_parse_args(array(
                     'data-clone-atts' => $field ['id'],
                 ), $field ['attributes']) : array(
                     'data-clone-atts' => $field ['id'],
                 );
-                $field_default = ( isset ($field ['default']) ) ? $field ['default'] : '';
+                $field_default        = ( isset ($field ['default']) ) ? $field ['default'] : '';
 
                 if( in_array($field ['type'], array(
                         'image_select',

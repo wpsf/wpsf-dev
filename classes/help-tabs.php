@@ -8,16 +8,18 @@
 
 class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
     private static $_instance = NULL;
+    protected      $type      = 'helptabs';
 
-    private $help_tabs = array();
+    private $help_tabs       = array();
     private $help_tabs_pages = array();
 
     /**
      * WPSFramework_Help_Tabs constructor.
+     *
      * @param array $help_tabs
      */
     public function __construct($help_tabs = array()) {
-        $this->help_tabs = $help_tabs;
+        $this->help_tabs       = $help_tabs;
         $this->help_tabs_pages = array_keys($help_tabs);
         $this->init_pages();
     }
@@ -42,13 +44,13 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 
     public function callback_help_tabs() {
         $screen = get_current_screen();
-        $sid = $screen->id;
+        $sid    = $screen->id;
         if( isset($this->help_tabs[$screen->id]) && is_array($this->help_tabs[$screen->id]) ) {
-            $help_tabs = array();
+            $help_tabs    = array();
             $help_sidebar = array();
 
             if( isset($this->help_tabs[$sid]['help_tabs']) && isset($this->help_tabs[$sid]['help_sidebar']) ) {
-                $help_tabs = ( is_array($this->help_tabs[$sid]['help_tabs']) ) ? $this->help_tabs[$sid]['help_tabs'] : array();
+                $help_tabs    = ( is_array($this->help_tabs[$sid]['help_tabs']) ) ? $this->help_tabs[$sid]['help_tabs'] : array();
                 $help_sidebar = ( ! empty($this->help_tabs[$sid]['help_sidebar']) ) ? $this->help_tabs[$sid]['help_sidebar'] : array();
             } else if( isset($this->help_tabs[$sid]['help_tabs']) && ! isset($this->help_tabs[$sid]['help_sidebar']) ) {
                 $help_tabs = ( is_array($this->help_tabs[$sid]['help_tabs']) ) ? $this->help_tabs[$sid]['help_tabs'] : array();
@@ -69,6 +71,7 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 
     /**
      * @param $help_sidebar
+     *
      * @return mixed
      */
     public function handle_data($help_sidebar) {
@@ -86,7 +89,7 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
             }
             $output .= wpsf_add_element($field, '', 'wpsf_help_tab');
         }
-        $output .= '</div>';
+        $output                  .= '</div>';
         $help_sidebar['content'] = $output;
 
         unset($help_sidebar['fields']);
@@ -95,6 +98,7 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 
     /**
      * @param array $array
+     *
      * @return array
      */
     protected function map_field_ids($array = array()) {
@@ -110,7 +114,7 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
             foreach( $s['fields'] as $f => $e ) {
 
                 if( ! isset($e['id']) ) {
-                    $field_id = 'wpsf-helptab-' . $e['type'] . '-' . microtime(TRUE) . mt_rand(1, 100000);
+                    $field_id              = 'wpsf-helptab-' . $e['type'] . '-' . microtime(TRUE) . mt_rand(1, 100000);
                     $s['fields'][$f]['id'] = $field_id;
                 }
 

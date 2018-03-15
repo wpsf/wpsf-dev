@@ -19,7 +19,6 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
      *
      */
     public $options = array();
-
     /**
      * panel priority
      *
@@ -27,8 +26,9 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
      * @var bool
      *
      */
-    public $priority = 1;
-    public $unique   = NULL;
+    public    $priority = 1;
+    public    $unique   = NULL;
+    protected $type     = 'customize';
 
     // run customize construct
 

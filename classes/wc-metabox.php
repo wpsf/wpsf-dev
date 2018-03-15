@@ -19,6 +19,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
      */
     class WPSFramework_WC_Metabox extends WPSFramework_Abstract {
         private static $_instance = NULL;
+        protected      $type      = 'wc_metabox';
 
         public $options = NULL;
 
@@ -54,6 +55,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
 
         /**
          * WPSFramework_WC_Metabox constructor.
+         *
          * @param array $options
          */
         public function __construct($options = array()) {
@@ -187,6 +189,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
          * @param $type
          * @param $loop
          * @param $variation
+         *
          * @return string
          */
         public function render_variation_fields($type, $loop, $variation) {
@@ -200,7 +203,6 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
 
             foreach( $fieldss as $meta_id => $sections ) {
                 foreach( $sections as $fields ) {
-                    global $wpsf_errors;
                     $errors  = get_transient('_wpsf_variation_' . $variation_id . '_' . $loop);
                     $options = get_post_meta($variation_id, $meta_id, TRUE);
                     $options = ( ! is_array($options) ) ? array() : $options;
@@ -210,8 +212,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
                         set_transient('_wpsf_variation_' . $variation_id . '_' . $loop, array(), 10);
                     }
 
-                    $wpsf_errors = $this->variation_errors;
-
+                    wpsf_add_errors($this->variation_errors);
                     foreach( $fields['fields'] as $field ) {
                         if( isset($field['is_variation']) ) {
                             $field['is_variation'] = ( $field['is_variation'] === TRUE ) ? 'default' : $field['is_variation'];
@@ -278,15 +279,16 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
         /**
          * @param        $option
          * @param string $db_key
+         *
          * @return string
          */
         private function render_fields($option, $db_key = '') {
-            global $post, $wpsf_errors;
+            global $post;
             $html        = '';
             $values      = get_post_meta($post->ID, $db_key, TRUE);
             $transient   = get_transient('wpsf-wc-mt' . $db_key);
             $wpsf_errors = isset($transient['errors']) ? $transient['errors'] : array();
-
+            wpsf_add_errors($wpsf_errors);
             if( ! is_array($values) ) {
                 $values = array();
             }
@@ -359,6 +361,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
 
         /**
          * @param $section
+         *
          * @return null|string
          */
         private function _get_page_id($section) {
@@ -452,6 +455,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
 
         /**
          * @param array $tabs
+         *
          * @return array
          */
         public function add_wc_tabs($tabs = array()) {
@@ -482,6 +486,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
         /**
          * @param $data
          * @param $key
+         *
          * @return array
          */
         private function __sh_class($data, $key) {
@@ -498,6 +503,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
          * @param string $show
          * @param string $hide
          * @param string $_r
+         *
          * @return array|string
          */
         private function show_hide_class($show = '', $hide = '', $_r = 'array') {
@@ -514,6 +520,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
         /**
          * @param string $old_classes
          * @param array  $new_class
+         *
          * @return string
          */
         private function _merge_wrap_class($old_classes = '', $new_class = array()) {
@@ -535,6 +542,7 @@ if( ! class_exists("WPSFramework_WC_Metabox") ) {
          * @param string $key
          * @param string $update_value
          * @param string $post_id
+         *
          * @return bool|int|mixed
          */
         private function _post_data($type = 'get', $key = '', $update_value = '', $post_id = '') {

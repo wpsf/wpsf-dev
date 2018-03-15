@@ -17,12 +17,11 @@ if( ! defined('ABSPATH') ) {
  *
  * Metabox Class
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Metabox extends WPSFramework_Abstract {
-
     /**
      *
      * instance
@@ -40,10 +39,12 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
      * @var array
      *
      */
-    public $options = array();
+    public    $options = array();
+    protected $type    = 'metabox';
 
     /**
      * WPSFramework_Metabox constructor.
+     *
      * @param $options
      */
     public function __construct($options) {
@@ -58,6 +59,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 
     /**
      * @param array $options
+     *
      * @return \class|\WPSFramework_Metabox
      */
     public static function instance($options = array()) {
@@ -96,19 +98,20 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
      * @param $callback
      */
     public function render_meta_box_content($post, $callback) {
-        global $post, $wpsf_errors, $typenow;
+        global $post, $typenow;
 
         wp_nonce_field('wpsf-framework-metabox', 'wpsf-framework-metabox-nonce');
 
-        $unique      = $callback ['args'] ['id'];
-        $sections    = $callback ['args'] ['sections'];
-        $meta_value  = get_post_meta($post->ID, $unique, TRUE);
-        $transient   = get_transient('wpsf-mt-' . $this->get_cache_key($callback['args']));
-        $wpsf_errors = $transient ['errors'];
-        $has_nav     = ( count($sections) >= 2 && $callback ['args'] ['context'] != 'side' ) ? TRUE : FALSE;
-        $show_all    = ( ! $has_nav ) ? ' wpsf-show-all' : '';
-        $section_id  = ( ! empty ($transient ['ids'] [$unique]) ) ? $transient ['ids'] [$unique] : '';
-        $section_id  = wpsf_get_var('wpsf-section', $section_id);
+        $unique              = $callback ['args'] ['id'];
+        $sections            = $callback ['args'] ['sections'];
+        $meta_value          = get_post_meta($post->ID, $unique, TRUE);
+        $transient           = get_transient('wpsf-mt-' . $this->get_cache_key($callback['args']));
+        $transient['errors'] = isset($transient['errors']) ? $transient['errors'] : array();
+        wpsf_add_errors($transient['errors']);
+        $has_nav    = ( count($sections) >= 2 && $callback ['args'] ['context'] != 'side' ) ? TRUE : FALSE;
+        $show_all   = ( ! $has_nav ) ? ' wpsf-show-all' : '';
+        $section_id = ( ! empty ($transient ['ids'] [$unique]) ) ? $transient ['ids'] [$unique] : '';
+        $section_id = wpsf_get_var('wpsf-section', $section_id);
 
         echo '<div class="wpsf-framework wpsf-metabox-framework" data-theme="modern" data-single-page="yes">';
 

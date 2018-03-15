@@ -17,12 +17,11 @@ if( ! defined('ABSPATH') ) {
  *
  * Taxonomy Class
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Taxonomy extends WPSFramework_Abstract {
-
     /**
      *
      * instance
@@ -40,10 +39,12 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
      * @var array
      *
      */
-    public $options = array();
+    public    $options = array();
+    protected $type    = 'taxonomy';
 
     /**
      * WPSFramework_Taxonomy constructor.
+     *
      * @param $options
      */
     public function __construct($options) {
@@ -57,6 +58,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
 
     /**
      * @param array $options
+     *
      * @return \class|\WPSFramework_Taxonomy
      */
     public static function instance($options = array()) {
@@ -95,7 +97,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
      * @param $term
      */
     public function render_taxonomy_form_fields($term) {
-        global $wpsf_errors;
+
         $form_edit = ( is_object($term) && isset ($term->taxonomy) ) ? TRUE : FALSE;
         $taxonomy  = ( $form_edit ) ? $term->taxonomy : $term;
         $classname = ( $form_edit ) ? 'edit' : 'add';
@@ -105,7 +107,8 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
         foreach( $this->options as $option ) {
             if( $taxonomy == $option ['taxonomy'] ) {
                 $wpsf_errors = get_transient(wpsf_sanitize_title('wpsf-tt-' . $this->get_cache_key($option)));
-                $tax_value   = ( $form_edit ) ? wpsf_get_term_meta($term->term_id, $option ['id'], TRUE) : '';
+                wpsf_add_errors($wpsf_errors);
+                $tax_value = ( $form_edit ) ? wpsf_get_term_meta($term->term_id, $option ['id'], TRUE) : '';
 
                 foreach( $option ['fields'] as $field ) {
                     $elem_value = $this->get_field_values($field, $tax_value);

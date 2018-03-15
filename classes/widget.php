@@ -16,9 +16,12 @@
  * Time: 02:56 PM
  */
 class WPSFramework_widget_helper extends WPSFramework_Abstract {
+    protected $type = 'widgets';
+
     /**
      * @param $array
      * @param $p
+     *
      * @return array
      */
     public function error_ids($array, $p) {
@@ -33,10 +36,11 @@ class WPSFramework_widget_helper extends WPSFramework_Abstract {
 class WPSFramework_Widget extends WP_Widget {
 
     private $wpsf_instance = NULL;
-    private $errors = NULL;
+    private $errors        = NULL;
 
     /**
      * WPSFramework_Widget constructor.
+     *
      * @param       $id_base
      * @param       $name
      * @param array $widget_options
@@ -48,22 +52,23 @@ class WPSFramework_Widget extends WP_Widget {
 
     /**
      * @param array $instance
+     *
      * @return string|void
      */
     public function form($instance) {
         global $wpsf_errors, $wpsf_error;
         $wpsf_errors = $this->errors;
-        $wpsf_error = $this->errors;
-        $fields = $this->get_form_fields();
-        $uid = $this->get_field_name('uid');
-        $uid = str_replace('[uid]', '', $uid);
+        $wpsf_error  = $this->errors;
+        $fields      = $this->get_form_fields();
+        $uid         = $this->get_field_name('uid');
+        $uid         = str_replace('[uid]', '', $uid);
 
         echo '<div class="wpsf-framework-widgets wpsf-widgets">';
         foreach( $fields as $field ) {
             $value = NULL;
             if( isset($field['id']) ) {
                 $field['name'] = $this->get_field_name($field['id']);
-                $value = ( isset($instance[$field['id']]) ) ? $instance[$field['id']] : NULL;
+                $value         = ( isset($instance[$field['id']]) ) ? $instance[$field['id']] : NULL;
             }
             echo wpsf_add_element($field, $value, $uid);
         }
@@ -75,7 +80,8 @@ class WPSFramework_Widget extends WP_Widget {
      */
     public function get_form_fields() {
         $fields = $this->form_fields();
-        $fields = $this->wpsf()->error_ids($fields, $this->id_base . '_' . $this->number);
+        $fields = $this->wpsf()
+                       ->error_ids($fields, $this->id_base . '_' . $this->number);
         $fields = $fields['fields'];
         return $fields;
     }
@@ -94,6 +100,7 @@ class WPSFramework_Widget extends WP_Widget {
     /**
      * @param array $new_instance
      * @param array $old_instance
+     *
      * @return array|mixed
      */
     public function update($new_instance, $old_instance) {

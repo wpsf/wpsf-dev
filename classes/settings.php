@@ -418,12 +418,14 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
      * Runs @ load-{$page_hook} action
      */
     public function init_page() {
+        global $wpsf_errors;
         $this->addAction("admin_enqueue_scripts", 'load_assets');
         $this->options = $this->map_error_id($this->options);
         $this->get_db_options();
         $this->find_active_menu();
         $this->menus = $this->filter("menus", $this->extract_menus(), $this);
-        $this->addFilter('wpsf_element_errors', 'addElementErrors');
+        $errors      = ( isset($this->cache['errors']) ) ? $this->cache['errors'] : array();
+        wpsf_add_errors($errors);
     }
 
     /**
@@ -483,20 +485,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
         return '#';
     }
 
-    /**
-     * @param $error_id
-     *
-     * @return array
-     */
-    public function addElementErrors($error_id) {
-        $return = array();
-        foreach( $this->cache['errors'] as $error ) {
-            if( $error['code'] === $error_id ) {
-                $return[] = $error;
-            }
-        }
-        return $return;
-    }
 
     /**
      * Register & Loads Required WPSF Assets
