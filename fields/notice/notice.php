@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Notice
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_notice extends WPSFramework_Options {
     /**
      * WPSFramework_Option_notice constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -36,5 +37,9 @@ class WPSFramework_Option_notice extends WPSFramework_Options {
         echo $this->element_before();
         echo '<div class="wpsf-notice wpsf-' . $this->field ['class'] . '">' . $this->field ['content'] . '</div>';
         echo $this->element_after();
+    }
+
+    protected function field_defaults() {
+        return array( 'content' => '' );
     }
 }

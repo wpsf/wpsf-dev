@@ -93,6 +93,15 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
 
         return '<label> <input type="radio" name="' . $this->element_name($name) . '" 
         value="' . $value . '"' . $this->element_attributes($value, $attributes) . $this->checked($chboxval, $value) . '/> ' . $title . ' </label>';
+    }
 
+    protected function field_defaults() {
+        return array(
+            'icon_box'   => FALSE,
+            'label'      => FALSE,
+            'options'    => array(),
+            'settings'   => array(),
+            'query_args' => array(),
+        );
     }
 }

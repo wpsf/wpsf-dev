@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Content
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_content extends WPSFramework_Options {
     /**
      * WPSFramework_Option_content constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -35,11 +36,15 @@ class WPSFramework_Option_content extends WPSFramework_Options {
     public function output() {
         echo $this->element_before();
 
-        if( empty($this->field ['content']) && isset($this->field ['callback_hook']) ) {
+        if( empty($this->field ['content']) && $this->field ['callback_hook'] !== FALSE ) {
             echo do_action($this->field ['callback_hook'], $this);
         } else {
             echo $this->field ['content'];
         }
         echo $this->element_after();
+    }
+
+    protected function field_defaults() {
+        return array( 'content' => '', 'callback_hook' => FALSE );
     }
 }

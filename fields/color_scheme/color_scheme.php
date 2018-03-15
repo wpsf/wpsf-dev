@@ -32,7 +32,7 @@ class WPSFramework_Option_color_scheme extends WPSFramework_Options {
         }
         echo $this->element_before();
         $field_name = $this->get_unique($this->field['id']);
-        $class      = ( isset($this->field['class']) ) ? $this->field['class'] : '';
+        $class      = $this->field['class'];
         echo '<fieldset id="wpsf-color-scheme" ' . $this->element_attributes() . '>';
         foreach( $this->field['options'] as $label => $colors ) {
             $is_text = is_string($label);

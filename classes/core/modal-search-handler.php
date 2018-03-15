@@ -9,7 +9,8 @@
 Class WPSFramework_Modal_Search_Handler {
     public function __construct($type = '', $selected = array(), $query_data = array(), $query_args = array()) {
         $table = new WPSF_Modal_Search_Table($type, $query_args, $query_data, $selected);
-        $table->views();
+        #$table->prepare_items();
+        #$table->views();
         $table->display();
         echo '<style>td.column-wpsfcbs,th.column-wpsfcbs{width:75px;}</style>';
     }
@@ -19,12 +20,23 @@ if( ! class_exists('WP_List_Table') ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+/**
+ * Class WPSF_Modal_Search_Table
+ */
 class WPSF_Modal_Search_Table extends WP_List_Table {
     public $items    = array();
     public $settings = array();
     public $selected = array();
     public $type     = '';
 
+    /**
+     * WPSF_Modal_Search_Table constructor.
+     *
+     * @param string $type
+     * @param array  $args
+     * @param array  $data
+     * @param array  $selected
+     */
     public function __construct($type = '', $args = array(), $data = array(), $selected = array()) {
         $this->type     = $type;
         $this->items    = $data;
@@ -41,17 +53,28 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         ));
     }
 
+    /**
+     * @param $type
+     *
+     * @return bool
+     */
     public static function is_cpt($type) {
         return in_array($type, array( 'page', 'pages', 'post', 'posts' ));
     }
 
+    /**
+     * @uses prepare_items
+     */
     public function prepare_items() {
         $this->set_pagination_args(array(
             'total_items' => count($this->items),
-            'per_page'    => 3,
+            'per_page'    => 2,
         ));
     }
 
+    /**
+     * @return array
+     */
     public function get_columns() {
         $_cols = $this->default_cols($this->type);
         $cols  = array_merge(array( 'wpsfcbs' => '' ), $_cols);
@@ -66,9 +89,22 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             }
         }
 
+        if( is_array($this->settings['remove_columns']) ) {
+            foreach( $this->settings['remove_columns'] as $slug ) {
+                if( isset($cols[$slug]) ) {
+                    unset($cols[$slug]);
+                }
+            }
+        }
+
         return $cols;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return array
+     */
     public function default_cols($type = '') {
         if( $this->is_tax($type) ) {
             return array(
@@ -86,18 +122,36 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         }
     }
 
+    /**
+     * @param string $type
+     *
+     * @return bool
+     */
     public function is_tax($type = '') {
         return in_array($this->get_type($type), array( 'tag', 'tags', 'category', 'categories' ));
     }
 
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
     public function get_type($type = '') {
         return empty($type) ? $this->type : $type;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return bool
+     */
     public function is_page($type = '') {
         return in_array($this->get_type($type), array( 'page', 'pages' ));
     }
 
+    /**
+     * @param $item
+     */
     public function column_date($item) {
         if( $this->is_post() || $this->is_page() ) {
             global $mode;
@@ -138,10 +192,20 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         }
     }
 
+    /**
+     * @param string $type
+     *
+     * @return bool
+     */
     public function is_post($type = '') {
         return in_array($this->get_type($type), array( 'post', 'posts' ));
     }
 
+    /**
+     * @param $item
+     *
+     * @return string|void
+     */
     public function column_author($item) {
         if( $this->is_page() || $this->is_post() ) {
             $args = array(
@@ -190,9 +254,17 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
      * @return mixed
      */
     public function column_default($item, $col_name) {
+        if( isset($this->settings['id']) ) {
+            return apply_filters('wpsf_modal_search_column_' . $this->settings['id'], '', $col_name, $item);
+        }
         return apply_filters("wpsf_modal_search_column", '', $col_name, $item);
     }
 
+    /**
+     * @param $item
+     *
+     * @return string
+     */
     public function column_title($item) {
         if( $this->is_tax($this->type) ) {
             $edit_Link = get_edit_term_link($item->term_id, $item->taxonomy);
@@ -231,12 +303,22 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         }
     }
 
+    /**
+     * @param $item
+     *
+     * @return string
+     */
     public function column_description($item) {
         if( $this->is_tax() ) {
             return '<p>' . $item->description . '</p>';
         }
     }
 
+    /**
+     * @param $item
+     *
+     * @return string
+     */
     public function column_post_count($item) {
         if( $this->is_tax() ) {
             $count = number_format_i18n($item->count);
@@ -253,12 +335,22 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         }
     }
 
+    /**
+     * @param $item
+     *
+     * @return mixed
+     */
     public function column_slug($item) {
         if( $this->is_tax() ) {
             return $item->slug;
         }
     }
 
+    /**
+     * @param $item
+     *
+     * @return string
+     */
     public function column_wpsfcbs($item) {
         $label = '';
         $value = '';
@@ -281,12 +373,20 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         ), $this->get_selected($item));
     }
 
+    /**
+     * @param array $item
+     *
+     * @return bool
+     */
     public function get_selected($item = array()) {
         if( $this->is_tax() ) {
             return isset($this->selected[$item->term_id]) ? $item->term_id : FALSE;
         }
     }
 
+    /**
+     *
+     */
     public function no_items() {
         _e('No Result found.');
     }

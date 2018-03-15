@@ -85,7 +85,7 @@ final class WPSFramework_Query {
                 $default_value = 'name';
 
 
-                if( ! isset(self::$query_args['taxonomies']) && ! self::$query_args['taxonomy'] ) {
+                if( ! isset(self::$query_args['taxonomies']) && ! ! isset(self::$query_args['taxonomy']) ) {
                     if( in_array($type, array( 'tags', 'tag' )) ) {
                         self::$query_args ['taxonomies'] = ( isset(self::$query_args ['taxonomies']) ) ? self::$query_args['taxonomies'] : 'post_tag';
                     } else {

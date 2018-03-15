@@ -17,17 +17,12 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Fieldset
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_fieldset extends WPSFramework_Options {
-    /**
-     * WPSFramework_Option_fieldset constructor.
-     * @param        $field
-     * @param string $value
-     * @param string $unique
-     */
+
     public function __construct($field, $value = '', $unique = '') {
         parent::__construct($field, $value, $unique);
     }
@@ -38,21 +33,20 @@ class WPSFramework_Option_fieldset extends WPSFramework_Options {
         echo '<div class="wpsf-inner">';
 
         foreach( $this->field ['fields'] as $field ) {
-
-            $field_id      = ( isset ($field ['id']) ) ? $field ['id'] : '';
-            $field_default = ( isset ($field ['default']) ) ? $field ['default'] : '';
-            $field_value   = ( isset ($this->value [$field_id]) ) ? $this->value [$field_id] : $field_default;
-            $unique_id     = $this->unique . '[' . $this->field ['id'] . ']';
-
-            if( ! empty ($this->field ['un_array']) ) {
-                echo wpsf_add_element($field, $field_value, $this->unique);
-            } else {
-                echo wpsf_add_element($field, $field_value, $this->get_unique($this->field['id']));
+            $field_value = ( isset($field['default']) ) ? $field['default'] : '';
+            if( isset($field ['id']) && isset($this->value[$field ['id']]) ) {
+                $field_value = $this->value[$field ['id']];
             }
+            $db_slug = ( $this->field['un_array'] === TRUE ) ? $this->unique : $this->get_unique($this->field['id']);
+            echo $this->add_field($field, $field_value, $db_slug);
         }
 
         echo '</div>';
 
         echo $this->element_after();
+    }
+
+    protected function field_defaults() {
+        return array( 'un_array' => FALSE, 'default' => array(), 'fields' => array() );
     }
 }

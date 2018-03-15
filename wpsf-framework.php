@@ -36,11 +36,30 @@ add_action('after_setup_theme', 'wpsf_framework_init');
 require_once plugin_dir_path(__FILE__) . '/wpsf-framework-path.php';
 
 
+if( ! function_exists('wpsf_registry') ) {
+    /**
+     * @return null|\WPSFramework_Registry
+     */
+    function wpsf_registry() {
+        return WPSFramework_Registry::instance();
+    }
+}
+
+if( ! function_exists('wpsf_field_registry') ) {
+    /**
+     * @return null|\WPSFramework_Field_Registry
+     */
+    function wpsf_field_registry() {
+        return WPSFramework_Field_Registry::instance();
+    }
+}
+
 if( ! function_exists("wpsf_template") ) {
     /**
      * @param       $override_location
      * @param       $template_name
      * @param array $args
+     *
      * @return bool
      */
     function wpsf_template($override_location, $template_name, $args = array()) {
@@ -62,6 +81,7 @@ if( ! function_exists("wpsf_autoloader") ) {
     /**
      * @param      $class
      * @param bool $check
+     *
      * @return bool
      */
     function wpsf_autoloader($class, $check = FALSE) {
@@ -92,7 +112,10 @@ if( ! function_exists('wpsf_framework_init') ) {
         if( class_exists('WPSFramework') ) {
             return;
         }
-        // helpers
+
+        /**
+         * Include WPSF Required Default Functions
+         */
         require_once( WPSF_DIR . '/functions/fallback.php' );
         require_once( WPSF_DIR . '/functions/helpers.php' );
         require_once( WPSF_DIR . '/functions/actions.php' );
@@ -104,7 +127,11 @@ if( ! function_exists('wpsf_framework_init') ) {
             require_once( WPSF_DIR . '/functions/visual-composer.php' );
         }
 
-        // classes
+        /**
+         * Include WPSF Required Default Classes
+         */
+        require_once( WPSF_DIR . '/classes/core/registry.php' );
+        require_once( WPSF_DIR . '/classes/core/field_registry.php' );
         require_once( WPSF_DIR . '/classes/core/abstract.php' );
         require_once( WPSF_DIR . '/classes/core/fields.php' );
         require_once( WPSF_DIR . '/classes/core/wpsf-ajax.php' );
@@ -112,6 +139,9 @@ if( ! function_exists('wpsf_framework_init') ) {
         require_once( WPSF_DIR . '/classes/core/options.php' );
 
         spl_autoload_register('wpsf_autoloader');
+        wpsf_registry();
+        wpsf_field_registry();
+
         add_action('widgets_init', 'wpsf_framework_widgets', 10);
         do_action("wpsf_framework_loaded");
     }

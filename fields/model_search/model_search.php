@@ -15,6 +15,8 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
     }
 
     public function output() {
+        $label = ( isset($this->field['label']) ) ? $this->field['label'] : __("Open Modal");
+
         echo $this->element_before();
         wp_enqueue_script('wp-backbone');
 
@@ -33,10 +35,14 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
         ), TRUE);
 
 
-        $value = '<button  type="button" class="button wpsf-modal-search-button modal-' . $this->field['id'] . '" 
-        data-id="' . $this->field['id'] . '"
-        data-settingsid="' . $settings_id . '"
-        data-ajax-on-select="selected_function">Open Modal</button>';
+        $attrs = $this->element_attributes(array(
+            'type'            => 'button',
+            'class'           => 'button wpsf-modal-search-button modal-' . $this->field['id'],
+            'data-id'         => $this->field['id'],
+            'data-settingsid' => $settings_id,
+        ));
+
+        $value = '<button  ' . $attrs . '>' . $label . '</button>';
         echo $value;
         echo '<div class="wpsf-modal-search-result"></div>';
 
@@ -51,28 +57,28 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
         ?>
         <style>
             #wpsf-modal-search-view-close {
-                width: 36px;
-                height: 36px;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                cursor: pointer;
-                text-align: center;
-                color: #666;
+                width      : 36px;
+                height     : 36px;
+                position   : absolute;
+                top        : 0px;
+                right      : 0px;
+                cursor     : pointer;
+                text-align : center;
+                color      : #666;
             }
 
             #wpsf-modal-search-view-close::before {
-                font: 400 20px/36px dashicons;
-                vertical-align: top;
-                content: "";
+                font           : 400 20px/36px dashicons;
+                vertical-align : top;
+                content        : "";
             }
 
             #wpsf-modal-search-view-close:hover {
-                color: #00A0D2;
+                color : #00A0D2;
             }
 
             div.wpsf-modal-search-view.find-box td .wpsf-element {
-                padding: 0;
+                padding : 0;
             }
         </style>
         <div id="wpsf-modal-search-view-<?php echo $this->field['id']; ?>" class="find-box wpsf-modal-search-view"
@@ -101,5 +107,14 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
             </div>
         </div>
         <?php
+    }
+
+    protected function field_defaults() {
+        return array(
+            'query_args' => array(),
+            'settings'   => array(),
+            'options'    => FALSE,
+            'label'      => __("Open Modal"),
+        );
     }
 }

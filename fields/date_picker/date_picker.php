@@ -20,6 +20,7 @@
 class WPSFramework_Option_date_picker extends WPSFramework_Options {
     /**
      * WPSFramework_Option_date_picker constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -47,7 +48,7 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
                 'data-datepicker-theme' => $this->get_theme(),
             ), $extrAttrs),
         ));
-        echo wpsf_add_element($elem_args, $this->element_value(), $this->unique);
+        echo $this->add_field($elem_args, $this->element_value(), $this->unique);
     }
 
     public function get_theme() {
@@ -62,6 +63,13 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
         }
 
         return array( 'data-datepicker-id' => $randID );
+    }
+
+    protected function field_defaults() {
+        return array(
+            'settings' => array(),
+            'theme'    => FALSE,
+        );
     }
 }
 

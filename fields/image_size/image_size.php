@@ -43,7 +43,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
         $height = ( isset($this->value['height']) ) ? $this->value['height'] : $default_height;
         $crop   = ( isset($this->value['crop']) ) ? $this->value['crop'] : $default_crop;
 
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'id'         => $this->field['id'] . '_width',
             'pseudo'     => FALSE,
             'type'       => 'text',
@@ -57,7 +57,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
 
         echo ' x ';
 
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'id'         => $this->field['id'] . '_height',
             'pseudo'     => FALSE,
             'type'       => 'text',
@@ -69,7 +69,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
             ),
         ), $height);
 
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'id'     => $this->field['id'] . '_crop',
             'pseudo' => FALSE,
             'type'   => 'checkbox',

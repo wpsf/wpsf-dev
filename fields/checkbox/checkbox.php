@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Checkbox
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_checkbox extends WPSFramework_Options {
     /**
      * WPSFramework_Option_checkbox constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -35,7 +36,7 @@ class WPSFramework_Option_checkbox extends WPSFramework_Options {
     public function output() {
         echo $this->element_before();
 
-        if( isset ($this->field ['options']) ) {
+        if( isset ($this->field ['options']) && is_array($this->field ['options']) && ! empty($this->field ['options']) ) {
 
             $options = $this->field ['options'];
             $options = ( is_array($options) ) ? $options : array_filter($this->element_data($options));
@@ -79,6 +80,7 @@ class WPSFramework_Option_checkbox extends WPSFramework_Options {
      * @param string $title
      * @param array  $chboxval
      * @param string $attributes
+     *
      * @return string
      */
     public function _element($name = '', $value = '', $title = '', $chboxval = array(), $attributes = '', $data = array()) {
@@ -91,5 +93,15 @@ class WPSFramework_Option_checkbox extends WPSFramework_Options {
         }
         return '<label > <input type = "checkbox"name = "' . $this->element_name($name) . '" value = "' . $value . '"' . $this->element_attributes($value, $attributes) . $this->checked($chboxval, $value) . ' /> ' . $title . ' </label > ';
 
+    }
+
+    protected function field_defaults() {
+        return array(
+            'icon_box'   => FALSE,
+            'label'      => FALSE,
+            'options'    => array(),
+            'settings'   => array(),
+            'query_args' => array(),
+        );
     }
 }

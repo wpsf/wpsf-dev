@@ -6,47 +6,40 @@
  *
  * Customize Class
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Customize extends WPSFramework_Abstract {
-
     /**
-     *
-     * instance
-     * @access private
-     * @var WPSFramework_Customize
-     *
-     */
-    private static $instance = NULL;
-    /**
-     *
      * sections
+     *
      * @access public
      * @var array
      *
      */
     public $options = array();
+
     /**
-     *
      * panel priority
+     *
      * @access public
      * @var bool
      *
      */
     public $priority = 1;
-    public $unique = NULL;
+    public $unique   = NULL;
 
     // run customize construct
 
     /**
      * WPSFramework_Customize constructor.
+     *
      * @param $options
      * @param $db_slug
      */
     public function __construct($options, $db_slug) {
-        $this->unique = $db_slug;
+        $this->unique  = $db_slug;
         $this->options = apply_filters('wpsf_customize_options', $options);
 
         do_action('wpsf_customize_options_config', $this->options);
@@ -106,7 +99,7 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
     public function add_section($wp_customize, $value, $panel = FALSE) {
 
         $section_priority = ( $panel ) ? 1 : $this->priority;
-        $sections = ( $panel ) ? $value['sections'] : array( 'sections' => $value );
+        $sections         = ( $panel ) ? $value['sections'] : array( 'sections' => $value );
 
         foreach( $sections as $section ) {
 
@@ -126,10 +119,10 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
 
                 // add_setting
                 $wp_customize->add_setting($setting_name, wp_parse_args($setting, array(
-                            'type'              => 'option',
-                            'capability'        => 'edit_theme_options',
-                            'sanitize_callback' => 'wpsf_sanitize_clean',
-                        )));
+                    'type'              => 'option',
+                    'capability'        => 'edit_theme_options',
+                    'sanitize_callback' => 'wpsf_sanitize_clean',
+                )));
 
                 // add_control
                 $control_args = wp_parse_args($setting['control'], array(
@@ -147,7 +140,7 @@ class WPSFramework_Customize extends WPSFramework_Abstract {
                 } else {
 
                     $wp_controls = array( 'color', 'upload', 'image', 'media' );
-                    $call_class = 'WP_Customize_' . ucfirst($control_args['type']) . '_Control';
+                    $call_class  = 'WP_Customize_' . ucfirst($control_args['type']) . '_Control';
 
                     if( in_array($control_args['type'], $wp_controls) && class_exists($call_class) ) {
                         $wp_customize->add_control(new $call_class($wp_customize, $setting['name'], $control_args));

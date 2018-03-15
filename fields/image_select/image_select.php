@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Image Select
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_image_select extends WPSFramework_Options {
     /**
      * WPSFramework_Option_image_select constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -33,15 +34,15 @@ class WPSFramework_Option_image_select extends WPSFramework_Options {
     }
 
     public function output() {
-        $input_type = ( ! empty ($this->field ['radio']) ) ? 'radio' : 'checkbox';
-        $input_attr = ( ! empty ($this->field ['multi_select']) ) ? '[]' : '';
+        $input_type = ( $this->field ['is_radio'] === TRUE ) ? 'radio' : 'checkbox';
+        $input_attr = ( $this->field ['multiple'] === TRUE ) ? '[]' : '';
 
         echo $this->element_before();
         echo ( empty ($input_attr) ) ? '<div class="wpsf-field-image-select">' : '';
 
         if( isset ($this->field ['options']) ) {
             $options = $this->field ['options'];
-            
+
             foreach( $options as $key => $value ) {
                 $ex_attr = array();
                 $label   = $value;
@@ -58,5 +59,13 @@ class WPSFramework_Option_image_select extends WPSFramework_Options {
 
         echo ( empty ($input_attr) ) ? '</div>' : '';
         echo $this->element_after();
+    }
+
+    protected function field_defaults() {
+        return array(
+            'is_radio' => FALSE,
+            'multiple' => FALSE,
+            'options'  => array(),
+        );
     }
 }

@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Select
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_select extends WPSFramework_Options {
     /**
      * WPSFramework_Option_select constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -39,7 +40,7 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 
         if( isset ($this->field ['options']) ) {
             $options = $this->field ['options'];
-            $class = $this->element_class();
+            $class   = $this->element_class();
             $options = ( is_array($options) ) ? $options : array_filter($this->element_data($options));
 
             if( isset($this->field['multiple']) ) {
@@ -51,7 +52,7 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 
             $extra_name = ( isset ($this->field ['attributes'] ['multiple']) ) ? '[]' : '';
             $chosen_rtl = ( is_rtl() && strpos($class, 'chosen') ) ? 'chosen-rtl' : '';
-            $exAttr = ( $is_ajax ) ? array( 'data-has-settings' => 'yes' ) : array();
+            $exAttr     = ( $is_ajax ) ? array( 'data-has-settings' => 'yes' ) : array();
 
 
             echo '<select name="' . $this->element_name($extra_name) . '"' . $this->element_class($chosen_rtl) . $this->element_attributes($exAttr) . '>';
@@ -83,11 +84,19 @@ class WPSFramework_Option_select extends WPSFramework_Options {
     }
 
     public function render_settings() {
-        $_settings = array();
-        $_settings['action'] = 'wpsf-ajax';
+        $_settings                = array();
+        $_settings['action']      = 'wpsf-ajax';
         $_settings['wpsf-action'] = 'query_select_data';
-        $_settings['options'] = $this->field['options'];
-        $_settings['query_args'] = ( isset ($this->field ['query_args']) ) ? $this->field ['query_args'] : array();
+        $_settings['options']     = $this->field['options'];
+        $_settings['query_args']  = ( isset ($this->field ['query_args']) ) ? $this->field ['query_args'] : array();
         return array_filter($_settings);
+    }
+
+    protected function field_defaults() {
+        return array(
+            'options'    => array(),
+            'settings'   => array(),
+            'query_args' => array(),
+        );
     }
 }

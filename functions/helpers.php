@@ -13,42 +13,112 @@ if( ! defined('ABSPATH') ) {
     die ();
 } // Cannot access pages directly.
 
+if( ! function_exists('wpsf_init_element') ) {
+    /**
+     * @param array  $field
+     * @param string $value
+     * @param string $unique
+     *
+     * @return array
+     */
+    function wpsf_init_element($field = array(), $value = '', $unique = '') {
+        $class = 'WPSFramework_Option_' . $field ['type'];
+        wpsf_autoloader($class, TRUE);
+        if( class_exists($class) ) {
+            $element              = new $class($field, $value, $unique);
+            $instance_ID          = $element->id;
+            $field['instance_id'] = $instance_ID;
+        }
+        return $field;
+    }
+}
+
 if( ! function_exists('wpsf_add_element') ) {
     /**
      * @param array  $field
      * @param string $value
      * @param string $unique
+     * @param bool   $force
+     *
      * @return string
      */
-    function wpsf_add_element($field = array(), $value = '', $unique = '') {
-        static $total_columns = 0;
+    function wpsf_add_element($field = array(), $value = '', $unique = '', $force = FALSE) {
         $output = '';
-        $class  = 'WPSFramework_Option_' . $field ['type'];
-        wpsf_autoloader($class, TRUE);
 
-        if( class_exists($class) ) {
-            ob_start();
-            $element = new $class($field, $value, $unique);
-            $element->final_output();
-            $output .= ob_get_clean();
+        if( isset($field['instance_id']) && $force === FALSE ) {
+            $_instance = wpsf_field_registry()->get($field['instance_id']);
+            if( $_instance instanceof WPSFramework_Options ) {
+                ob_start();
+                $_instance->final_output();
+                return ob_get_clean();
+            }
+            return wpsf_add_element($field, $value, $unique, TRUE);
         } else {
-            $output .= '<p>' . sprintf(esc_html__('This field class is not available! %s', 'wpsf-framework'), '<strong>' . $class . '</strong>') . ' </p > ';
+            $class = 'WPSFramework_Option_' . $field ['type'];
+            wpsf_autoloader($class, TRUE);
+            if( class_exists($class) ) {
+                ob_start();
+                $element = new $class($field, $value, $unique);
+                $element->final_output();
+                $output .= ob_get_clean();
+            } else {
+                $output .= '<p>' . sprintf(esc_html__('This field class is not available! %s', 'wpsf-framework'), '<strong>' . $class . '</strong>') . ' </p > ';
+            }
         }
         return $output;
     }
 }
 
+if( ! function_exists('wpsf_unarray_fields') ) {
+    /**
+     * @return array
+     */
+    function wpsf_unarray_fields() {
+        return apply_filters('wpsf_unarray_fields_types', array( 'tab', 'group', 'fieldset', 'accordion' ));
+    }
+}
+
+if( ! function_exists('wpsf_is_unarray_field') ) {
+    /**
+     * @return boolean
+     */
+    function wpsf_is_unarray_field($type) {
+        if( is_array($type) && isset($type['type']) ) {
+            return in_array($type['type'], wpsf_unarray_fields());
+        }
+        return in_array($type, wpsf_unarray_fields());
+    }
+}
+
+if( ! function_exists('wpsf_is_unarrayed') ) {
+    /**
+     * @param array $field
+     *
+     * @return bool
+     */
+    function wpsf_is_unarrayed($field = array()) {
+        if( wpsf_is_unarray_field($field) ) {
+            if( isset($field['un_array']) && $field['un_array'] === TRUE ) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+}
+
+
 /**
  *
  * Encode string for backup options
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 if( ! function_exists('wpsf_encode_string') ) {
     /**
      * @param $string
+     *
      * @return string
      */
     function wpsf_encode_string($string) {
@@ -60,13 +130,14 @@ if( ! function_exists('wpsf_encode_string') ) {
  *
  * Decode string for backup options
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 if( ! function_exists('wpsf_decode_string') ) {
     /**
      * @param $string
+     *
      * @return mixed
      */
     function wpsf_decode_string($string) {
@@ -78,7 +149,7 @@ if( ! function_exists('wpsf_decode_string') ) {
  *
  * Get google font from json file
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -109,13 +180,14 @@ if( ! function_exists('wpsf_get_google_fonts') ) {
  *
  * Get icon fonts from json file
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 if( ! function_exists('wpsf_get_icon_fonts') ) {
     /**
      * @param $file
+     *
      * @return array|mixed|object
      */
     function wpsf_get_icon_fonts($file) {
@@ -131,7 +203,7 @@ if( ! function_exists('wpsf_get_icon_fonts') ) {
  *
  * Array search key & value
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -140,6 +212,7 @@ if( ! function_exists('wpsf_array_search') ) {
      * @param $array
      * @param $key
      * @param $value
+     *
      * @return array
      */
     function wpsf_array_search($array, $key, $value) {
@@ -163,7 +236,7 @@ if( ! function_exists('wpsf_array_search') ) {
  *
  * Getting POST Var
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -171,6 +244,7 @@ if( ! function_exists('wpsf_get_var') ) {
     /**
      * @param        $var
      * @param string $default
+     *
      * @return string
      */
     function wpsf_get_var($var, $default = '') {
@@ -190,7 +264,7 @@ if( ! function_exists('wpsf_get_var') ) {
  *
  * Getting POST Vars
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -199,6 +273,7 @@ if( ! function_exists('wpsf_get_vars') ) {
      * @param        $var
      * @param        $depth
      * @param string $default
+     *
      * @return string
      */
     function wpsf_get_vars($var, $depth, $default = '') {
@@ -219,6 +294,7 @@ if( ! function_exists("wpsf_js_vars") ) {
      * @param      $object_name
      * @param      $l10n
      * @param bool $with_script_tag
+     *
      * @return string
      */
     function wpsf_js_vars($object_name = '', $l10n, $with_script_tag = TRUE) {

@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Switcher
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_switcher extends WPSFramework_Options {
     /**
      * WPSFramework_Option_switcher constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -34,12 +35,20 @@ class WPSFramework_Option_switcher extends WPSFramework_Options {
 
     public function output() {
         echo $this->element_before();
-        $on_text  = ( isset($this->field['on_label']) && ! empty($this->field['on_label']) ) ? $this->field['on_label'] : __("On", 'wpsf-framework');
-        $off_text = ( isset($this->field['off_label']) && ! empty($this->field['off_label']) ) ? $this->field['off_label'] : __("Off", 'wpsf-framework');
-        $label    = ( isset ($this->field ['label']) ) ? '<div class="wpsf-text-desc">' . $this->field ['label'] . '</div>' : '';
-        $value    = ( isset($this->field['switch_value']) ) ? $this->field['switch_value'] : '1';
+        $label = ( ! empty ($this->field ['label']) ) ? '<div class="wpsf-text-desc">' . $this->field ['label'] . '</div>' : '';
+        $value = ( isset($this->field['switch_value']) ) ? $this->field['switch_value'] : '1';
+
         echo '<label><input type="checkbox" name="' . $this->element_name() . '" value="' . $value . '"' . $this->element_class() . $this->element_attributes() . checked($this->element_value(), $value, FALSE) . '/>
-		<em data-on="' . esc_html($on_text) . '" data-off="' . esc_html($off_text) . '"></em><span></span></label>' . $label;
+		<em data-on="' . esc_html($this->field['on_label']) . '" data-off="' . esc_html($this->field['off_label']) . '"></em><span></span></label>' . $label;
         echo $this->element_after();
+    }
+
+    protected function field_defaults() {
+        return array(
+            'on_label'     => __("On"),
+            'off_label'    => __("Off"),
+            'label'        => '',
+            'switch_value' => '1',
+        );
     }
 }

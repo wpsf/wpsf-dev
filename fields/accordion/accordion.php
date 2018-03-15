@@ -18,6 +18,7 @@
 class WPSFramework_Option_accordion extends WPSFramework_Options {
     /**
      * WPSFramework_Option_accordion constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -29,7 +30,7 @@ class WPSFramework_Option_accordion extends WPSFramework_Options {
     public function output() {
         echo $this->element_before();
         $fields    = array_values($this->field['fields']);
-        $acc_title = ( isset($this->field['accordion_title']) ) ? $this->field['accordion_title'] : __("Accordion", 'wpsf-framework');
+        $acc_title = ( ! empty($this->field['accordion_title']) ) ? $this->field['accordion_title'] : __("Accordion", 'wpsf-framework');
         $unique_id = ( ! empty($this->field['un_array']) ) ? $this->unique : $this->get_unique($this->field['id']);
 
         echo '<div class="wpsf-groups wpsf-accordion">';
@@ -41,12 +42,23 @@ class WPSFramework_Option_accordion extends WPSFramework_Options {
             $field_id      = ( isset ($field['id']) ) ? $field['id'] : '';
             $field_default = ( isset ($field['default']) ) ? $field['default'] : FALSE;
             $field_value   = $this->_unarray_values($field_id, $field_default);
-            echo wpsf_add_element($field, $field_value, $unique_id);
+            echo $this->add_field($field, $field_value, $unique_id);
         }
         echo '</div>';
         echo '</div>';
 
 
         echo $this->element_after();
+    }
+
+    /**
+     * @return array
+     */
+    protected function field_defaults() {
+        return array(
+            'accordion_title' => __("Accordion", 'wpsf-framework'),
+            'fields'          => array(),
+            'un_array'        => FALSE,
+        );
     }
 }

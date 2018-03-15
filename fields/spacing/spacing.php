@@ -41,7 +41,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 
 
         if( $show_top ) {
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'id'         => $this->field['id'] . '-top',
                 'type'       => 'text',
                 'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-top',
@@ -51,7 +51,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
         }
 
         if( $show_bottom ) {
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'id'         => $this->field['id'] . '-bottom',
                 'type'       => 'text',
                 'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-bottom',
@@ -61,7 +61,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
         }
 
         if( $show_left ) {
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'id'         => $this->field['id'] . '-left',
                 'type'       => 'text',
                 'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-left',
@@ -71,7 +71,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
         }
 
         if( $show_right ) {
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'id'         => $this->field['id'] . '-right',
                 'type'       => 'text',
                 'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-right',
@@ -81,7 +81,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
         }
 
         if( $show_units ) {
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'pseudo'     => TRUE,
                 'id'         => $this->field['id'] . '-units',
                 'type'       => 'select',

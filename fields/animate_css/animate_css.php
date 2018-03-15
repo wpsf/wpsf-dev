@@ -19,6 +19,7 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
 
     /**
      * WPSFramework_Option_animate_css constructor.
+     *
      * @param array  $field
      * @param string $value
      * @param string $unique
@@ -29,22 +30,22 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
 
     public function output() {
         $this->element_before();
-
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'id'      => $this->field['id'],
             'type'    => 'select',
-            'class'   => ( isset($this->field['class']) ) ? $this->field['class'] : '',
+            'class'   => $this->field['class'],
             'options' => $this->animation_styles(),
             'pseudo'  => TRUE,
         ));
-
         echo '<div class="animation-preview">';
-        echo '<h3 contentEditable="true">Animate.css</h3>';
+        echo '<h3 contentEditable="true">' . $this->field['preview_text'] . '</h3>';
         echo '</div>';
-
         $this->element_after();
     }
 
+    /**
+     * @return array
+     */
     protected function animation_styles() {
         return apply_filters('wpsf_animation_styles', array(
             'Attention Seekers'  => array(
@@ -154,5 +155,14 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
                 "rollOut"      => 'rollOut',
             ),
         ));
+    }
+
+    /**
+     * @return array
+     */
+    protected function field_defaults() {
+        return array(
+            'preview_text' => __("Animate.css"),
+        );
     }
 }

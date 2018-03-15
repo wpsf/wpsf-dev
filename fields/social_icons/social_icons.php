@@ -13,20 +13,17 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
 
     public function output() {
         echo $this->element_before();
-
         $unique       = $this->get_unique($this->field['id']);
         $icons        = ( isset($this->field['options']) && ! empty($this->field['options']) ) ? $this->field['options'] : $this->social_icons();
-        $type         = ( isset($this->field['icon_type']) && ! empty($this->field['icon_type']) ) ? $this->field['icon_type'] : 'checkbox';
-        $extra_fields = ( isset($this->field['extra_fields']) && is_array($this->field['extra_fields']) ) ? $this->field['extra_fields'] : array();
-        $extra_icons  = ( isset($this->field['extra_icons']) && is_array($this->field['extra_icons']) ) ? $this->field['extra_icons'] : array();
+        $extra_fields = ( is_array($this->field['fields']) ) ? $this->field['fields'] : array();
+        $extra_icons  = ( is_array($this->field['extra_icons']) ) ? $this->field['extra_icons'] : array();
         $icons        = array_merge($icons, $extra_icons);
-        $disabled     = ( isset($this->field['disabled']) ) ? $this->field['disabled'] : '';
-        $icons        = $this->disabled_icons($disabled, $icons);
+        $icons        = $this->disabled_icons($this->field['disabled'], $icons);
         $icons        = $this->handle_icons($icons);
 
         echo '<div class="wpsf-social-icons-wraper">';
-        echo wpsf_add_element(array(
-            'type'     => $type,
+        echo $this->add_field(array(
+            'type'     => $this->field['icon_type'],
             'icon_box' => TRUE,
             'id'       => 'active_icons',
             'class'    => 'horizontal',
@@ -39,7 +36,6 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
         $field_set = ( isset($this->value['enabled']) ) ? $this->value['enabled'] : array();
 
         foreach( $icons as $icon => $data ) {
-
             $base_field = array(
                 'type'       => 'text',
                 'title'      => $data['label'],
@@ -48,8 +44,7 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
                 ),
                 'id'         => 'url',
             );
-
-            echo wpsf_add_element(array(
+            echo $this->add_field(array(
                 'id'         => $icon,
                 'type'       => 'fieldset',
                 'pseudo'     => TRUE,
@@ -119,5 +114,15 @@ class WPSFramework_Option_Social_icons extends WPSFramework_Options {
             }
         }
         return FALSE;
+    }
+
+    protected function field_defaults() {
+        return array(
+            'options'     => array(),
+            'icon_type'   => 'checkbox',
+            'fields'      => array(),
+            'extra_icons' => array(),
+            'disabled'    => FALSE,
+        );
     }
 }

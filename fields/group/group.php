@@ -6,7 +6,7 @@
  *
  * Field: Group
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
@@ -14,6 +14,7 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 
     /**
      * WPSFramework_Option_group constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -28,15 +29,13 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 
         $fields      = array_values($this->field['fields']);
         $last_id     = ( is_array($this->value) && ! empty($this->value) ) ? max(array_keys($this->value)) : 0;
-        $acc_title   = ( isset($this->field['accordion_title']) ) ? $this->field['accordion_title'] : esc_html__('Adding', 'wpsf-framework');
+        $acc_title   = $this->field['accordion_title'];
         $field_title = ( isset($fields[0]['title']) ) ? $fields[0]['title'] : $fields[1]['title'];
-        $field_id    = ( isset($fields[0]['id']) ) ? $fields[0]['id'] : $fields[1]['id'];
         $el_class    = ( isset($this->field['title']) ) ? sanitize_title($field_title) : 'no-title';
-        $search_id   = wpsf_array_search($fields, 'id', $acc_title);
+        $search_id   = wpsf_array_search($fields, 'id', $this->field['accordion_title']);
 
         if( ! empty($search_id) ) {
             $acc_title = ( isset($search_id[0]['title']) ) ? $search_id[0]['title'] : $acc_title;
-            $field_id  = ( isset($search_id[0]['id']) ) ? $search_id[0]['id'] : $field_id;
         }
 
         echo '<div class="wpsf-group wpsf-group-' . $el_class . '-adding hidden">';
@@ -47,14 +46,15 @@ class WPSFramework_Option_group extends WPSFramework_Options {
             $field['sub']  = TRUE;
             $unique        = $this->unique . '[_nonce][' . $this->field['id'] . '][' . $last_id . ']';
             $field_default = ( isset($field['default']) ) ? $field['default'] : '';
-            echo wpsf_add_element($field, $field_default, $unique);
+            echo $this->add_field($field, $field_default, $unique);
         }
-        echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . esc_html__('Remove', 'wpsf-framework') . '</a></div>';
+        echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . $this->field['remove_button_title'] . '</a></div>';
         echo '</div>';
         echo '</div>';
         echo '<div class="wpsf-groups wpsf-accordion">';
 
-        if( ! empty($this->value) ) {
+        if( ! empty($this->value) && is_array($this->value) ) {
+            var_dump($this->value);
             foreach( $this->value as $key => $value ) {
                 if( isset($this->multilang) && $this->multilang !== FALSE ) {
                     $title = $this->_get_title($this->value[$key], TRUE);
@@ -78,15 +78,13 @@ class WPSFramework_Option_group extends WPSFramework_Options {
                     $field['sub'] = TRUE;
                     $unique       = $this->unique . '[' . $this->field['id'] . '][' . $key . ']';
                     $value        = ( isset($field['id']) && isset($this->value[$key][$field['id']]) ) ? $this->value[$key][$field['id']] : '';
-                    echo wpsf_add_element($field, $value, $unique);
+                    echo $this->add_field($field, $value, $unique);
                 }
 
                 echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . esc_html__('Remove', 'wpsf-framework') . '</a></div>';
                 echo '</div>';
                 echo '</div>';
-
             }
-
         }
 
         echo '</div>';
@@ -97,6 +95,7 @@ class WPSFramework_Option_group extends WPSFramework_Options {
     /**
      * @param string $array
      * @param bool   $is_array
+     *
      * @return array|bool|mixed|string
      */
     public function _get_title($array = '', $is_array = FALSE) {
@@ -119,5 +118,13 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 
         return FALSE;
 
+    }
+
+    protected function field_defaults() {
+        return array(
+            'accordion_title'     => __('Adding'),
+            'button_title'        => __("Add"),
+            'remove_button_title' => __("Remove"),
+        );
     }
 }

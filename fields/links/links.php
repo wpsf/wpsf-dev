@@ -46,8 +46,6 @@ class WPSFramework_Option_links extends WPSFramework_Options {
         $arg     = wp_parse_args($data, $default);
 
         echo $this->element_before();
-        $link = array();
-
         $attributes = $this->element_attributes(array( 'class' => 'wpsf_wp_link_picker_container' ));
         echo '<div ' . $attributes . '>';
 

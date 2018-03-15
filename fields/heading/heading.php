@@ -37,4 +37,8 @@ class WPSFramework_Option_heading extends WPSFramework_Options {
         echo $this->field ['content'];
         echo $this->element_after();
     }
+
+    protected function field_defaults() {
+        return array( 'content' => '' );
+    }
 }

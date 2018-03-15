@@ -17,13 +17,14 @@ if( ! defined('ABSPATH') ) {
  *
  * Field: Background
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @version 1.0.0
  *
  */
 class WPSFramework_Option_background extends WPSFramework_Options {
     /**
      * WPSFramework_Option_background constructor.
+     *
      * @param        $field
      * @param string $value
      * @param string $unique
@@ -32,6 +33,9 @@ class WPSFramework_Option_background extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
+    /**
+     * @return
+     */
     public function output() {
         echo $this->element_before();
 
@@ -62,7 +66,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
 
         // background attributes
         echo '<fieldset>';
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'pseudo'     => TRUE,
             'id'         => $this->field ['id'] . '_repeat',
             'type'       => 'select',
@@ -79,7 +83,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             ),
 
         ), $this->value['repeat']);
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
             'id'         => $this->field ['id'] . '_position',
@@ -99,7 +103,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
                 'data-atts' => 'position',
             ),
         ), $this->value ['position']);
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
             'name'       => $this->element_name('[attachment]'),
@@ -112,7 +116,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
                 'data-atts' => 'attachment',
             ),
         ), $this->value ['attachment']);
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'pseudo'     => TRUE,
             'type'       => 'select',
             'id'         => $this->field ['id'] . '_size',
@@ -129,7 +133,7 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             ),
 
         ), $this->value ['size']);
-        echo wpsf_add_element(array(
+        echo $this->add_field(array(
             'pseudo'     => TRUE,
             'id'         => $this->field ['id'] . '_color',
             'type'       => 'color_picker',
@@ -137,12 +141,20 @@ class WPSFramework_Option_background extends WPSFramework_Options {
             'attributes' => array(
                 'data-atts' => 'bgcolor',
             ),
-
-            'default' => ( isset ($this->field ['default'] ['color']) ) ? $this->field ['default'] ['color'] : '',
-            'rgba'    => ( isset ($this->field ['rgba']) && $this->field ['rgba'] === FALSE ) ? FALSE : '',
+            'default'    => ( isset ($this->field ['default'] ['color']) ) ? $this->field ['default'] ['color'] : '',
+            'rgba'       => ( isset ($this->field ['rgba']) && $this->field ['rgba'] === FALSE ) ? FALSE : '',
         ), $this->value ['color']);
         echo '</fieldset>';
 
         echo $this->element_after();
+    }
+
+    /**
+     * @return array
+     */
+    protected function field_defaults() {
+        return array(
+            'settings' => array(),
+        );
     }
 }

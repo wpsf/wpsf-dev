@@ -30,6 +30,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     public        $multilang   = NULL;
     public        $row_after   = NULL;
     public        $js_settings = NULL;
+    public        $uid         = NULL;
 
     /**
      * WPSFramework_Options constructor.
@@ -39,7 +40,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @param string $unique
      */
     public function __construct($field = array(), $value = '', $unique = '') {
-        $this->field     = $field;
+        $this->field     = wp_parse_args($field, $this->get_defaults());
         $this->value     = $value;
         $this->org_value = $value;
         $this->unique    = $unique;
@@ -47,10 +48,50 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
     }
 
     /**
+     * @return array
+     */
+    protected function get_defaults() {
+        return wp_parse_args($this->field_defaults(), array(
+            'id'         => '',
+            'title'      => NULL,
+            'type'       => NULL,
+            'desc'       => NULL,
+            'default'    => FALSE,
+            'help'       => FALSE,
+            'class'      => '',
+            'wrap_class' => '',
+            'dependency' => FALSE,
+            'before'     => NULL,
+            'after'      => NULL,
+            'attirbutes' => array(),
+            'only_field' => FALSE,
+        ));
+    }
+
+    /**
+     * @return array
+     */
+    protected function field_defaults() {
+        return array();
+    }
+
+    /**
      * @return bool|mixed
      */
     public function element_multilang() {
         return ( isset ($this->field ['multilang']) ) ? wpsf_language_defaults() : FALSE;
+    }
+
+    /**
+     * @param array  $field
+     * @param string $value
+     * @param string $unique
+     *
+     * @return string
+     */
+    public function add_field($field = array(), $value = '', $unique = '') {
+        $field['uid'] = $this->uid;
+        return wpsf_add_element($field, $value, $unique);
     }
 
     public function final_output() {
@@ -90,13 +131,13 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
             $sub        = ( isset ($this->field['sub']) ) ? 'sub-' : '';
             $languages  = wpsf_language_defaults();
             $wrap_class = 'wpsf-element wpsf-element-' . $this->element_type() . ' wpsf-field-' . $this->element_type() . ' ';
-            $wrap_class .= ( isset($this->field['wrap_class']) ) ? ' ' . $this->field['wrap_class'] : '';
-            $wrap_class .= ( isset($this->field['title']) && ! empty($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
+            $wrap_class .= ( ! empty($this->field['wrap_class']) ) ? ' ' . $this->field['wrap_class'] : '';
+            $wrap_class .= ( ! empty($this->field['title']) ) ? ' wpsf-element-' . sanitize_title($this->field ['title']) : ' no-title ';
             $wrap_class .= ( isset ($this->field ['pseudo']) ) ? ' wpsf-pseudo-field' : '';
             $is_hidden  = ( isset ($this->field ['show_only_language']) && ( $this->field ['show_only_language'] != $languages ['current'] ) ) ? ' hidden ' : '';
 
             $wrap_attr = ( isset($this->field['wrap_attributes']) && is_array($this->field['wrap_attributes']) ) ? $this->field['wrap_attributes'] : array();
-            if( isset ($this->field['dependency']) ) {
+            if( is_array($this->field['dependency']) && $this->field['dependency'] !== FALSE ) {
                 $is_hidden                                = ' hidden';
                 $wrap_attr['data-' . $sub . 'controller'] = $this->field ['dependency'] [0];
                 $wrap_attr['data-' . $sub . 'condition']  = $this->field ['dependency'] [1];
@@ -384,14 +425,15 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return string
      */
     public function element_get_error() {
-        global $wpsf_errors;
         $out = '';
-        if( ! empty ($wpsf_errors) ) {
-            foreach( $wpsf_errors as $key => $value ) {
-                $fid = isset($this->field['error_id']) ? $this->field['error_id'] : $this->field['id'];
-                if( isset ($this->field ['id']) && $value ['code'] == $fid ) {
-                    $out .= '<p class="wpsf-text-warning">' . $value ['message'] . '</p>';
+        if( isset($this->field['error_id']) ) {
+            $errors = apply_filters('wpsf_element_errors', $this->field['error_id']);
+            if( is_array($errors) && ! empty($errors) ) {
+                foreach( array_filter($errors) as $err ) {
+                    $out .= '<p class="wpsf-text-warning">' . $err['message'] . '</p>';
                 }
+            } else if( ! empty($errors) ) {
+                $out .= '<p class="wpsf-text-warning">' . $errors . '</p>';
             }
         }
         return $out;
@@ -493,13 +535,15 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
      * @return array|string
      */
     public function _unarray_values($field_id, $default = array()) {
-        if( in_array($this->field['type'], array( 'tab', 'group', 'fieldset', 'accordion' )) ) {
-            if( isset($this->field['un_array']) === TRUE && $this->field['un_array'] === TRUE ) {
+        if( wpsf_is_unarray_field($this->field['type']) ) {
+            if( $this->field['un_array'] === TRUE ) {
                 if( isset($this->value[$field_id]) ) {
                     return $this->value[$field_id];
                 } else {
                     return $default;
                 }
+            } else {
+                return ( isset($this->value[$field_id]) ) ? $this->value[$field_id] : ( isset($default[$field_id]) ? $default[$field_id] : FALSE );
             }
         }
         return ( empty($this->value) ) ? $default : $this->value;
@@ -515,7 +559,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
         if( $is_ajax && empty($this->value) ) {
             return array();
         }
-        $query_args = ( isset ($this->field ['query_args']) ) ? $this->field ['query_args'] : array();
+        $query_args = ( is_array($this->field['query_args']) && ! empty($this->field['query_args']) ) ? $this->field ['query_args'] : array();
 
         if( $is_ajax ) {
             $query_args['post__in'] = ( ! is_array($this->value) ) ? explode(",", $this->value) : $this->value;

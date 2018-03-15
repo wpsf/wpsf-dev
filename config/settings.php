@@ -61,13 +61,19 @@ $options[] = array(
     'fields' => array(
         array(
             'id'         => '_backbone_modal',
-            'settings'   => array(),
             'type'       => 'model_search',
             'options'    => 'page',
             'query_args' => array(
                 'post_type' => array( 'product', 'product_variations' ),
                 'orderby'   => 'post_date',
                 'order'     => 'ASC',
+            ),
+            'settings'   => array(
+                'id'             => 'sampleSearch',
+                'columns'        => array(),
+                'remove_columns' => array(
+                    'date',
+                ),
             ),
 
         ),
@@ -238,6 +244,15 @@ $options[] = array(
 $options[] = array(
     'name'  => 'seperator_0',
     'title' => 'Input / UI Fields',
+    'icon'  => 'fa fa-bookmark',
+);
+// ------------------------------
+// a Custom Link                  -
+// ------------------------------
+$options[] = array(
+    'name'  => 'seperator_0',
+    'title' => 'Custom Link',
+    'href'  => 'http://google.com',
     'icon'  => 'fa fa-bookmark',
 );
 // ------------------------------
@@ -2718,7 +2733,7 @@ $options[] = array(
                 ),
 
                 array(
-                    'id'              => 'accordion_3',
+                    'id'              => 'accordion_4',
                     'type'            => 'accordion',
                     'accordion_title' => 'Accordion 1',
                     'title'           => 'Accordion With Group',
@@ -2745,6 +2760,11 @@ $options[] = array(
                     ),
                 ),
             ),
+        ),
+        array(
+            'name'  => 'seperator_0',
+            'title' => 'Input / UI Fields',
+            'icon'  => 'fa fa-bookmark',
         ),
         array(
             'name'   => 'fieldset_options',
@@ -4207,8 +4227,9 @@ $options[] = array(
 new WPSFramework_Settings(array(
     'menu_title'       => 'WPSF Modern',
     'menu_slug'        => 'wpsf-modern',
-    'style'            => 'modern',
+    'framework_title'  => "WPSF Settings Panel",
+    'style'            => 'simple',
     'is_sticky_header' => FALSE,
-    'is_single_page'   => TRUE,
-    'option_name'      => '_wpsf_new_option',
+    'is_single_page'   => FALSE,
+    'option_name'      => '_wpsf_new_option11a',
 ), $options);

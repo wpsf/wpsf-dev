@@ -12,38 +12,39 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
         parent::__construct($field, $value, $unique);
     }
 
+    protected function field_defaults() {
+        return array(
+            'inline'       => FALSE,
+            'preview'      => TRUE,
+            'select2'      => FALSE,
+            'chosen'       => FALSE,
+            'preview_text' => 'Lorem ipsum dolor sit amet, pro ad sanctus admodum, vim at insolens appellantur. Eum veri adipiscing an, probo nonumy an vis.',
+        );
+    }
+
     public function output() {
-        $fields = $this->font_fields();
-
-        $is_inline = ( isset($this->field['inline']) && $this->field['inline'] === TRUE ) ? TRUE : FALSE;
-
-        $is_inline_css = ( $is_inline === TRUE ) ? 'font_container_inline' : '';
+        $fields        = $this->font_fields();
+        $is_inline_css = ( $this->field['inline'] === TRUE ) ? 'font_container_inline' : '';
         echo '<div class="wpsf_font_field ' . $is_inline_css . '" data-id="' . $this->field['id'] . '">';
 
         foreach( $fields as $field ) {
-            echo wpsf_add_element($field, $this->is_value($field['id']), $this->get_unique($this->field['id']));
+            echo $this->add_field($field, $this->is_value($field['id']), $this->get_unique($this->field['id']));
         }
 
 
         /**
          * Font Preview
          */
-        if( isset($this->field['preview']) && $this->field['preview'] == TRUE ) {
-            if( isset($this->field['preview_text']) ) {
-                $preview_text = $this->field['preview_text'];
-            } else {
-                $preview_text = 'Lorem ipsum dolor sit amet, pro ad sanctus admodum, vim at insolens appellantur. Eum veri adipiscing an, probo nonumy an vis.';
-            }
+        if( $this->field['preview'] == TRUE ) {
+            $preview_text = $this->field['preview_text'];
             echo '<div id="preview-' . $this->field['id'] . '" style="font-family:;" class="wpsf-font-preview" contenteditable="true">' . $preview_text . '</div>';
         }
         echo '</div>';
     }
 
     public function font_fields() {
-        $this->field['inline'] = TRUE;
         $is_select2            = ( isset($this->field['select2']) && $this->field['select2'] === TRUE ) ? 'select2' : '';
         $is_chosen             = ( isset($this->field['chosen']) && $this->field['chosen'] === TRUE ) ? 'chosen' : '';
-        $is_inline             = ( isset($this->field['inline']) && $this->field['inline'] === TRUE ) ? TRUE : FALSE;
 
         $default = array(
             'font_family'    => array(
@@ -148,7 +149,7 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
                 $fields[$i] = $v;
             }
 
-            if( $is_inline === TRUE ) {
+            if( $this->field['inline'] === TRUE ) {
                 $fields[$i]['pseudo'] = TRUE;
                 if( ! isset($fields[$i]['wrap_attributes']) ) {
                     $fields[$i]['wrap_attributes'] = array();

@@ -89,12 +89,12 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
             $contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-' . $section['name'] . '" style="' . $is_display . '">';
 
             foreach( $section['fields'] as $field ) {
-                $field_id = ( isset ($field['id']) ) ? $field['id'] : '';
+                $field_id      = ( isset ($field['id']) ) ? $field['id'] : '';
                 $field_default = ( isset ($field['default']) ) ? $field['default'] : $this->value;
-                $Uid = $this->_unique();
-                $Uid = ( empty($section['un_array']) ) ? $Uid . '[' . $section['name'] . ']' : $Uid;
-                $value = $this->field_value($section, $field_id);
-                $contents .= wpsf_add_element($field, $value, $Uid);
+                $Uid           = $this->_unique();
+                $Uid           = ( empty($section['un_array']) ) ? $Uid . '[' . $section['name'] . ']' : $Uid;
+                $value         = $this->field_value($section, $field_id);
+                $contents      .= $this->add_field($field, $value, $Uid);
             }
 
             $contents .= '</div>';

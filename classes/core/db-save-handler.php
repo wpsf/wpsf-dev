@@ -112,11 +112,11 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
                         $value = $this->loop_fields($field['sections'], $f_val, $db_value);
                     } else if( isset($field['fields']) && $field['type'] !== 'group' ) {
                         $f_val = $this->get_field_value($values, $fid);
-                        $value = $this->_handle_single_field($field, $f_val, $current_fields);
+                        $value = $this->_handle_single_field($field, $f_val);
                         $value = $this->loop_fields($field, $f_val, $db_val);
                     } else {
                         $f_val = $this->get_field_value($values, $fid);
-                        $value = $this->_handle_single_field($field, $f_val, $current_fields);
+                        $value = $this->_handle_single_field($field, $f_val);
                     }
 
                     $values = $this->_manage_data($values, $value, $fid);
@@ -161,11 +161,10 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
      *
      * @return array|bool|mixed
      */
-    public function _handle_single_field($field, $values = array(), $fields) {
+    public function _handle_single_field($field, $values = array()) {
         $value = ( is_array($values) && isset($values[$field['id']]) ) ? $values[$field['id']] : $values;
-        $value = $this->_sanitize_field($field, $value, $fields);
-        $value = $this->_validate_field($field, $value, $fields);
-        //$values = $this->_manage_data($values, $value, $field['id']);
+        $value = $this->_sanitize_field($field, $value);
+        $value = $this->_validate_field($field, $value);
         return $value;
     }
 
@@ -176,7 +175,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
      *
      * @return mixed
      */
-    public function _sanitize_field($field, $value, $fields) {
+    public function _sanitize_field($field, $value) {
         $type = $field['type'];
 
         if( isset($field['sanitize']) ) {
@@ -184,7 +183,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
         }
 
         if( $type !== FALSE && has_filter('wpsf_sanitize_' . $type) ) {
-            $value = apply_filters('wpsf_sanitize_' . $type, $value, $field, $fields);
+            $value = apply_filters('wpsf_sanitize_' . $type, $value, $field);
         }
 
         return $value;
@@ -197,9 +196,9 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
      *
      * @return bool
      */
-    public function _validate_field($field, $value, $fields) {
+    public function _validate_field($field, $value) {
         if( isset($field['validate']) && has_filter('wpsf_validate_' . $field['validate']) ) {
-            $validate = apply_filters('wpsf_validate_' . $field['validate'], $value, $field, $fields);
+            $validate = apply_filters('wpsf_validate_' . $field['validate'], $value, $field);
             if( ! empty($validate) ) {
                 $fid            = isset($field['error_id']) ? $field['error_id'] : $field['id'];
                 $this->errors[] = $this->_error($validate, 'error', $fid);
