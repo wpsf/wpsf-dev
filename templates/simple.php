@@ -66,7 +66,6 @@ if( ! empty($title) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
 
                         $pg_active = ( $option['name'] === $class->active() ) ? TRUE : FALSE;
                         echo '<div id="wpsf-tab-' . $option['name'] . '" ' . $is_active_page . '>';
-
                         echo '<div class="postbox">';
                         if( isset($wpsf_submenus[$option['name']]) && ! empty($wpsf_submenus[$option['name']]) ) {
                             echo '<h2 class="wpsf-subnav-container hndle">';
@@ -74,24 +73,30 @@ if( ! empty($title) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
                             echo '</h2>';
                         }
 
-
-                        echo '<div class="inside">';
-
                         if( isset($option['sections']) ) {
+                            echo '<div class="inside">';
                             foreach( $option['sections'] as $section ) {
                                 $sc_active = ( $pg_active === TRUE && $section['name'] === $class->active(FALSE) ) ? TRUE : FALSE;
                                 $fields    = $class->render_fields($section);
                                 echo '<div ' . $class->is('page_active', $sc_active) . ' id="wpsf-tab-' . $option['name'] . '-' . $section['name'] . '" >';
                                 echo $class->get_title($section) . $fields . '</div>';
-
                             }
-
-                        } else if( isset($option['fields']) || isset($option['callback_hook']) ) {
+                            echo '</div>';
+                        } else if( isset($option['fields']) ) {
                             $fields = $class->render_fields($option);
                             echo '<div class="inside">' . $class->get_title($option) . $fields . '</div>';
+                        } else if( isset($option['callback_hook']) ) {
+                            $fields  = $class->render_fields($option);
+                            $is_wrap = ( isset($option['with_wrapper']) && $option['with_wrapper'] === TRUE ) ? TRUE : FALSE;
+
+                            if( $is_wrap ) {
+                                echo '<div class="inside">' . $class->get_title($option) . $fields . '</div>';
+                            } else {
+                                echo $fields;
+                            }
+
                         }
 
-                        echo '</div>';
                         echo '</div>';
                         echo '</div>';
                     }

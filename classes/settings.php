@@ -52,10 +52,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                 'reset'   => __("Reset All Options", 'wpsf-wp'),
             ));
 
-            $this->plugin_id = empty($plugin_id) ? $settings['option_name'] : $plugin_id;
-            $this->settings  = $this->_filter("settings", $settings);
-            $this->options   = $this->_filter('fields', $fields);
-            $this->unique    = ( ! empty($this->settings['option_name']) ) ? $this->settings['option_name'] : $this->unique;
+            $this->plugin_id         = empty($plugin_id) ? $settings['option_name'] : $plugin_id;
+            $this->settings          = $this->_filter("settings", $settings);
+            $this->options           = $this->_filter('fields', $fields);
+            $this->unique            = ( ! empty($this->settings['option_name']) ) ? $this->settings['option_name'] : $this->unique;
+            $this->override_location = ( isset($settings['override_location']) ) ? $settings['override_location'] : FALSE;
             $this->addAction('admin_init', 'register_settings');
             $this->addAction('admin_menu', 'admin_menu');
             wpsf_registry()->add($this);
@@ -463,7 +464,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
                     'href'         => ( isset($option['href']) ) ? $option['href'] : $this->get_tab_url($name, $parent),
                     'submenus'     => array(),
                     'is_active'    => $is_active,
-                    'is_separator' => ( isset($option['fields']) || isset($option['href']) ) ? FALSE : TRUE,
+                    'is_separator' => ( isset($option['fields']) || isset($option['callback_hook']) || isset($option['href']) ) ? FALSE : TRUE,
                 );
             }
         }

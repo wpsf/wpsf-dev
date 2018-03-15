@@ -1,1 +1,0 @@
-<?php echo $class->html_content(); ?>
