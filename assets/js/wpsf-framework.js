@@ -76,6 +76,8 @@
         escClose: function (evt) {
             if ( evt.which && 27 === evt.which ) {
                 return this.close();
+            } else {
+                this.maybeStartSearch(evt);
             }
         },
         maybeStartSearch: function (evt) {
@@ -123,8 +125,8 @@
         },
         events: function () {
             return {
-                "keydown #wpsf-modal-search-view-input": 'maybeStartSearch',
-                "keyup #wpsf-modal-search-view-input": 'escClose',
+                "blur #wpsf-modal-search-view-input": 'maybeStartSearch',
+               // "keyup #wpsf-modal-search-view-input": 'escClose',
                 "click #wpsf-modal-search-view-submit": 'selectPost',
                 "click #wpsf-modal-search-view-search": 'send',
                 'click input.wpsfModalInput': 'handleSelectedPost',

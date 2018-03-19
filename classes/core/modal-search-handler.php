@@ -8,10 +8,12 @@
  */
 Class WPSFramework_Modal_Search_Handler {
     public function __construct($type = '', $selected = array(), $query_data = array(), $query_args = array()) {
+        do_action('wpsf_before_model_search_render');
         $table = new WPSF_Modal_Search_Table($type, $query_args, $query_data, $selected);
         #$table->prepare_items();
         #$table->views();
         $table->display();
+        do_action('wpsf_after_model_search_render');
         echo '<style>td.column-wpsfcbs,th.column-wpsfcbs{width:75px;}</style>';
     }
 }
@@ -43,7 +45,9 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         $this->selected = $selected;
         $settings       = isset($args['settings']) ? $args['settings'] : array();
         $this->settings = wp_parse_args($settings, array(
-            'columns' => array(),
+            'id'             => FALSE,
+            'remove_columns' => array(),
+            'columns'        => array(),
         ));
         parent::__construct(array(
             'plural'   => '',
@@ -51,6 +55,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             'ajax'     => TRUE,
             'screen'   => NULL,
         ));
+
+        $this->items = apply_filters('wpsf_modal_search_items_' . $this->settings['id'], $this->items, $this);
     }
 
     /**
@@ -115,9 +121,17 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             );
         } else if( $this->is_page($type) ) {
             return array(
-                'title'  => __("Name"),
-                'author' => __("Author"),
-                'date'   => __("Date"),
+                'thumbnail' => __("Image"),
+                'title'     => __("Name"),
+                'author'    => __("Author"),
+                'date'      => __("Date"),
+
+            );
+        } else {
+            return array(
+                'thumbnail' => __("Image"),
+                'title'     => __("Title"),
+
             );
         }
     }
@@ -189,6 +203,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
                 echo $status . '<br />';
             }
             echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $item, 'date', $mode) . '</abbr>';
+        } else {
+            $this->column_default($item, 'date');
         }
     }
 
@@ -199,6 +215,19 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
      */
     public function is_post($type = '') {
         return in_array($this->get_type($type), array( 'post', 'posts' ));
+    }
+
+    /**
+     * @param object $item
+     * @param string $col_name
+     *
+     * @return mixed
+     */
+    public function column_default($item, $col_name) {
+        if( isset($this->settings['id']) ) {
+            return apply_filters('wpsf_modal_search_column_' . $this->settings['id'], '', $col_name, $item);
+        }
+        return apply_filters("wpsf_modal_search_column", '', $col_name, $item);
     }
 
     /**
@@ -218,6 +247,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
                 return $this->get_edit_link($args, $user->display_name);
             }
             return __("Unknown User");
+        } else {
+            $this->column_default($item, 'author');
         }
     }
 
@@ -248,19 +279,6 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
     }
 
     /**
-     * @param object $item
-     * @param string $col_name
-     *
-     * @return mixed
-     */
-    public function column_default($item, $col_name) {
-        if( isset($this->settings['id']) ) {
-            return apply_filters('wpsf_modal_search_column_' . $this->settings['id'], '', $col_name, $item);
-        }
-        return apply_filters("wpsf_modal_search_column", '', $col_name, $item);
-    }
-
-    /**
      * @param $item
      *
      * @return string
@@ -270,9 +288,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             $edit_Link = get_edit_term_link($item->term_id, $item->taxonomy);
             $title     = sprintf('<a href="%1$s" title="%2$s">%2$s</a>', $edit_Link, $item->name);
             return '<strong>' . $title . '</strong>';
-        }
+        } else if( $this->is_page() || $this->is_post() ) {
 
-        if( $this->is_page() || $this->is_post() ) {
             $can_edit_post = current_user_can('edit_post', $item->ID);
 
             echo "<strong>";
@@ -299,7 +316,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             _post_states($item);
 
             echo "</strong>\n";
-
+        } else {
+            $this->column_default($item, 'title');
         }
     }
 
@@ -311,6 +329,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
     public function column_description($item) {
         if( $this->is_tax() ) {
             return '<p>' . $item->description . '</p>';
+        } else {
+            $this->column_default($item, 'description');
         }
     }
 
@@ -332,6 +352,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
             }
 
             return "<a href='" . esc_url(add_query_arg($args, 'edit.php')) . "'>$count</a>";
+        } else {
+            $this->column_default($item, 'post_count');
         }
     }
 
@@ -343,6 +365,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
     public function column_slug($item) {
         if( $this->is_tax() ) {
             return $item->slug;
+        } else {
+            $this->column_default($item, 'slug');
         }
     }
 
@@ -355,13 +379,14 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         $label = '';
         $value = '';
         if( $this->is_tax() ) {
-            $label = $item->name;
+            $label = ( isset($item->js_label) ) ? $item->js_label : $item->name;
             $value = $item->term_id;
         } else if( $this->is_post() || $this->is_page() ) {
-            $label = $item->post_title;
+            $label = ( isset($item->js_label) ) ? $item->js_label : $item->post_title;
             $value = $item->ID;
         }
 
+        $label = strip_tags($label);
         return wpsf_add_element(array(
             'type'         => 'switcher',
             'id'           => 'tag',
@@ -382,6 +407,11 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
         if( $this->is_tax() ) {
             return isset($this->selected[$item->term_id]) ? $item->term_id : FALSE;
         }
+    }
+
+    public function column_thumbnail($item = array()) {
+        $image_arr = ( isset($item->image_args) ) ? $item->image_args : array();
+        echo get_the_post_thumbnail($item->ID, 'thumbnail', $image_arr);
     }
 
     /**
