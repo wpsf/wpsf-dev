@@ -27,111 +27,121 @@ if( ! class_exists('WPSFramework_Assets') ) {
         }
 
         public function init_array() {
-            $this->styles['wpsf-fontawesome']   = array( WPSF_URI . '/assets/css/font-awesome.css', array(), '4.7.0' );
+            $this->styles['wpsf-fontawesome']   = array(
+                self::is_debug(WPSF_URI . '/assets/css/font-awesome.css', 'css'),
+                array(),
+                '4.7.0',
+            );
             $this->styles['wpsf-plugins']       = array(
-                WPSF_URI . '/assets/css/wpsf-plugins.css',
+                self::is_debug(WPSF_URI . '/assets/css/wpsf-plugins.css', 'css'),
                 array(),
                 WPSF_VERSION,
             );
             $this->styles['wpsf-framework']     = array(
-                WPSF_URI . '/assets/css/wpsf-framework.css',
+                self::is_debug(WPSF_URI . '/assets/css/wpsf-framework.css', 'css'),
                 array(),
                 WPSF_VERSION,
             );
             $this->styles['wpsf-framework-rtl'] = array(
-                WPSF_URI . '/assets/css/wpsf-framework-rtl.css',
+                self::is_debug(WPSF_URI . '/assets/css/wpsf-framework-rtl.css', 'css'),
                 array(),
                 WPSF_VERSION,
             );
             $this->styles['wpsf-vc']            = array(
-                WPSF_URI . '/assets/css/wpsf-vc.css',
+                self::is_debug(WPSF_URI . '/assets/css/wpsf-vc.css', 'css'),
                 array( 'wpsf-framework' ),
                 WPSF_VERSION,
             );
 
+
             $this->scripts['wpsf-plugins']    = array(
-                WPSF_URI . '/assets/js/wpsf-plugins.js',
+                self::is_debug(WPSF_URI . '/assets/js/wpsf-plugins.js', 'js'),
                 NULL,
                 WPSF_VERSION,
                 TRUE,
             );
             $this->scripts['wpsf-framework']  = array(
-                WPSF_URI . '/assets/js/wpsf-framework.js',
+                self::is_debug(WPSF_URI . '/assets/js/wpsf-framework.js', 'js'),
                 NULL,
                 WPSF_VERSION,
                 TRUE,
             );
             $this->scripts['wpsf-vc']         = array(
-                WPSF_URI . '/assets/js/wpsf-vc.js',
+                self::is_debug(WPSF_URI . '/assets/js/wpsf-vc.js', 'js'),
                 array( 'wpsf-framework' ),
                 WPSF_VERSION,
                 TRUE,
             );
             $this->scripts['wpsf-quick-edit'] = array(
-                WPSF_URI . '/assets/js/wpsf-quick-edit.js',
+                self::is_debug(WPSF_URI . '/assets/js/wpsf-quick-edit.js', 'js'),
                 NULL,
                 WPSF_VERSION,
                 TRUE,
             );
+            $this->scripts['wp-js-hooks']     = array(
+                WPSF_URI . '/assets/vendors/wp-js-hooks/wp-js-hooks.min.js',
+                array(),
+                '1.0',
+            );
 
             $this->styles['wpsf-animatecss'] = array(
-                WPSF_URI . '/assets/vendors/animatecss/animate.css',
+                self::is_debug(WPSF_URI . '/assets/vendors/animatecss/animate.css', 'css'),
                 array(),
                 '3.5.2',
             );
             $this->styles['wpsf-bootstrap']  = array(
-                WPSF_URI . '/assets/vendors/bootstrap/bootstrap.css',
+                self::is_debug(WPSF_URI . '/assets/vendors/bootstrap/bootstrap.css', 'css'),
                 array(),
                 '3.3.7',
             );
             $this->styles['wpsf-chosen']     = array(
-                WPSF_URI . '/assets/vendors/chosen/chosen.css',
+                self::is_debug(WPSF_URI . '/assets/vendors/chosen/chosen.css', 'css'),
                 array(),
                 WPSF_VERSION,
             );
             $this->styles['wpsf-flatpickr']  = array(
-                WPSF_URI . '/assets/vendors/flatpickr/flatpickr.css',
+                self::is_debug(WPSF_URI . '/assets/vendors/flatpickr/flatpickr.css', 'css'),
                 array(),
                 '4.3.2',
             );
             $this->styles['wpsf-select2']    = array(
-                WPSF_URI . '/assets/vendors/select2/select2.css',
+                self::is_debug(WPSF_URI . '/assets/vendors/select2/select2.css', 'css'),
                 array(),
                 '4.0.5',
             );
 
             $this->scripts['wpsf-actual']            = array(
-                WPSF_URI . '/assets/vendors/actual/jquery.actual.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/actual/jquery.actual.js', 'js'),
                 array(),
                 '1.0',
                 TRUE,
             );
             $this->scripts['wpsf-bootstrap']         = array(
-                WPSF_URI . '/assets/vendors/bootstrap/bootstrap.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/bootstrap/bootstrap.js', 'js'),
                 array(),
                 '3.3.7',
                 TRUE,
             );
             $this->scripts['wpsf-chosen']            = array(
-                WPSF_URI . '/assets/vendors/chosen/chosen.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/chosen/chosen.js', 'js'),
                 array(),
                 WPSF_VERSION,
                 TRUE,
             );
             $this->scripts['wpsf-flatpickr']         = array(
-                WPSF_URI . '/assets/vendors/flatpickr/flatpickr.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/flatpickr/flatpickr.js', 'js'),
                 array(),
                 '4.3.2',
                 TRUE,
             );
             $this->scripts['wpsf-interdependencies'] = array(
-                WPSF_URI . '/assets/vendors/interdependencies/jquery.interdependencies.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/interdependencies/jquery.interdependencies.js', 'js'),
                 array(),
                 WPSF_VERSION,
                 TRUE,
             );
             $this->scripts['wpsf-select2']           = array(
-                WPSF_URI . '/assets/vendors/select2/select2.full.js',
+                self::is_debug(WPSF_URI . '/assets/vendors/select2/select2.full.js', 'js'),
                 array(),
                 '4.0.5',
                 TRUE,
@@ -145,9 +155,10 @@ if( ! class_exists('WPSFramework_Assets') ) {
             return self::$_instance;
         }
 
-        public static function render_framework_style_scripts() {
+        public function render_framework_style_scripts() {
             wp_enqueue_media();
 
+            wp_enqueue_script('wp-js-hooks');
             wp_enqueue_script('jquery-ui-dialog');
             wp_enqueue_script('jquery-ui-sortable');
             wp_enqueue_script('jquery-ui-accordion');
@@ -171,11 +182,11 @@ if( ! class_exists('WPSFramework_Assets') ) {
 
         public function register_assets() {
             foreach( $this->styles as $id => $file ) {
-                wp_register_style($id, self::is_debug($file[0], 'css'), $file[1], $file[2], 'all');
+                wp_register_style($id, $file[0], $file[1], $file[2], 'all');
             }
 
             foreach( $this->scripts as $iid => $ffile ) {
-                wp_register_script($iid, self::is_debug($ffile[0], 'js'), $ffile[1], $ffile[2], TRUE);
+                wp_register_script($iid, $ffile[0], $ffile[1], $ffile[2], TRUE);
             }
         }
 

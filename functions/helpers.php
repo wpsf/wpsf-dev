@@ -323,7 +323,7 @@ if( ! function_exists("wpsf_js_vars") ) {
 if( ! function_exists('wpsf_add_errors') ) {
     function wpsf_add_errors($errs) {
         global $wpsf_errors;
-        if( is_array($wpsf_errors) ) {
+        if( is_array($wpsf_errors) && is_array($errs) ) {
             $wpsf_errors = array_merge($wpsf_errors, $errs);
         } else {
             $wpsf_errors = $errs;

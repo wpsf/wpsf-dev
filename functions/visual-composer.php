@@ -397,8 +397,7 @@ if( ! class_exists('WPSFramework_Visual_Composer_Integration') ) {
 
         public static function init() {
             add_action('admin_enqueue_scripts', function() {
-                $wpsf_assets = wpsf_assets();
-                $wpsf_assets::render_framework_style_scripts();
+                wpsf_assets()->render_framework_style_scripts();
                 wp_enqueue_style('wpsf-vc');
                 wp_enqueue_script('wpsf-vc');
             }, 99);

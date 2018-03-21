@@ -15,7 +15,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
     }
 
     public function output() {
-        $label = ( isset($this->field['label']) ) ? $this->field['label'] : __("Open Modal");
+        $label = ( isset($this->field['label']) ) ? $this->field['label'] : __("Open Modal", 'wpsf-framework');
 
         echo $this->element_before();
         wp_enqueue_script('wp-backbone');
@@ -43,8 +43,8 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
         ));
 
         $value = '<button  ' . $attrs . '>' . $label . '</button>';
-        echo $value;
         echo '<div class="wpsf-modal-search-result"></div>';
+        echo $value;
 
         echo $this->element_after();
     }
@@ -114,7 +114,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
             'query_args' => array(),
             'settings'   => array(),
             'options'    => FALSE,
-            'label'      => __("Open Modal"),
+            'label'      => __("Open Modal", 'wpsf-framework'),
         );
     }
 }

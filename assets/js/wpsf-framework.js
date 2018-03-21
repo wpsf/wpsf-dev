@@ -8,7 +8,7 @@
  @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
  -------------------------------------------------------------------------------------------------*/
 
-;( function ($, window, document, undefined) {
+;( function ($, window, document, wp_hooks, undefined) {
     'use strict';
 
     var WPSF_Modal_Search;
@@ -20,11 +20,11 @@
         open: function () {
             this.$response.html('');
             this.$el.show();
-            this.$input.focus();
             this.$overlay.show();
             return this.send();
         },
         send: function () {
+            wp_hooks.doAction('wpsf_modal_search_ajax_start', this);
             var $this = this;
             if ( this.isonGoing !== false ) {
                 this.isonGoing.abort();
@@ -33,7 +33,6 @@
             var settings_id, search;
             search = this;
             search.$spinner.show();
-            $(document).trigger("BBModalView_before_the_list_request");
             settings_id = $(".modal-" + this.modal_id).data('settingsid');
             var settings = {};
             if ( typeof window[settings_id] === 'object' ) {
@@ -51,6 +50,7 @@
                     'wpsf-action': settings.ajax,
                 }
             }).always(function () {
+                wp_hooks.doAction('wpsf_modal_search_ajax_end', search);
                 search.$spinner.hide();
                 $this.isonGoing = false;
             }).done(function (response) {
@@ -126,7 +126,7 @@
         events: function () {
             return {
                 "blur #wpsf-modal-search-view-input": 'maybeStartSearch',
-               // "keyup #wpsf-modal-search-view-input": 'escClose',
+                // "keyup #wpsf-modal-search-view-input": 'escClose',
                 "click #wpsf-modal-search-view-submit": 'selectPost',
                 "click #wpsf-modal-search-view-search": 'send',
                 'click input.wpsfModalInput': 'handleSelectedPost',
@@ -2019,4 +2019,4 @@
         $('.wpsf-reset-confirm, .wpsf-import-backup').WPSF_RESET_CONFIRM();
         $('.wpsf-save').WPSF_SAVE();
     });
-} )(jQuery, window, document);
+} )(jQuery, window, document, wp.hooks);

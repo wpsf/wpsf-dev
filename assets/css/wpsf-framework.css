@@ -196,8 +196,8 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-framework .wpsf-nav ul ul li .wpsf-seperator {
-    padding      : 10px;
-    padding-left : 25px;
+  padding: 10px;
+  padding-left: 25px;
 }
 
 .wpsf-framework .wpsf-nav ul ul:before {
@@ -825,7 +825,6 @@ div#screen-meta-links + div.wpsf-framework {
   border-color: #d02c21 #ba281e #ba281e !important;
   background: #e14d43 !important;
   box-shadow: 0 1px 0 #ba281e !important;
-  text-shadow: 0 -1px 1px #ba281e, 1px 0 1px #ba281e, 0 1px 1px #ba281e, -1px 0 1px !important;
   text-shadow: 0 -1px 1px #ba281e, 1px 0 1px #ba281e, 0 1px 1px #ba281e, -1px 0 1px #ba281e !important;
 }
 
@@ -2245,16 +2244,16 @@ div#screen-meta-links + div.wpsf-framework {
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 .wpsf-field-tab .wpsf-user-tabs-panels {
-    float      : left;
-    width      : 100%;
-    padding    : 10px 5px 0;
-    border     : solid 1px #dfdfdf;
-    background : #fdfdfd;
+  float: left;
+  width: 100%;
+  padding: 10px 5px 0;
+  border: solid 1px #dfdfdf;
+  background: #fdfdfd;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-panel {
-    background : transparent;
-    border     : none;
+  background: transparent;
+  border: none;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-nav {
@@ -2317,12 +2316,12 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav {
-    float        : left;
-    width        : 15%;
-    margin       : 0 -1px 0 0;
-    background   : #fdfdfd;
-    border-right : 1px solid #dfdfdf;
-    z-index      : 9;
+  float: left;
+  width: 15%;
+  margin: 0 -1px 0 0;
+  background: #fdfdfd;
+  border-right: 1px solid #dfdfdf;
+  z-index: 9;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-nav > li {
@@ -2351,11 +2350,11 @@ div#screen-meta-links + div.wpsf-framework {
 }
 
 .wpsf-field-tab .wpsf-user-tabs-left > .wpsf-user-tabs-panels {
-    overflow    : auto;
-    border      : none;
-    border-left : 1px solid #dfdfdf;
-    z-index     : 1;
-    width       : 83%;
+  overflow: auto;
+  border: none;
+  border-left: 1px solid #dfdfdf;
+  z-index: 1;
+  width: 83%;
 }
 
 .wpsf-field-tab .wpsf-user-tabs-no-controls {
@@ -2546,7 +2545,7 @@ div#screen-meta-links + div.wpsf-framework {
   vertical-align: middle;
 }
 
-#wpsf-modal-search-view-modal_search span.spinner {
+.wpsf-modal-search-view span.spinner {
   position: relative;
   vertical-align: middle;
   left: 0;
@@ -2554,11 +2553,11 @@ div#screen-meta-links + div.wpsf-framework {
   margin: 0;
 }
 
-#wpsf-modal-search-view-modal_search .wpsf-modal-search-view-search {
+.wpsf-modal-search-view .wpsf-modal-search-view-search {
   padding-bottom: 5px;
 }
 
-#wpsf-modal-search-view-modal_search input#wpsf-modal-search-view-input {
+.wpsf-modal-search-view input#wpsf-modal-search-view-input {
   display: inline-block;
   padding: 5px;
   margin: 0;
@@ -2568,7 +2567,7 @@ div#screen-meta-links + div.wpsf-framework {
   vertical-align: middle;
 }
 
-#wpsf-modal-search-view-modal_search #wpsf-modal-search-view-search {
+.wpsf-modal-search-view #wpsf-modal-search-view-search {
   vertical-align: middle;
 }
 

@@ -107,6 +107,7 @@ class WPSFramework_Taxonomy extends WPSFramework_Abstract {
         foreach( $this->options as $option ) {
             if( $taxonomy == $option ['taxonomy'] ) {
                 $wpsf_errors = get_transient(wpsf_sanitize_title('wpsf-tt-' . $this->get_cache_key($option)));
+                $wpsf_errors = is_array($wpsf_errors) ? $wpsf_errors : array();
                 wpsf_add_errors($wpsf_errors);
                 $tax_value = ( $form_edit ) ? wpsf_get_term_meta($term->term_id, $option ['id'], TRUE) : '';
 

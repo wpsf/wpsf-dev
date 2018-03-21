@@ -406,6 +406,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
     public function get_selected($item = array()) {
         if( $this->is_tax() ) {
             return isset($this->selected[$item->term_id]) ? $item->term_id : FALSE;
+        } else if( $this->is_post() === TRUE || $this->is_page() === TRUE ) {
+            return isset($this->selected[$item->ID]) ? $item->ID : FALSE;
         }
     }
 
