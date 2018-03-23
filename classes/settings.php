@@ -107,16 +107,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
     public function set_defaults() {
         $defaults = array();
         $this->get_db_options();
+
         foreach( $this->get_sections() as $section ) {
             foreach( $section['fields'] as $field_key => $field ) {
-                if( isset($field['default']) && ! isset($this->get_option[$field['id']]) ) {
+                if( isset($field['default']) && ! isset($this->db_options[$field['id']]) ) {
                     $defaults[$field['id']]         = $field['default'];
                     $this->db_options[$field['id']] = $field['default'];
                 }
             }
         }
+
         if( ! empty($defaults) ) {
-            update_option($this->unique, $this->db_options);
+        	update_option($this->unique, $this->db_options);
         }
         $this->cache['md5'] = $this->fields_md5();
         $this->set_cache($this->cache);

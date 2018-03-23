@@ -78,7 +78,8 @@ if( ! empty($title) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
                             foreach( $option['sections'] as $section ) {
                                 $sc_active = ( $pg_active === TRUE && $section['name'] === $class->active(FALSE) ) ? TRUE : FALSE;
                                 $fields    = $class->render_fields($section);
-                                echo '<div ' . $class->is('page_active', $sc_active) . ' id="wpsf-tab-' . $option['name'] . '-' . $section['name'] . '" >';
+								$is_sc_active = (empty($class->is('page_active', $sc_active))) ? 'style="display:none"' : $class->is('page_active', $sc_active);
+                                echo '<div ' . $is_sc_active . ' id="wpsf-tab-' . $option['name'] . '-' . $section['name'] . '" >';
                                 echo $class->get_title($section) . $fields . '</div>';
                             }
                             echo '</div>';
