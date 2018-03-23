@@ -75,10 +75,18 @@ if ( ! empty( $title ) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
 
 						if ( isset( $option['sections'] ) ) {
 							echo '<div class="inside">';
+							$first_sec = current( $option['sections'] );
+							$first_sec = ( is_array( $first_sec ) && isset( $first_sec['name'] ) ) ? $first_sec['name'] : false;
 							foreach ( $option['sections'] as $section ) {
-								$sc_active    = ( $pg_active === true && $section['name'] === $class->active( false ) ) ? true : false;
-								$fields       = $class->render_fields( $section );
-								$is_sc_active = ( empty( $class->is( 'page_active', $sc_active ) ) ) ? 'style="display:none"' : $class->is( 'page_active', $sc_active );
+								$sc_active = ( $pg_active === true && $section['name'] === $class->active( false ) ) ? true : false;
+								$fields    = $class->render_fields( $section );
+
+								if ( $sc_active === false && $first_sec === $section['name'] ) {
+									$is_sc_active = 'style="display:block"';
+								} else {
+									$is_sc_active = empty( $class->is( 'page_active', $sc_active ) ) ? 'style="display:none"' : $class->is( 'page_active', $sc_active );
+								}
+
 								echo '<div ' . $is_sc_active . ' id="wpsf-tab-' . $option['name'] . '-' . $section['name'] . '" >';
 								echo $class->get_title( $section ) . $fields . '</div>';
 							}
