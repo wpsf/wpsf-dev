@@ -11,61 +11,61 @@
 .wpsf-field-sorter {
 
   .ui-sortable-placeholder {
-    height: 20px;
-    border: 1px dashed #f1c40f;
-    background-color: #fffae4;
+    height           : 20px;
+    border           : 1px dashed #f1c40f;
+    background-color : #fffae4;
   }
 
   .wpsf-modules {
-    float: left;
-    width: 50%;
+    float : left;
+    width : 50%;
   }
 
   .wpsf-enabled {
-    margin-right: 15px;
+    margin-right : 15px;
   }
 
   .wpsf-disabled,
   .wpsf-enabled {
-    padding: 5px 15px;
-    border: 1px dashed #ddd;
-    background-color: #fff;
+    padding          : 5px 15px;
+    border           : 1px dashed #ddd;
+    background-color : #fff;
   }
 
   .wpsf-disabled {
     li {
-      transition: opacity 0.15s;
-      opacity: 0.5;
+      transition : opacity 0.15s;
+      opacity    : 0.5;
     }
 
     .ui-sortable-helper {
-      opacity: 1;
+      opacity : 1;
     }
   }
 
   h3 {
-    font-size: 14px;
-    margin: 0 0 15px 0;
+    font-size : 14px;
+    margin    : 0 0 15px 0;
   }
 
   ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    min-height: 62px;
+    list-style-type : none;
+    margin          : 0;
+    padding         : 0;
+    min-height      : 62px;
 
     li {
-      margin: 10px 0;
-      padding: 10px 15px;
-      cursor: move;
-      font-weight: bold;
-      text-align: center;
-      border: 1px solid #e5e5e5;
-      background-color: #fafafa;
-      transition: border-color 0.15s;
+      margin           : 10px 0;
+      padding          : 10px 15px;
+      cursor           : move;
+      font-weight      : bold;
+      text-align       : center;
+      border           : 1px solid #e5e5e5;
+      background-color : #fafafa;
+      transition       : border-color 0.15s;
 
       &:hover {
-        border-color: #bbb;
+        border-color : #bbb;
       }
     }
   }

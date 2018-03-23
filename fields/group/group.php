@@ -1,5 +1,5 @@
-<?php if( ! defined('ABSPATH') ) {
-    die;
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	die;
 } // Cannot access pages directly.
 
 /**
@@ -12,119 +12,119 @@
  */
 class WPSFramework_Option_group extends WPSFramework_Options {
 
-    /**
-     * WPSFramework_Option_group constructor.
-     *
-     * @param        $field
-     * @param string $value
-     * @param string $unique
-     */
-    public function __construct($field, $value = '', $unique = '') {
-        parent::__construct($field, $value, $unique);
-    }
+	/**
+	 * WPSFramework_Option_group constructor.
+	 *
+	 * @param        $field
+	 * @param string $value
+	 * @param string $unique
+	 */
+	public function __construct( $field, $value = '', $unique = '' ) {
+		parent::__construct( $field, $value, $unique );
+	}
 
-    public function output() {
+	public function output() {
 
-        echo $this->element_before();
+		echo $this->element_before();
 
-        $fields      = array_values($this->field['fields']);
-        $last_id     = ( is_array($this->value) && ! empty($this->value) ) ? max(array_keys($this->value)) : 0;
-        $acc_title   = $this->field['accordion_title'];
-        $field_title = ( isset($fields[0]['title']) ) ? $fields[0]['title'] : $fields[1]['title'];
-        $el_class    = ( isset($this->field['title']) ) ? sanitize_title($field_title) : 'no-title';
-        $search_id   = wpsf_array_search($fields, 'id', $this->field['accordion_title']);
+		$fields      = array_values( $this->field['fields'] );
+		$last_id     = ( is_array( $this->value ) && ! empty( $this->value ) ) ? max( array_keys( $this->value ) ) : 0;
+		$acc_title   = $this->field['accordion_title'];
+		$field_title = ( isset( $fields[0]['title'] ) ) ? $fields[0]['title'] : $fields[1]['title'];
+		$el_class    = ( isset( $this->field['title'] ) ) ? sanitize_title( $field_title ) : 'no-title';
+		$search_id   = wpsf_array_search( $fields, 'id', $this->field['accordion_title'] );
 
-        if( ! empty($search_id) ) {
-            $acc_title = ( isset($search_id[0]['title']) ) ? $search_id[0]['title'] : $acc_title;
-        }
+		if ( ! empty( $search_id ) ) {
+			$acc_title = ( isset( $search_id[0]['title'] ) ) ? $search_id[0]['title'] : $acc_title;
+		}
 
-        echo '<div class="wpsf-group wpsf-group-' . $el_class . '-adding hidden">';
+		echo '<div class="wpsf-group wpsf-group-' . $el_class . '-adding hidden">';
 
-        echo '<h4 class="wpsf-group-title">' . $acc_title . '</h4>';
-        echo '<div class="wpsf-group-content">';
-        foreach( $fields as $field ) {
-            $field['sub']  = TRUE;
-            $unique        = $this->unique . '[_nonce][' . $this->field['id'] . '][' . $last_id . ']';
-            $field_default = ( isset($field['default']) ) ? $field['default'] : '';
-            echo $this->add_field($field, $field_default, $unique);
-        }
-        echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . $this->field['remove_button_title'] . '</a></div>';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="wpsf-groups wpsf-accordion">';
+		echo '<h4 class="wpsf-group-title">' . $acc_title . '</h4>';
+		echo '<div class="wpsf-group-content">';
+		foreach ( $fields as $field ) {
+			$field['sub']  = true;
+			$unique        = $this->unique . '[_nonce][' . $this->field['id'] . '][' . $last_id . ']';
+			$field_default = ( isset( $field['default'] ) ) ? $field['default'] : '';
+			echo $this->add_field( $field, $field_default, $unique );
+		}
+		echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . $this->field['remove_button_title'] . '</a></div>';
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="wpsf-groups wpsf-accordion">';
 
-        if( ! empty($this->value) && is_array($this->value) ) {
-            var_dump($this->value);
-            foreach( $this->value as $key => $value ) {
-                if( isset($this->multilang) && $this->multilang !== FALSE ) {
-                    $title = $this->_get_title($this->value[$key], TRUE);
-                    if( is_array($title) ) {
-                        $lang  = wpsf_language_defaults();
-                        $title = isset($title[$lang['current']]) ? $title[$lang['current']] : $title;
-                        $title = is_array($title) ? $title[0] : $title;
-                    }
-                } else {
-                    $title = $this->_get_title($this->value[$key]);
-                }
+		if ( ! empty( $this->value ) && is_array( $this->value ) ) {
+			var_dump( $this->value );
+			foreach ( $this->value as $key => $value ) {
+				if ( isset( $this->multilang ) && $this->multilang !== false ) {
+					$title = $this->_get_title( $this->value[ $key ], true );
+					if ( is_array( $title ) ) {
+						$lang  = wpsf_language_defaults();
+						$title = isset( $title[ $lang['current'] ] ) ? $title[ $lang['current'] ] : $title;
+						$title = is_array( $title ) ? $title[0] : $title;
+					}
+				} else {
+					$title = $this->_get_title( $this->value[ $key ] );
+				}
 
 
-                $field_title = ( ! empty($search_id) ) ? $acc_title : $field_title;
+				$field_title = ( ! empty( $search_id ) ) ? $acc_title : $field_title;
 
-                echo '<div class="wpsf-group wpsf-group-' . $el_class . '-' . ( $key + 1 ) . '">';
-                echo '<h4 class="wpsf-group-title">' . $field_title . ': ' . $title . '</h4>';
-                echo '<div class="wpsf-group-content">';
+				echo '<div class="wpsf-group wpsf-group-' . $el_class . '-' . ( $key + 1 ) . '">';
+				echo '<h4 class="wpsf-group-title">' . $field_title . ': ' . $title . '</h4>';
+				echo '<div class="wpsf-group-content">';
 
-                foreach( $fields as $field ) {
-                    $field['sub'] = TRUE;
-                    $unique       = $this->unique . '[' . $this->field['id'] . '][' . $key . ']';
-                    $value        = ( isset($field['id']) && isset($this->value[$key][$field['id']]) ) ? $this->value[$key][$field['id']] : '';
-                    echo $this->add_field($field, $value, $unique);
-                }
+				foreach ( $fields as $field ) {
+					$field['sub'] = true;
+					$unique       = $this->unique . '[' . $this->field['id'] . '][' . $key . ']';
+					$value        = ( isset( $field['id'] ) && isset( $this->value[ $key ][ $field['id'] ] ) ) ? $this->value[ $key ][ $field['id'] ] : '';
+					echo $this->add_field( $field, $value, $unique );
+				}
 
-                echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . esc_html__('Remove', 'wpsf-framework') . '</a></div>';
-                echo '</div>';
-                echo '</div>';
-            }
-        }
+				echo '<div class="wpsf-element wpsf-text-right wpsf-remove"><a href="#" class="button wpsf-warning-primary wpsf-remove-group">' . esc_html__( 'Remove', 'wpsf-framework' ) . '</a></div>';
+				echo '</div>';
+				echo '</div>';
+			}
+		}
 
-        echo '</div>';
-        echo '<a href="#" class="button button-primary wpsf-add-group" data-group-id="' . $this->unique . '">' . $this->field['button_title'] . '</a>';
-        echo $this->element_after();
-    }
+		echo '</div>';
+		echo '<a href="#" class="button button-primary wpsf-add-group" data-group-id="' . $this->unique . '">' . $this->field['button_title'] . '</a>';
+		echo $this->element_after();
+	}
 
-    /**
-     * @param string $array
-     * @param bool   $is_array
-     *
-     * @return array|bool|mixed|string
-     */
-    public function _get_title($array = '', $is_array = FALSE) {
-        if( ! is_array($array) && ! empty($array) ) {
-            return $array;
-        }
+	/**
+	 * @param string $array
+	 * @param bool   $is_array
+	 *
+	 * @return array|bool|mixed|string
+	 */
+	public function _get_title( $array = '', $is_array = false ) {
+		if ( ! is_array( $array ) && ! empty( $array ) ) {
+			return $array;
+		}
 
-        if( is_array($array) ) {
-            if( $is_array === TRUE ) {
-                return $array;
-            }
+		if ( is_array( $array ) ) {
+			if ( $is_array === true ) {
+				return $array;
+			}
 
-            $e = current($array);
-            if( ! is_array($e) && ! empty($e) ) {
-                return $e;
-            }
+			$e = current( $array );
+			if ( ! is_array( $e ) && ! empty( $e ) ) {
+				return $e;
+			}
 
-            return $this->_get_title(next($array));
-        }
+			return $this->_get_title( next( $array ) );
+		}
 
-        return FALSE;
+		return false;
 
-    }
+	}
 
-    protected function field_defaults() {
-        return array(
-            'accordion_title'     => __('Adding'),
-            'button_title'        => __("Add"),
-            'remove_button_title' => __("Remove"),
-        );
-    }
+	protected function field_defaults() {
+		return array(
+			'accordion_title'     => __( 'Adding' ),
+			'button_title'        => __( "Add" ),
+			'remove_button_title' => __( "Remove" ),
+		);
+	}
 }

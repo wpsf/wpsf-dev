@@ -11,25 +11,25 @@
 .wpsf-field-image_select {
 
   label {
-    display: inline-block;
-    margin: 5px;
+    display : inline-block;
+    margin  : 5px;
 
     img {
-      max-width: 100%;
-      vertical-align: bottom;
-      background-color: #fff;
-      border: 2px solid #eee;
-      opacity: 0.75;
-      transition: all 0.15s ease-out;
+      max-width        : 100%;
+      vertical-align   : bottom;
+      background-color : #fff;
+      border           : 2px solid #eee;
+      opacity          : 0.75;
+      transition       : all 0.15s ease-out;
     }
   }
 
   input {
-    display: none;
+    display : none;
 
     &:checked ~ img {
-      border-color: #333;
-      opacity: 1;
+      border-color : #333;
+      opacity      : 1;
     }
   }
 }

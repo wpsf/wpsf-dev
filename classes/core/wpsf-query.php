@@ -7,190 +7,190 @@
  */
 
 final class WPSFramework_Query {
-    private static $_instance = NULL;
+	private static $_instance = null;
 
-    private static $query = NULL;
+	private static $query = null;
 
-    private static $query_args = array();
+	private static $query_args = array();
 
-    /**
-     * @return null|\WPSFramework_Query
-     */
-    public static function instance() {
-        if( self::$_instance === NULL ) {
-            self::$_instance = new self;
-        }
+	/**
+	 * @return null|\WPSFramework_Query
+	 */
+	public static function instance() {
+		if ( self::$_instance === null ) {
+			self::$_instance = new self;
+		}
 
-        return self::$_instance;
-    }
+		return self::$_instance;
+	}
 
-    /**
-     * @param string $type
-     * @param array  $args
-     * @param string $search
-     *
-     * @return array|int|\WP_Error
-     */
-    public static function query($type = '', $args = array(), $search = '') {
-        self::$query_args = array();
-        self::$query      = NULL;
+	/**
+	 * @param string $type
+	 * @param array  $args
+	 * @param string $search
+	 *
+	 * @return array|int|\WP_Error
+	 */
+	public static function query( $type = '', $args = array(), $search = '' ) {
+		self::$query_args = array();
+		self::$query      = null;
 
-        $option_key    = 'ID';
-        $option_value  = 'name';
-        $default_key   = 'ID';
-        $default_value = 'name';
-        $is_all        = FALSE;
-        if( ! empty($search) ) {
-            self::$query_args['s'] = $search;
-        }
+		$option_key    = 'ID';
+		$option_value  = 'name';
+		$default_key   = 'ID';
+		$default_value = 'name';
+		$is_all        = false;
+		if ( ! empty( $search ) ) {
+			self::$query_args['s'] = $search;
+		}
 
-        if( ! empty($args) ) {
-            $option_key   = isset($args['option_key']) ? $args['option_key'] : 'ID';
-            $option_value = isset($args['option_value']) ? $args['option_value'] : 'name';
-            $is_all       = ( $option_key === FALSE && $option_value === FALSE ) ? TRUE : FALSE;
-            unset($args['option_key']);
-            unset($args['option_value']);
-            self::$query_args = array_merge($args, self::$query_args);
-        }
+		if ( ! empty( $args ) ) {
+			$option_key   = isset( $args['option_key'] ) ? $args['option_key'] : 'ID';
+			$option_value = isset( $args['option_value'] ) ? $args['option_value'] : 'name';
+			$is_all       = ( $option_key === false && $option_value === false ) ? true : false;
+			unset( $args['option_key'] );
+			unset( $args['option_value'] );
+			self::$query_args = array_merge( $args, self::$query_args );
+		}
 
-        $_q_type = 'cpt';
+		$_q_type = 'cpt';
 
-        switch( $type ) {
+		switch ( $type ) {
 
-            case 'pages' :
-            case 'page' :
-            case 'posts' :
-            case 'post' :
-                $_q_type       = 'cpt';
-                $default_key   = 'ID';
-                $default_value = 'post_title';
+			case 'pages' :
+			case 'page' :
+			case 'posts' :
+			case 'post' :
+				$_q_type       = 'cpt';
+				$default_key   = 'ID';
+				$default_value = 'post_title';
 
-                if( in_array($type, array( 'posts', 'post' )) ) {
-                    if( ! isset(self::$query_args['post_type']) ) {
-                        self::$query_args['post_type'] = 'post';
-                    }
-                } else {
-                    if( ! isset(self::$query_args['post_type']) ) {
-                        self::$query_args['post_type'] = 'page';
-                    }
-                }
-            break;
+				if ( in_array( $type, array( 'posts', 'post' ) ) ) {
+					if ( ! isset( self::$query_args['post_type'] ) ) {
+						self::$query_args['post_type'] = 'post';
+					}
+				} else {
+					if ( ! isset( self::$query_args['post_type'] ) ) {
+						self::$query_args['post_type'] = 'page';
+					}
+				}
+			break;
 
-            case 'categories' :
-            case 'category' :
-            case 'tags':
-            case 'tag':
-                $_q_type       = 'cat';
-                $default_key   = 'term_id';
-                $default_value = 'name';
+			case 'categories' :
+			case 'category' :
+			case 'tags':
+			case 'tag':
+				$_q_type       = 'cat';
+				$default_key   = 'term_id';
+				$default_value = 'name';
 
 
-                if( ! isset(self::$query_args['taxonomies']) && ! ! isset(self::$query_args['taxonomy']) ) {
-                    if( in_array($type, array( 'tags', 'tag' )) ) {
-                        self::$query_args ['taxonomies'] = ( isset(self::$query_args ['taxonomies']) ) ? self::$query_args['taxonomies'] : 'post_tag';
-                    } else {
-                        self::$query_args['taxonomy'] = 'category';
-                    }
-                }
+				if ( ! isset( self::$query_args['taxonomies'] ) && ! ! isset( self::$query_args['taxonomy'] ) ) {
+					if ( in_array( $type, array( 'tags', 'tag' ) ) ) {
+						self::$query_args ['taxonomies'] = ( isset( self::$query_args ['taxonomies'] ) ) ? self::$query_args['taxonomies'] : 'post_tag';
+					} else {
+						self::$query_args['taxonomy'] = 'category';
+					}
+				}
 
-                if( ! empty($search) ) {
-                    self::$query_args['search'] = $search;
-                    unset(self::$query_args['s']);
-                }
-            break;
+				if ( ! empty( $search ) ) {
+					self::$query_args['search'] = $search;
+					unset( self::$query_args['s'] );
+				}
+			break;
 
-            case 'menus' :
-            case 'menu' :
-                $default_key   = 'term_id';
-                $default_value = 'name';
-            break;
+			case 'menus' :
+			case 'menu' :
+				$default_key   = 'term_id';
+				$default_value = 'name';
+			break;
 
-            case 'post_types' :
-            case 'post_type' :
-                $options    = array();
-                $post_types = get_post_types(array(
-                    'show_in_nav_menus' => TRUE,
-                ));
+			case 'post_types' :
+			case 'post_type' :
+				$options    = array();
+				$post_types = get_post_types( array(
+					'show_in_nav_menus' => true,
+				) );
 
-                if( ! is_wp_error($post_types) && ! empty ($post_types) ) {
-                    foreach( $post_types as $post_type ) {
-                        $options [$post_type] = ucfirst($post_type);
-                    }
-                }
-                return $options;
-            break;
-        }
+				if ( ! is_wp_error( $post_types ) && ! empty ( $post_types ) ) {
+					foreach ( $post_types as $post_type ) {
+						$options [ $post_type ] = ucfirst( $post_type );
+					}
+				}
+				return $options;
+			break;
+		}
 
-        self::handle_query_args();
+		self::handle_query_args();
 
-        switch( $_q_type ) {
-            case "cpt":
-                self::$query = new WP_Query(self::$query_args);
-                $result      = self::$query->posts;
-            break;
-            case 'cat':
-                $result = get_terms(self::$query_args);
-            break;
-            case 'menu':
-                $result = wp_get_nav_menus(self::$query_args);
-            break;
-        }
+		switch ( $_q_type ) {
+			case "cpt":
+				self::$query = new WP_Query( self::$query_args );
+				$result      = self::$query->posts;
+			break;
+			case 'cat':
+				$result = get_terms( self::$query_args );
+			break;
+			case 'menu':
+				$result = wp_get_nav_menus( self::$query_args );
+			break;
+		}
 
-        if( is_wp_error($result) || is_null($result) || empty($result) ) {
-            return array();
-        }
+		if ( is_wp_error( $result ) || is_null( $result ) || empty( $result ) ) {
+			return array();
+		}
 
-        if( $is_all === FALSE ) {
-            $result = self::handle_query_data($result, array( $option_key, $option_value ), array(
-                $default_key,
-                $default_value,
-            ));
-        }
+		if ( $is_all === false ) {
+			$result = self::handle_query_data( $result, array( $option_key, $option_value ), array(
+				$default_key,
+				$default_value,
+			) );
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    private static function handle_query_args() {
-        foreach( self::$query_args as $id => $value ) {
-            if( in_array($value, array( 'false', '0' )) ) {
-                self::$query_args[$id] = FALSE;
-            }
+	private static function handle_query_args() {
+		foreach ( self::$query_args as $id => $value ) {
+			if ( in_array( $value, array( 'false', '0' ) ) ) {
+				self::$query_args[ $id ] = false;
+			}
 
-            if( in_array($value, array( 'true', '1' )) ) {
-                self::$query_args[$id] = TRUE;
-            }
-        }
-    }
+			if ( in_array( $value, array( 'true', '1' ) ) ) {
+				self::$query_args[ $id ] = true;
+			}
+		}
+	}
 
-    /**
-     * @param array $data
-     * @param array $required
-     * @param array $default
-     *
-     * @return array
-     */
-    public static function handle_query_data($data = array(), $required = array(), $default = array()) {
-        $return = array();
+	/**
+	 * @param array $data
+	 * @param array $required
+	 * @param array $default
+	 *
+	 * @return array
+	 */
+	public static function handle_query_data( $data = array(), $required = array(), $default = array() ) {
+		$return = array();
 
-        foreach( $data as $values ) {
-            $opk          = self::option_data($required[0], $default[0], $values);
-            $opv          = self::option_data($required[1], $default[1], $values);
-            $return[$opk] = $opv;
-        }
+		foreach ( $data as $values ) {
+			$opk            = self::option_data( $required[0], $default[0], $values );
+			$opv            = self::option_data( $required[1], $default[1], $values );
+			$return[ $opk ] = $opv;
+		}
 
-        return $return;
-    }
+		return $return;
+	}
 
-    /**
-     * @param $key
-     * @param $default
-     * @param $data
-     *
-     * @return mixed
-     */
-    private static function option_data($key, $default, $data) {
-        return ( isset($data->{$key}) && ! empty($data->{$key}) ) ? $data->{$key} : $data->{$default};
-    }
+	/**
+	 * @param $key
+	 * @param $default
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	private static function option_data( $key, $default, $data ) {
+		return ( isset( $data->{$key} ) && ! empty( $data->{$key} ) ) ? $data->{$key} : $data->{$default};
+	}
 }
 
 return WPSFramework_Query::instance();

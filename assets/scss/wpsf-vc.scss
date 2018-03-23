@@ -1,13 +1,13 @@
 .tooltip {
-  z-index: 999999;
+  z-index : 999999;
 }
 
 .edit_form_line {
   .wpsf-framework.wpsf-vc-framework {
     .wpsf-element {
       &.wpsf-field-heading, &.wpsf-field-subheading {
-        margin-left: -18px;
-        margin-right: -18px;
+        margin-left  : -18px;
+        margin-right : -18px;
       }
     }
   }
@@ -15,19 +15,19 @@
 
 .wpsf-framework {
   &.wpsf-vc-framework {
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 20px;
+    margin-right  : 0;
+    margin-top    : 0;
+    margin-bottom : 20px;
 
     input, select {
-      padding: 3px 5px;
+      padding : 3px 5px;
     }
 
     .wpsf-element {
-      padding: 0;
+      padding : 0;
 
       &.wpsf-field-heading, &.wpsf-field-subheading {
-        padding: 15px;
+        padding : 15px;
       }
 
       &.wpsf-field-checkbox {
@@ -35,7 +35,7 @@
           ul {
             li {
               h3 {
-                margin-top: 0;
+                margin-top : 0;
               }
             }
           }
@@ -47,10 +47,10 @@
           ul {
             li {
               input {
-                display: inline-block;
-                width: auto;
-                vertical-align: middle;
-                margin-right: 10px;
+                display        : inline-block;
+                width          : auto;
+                vertical-align : middle;
+                margin-right   : 10px;
               }
             }
           }
@@ -58,27 +58,27 @@
       }
       &.wpsf-field-upload, .wpsf-field-upload {
         input {
-          width: 75%;
-          margin-right: 15px;
+          width        : 75%;
+          margin-right : 15px;
         }
         input + a {
-          vertical-align: top;
+          vertical-align : top;
         }
         & + fieldset {
-          margin-top: 10px;
+          margin-top : 10px;
           .wpsf-element {
-            vertical-align: middle;
+            vertical-align : middle;
           }
         }
       }
       &.wpsf-field-image_select {
         input {
-          display: none;
+          display : none;
         }
       }
       &.wpsf-field-fieldset, &.wpsf-field-accordion, &.wpsf-field-tab, &.wpsf-field-group {
         .wpsf-element {
-          padding: 15px;
+          padding : 15px;
         }
       }
     }

@@ -16,32 +16,33 @@
  * Time: 02:56 PM
  */
 class wpsf_sample_1 extends WPSFramework_Widget {
-    public function __construct() {
-        parent::__construct('wpsf_sample_1', 'WPSF Sample 1');
-    }
+	public function __construct() {
+		parent::__construct( 'wpsf_sample_1', 'WPSF Sample 1' );
+	}
 
-    /**
-     * @param array $args
-     * @param array $instance
-     */
-    public function widget($args, $instance) {
-    }
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+	}
 
-    /**
-     * @return array
-     */
-    public function form_fields() {
-        return array(
-            array(
-                'id'       => 'title',
-                'type'     => 'text',
-                'validate' => 'required',
-                'title'    => __("Title"),
-            ),array(
-                'id'       => 'image',
-                'type'     => 'upload',
-                'title'    => __("Upload"),
-            ),
-        );
-    }
+	/**
+	 * @return array
+	 */
+	public function form_fields() {
+		return array(
+			array(
+				'id'       => 'title',
+				'type'     => 'text',
+				'validate' => 'required',
+				'title'    => __( "Title" ),
+			),
+			array(
+				'id'    => 'image',
+				'type'  => 'upload',
+				'title' => __( "Upload" ),
+			),
+		);
+	}
 }

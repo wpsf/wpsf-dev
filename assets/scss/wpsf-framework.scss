@@ -9,7 +9,7 @@
  */
 
 div#screen-meta-links + div.wpsf-framework {
-  margin-top: 40px;
+  margin-top : 40px;
 }
 
 @import "vendor/dark-theme";
@@ -53,11 +53,11 @@ div#screen-meta-links + div.wpsf-framework {
 
 .wpsf-field-animate_css {
   .animation-preview {
-    padding: 10px 0;
-    display: inline-block;
-    margin: 0 10px;
+    padding : 10px 0;
+    display : inline-block;
+    margin  : 0 10px;
     h3 {
-      margin: 0;
+      margin : 0;
     }
   }
 }
@@ -71,15 +71,15 @@ div#screen-meta-links + div.wpsf-framework {
 .wpsf-element {
 
   .text-limiter {
-    margin-top: -2px;
+    margin-top : -2px;
   }
   .text-limiter > span {
-    background-color: #f7f7f7;
-    border: 1px solid #e5e5e5;
-    margin-left: 1px;
-    display: inline-block;
-    padding: 0 5px;
-    font-size: 12px;
+    background-color : #f7f7f7;
+    border           : 1px solid #e5e5e5;
+    margin-left      : 1px;
+    display          : inline-block;
+    padding          : 0 5px;
+    font-size        : 12px;
   }
 
 }

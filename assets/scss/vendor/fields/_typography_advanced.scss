@@ -10,65 +10,65 @@
 .wpsf-field-font_container {
   .font_container_inline {
     .wpsf-element {
-      margin-left: 25px;
-      border: none;
-      vertical-align: middle;
+      margin-left    : 25px;
+      border         : none;
+      vertical-align : middle;
       &:first-child {
-        margin-left: 0;
+        margin-left : 0;
       }
       .wpsf-title {
-        display: none;
+        display : none;
       }
       .wpsf-fieldset {
-        margin: 0;
+        margin : 0;
       }
     }
 
     .wpsf-field-text {
-      display: inline-block;
-      width: auto;
-      max-width: 50px
+      display   : inline-block;
+      width     : auto;
+      max-width : 50px
     }
 
     .wpsf-field-text:before, .wpsf-element-tag:before, .wpsf-element-text-align:before {
-      content: "\f034";
-      position: absolute;
-      margin-left: -24px;
-      top: 1px;
-      left: 0;
-      height: 28px;
-      width: 25px;
-      font-family: 'FontAwesome';
-      line-height: 2;
-      text-align: center;
-      background-color: #ededed;
-      display: block;
+      content          : "\f034";
+      position         : absolute;
+      margin-left      : -24px;
+      top              : 1px;
+      left             : 0;
+      height           : 28px;
+      width            : 25px;
+      font-family      : 'FontAwesome';
+      line-height      : 2;
+      text-align       : center;
+      background-color : #ededed;
+      display          : block;
     }
 
     .wpsf-field-text.wpsf-element-line-height:before {
-      content: "\f034";
+      content : "\f034";
     }
 
     .wpsf-field-text.wpsf-element-letter-spacing:before {
-      content: "\f035";
+      content : "\f035";
     }
 
     .wpsf-element-tag:before {
-      content: "\f121";
+      content : "\f121";
     }
 
     .wpsf-element-text-align:before {
-      content: "\f037";
+      content : "\f037";
     }
 
   }
 
   .wpsf-font-preview {
-    padding: 10px;
-    border: 1px solid #e6e6e6;
-    color: #7b7b7b;
-    margin-top: 20px;
-    background-color: #fff;
-    font-size: 16px;
+    padding          : 10px;
+    border           : 1px solid #e6e6e6;
+    color            : #7b7b7b;
+    margin-top       : 20px;
+    background-color : #fff;
+    font-size        : 16px;
   }
 }

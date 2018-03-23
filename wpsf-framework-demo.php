@@ -48,27 +48,27 @@
  - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
  -------------------------------------------------------------------------------------------------*/
 
-if( ! defined('ABSPATH') ) {
-    die ();
+if ( ! defined( 'ABSPATH' ) ) {
+	die ();
 } // Cannot access pages directly.
-require_once plugin_dir_path(__FILE__) . '/wpsf-framework.php';
+require_once plugin_dir_path( __FILE__ ) . '/wpsf-framework.php';
 
-add_action("wpsf_framework_loaded", 'wpsf_framework_demo', 1);
-add_action('wpsf_widgets', 'wpsf_sample_widget');
+add_action( "wpsf_framework_loaded", 'wpsf_framework_demo', 1 );
+add_action( 'wpsf_widgets', 'wpsf_sample_widget' );
 
 function wpsf_sample_widget() {
-    require_once __DIR__ . '/config/widget.php';
-    register_widget('wpsf_sample_1');
+	require_once __DIR__ . '/config/widget.php';
+	register_widget( 'wpsf_sample_1' );
 }
 
 
 function wpsf_framework_demo() {
-    require_once( __DIR__ . '/config/wc-metabox.php' );
-    require_once __DIR__ . '/config/settings.php';
-    require_once __DIR__ . '/config/wp-customizer.php';
-    require_once __DIR__ . '/config/metabox.php';
-    require_once __DIR__ . '/config/quick-edit.php';
-    require_once __DIR__ . '/config/taxonomy.php';
-    require_once __DIR__ . '/config/shortcode.php';
-    require_once __DIR__ . '/config/user-profile.php';
+	require_once( __DIR__ . '/config/wc-metabox.php' );
+	require_once __DIR__ . '/config/settings.php';
+	require_once __DIR__ . '/config/wp-customizer.php';
+	require_once __DIR__ . '/config/metabox.php';
+	require_once __DIR__ . '/config/quick-edit.php';
+	require_once __DIR__ . '/config/taxonomy.php';
+	require_once __DIR__ . '/config/shortcode.php';
+	require_once __DIR__ . '/config/user-profile.php';
 }

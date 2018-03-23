@@ -10,24 +10,24 @@
 
 .wpsf_quick_edit_fields {
   .wpsf-element {
-    padding: 5px 0;
-    margin: 5px 0;
-    display: inline-block;
-    width: 100%;
-    float: none;
-    vertical-align: middle;
+    padding        : 5px 0;
+    margin         : 5px 0;
+    display        : inline-block;
+    width          : 100%;
+    float          : none;
+    vertical-align : middle;
 
     > div {
-      vertical-align: middle;
+      vertical-align : middle;
     }
 
     .wpsf-title {
       h4 {
-        font-style: italic;
-        font-size: 12px !important;
-        color: #555;
-        word-wrap: break-word;
-        font-weight: normal !important;
+        font-style  : italic;
+        font-size   : 12px !important;
+        color       : #555;
+        word-wrap   : break-word;
+        font-weight : normal !important;
       }
     }
   }

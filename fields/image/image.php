@@ -9,8 +9,8 @@
  - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
  -------------------------------------------------------------------------------------------------*/
 
-if( ! defined('ABSPATH') ) {
-    die ();
+if ( ! defined( 'ABSPATH' ) ) {
+	die ();
 } // Cannot access pages directly.
 
 /**
@@ -22,37 +22,37 @@ if( ! defined('ABSPATH') ) {
  *
  */
 class WPSFramework_Option_Image extends WPSFramework_Options {
-    /**
-     * WPSFramework_Option_Image constructor.
-     *
-     * @param        $field
-     * @param string $value
-     * @param string $unique
-     */
-    public function __construct($field, $value = '', $unique = '') {
-        parent::__construct($field, $value, $unique);
-    }
+	/**
+	 * WPSFramework_Option_Image constructor.
+	 *
+	 * @param        $field
+	 * @param string $value
+	 * @param string $unique
+	 */
+	public function __construct( $field, $value = '', $unique = '' ) {
+		parent::__construct( $field, $value, $unique );
+	}
 
-    public function output() {
-        echo $this->element_before();
-        $preview = '';
-        $value   = $this->element_value();
-        $hidden  = ( empty ($value) ) ? ' hidden' : '';
+	public function output() {
+		echo $this->element_before();
+		$preview = '';
+		$value   = $this->element_value();
+		$hidden  = ( empty ( $value ) ) ? ' hidden' : '';
 
-        if( ! empty ($value) ) {
-            $attachment = wp_get_attachment_image_src($value, 'thumbnail');
-            $preview    = $attachment [0];
-        }
+		if ( ! empty ( $value ) ) {
+			$attachment = wp_get_attachment_image_src( $value, 'thumbnail' );
+			$preview    = $attachment [0];
+		}
 
-        echo '<div class="wpsf-image-preview' . $hidden . '"><div class="wpsf-preview"><i class="fa fa-times wpsf-remove"></i><img src="' . $preview . '" alt="preview" /></div></div>';
-        echo '<a href="#" class="button button-primary wpsf-add">' . $this->field ['add_title'] . '</a>';
-        echo '<input type="text" name="' . $this->element_name() . '" value="' . $this->element_value() . '"' . $this->element_class() . $this->element_attributes() . '/>';
-        echo $this->element_after();
-    }
+		echo '<div class="wpsf-image-preview' . $hidden . '"><div class="wpsf-preview"><i class="fa fa-times wpsf-remove"></i><img src="' . $preview . '" alt="preview" /></div></div>';
+		echo '<a href="#" class="button button-primary wpsf-add">' . $this->field ['add_title'] . '</a>';
+		echo '<input type="text" name="' . $this->element_name() . '" value="' . $this->element_value() . '"' . $this->element_class() . $this->element_attributes() . '/>';
+		echo $this->element_after();
+	}
 
-    protected function field_defaults() {
-        return array(
-            'add_title' => __("Add Image"),
-        );
-    }
+	protected function field_defaults() {
+		return array(
+			'add_title' => __( "Add Image" ),
+		);
+	}
 }

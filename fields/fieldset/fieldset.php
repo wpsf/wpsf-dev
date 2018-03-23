@@ -9,8 +9,8 @@
  - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
  -------------------------------------------------------------------------------------------------*/
 
-if( ! defined('ABSPATH') ) {
-    die ();
+if ( ! defined( 'ABSPATH' ) ) {
+	die ();
 } // Cannot access pages directly.
 
 /**
@@ -23,30 +23,30 @@ if( ! defined('ABSPATH') ) {
  */
 class WPSFramework_Option_fieldset extends WPSFramework_Options {
 
-    public function __construct($field, $value = '', $unique = '') {
-        parent::__construct($field, $value, $unique);
-    }
+	public function __construct( $field, $value = '', $unique = '' ) {
+		parent::__construct( $field, $value, $unique );
+	}
 
-    public function output() {
-        echo $this->element_before();
+	public function output() {
+		echo $this->element_before();
 
-        echo '<div class="wpsf-inner">';
+		echo '<div class="wpsf-inner">';
 
-        foreach( $this->field ['fields'] as $field ) {
-            $field_value = ( isset($field['default']) ) ? $field['default'] : '';
-            if( isset($field ['id']) && isset($this->value[$field ['id']]) ) {
-                $field_value = $this->value[$field ['id']];
-            }
-            $db_slug = ( $this->field['un_array'] === TRUE ) ? $this->unique : $this->get_unique($this->field['id']);
-            echo $this->add_field($field, $field_value, $db_slug);
-        }
+		foreach ( $this->field ['fields'] as $field ) {
+			$field_value = ( isset( $field['default'] ) ) ? $field['default'] : '';
+			if ( isset( $field ['id'] ) && isset( $this->value[ $field ['id'] ] ) ) {
+				$field_value = $this->value[ $field ['id'] ];
+			}
+			$db_slug = ( $this->field['un_array'] === true ) ? $this->unique : $this->get_unique( $this->field['id'] );
+			echo $this->add_field( $field, $field_value, $db_slug );
+		}
 
-        echo '</div>';
+		echo '</div>';
 
-        echo $this->element_after();
-    }
+		echo $this->element_after();
+	}
 
-    protected function field_defaults() {
-        return array( 'un_array' => FALSE, 'default' => array(), 'fields' => array() );
-    }
+	protected function field_defaults() {
+		return array( 'un_array' => false, 'default' => array(), 'fields' => array() );
+	}
 }

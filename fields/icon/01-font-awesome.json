@@ -1,6 +1,6 @@
 {
-  "name": "Font Awesome",
-  "icons": [
+  "name"  : "Font Awesome",
+  "icons" : [
     "fa fa-glass",
     "fa fa-music",
     "fa fa-search",

@@ -16,99 +16,101 @@
  * Time: 08:49 AM
  */
 class WPSFramework_Option_spacing extends WPSFramework_Options {
-    /**
-     * WPSFramework_Option_spacing constructor.
-     * @param array  $field
-     * @param string $value
-     * @param string $unique
-     */
-    public function __construct($field = array(), $value = '', $unique = '') {
-        parent::__construct($field, $value, $unique);
-    }
+	/**
+	 * WPSFramework_Option_spacing constructor.
+	 *
+	 * @param array  $field
+	 * @param string $value
+	 * @param string $unique
+	 */
+	public function __construct( $field = array(), $value = '', $unique = '' ) {
+		parent::__construct( $field, $value, $unique );
+	}
 
-    public function output() {
-        echo $this->element_before();
+	public function output() {
+		echo $this->element_before();
 
-        $this->unique .= '[' . $this->field['id'] . ']';
-        $select_class = isset($this->field['select2']) ? ' select2 ' : '';
-        $select_class .= isset($this->field['chosen']) ? ' chosen ' : '';
+		$this->unique .= '[' . $this->field['id'] . ']';
+		$select_class = isset( $this->field['select2'] ) ? ' select2 ' : '';
+		$select_class .= isset( $this->field['chosen'] ) ? ' chosen ' : '';
 
-        $show_top = ( isset($this->field['top']) && $this->field['top'] === FALSE ) ? FALSE : TRUE;
-        $show_bottom = ( isset($this->field['bottom']) && $this->field['bottom'] === FALSE ) ? FALSE : TRUE;
-        $show_left = ( isset($this->field['left']) && $this->field['left'] === FALSE ) ? FALSE : TRUE;
-        $show_right = ( isset($this->field['right']) && $this->field['right'] === FALSE ) ? FALSE : TRUE;
-        $show_units = ( isset($this->field['units']) && $this->field['units'] === FALSE ) ? FALSE : TRUE;
+		$show_top    = ( isset( $this->field['top'] ) && $this->field['top'] === false ) ? false : true;
+		$show_bottom = ( isset( $this->field['bottom'] ) && $this->field['bottom'] === false ) ? false : true;
+		$show_left   = ( isset( $this->field['left'] ) && $this->field['left'] === false ) ? false : true;
+		$show_right  = ( isset( $this->field['right'] ) && $this->field['right'] === false ) ? false : true;
+		$show_units  = ( isset( $this->field['units'] ) && $this->field['units'] === false ) ? false : true;
 
 
-        if( $show_top ) {
-            echo $this->add_field(array(
-                'id'         => $this->field['id'] . '-top',
-                'type'       => 'text',
-                'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-top',
-                'pseudo'     => TRUE,
-                'attributes' => array( 'title' => ( isset($this->field['title']) ) ? $this->field['title'] . ' Top' : '', ),
-            ), $this->get_value('top'), $this->unique);
-        }
+		if ( $show_top ) {
+			echo $this->add_field( array(
+				'id'         => $this->field['id'] . '-top',
+				'type'       => 'text',
+				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-top',
+				'pseudo'     => true,
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Top' : '', ),
+			), $this->get_value( 'top' ), $this->unique );
+		}
 
-        if( $show_bottom ) {
-            echo $this->add_field(array(
-                'id'         => $this->field['id'] . '-bottom',
-                'type'       => 'text',
-                'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-bottom',
-                'pseudo'     => TRUE,
-                'attributes' => array( 'title' => ( isset($this->field['title']) ) ? $this->field['title'] . ' Bottom' : '', ),
-            ), $this->get_value('bottom'), $this->unique);
-        }
+		if ( $show_bottom ) {
+			echo $this->add_field( array(
+				'id'         => $this->field['id'] . '-bottom',
+				'type'       => 'text',
+				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-bottom',
+				'pseudo'     => true,
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Bottom' : '', ),
+			), $this->get_value( 'bottom' ), $this->unique );
+		}
 
-        if( $show_left ) {
-            echo $this->add_field(array(
-                'id'         => $this->field['id'] . '-left',
-                'type'       => 'text',
-                'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-left',
-                'pseudo'     => TRUE,
-                'attributes' => array( 'title' => ( isset($this->field['title']) ) ? $this->field['title'] . ' Left' : '', ),
-            ), $this->get_value('left'), $this->unique);
-        }
+		if ( $show_left ) {
+			echo $this->add_field( array(
+				'id'         => $this->field['id'] . '-left',
+				'type'       => 'text',
+				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-left',
+				'pseudo'     => true,
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Left' : '', ),
+			), $this->get_value( 'left' ), $this->unique );
+		}
 
-        if( $show_right ) {
-            echo $this->add_field(array(
-                'id'         => $this->field['id'] . '-right',
-                'type'       => 'text',
-                'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-right',
-                'pseudo'     => TRUE,
-                'attributes' => array( 'title' => ( isset($this->field['title']) ) ? $this->field['title'] . ' Right' : '', ),
-            ), $this->get_value('right'), $this->unique);
-        }
+		if ( $show_right ) {
+			echo $this->add_field( array(
+				'id'         => $this->field['id'] . '-right',
+				'type'       => 'text',
+				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-right',
+				'pseudo'     => true,
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Right' : '', ),
+			), $this->get_value( 'right' ), $this->unique );
+		}
 
-        if( $show_units ) {
-            echo $this->add_field(array(
-                'pseudo'     => TRUE,
-                'id'         => $this->field['id'] . '-units',
-                'type'       => 'select',
-                'class'      => $select_class,
-                'wrap_class' => 'small-input wpsf-spacing-units',
-                'attributes' => array( 'title' => ( isset($this->field['title']) ) ? '' : '', ),
-                'options'    => array(
-                    'px'  => __('px'),
-                    '%'   => '%',
-                    'em'  => __("em"),
-                    'rem' => __('rem'),
-                ),
-            ), $this->get_value('units'), $this->unique);
-        }
-        echo $this->element_after();
-    }
+		if ( $show_units ) {
+			echo $this->add_field( array(
+				'pseudo'     => true,
+				'id'         => $this->field['id'] . '-units',
+				'type'       => 'select',
+				'class'      => $select_class,
+				'wrap_class' => 'small-input wpsf-spacing-units',
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? '' : '', ),
+				'options'    => array(
+					'px'  => __( 'px' ),
+					'%'   => '%',
+					'em'  => __( "em" ),
+					'rem' => __( 'rem' ),
+				),
+			), $this->get_value( 'units' ), $this->unique );
+		}
+		echo $this->element_after();
+	}
 
-    /**
-     * @param string $key
-     * @return bool
-     */
-    private function get_value($key = '') {
-        $fid = $this->field['id'];
+	/**
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	private function get_value( $key = '' ) {
+		$fid = $this->field['id'];
 
-        if( isset($this->value[$fid . '-' . $key]) ) {
-            return $this->value[$fid . '-' . $key];
-        }
-        return FALSE;
-    }
+		if ( isset( $this->value[ $fid . '-' . $key ] ) ) {
+			return $this->value[ $fid . '-' . $key ];
+		}
+		return false;
+	}
 }

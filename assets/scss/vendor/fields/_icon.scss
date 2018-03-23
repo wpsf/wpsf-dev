@@ -11,26 +11,26 @@
 .wpsf-field-icon {
 
   input {
-    display: none;
+    display : none;
   }
 
   .button {
-    margin-right: 5px;
+    margin-right : 5px;
   }
 
   .wpsf-icon-preview i {
-    display: inline-block;
-    font-size: 14px;
-    width: 30px;
-    height: 26px;
-    line-height: 26px;
-    margin-right: 5px;
-    text-align: center;
-    vertical-align: top;
-    color: #555;
-    border: 1px solid #ccc;
-    background-color: #f7f7f7;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
+    display          : inline-block;
+    font-size        : 14px;
+    width            : 30px;
+    height           : 26px;
+    line-height      : 26px;
+    margin-right     : 5px;
+    text-align       : center;
+    vertical-align   : top;
+    color            : #555;
+    border           : 1px solid #ccc;
+    background-color : #f7f7f7;
+    border-radius    : 3px;
+    box-shadow       : 0 1px 0 rgba(0, 0, 0, .08);
   }
 }

@@ -9,51 +9,51 @@
  */
 
 .wpsf-wc-style {
-  margin: 9px 0;
-  padding: 9px 0;
-  border-top: 1px solid #eee;
+  margin     : 9px 0;
+  padding    : 9px 0;
+  border-top : 1px solid #eee;
 
   .wpsf-element + .wpsf-element {
-    border: none;
+    border : none;
   }
   .wpsf-field-switcher label {
-    width: 62px !important;
+    width : 62px !important;
   }
 
   .wpsf-element {
-    padding: 5px 20px 5px 12px !important;
-    margin-bottom: 25px;
+    padding       : 5px 20px 5px 12px !important;
+    margin-bottom : 25px;
 
     &:last-child {
-      margin-bottom: 0;
+      margin-bottom : 0;
     }
 
     > .wpsf-fieldset {
-      float: left;
-      width: 85%;
+      float : left;
+      width : 85%;
     }
     .wpsf-fieldset {
-      margin-left: 0 !important;
+      margin-left : 0 !important;
 
       .wpsf-modules {
-        width: 40%;
-        margin-right: 25px;
+        width        : 40%;
+        margin-right : 25px;
       }
 
       label {
-        float: none;
-        width: auto;
-        margin: 0;
+        float  : none;
+        width  : auto;
+        margin : 0;
       }
     }
     .wpsf-title {
-      width: 150px;
+      width : 150px;
       h4 {
-        vertical-align: middle;
-        font-weight: normal;
+        vertical-align : middle;
+        font-weight    : normal;
       }
       p {
-        padding: 0;
+        padding : 0;
       }
     }
   }
@@ -61,13 +61,13 @@
 
 .wpsf-wc-metabox-fields {
   label {
-    float: none;
-    margin: 0;
+    float  : none;
+    margin : 0;
   }
 
   .wpsf-title {
     p {
-      padding: 0;
+      padding : 0;
     }
   }
   .wpsf-fieldset {
@@ -76,19 +76,19 @@
     .wpsf-text-info,
     .wpsf-text-warning,
     .wpsf-text-muted {
-      display: inline-block;
-      float: left;
-      clear: both;
-      margin-top: 0;
-      margin-bottom: 0;
-      padding: 0;
-      vertical-align: top;
+      display        : inline-block;
+      float          : left;
+      clear          : both;
+      margin-top     : 0;
+      margin-bottom  : 0;
+      padding        : 0;
+      vertical-align : top;
     }
   }
 
   .wpsf-element {
     &.wpsf-field-accordion {
-      padding: 15px;
+      padding : 15px;
     }
   }
 }
@@ -97,11 +97,11 @@
   .wpsf-wc-metabox-fields {
     .wpsf-element {
       &.wpsf-field-accordion {
-        padding: 0;
+        padding : 0;
       }
 
       .wpsf-user-tabs-panel {
-        float: none;
+        float : none;
       }
     }
   }

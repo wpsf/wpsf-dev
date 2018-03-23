@@ -1,29 +1,29 @@
 @mixin input-checkbox-color($check-background,$check-border-color,$border-color) {
   &:checked {
-    background-color: $check-background;
-    border-color: $check-border-color;
+    background-color : $check-background;
+    border-color     : $check-border-color;
     &:after {
-      border-color: $border-color;
+      border-color : $border-color;
     }
   }
 }
 
 @mixin input-radio-color($check-background,$check-border-color) {
   &:checked {
-    border: 1px solid $check-border-color;
+    border : 1px solid $check-border-color;
     &:before {
-      background-color: $check-border-color;
+      background-color : $check-border-color;
     }
   }
 }
 
 @mixin wpsf_global_attributes() {
   &:disabled {
-    opacity: 0.65;
+    opacity : 0.65;
   }
   &:focus {
-    outline: none;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0px 2px rgb(56, 167, 255);
+    outline    : none;
+    box-shadow : inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0px 2px rgb(56, 167, 255);
   }
 
 }
@@ -31,33 +31,32 @@
 @mixin wpsf_global_status($extraName) {
   &.icheck {
     &-primary #{$extraName}, &-success #{$extraName}, &-info #{$extraName}, &-warning #{$extraName}, &-danger #{$extraName} {
-      background-color: #FFFFFF;
-      border: 1px solid #d7d7d7;
+      background-color : #FFFFFF;
+      border           : 1px solid #d7d7d7;
     }
     &-sm #{$extraName} {
-      width: 12px;
-      height: 12px;
+      width  : 12px;
+      height : 12px;
     }
     &-lg #{$extraName} {
-      width: 19px;
-      height: 19px;
+      width  : 19px;
+      height : 19px;
     }
     &-rounded #{$extraName} {
-      border-radius: 50%;
+      border-radius : 50%;
     }
   }
 }
 
 @mixin wpsf_global_icheck() {
-  position: relative;
-  width: 16px;
-  height: 16px;
-  background-clip: border-box;
-  appearance: none;
-  margin: -0.15px 0.6px 0 0;
-  vertical-align: text-bottom;
-  border-radius: 3px;
-
+  position        : relative;
+  width           : 16px;
+  height          : 16px;
+  background-clip : border-box;
+  appearance      : none;
+  margin          : -0.15px 0.6px 0 0;
+  vertical-align  : text-bottom;
+  border-radius   : 3px;
 }
 
 @mixin wpsf_checkbox_colors($extraName) {
@@ -79,18 +78,18 @@
     }
     &-sm #{$extraName} {
       &:checked:after {
-        top: 2px;
-        left: 1px;
-        height: 3px;
-        width: 6px;
+        top    : 2px;
+        left   : 1px;
+        height : 3px;
+        width  : 6px;
       }
     }
     &-lg #{$extraName} {
       &:checked:after {
-        top: 3px;
-        left: 3px;
-        height: 5px;
-        width: 10px;
+        top    : 3px;
+        left   : 3px;
+        height : 5px;
+        width  : 10px;
       }
     }
   }
@@ -115,41 +114,41 @@
     }
     &-sm #{$extraName} {
       &:checked:before {
-        height: 6px;
-        width: 6px;
-        border-radius: 50%;
-        margin: 2px 0 0 2px;
+        height        : 6px;
+        width         : 6px;
+        border-radius : 50%;
+        margin        : 2px 0 0 2px;
       }
     }
     &-lg #{$extraName} {
       &:checked:before {
-        height: 11px;
-        width: 11px;
-        border-radius: 50%;
-        margin: 3px 0 0 3px;
+        height        : 11px;
+        width         : 11px;
+        border-radius : 50%;
+        margin        : 3px 0 0 3px;
       }
     }
   }
 }
 
 @mixin wpsf_checkbox_icheck() {
-  transition: background-color .25s;
+  transition : background-color .25s;
   @include input-checkbox-color(#fff, #d7d7d7, #414141);
   &:checked {
     &:before {
-      content: none;
+      content : none;
     }
     &:after {
-      content: '';
-      display: block;
-      height: 4px;
-      width: 7px;
-      border: 0 solid #333;
-      border-width: 0 0 2px 2px;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 3px;
-      left: 3px;
+      content      : '';
+      display      : block;
+      height       : 4px;
+      width        : 7px;
+      border       : 0 solid #333;
+      border-width : 0 0 2px 2px;
+      transform    : rotate(-45deg);
+      position     : absolute;
+      top          : 3px;
+      left         : 3px;
     }
   }
 }
@@ -158,18 +157,18 @@
   @include input-radio-color(#fff, #555555);
   &:checked {
     &:before {
-      height: 8px;
-      width: 8px;
-      border-radius: 50%;
-      margin: 3px 0 0 3px;
+      height        : 8px;
+      width         : 8px;
+      border-radius : 50%;
+      margin        : 3px 0 0 3px;
     }
   }
   &:before {
-    content: '';
-    display: block;
-    height: 0px;
-    width: 0px;
-    transition: width .25s, height .25s;
+    content    : '';
+    display    : block;
+    height     : 0px;
+    width      : 0px;
+    transition : width .25s, height .25s;
   }
 }
 
@@ -199,7 +198,6 @@ div.icheck, ul.icheck {
 
   input[type="checkbox"] {
     @include wpsf_checkbox_icheck();
-
   }
   @include wpsf_checkbox_colors('input[type="checkbox"]');
 
@@ -207,7 +205,6 @@ div.icheck, ul.icheck {
     @include wpsf_radio_icheck();
   }
   @include wpsf_radio_colors('input[type="radio"]');
-
   @include wpsf_final_output();
 }
 

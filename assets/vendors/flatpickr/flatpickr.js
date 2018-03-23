@@ -2197,7 +2197,7 @@
             }
             else if ( e.target.className === "arrowDown" ) {
                 self.changeYear(self.currentYear - 1);
-        }
+            }
         }
 
         function timeWrapper(e) {

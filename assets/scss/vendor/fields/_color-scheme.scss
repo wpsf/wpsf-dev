@@ -10,31 +10,31 @@
 
 .wpsf-element-color-scheme {
   input[type="radio"] {
-    display: none;
+    display : none;
   }
 
   fieldset {
     label {
-      display: inline;
+      display : inline;
       .color_palette_option {
-        display: inline;
+        display : inline;
         input[type="radio"]:checked + .color-option {
-          background: #f2f2f2;
-          border: 1px solid #ccc;
-          padding: 4px 14px 14px;
+          background : #f2f2f2;
+          border     : 1px solid #ccc;
+          padding    : 4px 14px 14px;
         }
       }
     }
     .color-option {
-      margin-right: 10px;
+      margin-right : 10px;
       &:hover, &.selected {
-        background: #f2f2f2;
-        border: 1px solid #ccc;
-        padding: 4px 14px 14px;
+        background : #f2f2f2;
+        border     : 1px solid #ccc;
+        padding    : 4px 14px 14px;
       }
       label {
-        margin-bottom: 15px !important;
-        display: inline-block;
+        margin-bottom : 15px !important;
+        display       : inline-block;
       }
     }
   }
