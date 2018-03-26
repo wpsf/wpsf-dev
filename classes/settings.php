@@ -232,7 +232,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			$this->cache['section_id'] = false;
 			$this->cache['parent_id']  = false;
 			$this->set_cache( $this->cache );
-		} else if ( $_url_v != false ) {
+		} elseif ( $_url_v != false ) {
 			$default = $this->validate_sections( $_url_v['parent_id'], $_url_v['section_id'] );
 		} else {
 			$default = $this->validate_sections( false, false );
@@ -254,9 +254,9 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	public function validate_section_ids( $ids = array() ) {
 		if ( empty( array_filter( $ids ) ) ) {
 			return false;
-		} else if ( empty( $ids['section_id'] ) && ! empty( $ids['parent_id'] ) ) {
+		} elseif ( empty( $ids['section_id'] ) && ! empty( $ids['parent_id'] ) ) {
 			return array( 'section_id' => false, 'parent_id' => $ids['parent_id'] );
-		} else if ( ! empty( $ids['section_id'] ) && empty( $ids['parent_id'] ) ) {
+		} elseif ( ! empty( $ids['section_id'] ) && empty( $ids['parent_id'] ) ) {
 			return array( 'section_id' => false, 'parent_id' => $ids['section_id'] );
 		} else {
 			return array( 'section_id' => $ids['section_id'], 'parent_id' => $ids['parent_id'] );
@@ -286,7 +286,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		foreach ( $this->options as $option ) {
 			if ( $option['name'] === $page_id && $is_section === false ) {
 				return $page_id;
-			} else if ( $option['name'] === $page_id && isset( $option['sections'] ) ) {
+			} elseif ( $option['name'] === $page_id && isset( $option['sections'] ) ) {
 				foreach ( $option['sections'] as $section ) {
 					if ( $section['name'] === $section_id ) {
 						return $section_id;
@@ -310,7 +310,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			foreach ( $this->options as $option ) {
 				if ( $option['name'] === $page && $is_section === false ) {
 					return $option['name'];
-				} else if ( $option['name'] === $page && $is_section === true && isset( $option['sections'] ) ) {
+				} elseif ( $option['name'] === $page && $is_section === true && isset( $option['sections'] ) ) {
 					$cs = current( $option['sections'] );
 					return $cs['name'];
 				}
@@ -338,23 +338,23 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			case 'single_page':
 			case 'sp':
 				return ( $this->_option( 'is_single_page' ) === true ) ? true : false;
-			break;
+				break;
 
 			case 'sticky_header':
 			case 'sticky_head':
 				return ( $this->_option( 'is_sticky_header' ) === true ) ? true : false;
-			break;
+				break;
 			case'ajax_save':
 				return $this->_option( 'ajax_save' );
-			break;
+				break;
 			case'has_nav':
 				return ( count( $this->options ) <= 1 ) ? false : true;
-			break;
+				break;
 			case 'page_active' :
 				return ( $status === true ) ? 'style="display:block;"' : '';
 			default:
 				return false;
-			break;
+				break;
 		}
 	}
 
@@ -389,7 +389,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			case 'submenu':
 				$menu_type       = 'submenu';
 				$this->page_hook = add_submenu_page( $pm, $_t, $_t, $ac, $slug, array( &$this, 'render_page' ) );
-			break;
+				break;
 			case 'management':
 			case 'dashboard':
 			case 'options':
@@ -400,10 +400,10 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 				if ( function_exists( $f ) ) {
 					$this->page_hook = $f( $_t, $_t, $ac, $slug, array( &$this, 'render_page', ), $i, $p );
 				}
-			break;
+				break;
 			default:
 				$this->page_hook = add_menu_page( $_t, $_t, $ac, $slug, array( &$this, 'render_page', ), $i, $p );
-			break;
+				break;
 		}
 
 		$this->_action( 'settings_menu', $this->page_hook, $menu_type, $this );
@@ -581,7 +581,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			$this->catch_output();
 			do_action( $data['callback_hook'], $this );
 			return $this->catch_output( 'end' );
-		} else if ( isset( $data['fields'] ) ) {
+		} elseif ( isset( $data['fields'] ) ) {
 			$r = '';
 			foreach ( $data['fields'] as $field ) {
 				$r .= $this->field_callback( $field );

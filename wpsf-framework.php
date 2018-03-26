@@ -65,7 +65,7 @@ if ( ! function_exists( "wpsf_template" ) ) {
 	function wpsf_template( $override_location, $template_name, $args = array() ) {
 		if ( file_exists( $override_location . '/' . $template_name ) ) {
 			$path = $override_location . '/' . $template_name;
-		} else if ( file_exists( WPSF_DIR . '/templates/' . $template_name ) ) {
+		} elseif ( file_exists( WPSF_DIR . '/templates/' . $template_name ) ) {
 			$path = WPSF_DIR . '/templates/' . $template_name;
 		} else {
 			return false;
@@ -92,14 +92,14 @@ if ( ! function_exists( "wpsf_autoloader" ) ) {
 		if ( 0 === strpos( $class, 'WPSFramework_Option_' ) ) {
 			$path = strtolower( substr( $class, 20 ) );
 			wpsf_locate_template( 'fields/' . $path . '/' . $path . '.php' );
-		} else if ( 0 === strpos( $class, 'WPSFramework_' ) ) {
+		} elseif ( 0 === strpos( $class, 'WPSFramework_' ) ) {
 			$path  = strtolower( substr( str_replace( '_', '-', $class ), 13 ) );
 			$path1 = WPSF_DIR . '/classes/' . $path . '.php';
 			$path2 = WPSF_DIR . '/classes/core/' . $path . '.php';
 
 			if ( file_exists( $path1 ) ) {
 				include( $path1 );
-			} else if ( file_exists( $path2 ) ) {
+			} elseif ( file_exists( $path2 ) ) {
 				include( $path2 );
 			}
 		}

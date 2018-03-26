@@ -99,15 +99,15 @@ if ( ! function_exists( 'wpsf_locate_template' ) ) {
 
 		if ( file_exists( $child_force_overide ) ) {
 			$located = $child_force_overide;
-		} else if ( file_exists( $child_normal_override ) ) {
+		} elseif ( file_exists( $child_normal_override ) ) {
 			$located = $child_normal_override;
-		} else if ( file_exists( $theme_force_override ) ) {
+		} elseif ( file_exists( $theme_force_override ) ) {
 			$located = $theme_force_override;
-		} else if ( file_exists( $theme_normal_override ) ) {
+		} elseif ( file_exists( $theme_normal_override ) ) {
 			$located = $theme_normal_override;
-		} else if ( file_exists( $plugin_force_override ) ) {
+		} elseif ( file_exists( $plugin_force_override ) ) {
 			$located = $plugin_force_override;
-		} else if ( file_exists( $plugin_normal_override ) ) {
+		} elseif ( file_exists( $plugin_normal_override ) ) {
 			$located = $plugin_normal_override;
 		}
 
@@ -144,7 +144,7 @@ if ( ! function_exists( 'wpsf_get_multilang_option' ) ) {
 
 		if ( is_array( $value ) && is_array( $languages ) && isset ( $value [ $current ] ) ) {
 			return $value [ $current ];
-		} else if ( $default != $current ) {
+		} elseif ( $default != $current ) {
 			return '';
 		}
 
@@ -173,7 +173,7 @@ if ( ! function_exists( 'wpsf_get_multilang_value' ) ) {
 
 		if ( is_array( $value ) && is_array( $languages ) && isset ( $value [ $current ] ) ) {
 			return $value [ $current ];
-		} else if ( $default != $current ) {
+		} elseif ( $default != $current ) {
 			return '';
 		}
 
@@ -260,7 +260,7 @@ if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 				$multilang ['default']   = $sitepress->get_default_language();
 				$multilang ['current']   = $sitepress->get_current_language();
 				$multilang ['languages'] = $sitepress->get_active_languages();
-			} else if ( wpsf_is_polylang_activated() ) {
+			} elseif ( wpsf_is_polylang_activated() ) {
 				global $polylang;
 				$current    = pll_current_language();
 				$default    = pll_default_language();
@@ -273,7 +273,7 @@ if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 				$multilang ['default']   = $default;
 				$multilang ['current']   = $current;
 				$multilang ['languages'] = $languages;
-			} else if ( wpsf_is_qtranslate_activated() ) {
+			} elseif ( wpsf_is_qtranslate_activated() ) {
 				global $q_config;
 				$multilang ['default']   = $q_config ['default_language'];
 				$multilang ['current']   = $q_config ['language'];

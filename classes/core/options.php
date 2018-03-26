@@ -361,7 +361,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 					// set default value
 					if ( isset ( $this->org_value [ $key ] ) ) {
 						$value = $this->org_value [ $key ];
-					} else if ( ! isset ( $this->org_value [ $key ] ) && ( $key == $this->multilang ['default'] ) ) {
+					} elseif ( ! isset ( $this->org_value [ $key ] ) && ( $key == $this->multilang ['default'] ) ) {
 						$value = $this->org_value;
 					} else {
 						$value = '';
@@ -501,16 +501,16 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 
 			if ( isset ( $value [ $current ] ) ) {
 				$value = $value [ $current ];
-			} else if ( $this->multilang ['current'] == $this->multilang ['default'] ) {
+			} elseif ( $this->multilang ['current'] == $this->multilang ['default'] ) {
 				$value = $this->value;
 			} else {
 				$value = '';
 			}
-		} else if ( ! is_array( $this->multilang ) && isset ( $this->value ['multilang'] ) && is_array( $this->value ) ) {
+		} elseif ( ! is_array( $this->multilang ) && isset ( $this->value ['multilang'] ) && is_array( $this->value ) ) {
 
 			$value = array_values( $this->value );
 			$value = $value [0];
-		} else if ( is_array( $this->multilang ) && ! is_array( $value ) && ( $this->multilang ['current'] != $this->multilang ['default'] ) ) {
+		} elseif ( is_array( $this->multilang ) && ! is_array( $value ) && ( $this->multilang ['current'] != $this->multilang ['default'] ) ) {
 
 			$value = '';
 		}
@@ -579,7 +579,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 	public function checked( $helper = '', $current = '', $type = 'checked', $echo = false ) {
 		if ( is_array( $helper ) && in_array( $current, $helper ) ) {
 			$result = ' ' . $type . '="' . $type . '"';
-		} else if ( $helper == $current ) {
+		} elseif ( $helper == $current ) {
 			$result = ' ' . $type . '="' . $type . '"';
 		} else {
 			$result = '';

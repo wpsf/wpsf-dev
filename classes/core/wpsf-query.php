@@ -74,7 +74,7 @@ final class WPSFramework_Query {
 						self::$query_args['post_type'] = 'page';
 					}
 				}
-			break;
+				break;
 
 			case 'categories' :
 			case 'category' :
@@ -97,13 +97,13 @@ final class WPSFramework_Query {
 					self::$query_args['search'] = $search;
 					unset( self::$query_args['s'] );
 				}
-			break;
+				break;
 
 			case 'menus' :
 			case 'menu' :
 				$default_key   = 'term_id';
 				$default_value = 'name';
-			break;
+				break;
 
 			case 'post_types' :
 			case 'post_type' :
@@ -118,7 +118,7 @@ final class WPSFramework_Query {
 					}
 				}
 				return $options;
-			break;
+				break;
 		}
 
 		self::handle_query_args();
@@ -127,13 +127,13 @@ final class WPSFramework_Query {
 			case "cpt":
 				self::$query = new WP_Query( self::$query_args );
 				$result      = self::$query->posts;
-			break;
+				break;
 			case 'cat':
 				$result = get_terms( self::$query_args );
-			break;
+				break;
 			case 'menu':
 				$result = wp_get_nav_menus( self::$query_args );
-			break;
+				break;
 		}
 
 		if ( is_wp_error( $result ) || is_null( $result ) || empty( $result ) ) {

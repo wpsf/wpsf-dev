@@ -259,9 +259,9 @@ class WPSFramework_Field {
 		if ( ! empty( $this->cache_elem ) ) {
 			if ( ! isset( $this->cache_elem[ $type ] ) ) {
 				$this->cache_elem[ $type ] = $value;
-			} else if ( isset( $this->cache_elem[ $type ] ) === true && is_array( $this->cache_elem[ $type ] ) === false && $merge === true ) {
+			} elseif ( isset( $this->cache_elem[ $type ] ) === true && is_array( $this->cache_elem[ $type ] ) === false && $merge === true ) {
 				$this->cache_elem[ $type ] = $value;
-			} else if ( isset( $this->cache_elem[ $type ] ) === true && is_array( $this->cache_elem[ $type ] ) === true && $merge === true ) {
+			} elseif ( isset( $this->cache_elem[ $type ] ) === true && is_array( $this->cache_elem[ $type ] ) === true && $merge === true ) {
 				$this->cache_elem[ $type ] = array_merge( $value, $this->cache_elem[ $type ] );
 			}
 		}
@@ -503,7 +503,7 @@ Class WPSFramework_Fields extends WPSFramework_Field {
 			$arguments = array_merge( array( $name ), $arguments );
 			call_user_func_array( array( &$this, 'field' ), $arguments );
 			return $this;
-		} else if ( in_array( $name, array( 'image_select' ) ) ) {
+		} elseif ( in_array( $name, array( 'image_select' ) ) ) {
 			$arguments = array_merge( array( $name ), $arguments );
 			call_user_func_array( array( &$this, 'checkbox_radio' ), $arguments );
 			return $this;

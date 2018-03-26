@@ -342,7 +342,7 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 					$place                                          = ( $section_variation === true ) ? 'default' : $section_variation;
 					$section['fields'][ $field_id ]['is_variation'] = $place;
 					$add_vars                                       = true;
-				} else if ( isset( $field['only_variation'] ) ) {
+				} elseif ( isset( $field['only_variation'] ) ) {
 					$place    = ( $field['is_variation'] === true ) ? 'default' : $field['is_variation'];
 					$add_vars = true;
 				} else {

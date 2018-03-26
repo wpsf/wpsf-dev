@@ -439,7 +439,7 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 				if ( ! class_exists( $class, false ) ) {
 					$class = 'WPSFramework_VC_Field';
 				}
-			} else if ( class_exists( $class, false ) ) {
+			} elseif ( class_exists( $class, false ) ) {
 				$class = false;
 			}
 			return $class;

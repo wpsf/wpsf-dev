@@ -81,7 +81,7 @@ class WPSFramework_Widget extends WP_Widget {
 	public function get_form_fields() {
 		$fields = $this->form_fields();
 		$fields = $this->wpsf()
-					   ->error_ids( $fields, $this->id_base . '_' . $this->number );
+			->error_ids( $fields, $this->id_base . '_' . $this->number );
 		$fields = $fields['fields'];
 		return $fields;
 	}

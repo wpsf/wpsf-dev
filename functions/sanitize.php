@@ -110,7 +110,7 @@ if ( ! function_exists( 'wpsf_sanitize_image_select' ) ) {
 			} else {
 				$value = $value [0];
 			}
-		} else if ( empty ( $value ) ) {
+		} elseif ( empty ( $value ) ) {
 			$value = '';
 		}
 

@@ -87,7 +87,7 @@ function wpsf_modern_navs( $navs, $class, $parent = null ) {
                         id="wpsf-tab-' . $option['name'] . '-' . $section['name'] . '" 
                         class="wpsf-section">' . $class->get_title( $section ) . $fields . '</div>';
 					}
-				} else if ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) ) {
+				} elseif ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) ) {
 					$fields = $class->render_fields( $option );
 					echo '<div ' . $class->is( 'page_active', $pg_active ) . ' 
                         id="wpsf-tab-' . $option['name'] . '" 

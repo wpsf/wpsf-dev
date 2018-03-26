@@ -30,7 +30,7 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
 			$action = str_replace( '-', '_', strtolower( $action ) );
 			if ( method_exists( $this, $action ) ) {
 				$this->$action();
-			} else if ( has_action( 'wpsf_ajax_' . $action ) ) {
+			} elseif ( has_action( 'wpsf_ajax_' . $action ) ) {
 				do_action( 'wpsf_ajax_' . $action );
 			}
 		}

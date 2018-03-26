@@ -80,7 +80,7 @@ abstract class WPSFramework_Abstract {
 				}
 				$value[ $_field['id'] ] = $this->get_field_values( $_field, $values );
 			}
-		} else if ( $field['type'] == 'tab' ) {
+		} elseif ( $field['type'] == 'tab' ) {
 			$_tab_values = array();
 			$_tab_vals   = ( isset( $field['id'] ) && isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : '';
 			if ( ( isset( $field['un_array'] ) && $field['un_array'] === true ) ) {
@@ -189,7 +189,7 @@ abstract class WPSFramework_Abstract {
 					$s['sections'][ $b ] = $this->map_error_id( $a, $fname );
 				}
 			}
-		} else if ( isset( $s['fields'] ) ) {
+		} elseif ( isset( $s['fields'] ) ) {
 			foreach ( $s['fields'] as $f => $e ) {
 				$field_id                      = isset( $e['id'] ) ? $e['id'] : '';
 				$pid                           = $parent_id . '_' . $field_id;
@@ -316,11 +316,11 @@ abstract class WPSFramework_Abstract {
 		}
 		if ( isset( $data['uid'] ) ) {
 			return $data['uid'];
-		} else if ( isset( $data['id'] ) ) {
+		} elseif ( isset( $data['id'] ) ) {
 			return $data['id'];
-		} else if ( isset( $data['title'] ) ) {
+		} elseif ( isset( $data['title'] ) ) {
 			return sanitize_title( $data['title'] );
-		} else if ( isset( $data['menu_title'] ) ) {
+		} elseif ( isset( $data['menu_title'] ) ) {
 			return sanitize_title( $data['menu_title'] );
 		}
 		return false;

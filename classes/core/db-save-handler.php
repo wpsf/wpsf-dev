@@ -110,7 +110,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 					if ( isset( $field['sections'] ) && $field['type'] === 'tab' ) {
 						$f_val = $this->get_field_value( $values, $fid );
 						$value = $this->loop_fields( $field['sections'], $f_val, $db_value );
-					} else if ( isset( $field['fields'] ) && $field['type'] !== 'group' ) {
+					} elseif ( isset( $field['fields'] ) && $field['type'] !== 'group' ) {
 						$f_val = $this->get_field_value( $values, $fid );
 						$value = $this->_handle_single_field( $field, $f_val );
 						$value = $this->loop_fields( $field, $f_val, $db_val );
@@ -243,10 +243,10 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 		if ( is_array( $orginal_data ) ) {
 			if ( ! is_array( $_new ) ) {
 				$orginal_data[ $field_id ] = $_new;
-			} else if ( is_array( $_new ) && ( count( array_keys( $_new ) ) !== count( array_keys( $orginal_data ) ) ) ) {
+			} elseif ( is_array( $_new ) && ( count( array_keys( $_new ) ) !== count( array_keys( $orginal_data ) ) ) ) {
 				$orginal_data[ $field_id ] = $_new;
 			}
-		} else if ( ! is_array( $orginal_data ) && is_array( $_new ) ) {
+		} elseif ( ! is_array( $orginal_data ) && is_array( $_new ) ) {
 			$orginal_data = $_new;
 		}
 

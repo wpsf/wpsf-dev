@@ -114,10 +114,10 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
 
 			if ( is_bool( $f ) && isset( $default[ $i ] ) ) {
 				$fields[ $i ] = $default[ $i ];
-			} else if ( is_string( $f ) && isset( $default[ $i ] ) ) {
+			} elseif ( is_string( $f ) && isset( $default[ $i ] ) ) {
 				$fields[ $i ]          = $default[ $i ];
 				$fields[ $i ]['title'] = $f;
-			} else if ( is_array( $f ) && isset( $default[ $i ] ) ) {
+			} elseif ( is_array( $f ) && isset( $default[ $i ] ) ) {
 				$fields[ $i ] = wp_parse_args( $f, $default[ $i ] );
 			}
 
@@ -135,7 +135,7 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
 		foreach ( $default as $i => $v ) {
 			if ( isset( $_fields[ $i ] ) && $_fields[ $i ] === false ) {
 				continue;
-			} else if ( ! isset( $_fields[ $i ] ) ) {
+			} elseif ( ! isset( $_fields[ $i ] ) ) {
 				$fields[ $i ] = $v;
 			}
 

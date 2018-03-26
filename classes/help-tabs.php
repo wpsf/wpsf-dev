@@ -52,9 +52,9 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 			if ( isset( $this->help_tabs[ $sid ]['help_tabs'] ) && isset( $this->help_tabs[ $sid ]['help_sidebar'] ) ) {
 				$help_tabs    = ( is_array( $this->help_tabs[ $sid ]['help_tabs'] ) ) ? $this->help_tabs[ $sid ]['help_tabs'] : array();
 				$help_sidebar = ( ! empty( $this->help_tabs[ $sid ]['help_sidebar'] ) ) ? $this->help_tabs[ $sid ]['help_sidebar'] : array();
-			} else if ( isset( $this->help_tabs[ $sid ]['help_tabs'] ) && ! isset( $this->help_tabs[ $sid ]['help_sidebar'] ) ) {
+			} elseif ( isset( $this->help_tabs[ $sid ]['help_tabs'] ) && ! isset( $this->help_tabs[ $sid ]['help_sidebar'] ) ) {
 				$help_tabs = ( is_array( $this->help_tabs[ $sid ]['help_tabs'] ) ) ? $this->help_tabs[ $sid ]['help_tabs'] : array();
-			} else if ( isset( $this->help_tabs[ $sid ] ) && ! isset( $this->help_tabs[ $sid ]['help_sidebar'] ) ) {
+			} elseif ( isset( $this->help_tabs[ $sid ] ) && ! isset( $this->help_tabs[ $sid ]['help_sidebar'] ) ) {
 				$help_tabs = ( is_array( $this->help_tabs[ $sid ] ) ) ? $this->help_tabs[ $sid ] : array();
 			}
 
@@ -110,7 +110,7 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 					$s['sections'][ $b ] = $this->map_field_ids( $a );
 				}
 			}
-		} else if ( isset( $s['fields'] ) ) {
+		} elseif ( isset( $s['fields'] ) ) {
 			foreach ( $s['fields'] as $f => $e ) {
 
 				if ( ! isset( $e['id'] ) ) {

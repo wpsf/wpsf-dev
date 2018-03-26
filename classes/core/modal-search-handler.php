@@ -119,7 +119,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 				'slug'        => __( "Slug" ),
 				'post_count'  => __( "Count" ),
 			);
-		} else if ( $this->is_page( $type ) ) {
+		} elseif ( $this->is_page( $type ) ) {
 			return array(
 				'thumbnail' => __( "Image" ),
 				'title'     => __( "Name" ),
@@ -188,7 +188,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 
 			if ( 'publish' === $item->post_status ) {
 				$status = __( 'Published' );
-			} else if ( 'future' === $item->post_status ) {
+			} elseif ( 'future' === $item->post_status ) {
 				if ( $time_diff > 0 ) {
 					$status = '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
 				} else {
@@ -288,7 +288,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 			$edit_Link = get_edit_term_link( $item->term_id, $item->taxonomy );
 			$title     = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $edit_Link, $item->name );
 			return '<strong>' . $title . '</strong>';
-		} else if ( $this->is_page() || $this->is_post() ) {
+		} elseif ( $this->is_page() || $this->is_post() ) {
 
 			$can_edit_post = current_user_can( 'edit_post', $item->ID );
 
@@ -381,7 +381,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 		if ( $this->is_tax() ) {
 			$label = ( isset( $item->js_label ) ) ? $item->js_label : $item->name;
 			$value = $item->term_id;
-		} else if ( $this->is_post() || $this->is_page() ) {
+		} elseif ( $this->is_post() || $this->is_page() ) {
 			$label = ( isset( $item->js_label ) ) ? $item->js_label : $item->post_title;
 			$value = $item->ID;
 		}
@@ -406,7 +406,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 	public function get_selected( $item = array() ) {
 		if ( $this->is_tax() ) {
 			return isset( $this->selected[ $item->term_id ] ) ? $item->term_id : false;
-		} else if ( $this->is_post() === true || $this->is_page() === true ) {
+		} elseif ( $this->is_post() === true || $this->is_page() === true ) {
 			return isset( $this->selected[ $item->ID ] ) ? $item->ID : false;
 		}
 	}
