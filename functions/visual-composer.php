@@ -197,7 +197,7 @@ class WPSFramework_VC_Field {
 	/**
 	 * Returns $this->extra_class.
 	 *
-	 * @param $return
+	 * @param mixed $return
 	 *
 	 * @return string
 	 */
@@ -208,8 +208,8 @@ class WPSFramework_VC_Field {
 	/**
 	 * Returns Extra Wrap Attributes.
 	 *
-	 * @param $attr
-	 * @param $return
+	 * @param mixed $attr
+	 * @param mixed $return
 	 *
 	 * @return mixed
 	 */
@@ -243,7 +243,7 @@ class WPSFramework_VC_Field {
 
 		if ( ! empty( array_filter( $data ) ) && count( $data ) > 0 ) {
 			foreach ( $data as $val ) {
-				$_data = array_filter( explode( ":", $val, 2 ) );
+				$_data = array_filter( explode( ':', $val, 2 ) );
 				if ( count( $_data ) == 2 ) {
 					if ( ! isset( $return[ $_data[0] ] ) ) {
 						$return[ $_data[0] ] = array();
@@ -272,7 +272,7 @@ class WPSFramework_VC_Field {
 	 */
 	public function decode( $value ) {
 		$v = $this->is_encoded( $value );
-		if ( $v === true ) {
+		if ( true === $v ) {
 			return json_decode( urldecode( $this->base64_val ), true );
 		}
 		return false;
@@ -288,7 +288,7 @@ class WPSFramework_VC_Field {
 	public function is_encoded( $value ) {
 		if ( ! isset( $this->base64_val ) ) {
 			$value = base64_decode( $value, true );
-			if ( $value === false ) {
+			if ( false === $value ) {
 				return false;
 			}
 			$this->base64_val = $value;
@@ -526,6 +526,11 @@ class WPSFramework_VC_group_Field extends WPSFramework_VC_Field {
 
 if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 	final class WPSFramework_Visual_Composer_Integration {
+		/**
+		 * _load_fields
+		 *
+		 * @var array
+		 */
 		private static $_load_fields = array(
 			'text',
 			'textarea',
@@ -563,8 +568,18 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 			'notice',
 		);
 
+		/**
+		 * js_js
+		 *
+		 * @var bool
+		 */
 		private static $js_js = false;
 
+		/**
+		 * Inits Class.
+		 *
+		 * @static
+		 */
 		public static function init() {
 			add_action( 'admin_enqueue_scripts', function () {
 				wpsf_assets()->render_framework_style_scripts();
@@ -574,35 +589,81 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 			self::register_vc_fields();
 		}
 
+		/**
+		 * Init Register Vc Field.
+		 *
+		 * @static
+		 */
 		public static function register_vc_fields() {
 			foreach ( self::$_load_fields as $field ) {
 				vc_add_shortcode_param( 'wpsf_' . $field, array( __CLASS__, 'render_field' ), self::get_js() );
 			}
 		}
 
+		/**
+		 * Returns JS File Path.
+		 *
+		 * @return bool|string
+		 * @static
+		 */
 		public static function get_js() {
-			if ( self::$js_js === false ) {
+			if ( false === self::$js_js ) {
 				self::$js_js = true;
 				return WPSF_URI . '/assets/js/wpsf-vc.js';
 			}
 			return false;
 		}
 
+		/**
+		 * Renders Fields HTML.
+		 *
+		 * @param $settings .
+		 * @param $value    .
+		 * @param $tag      .
+		 *
+		 * @return string
+		 * @static
+		 */
 		public static function render_field( $settings, $value, $tag ) {
 			$output = '<div class="wpsf-framework wpsf-vc-framework wpsf-vc-field-' . self::get_type( $settings['type'] ) . '">';
+
 			$output .= self::render( $settings, $value );
 			$output .= '</div>';
 			return $output;
 		}
 
+		/**
+		 * Returns Field Type.
+		 *
+		 * @param $type
+		 *
+		 * @return mixed
+		 * @static
+		 */
 		public static function get_type( $type ) {
 			return str_replace( 'wpsf_', '', $type );
 		}
 
+		/**
+		 * Checks if Field Type is WPSF.
+		 *
+		 * @param string $type
+		 *
+		 * @return bool
+		 * @static
+		 */
 		public static function is_wpsf( $type = '' ) {
 			return ( in_array( self::get_type( $type ), self::$_load_fields ) ) ? true : false;
 		}
 
+		/**
+		 * Gets Class Name.
+		 *
+		 * @param string $type
+		 *
+		 * @return bool|string
+		 * @static
+		 */
 		public static function get_class( $type = '' ) {
 			$class = 'WPSFramework_VC_' . self::get_type( $type ) . '_Field';
 			if ( self::is_wpsf( $type ) === true ) {
@@ -615,15 +676,23 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 			return $class;
 		}
 
-
+		/**
+		 * Renders WPSF Filed.
+		 *
+		 * @param $settings
+		 * @param $value
+		 *
+		 * @return string
+		 * @static
+		 */
 		public static function render( $settings, $value ) {
 			$class = false;
 			if ( isset( $settings['type'] ) ) {
 				$class = self::get_class( $settings['type'] );
 			}
 
-			if ( $class === false ) {
-				return '<p>' . sprintf( __( "WPSF Field Class %s Not Found !!" ), '<strong>' . $settings['type'] . '</strong>' ) . '</p>';
+			if ( false === $class ) {
+				return '<p>' . sprintf( __( 'WPSF Field Class %s Not Found !!' ), '<strong>' . $settings['type'] . '</strong>' ) . '</p>';
 			}
 
 			$class = new $class( $settings, $value, self::get_type( $settings['type'] ) );
@@ -660,6 +729,5 @@ if ( ! function_exists( 'wpsf_vc_params' ) ) {
 		return $atts;
 	}
 }
-
 
 WPSFramework_Visual_Composer_Integration::init();

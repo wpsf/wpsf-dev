@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 if ( ! function_exists( 'wpsf_sanitize_text' ) ) {
@@ -64,11 +64,11 @@ if ( ! function_exists( 'wpsf_sanitize_checkbox' ) ) {
 	 * @return bool
 	 */
 	function wpsf_sanitize_checkbox( $value ) {
-		if ( ! empty ( $value ) && $value == 1 ) {
+		if ( ! empty( $value ) && 1 === $value ) {
 			$value = true;
 		}
 
-		if ( empty ( $value ) ) {
+		if ( empty( $value ) ) {
 			$value = false;
 		}
 
@@ -92,13 +92,13 @@ if ( ! function_exists( 'wpsf_sanitize_image_select' ) ) {
 	 * @return array|mixed|string
 	 */
 	function wpsf_sanitize_image_select( $value ) {
-		if ( isset ( $value ) && is_array( $value ) ) {
+		if ( isset( $value ) && is_array( $value ) ) {
 			if ( count( $value ) ) {
 				$value = $value;
 			} else {
 				$value = $value [0];
 			}
-		} elseif ( empty ( $value ) ) {
+		} elseif ( empty( $value ) ) {
 			$value = '';
 		}
 
@@ -121,7 +121,7 @@ if ( ! function_exists( 'wpsf_sanitize_group' ) ) {
 	 * @return string
 	 */
 	function wpsf_sanitize_group( $value ) {
-		return ( empty ( $value ) ) ? '' : $value;
+		return ( empty( $value ) ) ? '' : $value;
 	}
 
 	add_filter( 'wpsf_sanitize_group', 'wpsf_sanitize_group' );

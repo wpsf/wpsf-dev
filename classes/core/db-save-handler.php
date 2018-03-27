@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 /**
@@ -16,25 +16,87 @@
  * Time: 07:14 AM
  */
 
-if ( ! defined( "ABSPATH" ) ) {
-	die;
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
 }
 
 /**
  * Class WPSFramework_DB_Save_Handler
  */
 class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
-	public static $_instance      = null;
-	public        $errors         = array();
-	public        $fields         = array();
-	public        $db_values      = array();
-	public        $posted         = array();
-	public        $cur_posted     = array();
-	public        $is_settings    = false;
-	public        $return_values  = array();
-	public        $field_ids      = array();
-	public        $is_single_page = null;
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
+	public static $_instance = null;
 
+	/**
+	 * errors
+	 *
+	 * @var array
+	 */
+	public $errors = array();
+
+	/**
+	 * fields
+	 *
+	 * @var array
+	 */
+	public $fields = array();
+
+	/**
+	 * db_values
+	 *
+	 * @var array
+	 */
+	public $db_values = array();
+
+	/**
+	 * posted
+	 *
+	 * @var array
+	 */
+	public $posted = array();
+
+	/**
+	 * cur_posted
+	 *
+	 * @var array
+	 */
+	public $cur_posted = array();
+
+	/**
+	 * is_settings
+	 *
+	 * @var bool
+	 */
+	public $is_settings = false;
+
+	/**
+	 * return_values
+	 *
+	 * @var array
+	 */
+	public $return_values = array();
+
+	/**
+	 * field_ids
+	 *
+	 * @var array
+	 */
+	public $field_ids = array();
+
+	/**
+	 * is_single_page
+	 *
+	 * @var null
+	 */
+	public $is_single_page = null;
+
+	/**
+	 * WPSFramework_DB_Save_Handler constructor.
+	 */
 	public function __construct() {
 	}
 
@@ -42,7 +104,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	 * @return null|\WPSFramework_DB_Save_Handler
 	 */
 	public static function instance() {
-		if ( self::$_instance === null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
@@ -71,7 +133,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	 */
 	private function _remove_nonce( $values ) {
 		foreach ( $values as $id => $value ) {
-			if ( $id === '_nonce' ) {
+			if ( '_nonce' === $id ) {
 				unset( $values[ $id ] );
 			}
 
@@ -107,10 +169,10 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 						$field['pre_value'] = null;
 					}
 
-					if ( isset( $field['sections'] ) && $field['type'] === 'tab' ) {
+					if ( isset( $field['sections'] ) && 'tab' === $field['type'] ) {
 						$f_val = $this->get_field_value( $values, $fid );
 						$value = $this->loop_fields( $field['sections'], $f_val, $db_value );
-					} elseif ( isset( $field['fields'] ) && $field['type'] !== 'group' ) {
+					} elseif ( isset( $field['fields'] ) && 'group' !== $field['type'] ) {
 						$f_val = $this->get_field_value( $values, $fid );
 						$value = $this->_handle_single_field( $field, $f_val );
 						$value = $this->loop_fields( $field, $f_val, $db_val );
@@ -126,7 +188,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 			foreach ( $current_fields as $section ) {
 				if ( isset( $section['fields'] ) ) {
 					$f_val  = $this->get_field_value( $values, $section['name'] );
-					$f_val  = ( $f_val === false ) ? $values : $f_val;
+					$f_val  = ( false === $f_val ) ? $values : $f_val;
 					$value  = $this->loop_fields( $section, $f_val, $db_value );
 					$values = $this->_manage_data( $values, $value, $section['name'] );
 				}
@@ -155,9 +217,8 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	}
 
 	/**
-	 * @param       $field
-	 * @param array $values
-	 * @param       $fields
+	 * @param       $field  .
+	 * @param array $values .
 	 *
 	 * @return array|bool|mixed
 	 */
@@ -171,7 +232,6 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	/**
 	 * @param $field
 	 * @param $value
-	 * @param $fields
 	 *
 	 * @return mixed
 	 */
@@ -179,10 +239,10 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 		$type = $field['type'];
 
 		if ( isset( $field['sanitize'] ) ) {
-			$type = ( $field['sanitize'] !== false ) ? $field['sanitize'] : false;
+			$type = ( false !== $field['sanitize'] ) ? $field['sanitize'] : false;
 		}
 
-		if ( $type !== false && has_filter( 'wpsf_sanitize_' . $type ) ) {
+		if ( false !== $type && has_filter( 'wpsf_sanitize_' . $type ) ) {
 			$value = apply_filters( 'wpsf_sanitize_' . $type, $value, $field );
 		}
 
@@ -192,7 +252,6 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	/**
 	 * @param $field
 	 * @param $value
-	 * @param $fields
 	 *
 	 * @return bool
 	 */
@@ -203,7 +262,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 				$fid            = isset( $field['error_id'] ) ? $field['error_id'] : $field['id'];
 				$this->errors[] = $this->_error( $validate, 'error', $fid );
 
-				if ( isset( $field['pre_value'] ) && $field['pre_value'] !== null ) {
+				if ( isset( $field['pre_value'] ) && null !== $field['pre_value'] ) {
 					return $field['pre_value'];
 				}
 
@@ -276,21 +335,19 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 		$isp                  = $options['is_single_page'];
 		$this->is_single_page = $isp;
 		$this->db_values      = get_option( $options['db_key'], true );
-		$this->db_values      = ( $this->db_values === true || empty( $this->db_values ) ) ? array() : $this->db_values;
+		$this->db_values      = ( true === $this->db_values || empty( $this->db_values ) ) ? array() : $this->db_values;
 		$this->posted         = $options['posted_values'];
 		$this->posted         = $this->_remove_nonce( $this->posted );
 		$this->return_values  = $this->posted;
-
-
-		$this->fields = $fields;
+		$this->fields         = $fields;
 
 		foreach ( $this->fields as $section ) {
-			if ( $this->is_single_page === false && ( $csid != $section['name'] && $cpid != $section['page_id'] ) ) {
+			if ( false === $this->is_single_page && ( $csid != $section['name'] && $cpid != $section['page_id'] ) ) {
 				continue;
 			}
 			$this->return_values = $this->loop_fields( $section, $this->return_values, $this->db_values );
 		}
-		if ( $this->is_single_page === false ) {
+		if ( false === $this->is_single_page ) {
 			//$this->return_values = array_merge($this->db_values, $this->return_values);
 			$this->return_values = $this->array_merge( $this->return_values, $this->db_values );
 		}
@@ -298,7 +355,6 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 		$this->remove_unknown_fields();
 		return $this->return_values;
 	}
-
 
 	/**
 	 * @param array $new_values
@@ -311,13 +367,12 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 			if ( ! isset( $new_values[ $key ] ) ) {
 				$new_values[ $key ] = $old_values[ $key ];
 			}
-
 		}
 		return $new_values;
 	}
 
 	public function remove_unknown_fields() {
-		if ( $this->is_single_page === false ) {
+		if ( false === $this->is_single_page ) {
 			$this->field_ids = array();
 
 			foreach ( $this->fields as $section ) {
@@ -340,7 +395,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	public function extract_field_ids( $fields ) {
 		if ( isset( $fields['fields'] ) ) {
 			foreach ( $fields['fields'] as $field ) {
-				if ( isset( $field['un_array'] ) && $field['un_array'] === true ) {
+				if ( isset( $field['un_array'] ) && true === $field['un_array'] ) {
 					$this->extract_field_ids( $field );
 				} else {
 					if ( isset( $field['id'] ) ) {

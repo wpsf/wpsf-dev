@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 /**
@@ -16,6 +16,11 @@
  * Time: 02:56 PM
  */
 class WPSFramework_widget_helper extends WPSFramework_Abstract {
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
 	protected $type = 'widgets';
 
 	/**
@@ -34,9 +39,19 @@ class WPSFramework_widget_helper extends WPSFramework_Abstract {
  * Class WPSFramework_Widget
  */
 class WPSFramework_Widget extends WP_Widget {
-
+	/**
+	 * wpsf_instance
+	 *
+	 * @var null
+	 */
 	private $wpsf_instance = null;
-	private $errors        = null;
+
+	/**
+	 * errors
+	 *
+	 * @var null
+	 */
+	private $errors = null;
 
 	/**
 	 * WPSFramework_Widget constructor.

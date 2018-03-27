@@ -1,38 +1,85 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
-if ( ! defined( "ABSPATH" ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
+if ( ! class_exists( 'WPSFramework_WC_Metabox' ) ) {
 	/**
 	 * Class WPSFramework_WC_Metabox
 	 */
 	class WPSFramework_WC_Metabox extends WPSFramework_Abstract {
-		private static $_instance = null;
-		protected      $type      = 'wc_metabox';
 
+		/**
+		 * _instance
+		 *
+		 * @var null
+		 */
+		private static $_instance = null;
+
+		/**
+		 * type
+		 *
+		 * @var string
+		 */
+		protected $type = 'wc_metabox';
+
+		/**
+		 * options
+		 *
+		 * @var null
+		 */
 		public $options = null;
 
+		/**
+		 * default_wc_tabs
+		 *
+		 * @var mixed|null|void
+		 */
 		public $default_wc_tabs = null;
 
+		/**
+		 * fields
+		 *
+		 * @var array
+		 */
 		public $fields = array();
 
+		/**
+		 * group_fields
+		 *
+		 * @var array
+		 */
 		public $group_fields = array();
 
+		/**
+		 * groups_to_add
+		 *
+		 * @var array
+		 */
 		public $groups_to_add = array();
 
+		/**
+		 * variation_errors
+		 *
+		 * @var array
+		 */
 		public $variation_errors = array();
 
+		/**
+		 * variation_fields
+		 *
+		 * @var array
+		 */
 		public $variation_fields = array(
 			'pricing'    => array(),
 			'options'    => array(),
@@ -47,7 +94,7 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 		 * @return null|\WPSFramework_WC_Metabox
 		 */
 		public static function instance() {
-			if ( self::$_instance === null ) {
+			if ( null === self::$_instance ) {
 				self::$_instance = new self();
 			}
 			return self::$_instance;
@@ -82,8 +129,8 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 				$this->addAction( 'load-post-new.php', 'handle_options' );
 				$this->addAction( 'wp_ajax_woocommerce_load_variations', 'handle_options', 1 );
 				$this->addAction( 'woocommerce_product_data_tabs', 'add_wc_tabs' );
-				$this->addAction( "woocommerce_product_data_panels", 'add_wc_fields', 99 );
-				$this->addAction( "admin_enqueue_scripts", 'load_style_script' );
+				$this->addAction( 'woocommerce_product_data_panels', 'add_wc_fields', 99 );
+				$this->addAction( 'admin_enqueue_scripts', 'load_style_script' );
 				$this->addAction( 'woocommerce_admin_process_product_object', 'save_product_data' );
 				$this->addAction( 'woocommerce_product_options_advanced', 'advanced_page' );
 				$this->addAction( 'woocommerce_product_options_general_product_data', 'general_page' );
@@ -165,22 +212,37 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 			echo $this->render_variation_fields( 'default', $loop, $variation );
 		}
 
+		/**
+		 * Advanced_page
+		 */
 		public function advanced_page() {
 			echo $this->_render_group_page( 'advanced' );
 		}
 
+		/**
+		 * General_page
+		 */
 		public function general_page() {
 			echo $this->_render_group_page( 'general' );
 		}
 
+		/**
+		 * Stock_page
+		 */
 		public function stock_page() {
 			echo $this->_render_group_page( 'inventory' );
 		}
 
+		/**
+		 * Linked_page
+		 */
 		public function linked_page() {
 			echo $this->_render_group_page( 'linked_product' );
 		}
 
+		/**
+		 * Shipping_page
+		 */
 		public function shipping_page() {
 			echo $this->_render_group_page( 'shipping' );
 		}
@@ -303,7 +365,6 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 						'wrap_class' => '',
 					);
 					$field               = wp_parse_args( $field, $defaults );
-					$field_id            = isset( $field['id'] ) ? $field['id'] : "";
 					$WrapClass           = $this->show_hide_class( $field['show'], $field['hide'] );
 					$field['wrap_class'] = $this->_merge_wrap_class( $field['wrap_class'], $WrapClass );
 					$value               = $this->get_field_values( $field, $values );
@@ -371,6 +432,9 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 			return $sec_id;
 		}
 
+		/**
+		 * Handles Options array
+		 */
 		public function handle_options() {
 			foreach ( $this->options as $page_id => $page ) {
 				$sec_id = $this->_get_page_id( $page );
@@ -421,6 +485,9 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 
 		}
 
+		/**
+		 * Saves product Data.
+		 */
 		public function save_product_data() {
 			global $post;
 
@@ -446,6 +513,9 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 			}
 		}
 
+		/**
+		 * Loads required Styles & Scripts
+		 */
 		public function load_style_script() {
 			global $typenow;
 			if ( $typenow === 'product' ) {
@@ -558,6 +628,9 @@ if ( ! class_exists( "WPSFramework_WC_Metabox" ) ) {
 			return update_post_meta( $post_id, apply_filters( 'wpsf_sanatize_title', $key ), $update_value );
 		}
 
+		/**
+		 * Adds WC Fields.
+		 */
 		public function add_wc_fields() {
 			wp_nonce_field( 'wpsf-framework-wc-metabox', 'wpsf-framework-wc-metabox-nonce' );
 

@@ -7,17 +7,32 @@
  */
 
 final class WPSFramework_Query {
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
 	private static $_instance = null;
 
+	/**
+	 * query
+	 *
+	 * @var null
+	 */
 	private static $query = null;
 
+	/**
+	 * query_args
+	 *
+	 * @var array
+	 */
 	private static $query_args = array();
 
 	/**
 	 * @return null|\WPSFramework_Query
 	 */
 	public static function instance() {
-		if ( self::$_instance === null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self;
 		}
 
@@ -35,6 +50,7 @@ final class WPSFramework_Query {
 		self::$query_args = array();
 		self::$query      = null;
 
+		$result        = null;
 		$option_key    = 'ID';
 		$option_value  = 'name';
 		$default_key   = 'ID';
@@ -47,7 +63,7 @@ final class WPSFramework_Query {
 		if ( ! empty( $args ) ) {
 			$option_key   = isset( $args['option_key'] ) ? $args['option_key'] : 'ID';
 			$option_value = isset( $args['option_value'] ) ? $args['option_value'] : 'name';
-			$is_all       = ( $option_key === false && $option_value === false ) ? true : false;
+			$is_all       = ( false === $option_key && false === $option_value ) ? true : false;
 			unset( $args['option_key'] );
 			unset( $args['option_value'] );
 			self::$query_args = array_merge( $args, self::$query_args );
@@ -57,10 +73,10 @@ final class WPSFramework_Query {
 
 		switch ( $type ) {
 
-			case 'pages' :
-			case 'page' :
-			case 'posts' :
-			case 'post' :
+			case 'pages':
+			case 'page':
+			case 'posts':
+			case 'post':
 				$_q_type       = 'cpt';
 				$default_key   = 'ID';
 				$default_value = 'post_title';
@@ -76,14 +92,13 @@ final class WPSFramework_Query {
 				}
 				break;
 
-			case 'categories' :
-			case 'category' :
+			case 'categories':
+			case 'category':
 			case 'tags':
 			case 'tag':
 				$_q_type       = 'cat';
 				$default_key   = 'term_id';
 				$default_value = 'name';
-
 
 				if ( ! isset( self::$query_args['taxonomies'] ) && ! ! isset( self::$query_args['taxonomy'] ) ) {
 					if ( in_array( $type, array( 'tags', 'tag' ) ) ) {
@@ -99,20 +114,20 @@ final class WPSFramework_Query {
 				}
 				break;
 
-			case 'menus' :
-			case 'menu' :
+			case 'menus':
+			case 'menu':
 				$default_key   = 'term_id';
 				$default_value = 'name';
 				break;
 
-			case 'post_types' :
-			case 'post_type' :
+			case 'post_types':
+			case 'post_type':
 				$options    = array();
 				$post_types = get_post_types( array(
 					'show_in_nav_menus' => true,
 				) );
 
-				if ( ! is_wp_error( $post_types ) && ! empty ( $post_types ) ) {
+				if ( ! is_wp_error( $post_types ) && ! empty( $post_types ) ) {
 					foreach ( $post_types as $post_type ) {
 						$options [ $post_type ] = ucfirst( $post_type );
 					}
@@ -124,7 +139,7 @@ final class WPSFramework_Query {
 		self::handle_query_args();
 
 		switch ( $_q_type ) {
-			case "cpt":
+			case 'cpt':
 				self::$query = new WP_Query( self::$query_args );
 				$result      = self::$query->posts;
 				break;
@@ -140,7 +155,7 @@ final class WPSFramework_Query {
 			return array();
 		}
 
-		if ( $is_all === false ) {
+		if ( false === $is_all ) {
 			$result = self::handle_query_data( $result, array( $option_key, $option_value ), array(
 				$default_key,
 				$default_value,

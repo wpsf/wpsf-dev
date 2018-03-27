@@ -6,9 +6,20 @@
  * Time: 11:24 AM
  */
 
+/**
+ * Class WPSFramework_Ajax
+ */
 final class WPSFramework_Ajax extends WPSFramework_Abstract {
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
 	private static $_instance = null;
 
+	/**
+	 * WPSFramework_Ajax constructor.
+	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpsf-ajax', array( &$this, 'handle_ajax' ) );
 		add_action( 'wp_ajax_nopriv_wpsf-ajax', array( &$this, 'handle_ajax' ) );
@@ -18,12 +29,15 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
 	 * @return null|\WPSFramework_Ajax
 	 */
 	public static function instance() {
-		if ( self::$_instance == null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
 	}
 
+	/**
+	 * Handles Ajax Request.
+	 */
 	public function handle_ajax() {
 		if ( isset( $_REQUEST['wpsf-action'] ) ) {
 			$action = $_REQUEST['wpsf-action'];
@@ -38,18 +52,24 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
 		wp_die();
 	}
 
+	/**
+	 * Query Select Data.
+	 */
 	public function query_select_data() {
-		$query_args = ( isset ( $_REQUEST['query_args'] ) ) ? $_REQUEST['query_args'] : array();
+		$query_args = ( isset( $_REQUEST['query_args'] ) ) ? $_REQUEST['query_args'] : array();
 		$data       = WPSFramework_Query::query( $_REQUEST['options'], $query_args, $_REQUEST['s'] );
 		wp_send_json( $data );
 		wp_die();
 	}
 
+	/**
+	 * WPSF Gets icons.
+	 */
 	public function wpsf_get_icons() {
 		do_action( 'wpsf_add_icons_before' );
 		$jsons = apply_filters( 'wpsf_add_icons_json', glob( WPSF_DIR . '/fields/icon/*.json' ) );
 
-		if ( ! empty ( $jsons ) ) {
+		if ( ! empty( $jsons ) ) {
 			foreach ( $jsons as $path ) {
 				$object = wpsf_get_icon_fonts( 'fields/icon/' . basename( $path ) );
 				if ( is_object( $object ) ) {
@@ -67,6 +87,9 @@ final class WPSFramework_Ajax extends WPSFramework_Abstract {
 		do_action( 'wpsf_add_icons_after' );
 	}
 
+	/**
+	 * WPSF Modal Select.
+	 */
 	public function wpsf_modal_select() {
 		if ( ! isset( $_REQUEST['data'] ) ) {
 			wp_send_json_error();

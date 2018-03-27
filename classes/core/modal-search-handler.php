@@ -1,4 +1,13 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
+ -------------------------------------------------------------------------------------------------*/
 
 /**
  * Created by PhpStorm.
@@ -6,7 +15,11 @@
  * Date: 07-03-2018
  * Time: 10:01 AM
  */
-Class WPSFramework_Modal_Search_Handler {
+
+/**
+ * Class WPSFramework_Modal_Search_Handler
+ */
+class WPSFramework_Modal_Search_Handler {
 	public function __construct( $type = '', $selected = array(), $query_data = array(), $query_args = array() ) {
 		do_action( 'wpsf_before_model_search_render' );
 		$table = new WPSF_Modal_Search_Table( $type, $query_args, $query_data, $selected );
@@ -114,24 +127,22 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 	public function default_cols( $type = '' ) {
 		if ( $this->is_tax( $type ) ) {
 			return array(
-				'title'       => __( "Name" ),
-				'description' => __( "Description" ),
-				'slug'        => __( "Slug" ),
-				'post_count'  => __( "Count" ),
+				'title'       => __( 'Name' ),
+				'description' => __( 'Description' ),
+				'slug'        => __( 'Slug' ),
+				'post_count'  => __( 'Count' ),
 			);
 		} elseif ( $this->is_page( $type ) ) {
 			return array(
-				'thumbnail' => __( "Image" ),
-				'title'     => __( "Name" ),
-				'author'    => __( "Author" ),
-				'date'      => __( "Date" ),
-
+				'thumbnail' => __( 'Image' ),
+				'title'     => __( 'Name' ),
+				'author'    => __( 'Author' ),
+				'date'      => __( 'Date' ),
 			);
 		} else {
 			return array(
-				'thumbnail' => __( "Image" ),
-				'title'     => __( "Title" ),
-
+				'thumbnail' => __( 'Image' ),
+				'title'     => __( 'Title' ),
 			);
 		}
 	}
@@ -171,7 +182,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 			global $mode;
 
 			if ( '0000-00-00 00:00:00' === $item->post_date ) {
-				$t_time    = $h_time = __( 'Unpublished' );
+				$t_time    = __( 'Unpublished' );
+				$h_time    = __( 'Unpublished' );
 				$time_diff = 0;
 			} else {
 				$t_time    = get_the_time( __( 'Y/m/d g:i:s a' ), $item );
@@ -227,13 +239,13 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 		if ( isset( $this->settings['id'] ) ) {
 			return apply_filters( 'wpsf_modal_search_column_' . $this->settings['id'], '', $col_name, $item );
 		}
-		return apply_filters( "wpsf_modal_search_column", '', $col_name, $item );
+		return apply_filters( 'wpsf_modal_search_column', '', $col_name, $item );
 	}
 
 	/**
 	 * @param $item
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public function column_author( $item ) {
 		if ( $this->is_page() || $this->is_post() ) {
@@ -246,7 +258,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 			if ( ! is_wp_error( $user ) ) {
 				return $this->get_edit_link( $args, $user->display_name );
 			}
-			return __( "Unknown User" );
+			return __( 'Unknown User' );
 		} else {
 			$this->column_default( $item, 'author' );
 		}
@@ -266,7 +278,8 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 	protected function get_edit_link( $args, $label, $class = '' ) {
 		$url = add_query_arg( $args, 'edit.php' );
 
-		$class_html = $aria_current = '';
+		$class_html   = '';
+		$aria_current = '';
 		if ( ! empty( $class ) ) {
 			$class_html = sprintf( ' class="%s"', esc_attr( $class ) );
 
@@ -285,16 +298,15 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 	 */
 	public function column_title( $item ) {
 		if ( $this->is_tax( $this->type ) ) {
-			$edit_Link = get_edit_term_link( $item->term_id, $item->taxonomy );
-			$title     = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $edit_Link, $item->name );
+			$edit_link = get_edit_term_link( $item->term_id, $item->taxonomy );
+			$title     = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $edit_link, $item->name );
 			return '<strong>' . $title . '</strong>';
 		} elseif ( $this->is_page() || $this->is_post() ) {
-
 			$can_edit_post = current_user_can( 'edit_post', $item->ID );
-
-			echo "<strong>";
+			echo '<strong>';
 
 			$format = get_post_format( $item->ID );
+
 			if ( $format ) {
 				$label        = get_post_format_string( $format );
 				$format_class = 'post-state-format post-format-icon post-format-' . $format;
@@ -305,8 +317,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 				echo $this->get_edit_link( $format_args, $label . ':', $format_class );
 			}
 
-			$title = empty( $item->post_title ) ? __( "(No Title)" ) : $item->post_title;
-
+			$title = empty( $item->post_title ) ? __( '(No Title)' ) : $item->post_title;
 
 			if ( $can_edit_post && $item->post_status != 'trash' ) {
 				printf( '<a class="row-title" href="%s" aria-label="%s">%s</a>', get_edit_post_link( $item->ID ), esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ), $title );
@@ -348,7 +359,10 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 			if ( $tax->query_var ) {
 				$args = array( $tax->query_var => $item->slug );
 			} else {
-				$args = array( 'taxonomy' => $tax->name, 'term' => $item->slug );
+				$args = array(
+					'taxonomy' => $tax->name,
+					'term'     => $item->slug,
+				);
 			}
 
 			return "<a href='" . esc_url( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
@@ -409,6 +423,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 		} elseif ( $this->is_post() === true || $this->is_page() === true ) {
 			return isset( $this->selected[ $item->ID ] ) ? $item->ID : false;
 		}
+		return false;
 	}
 
 	public function column_thumbnail( $item = array() ) {

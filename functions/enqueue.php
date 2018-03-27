@@ -1,23 +1,24 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
+
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 }
 
 if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 	/**
 	 * Class WPSFramework_Assets
 	 */
-	final Class WPSFramework_Assets {
+	final class WPSFramework_Assets {
 		/**
 		 * _instance
 		 *
@@ -79,7 +80,6 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 				array( 'wpsf-framework' ),
 				WPSF_VERSION,
 			);
-
 
 			$this->scripts['wpsf-plugins']    = array(
 				self::is_debug( WPSF_URI . '/assets/js/wpsf-plugins.js', 'js' ),
@@ -182,7 +182,7 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 		 * @static
 		 */
 		public static function instance() {
-			if ( self::$_instance == null ) {
+			if ( null === self::$_instance ) {
 				self::$_instance = new self;
 			}
 			return self::$_instance;
@@ -203,7 +203,6 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			wp_enqueue_script( 'wpsf-plugins' );
 			wp_enqueue_script( 'wpsf-framework' );
 			wp_enqueue_script( 'wplink' );
-
 
 			wp_enqueue_style( 'editor-buttons' );
 			wp_enqueue_style( 'wp-jquery-ui-dialog' );
@@ -256,8 +255,6 @@ if ( ! function_exists( 'wpsf_assets' ) ) {
 	function wpsf_assets() {
 		return WPSFramework_Assets::instance();
 	}
-
-	wpsf_assets();
 }
 
 if ( ! function_exists( 'wpsf_load_customizer_assets' ) ) {
@@ -273,6 +270,5 @@ if ( ! function_exists( 'wpsf_load_customizer_assets' ) ) {
 		add_action( 'admin_print_styles-widgets.php', 'wpsf_load_customizer_assets' );
 	}
 }
-
 
 return wpsf_assets();

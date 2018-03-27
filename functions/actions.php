@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 
@@ -29,19 +29,15 @@ if ( ! function_exists( 'wpsf_export_options' ) ) {
 		header( 'Content-Transfer-Encoding: binary' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-
 		echo wpsf_encode_string( get_option( WPSF_OPTION ) );
-
-		die ();
+		die();
 	}
-
 	add_action( 'wp_ajax_wpsf-export-options', 'wpsf_export_options' );
 }
 
 
 if ( ! function_exists( 'wpsf_set_icons' ) ) {
 	/**
-	 *
 	 * Set icons for wp dialog
 	 *
 	 * @since   1.0.0
@@ -54,7 +50,6 @@ if ( ! function_exists( 'wpsf_set_icons' ) ) {
 		echo '<div class="wpsf-dialog-load"><div class="wpsf-icon-loading">' . esc_html__( 'Loading...', 'wpsf-framework' ) . '</div></div>';
 		echo '</div>';
 	}
-
 	add_action( 'admin_footer', 'wpsf_set_icons' );
 	add_action( 'customize_controls_print_footer_scripts', 'wpsf_set_icons' );
 }

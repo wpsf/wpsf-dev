@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 }
 
 /**
@@ -54,7 +54,7 @@ if ( ! function_exists( 'wpsf_field_registry' ) ) {
 	}
 }
 
-if ( ! function_exists( "wpsf_template" ) ) {
+if ( ! function_exists( 'wpsf_template' ) ) {
 	/**
 	 * @param       $override_location
 	 * @param       $template_name
@@ -77,7 +77,7 @@ if ( ! function_exists( "wpsf_template" ) ) {
 	}
 }
 
-if ( ! function_exists( "wpsf_autoloader" ) ) {
+if ( ! function_exists( 'wpsf_autoloader' ) ) {
 	/**
 	 * WPSF Autoloader Function to auto load required class files on the go.
 	 *
@@ -86,7 +86,7 @@ if ( ! function_exists( "wpsf_autoloader" ) ) {
 	 * @return bool
 	 */
 	function wpsf_autoloader( $class ) {
-		if ( $class === true && class_exists( $class, false ) === true ) {
+		if ( true === $class && true === class_exists( $class, false ) ) {
 			return true;
 		}
 
@@ -153,7 +153,7 @@ if ( ! function_exists( 'wpsf_framework_init' ) ) {
 		wpsf_field_registry();
 
 		add_action( 'widgets_init', 'wpsf_framework_widgets', 10 );
-		do_action( "wpsf_framework_loaded" );
+		do_action( 'wpsf_framework_loaded' );
 	}
 }
 
