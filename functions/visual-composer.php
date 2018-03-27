@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+ - This file is part of the WPSF package.                                                         -
+ - This package is Open Source Software. For the full copyright and license                       -
+ - information, please view the LICENSE file which was distributed with this                      -
+ - source code.                                                                                   -
+ -                                                                                                -
+ - @package    WPSF                                                                               -
+ - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+ -------------------------------------------------------------------------------------------------*/
+
 /**
  * Created by PhpStorm.
  * User: varun
@@ -6,13 +16,51 @@
  * Time: 01:41 PM
  */
 
+/**
+ * Class WPSFramework_VC_Field
+ */
 class WPSFramework_VC_Field {
-	public    $type        = 'text';
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	public $type = 'text';
+
+	/**
+	 * extra_class
+	 *
+	 * @var string
+	 */
 	protected $extra_class = 'wpb_vc_param_value';
-	protected $setting     = array();
-	protected $value       = '';
-	protected $field_arr   = array();
-	protected $_vc_keys    = array(
+
+	/**
+	 * setting
+	 *
+	 * @var array
+	 */
+	protected $setting = array();
+
+	/**
+	 * value
+	 *
+	 * @var string
+	 */
+	protected $value = '';
+
+	/**
+	 * field_arr
+	 *
+	 * @var array
+	 */
+	protected $field_arr = array();
+
+	/**
+	 * _vc_keys
+	 *
+	 * @var array
+	 */
+	protected $_vc_keys = array(
 		'type',
 		'holder',
 		'class',
@@ -27,8 +75,21 @@ class WPSFramework_VC_Field {
 		'group',
 		'vc_single_param_edit_holder_class',
 	);
+
+	/**
+	 * _unique_key
+	 *
+	 * @var string
+	 */
 	protected $_unique_key = '';
 
+	/**
+	 * WPSFramework_VC_Field constructor.
+	 *
+	 * @param array  $settings
+	 * @param array  $value
+	 * @param string $type
+	 */
 	public function __construct( $settings = array(), $value = array(), $type = '' ) {
 		$this->setting   = $settings;
 		$this->field_arr = $settings;
@@ -36,6 +97,14 @@ class WPSFramework_VC_Field {
 		$this->type      = $type;
 	}
 
+	/**
+	 * Checks and returns value from $this->settings.
+	 *
+	 * @param string $key
+	 * @param bool   $default
+	 *
+	 * @return bool|mixed
+	 */
 	public function option( $key = '', $default = false ) {
 		if ( isset( $this->setting[ $key ] ) ) {
 			return $this->setting[ $key ];
@@ -43,10 +112,20 @@ class WPSFramework_VC_Field {
 		return $default;
 	}
 
+	/**
+	 * Renders WPSF Element for visual composer.
+	 *
+	 * @return string
+	 */
 	public function render() {
 		return wpsf_add_element( $this->field_array(), $this->value, $this->_unique_key );
 	}
 
+	/**
+	 * Converts WPSF VC Field Array into WPSF Field Array.
+	 *
+	 * @return array
+	 */
 	public function field_array() {
 		$replace_fields = $this->replace_keys();
 		$return         = array();
@@ -76,6 +155,11 @@ class WPSFramework_VC_Field {
 		return $return;
 	}
 
+	/**
+	 * Returns Requried Replaceable Keys. To make field array work with WPSF.
+	 *
+	 * @return array
+	 */
 	private function replace_keys() {
 		return array(
 			'class'      => 'class',
@@ -86,6 +170,11 @@ class WPSFramework_VC_Field {
 		);
 	}
 
+	/**
+	 * Filters WPSF VC Field Array.To work with WPSF Field.
+	 *
+	 * @return array
+	 */
 	public function filtered_settings() {
 		$r = $this->setting;
 		foreach ( $this->vc_keys() as $i ) {
@@ -96,22 +185,58 @@ class WPSFramework_VC_Field {
 		return $r;
 	}
 
+	/**
+	 * Returns VC Keys.
+	 *
+	 * @return array
+	 */
 	private function vc_keys() {
 		return $this->_vc_keys;
 	}
 
+	/**
+	 * Returns $this->extra_class.
+	 *
+	 * @param $return
+	 *
+	 * @return string
+	 */
 	public function extra_class( $return ) {
 		return $this->extra_class;
 	}
 
+	/**
+	 * Returns Extra Wrap Attributes.
+	 *
+	 * @param $attr
+	 * @param $return
+	 *
+	 * @return mixed
+	 */
 	public function extra_wrap_attributes( $attr, $return ) {
 		return $attr;
 	}
 
+	/**
+	 * Returns Value.
+	 *
+	 * @param array $return
+	 *
+	 * @return array|string
+	 */
 	public function value( $return = array() ) {
 		return $this->value;
 	}
 
+	/**
+	 * Explodes | values
+	 *
+	 * @example converts 'a|b|c|e' into array('a','b','c','e')
+	 *
+	 * @param $value
+	 *
+	 * @return array
+	 */
 	public function explode_pipeline( $value ) {
 		$return = array();
 		$data   = explode( '|', $value );
@@ -138,6 +263,13 @@ class WPSFramework_VC_Field {
 		return $return;
 	}
 
+	/**
+	 * Decodes JSON String.
+	 *
+	 * @param $value
+	 *
+	 * @return array|bool|mixed|object
+	 */
 	public function decode( $value ) {
 		$v = $this->is_encoded( $value );
 		if ( $v === true ) {
@@ -146,6 +278,13 @@ class WPSFramework_VC_Field {
 		return false;
 	}
 
+	/**
+	 * Checks if string is encoded value.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function is_encoded( $value ) {
 		if ( ! isset( $this->base64_val ) ) {
 			$value = base64_decode( $value, true );
@@ -159,6 +298,9 @@ class WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_checkbox_Field
+ */
 class WPSFramework_VC_checkbox_Field extends WPSFramework_VC_Field {
 	public $type = 'checkbox';
 
@@ -184,10 +326,16 @@ class WPSFramework_VC_checkbox_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_radio_Field
+ */
 class WPSFramework_VC_radio_Field extends WPSFramework_VC_checkbox_Field {
 	public $type = 'radio';
 }
 
+/**
+ * Class WPSFramework_VC_links_Field
+ */
 class WPSFramework_VC_links_Field extends WPSFramework_VC_Field {
 	public $type = 'links';
 
@@ -196,31 +344,49 @@ class WPSFramework_VC_links_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_image_select_Field
+ */
 class WPSFramework_VC_image_select_Field extends WPSFramework_VC_checkbox_Field {
 	public $type = 'image_select';
 
 }
 
+/**
+ * Class WPSFramework_VC_heading_Field
+ */
 class WPSFramework_VC_heading_Field extends WPSFramework_VC_Field {
 	public    $type        = 'heading';
 	protected $extra_class = '';
 }
 
+/**
+ * Class WPSFramework_VC_subheading_field
+ */
 class WPSFramework_VC_subheading_field extends WPSFramework_VC_Field {
 	public    $type        = 'subheading';
 	protected $extra_class = '';
 }
 
+/**
+ * Class WPSFramework_VC_notice_field
+ */
 class WPSFramework_VC_notice_field extends WPSFramework_VC_Field {
 	public    $type        = 'notice';
 	protected $extra_class = '';
 }
 
+/**
+ * Class WPSFramework_VC_content_Field
+ */
 class WPSFramework_VC_content_Field extends WPSFramework_VC_Field {
 	public    $type        = 'content';
 	protected $extra_class = '';
 }
 
+/**
+ * Class WPSFramework_VC_select_Field
+ */
 class WPSFramework_VC_select_Field extends WPSFramework_VC_Field {
 	public $type = 'select';
 
@@ -229,39 +395,22 @@ class WPSFramework_VC_select_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_background_Field
+ */
 class WPSFramework_VC_background_Field extends WPSFramework_VC_Field {
 	public $type = 'background';
 
 	public function value( $return = array() ) {
-		return $this->explode_pipeline( $this->value ); // TODO: Change the autogenerated stub
+		return $this->explode_pipeline( $this->value );
 	}
 }
 
+/**
+ * Class WPSFramework_VC_sorter_Field
+ */
 class WPSFramework_VC_sorter_Field extends WPSFramework_VC_Field {
 	public $type = 'sorter';
-
-	/**
-	 * @todo check ifits required
-	 * @return array
-	 */
-	public function __pipe_sep() {
-		$values = $this->explode_pipeline( $this->value );
-		$values = ( is_array( $values ) ) ? $values : array();
-		$_vals  = array();
-		foreach ( $values as $i => $val ) {
-			if ( is_array( $val ) ) {
-				$_vals[ $i ] = array();
-				foreach ( $val as $e => $v ) {
-					$ep = explode( ":", $v );
-					if ( ! empty( array_filter( $ep ) ) && count( $ep ) > 1 ) {
-						$_vals[ $i ][ $ep[0] ] = $ep[1];
-					}
-				}
-			}
-		}
-
-		return $_vals; // TODO: Change the autogenerated stub
-	}
 
 	public function value( $return = array() ) {
 		$this->is_encoded( $this->value );
@@ -280,6 +429,9 @@ class WPSFramework_VC_sorter_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_fieldset_Field
+ */
 class WPSFramework_VC_fieldset_Field extends WPSFramework_VC_Field {
 	public $type = 'fieldset';
 
@@ -290,6 +442,9 @@ class WPSFramework_VC_fieldset_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_accordion_Field
+ */
 class WPSFramework_VC_accordion_Field extends WPSFramework_VC_Field {
 	public $type = 'accordion';
 
@@ -300,6 +455,9 @@ class WPSFramework_VC_accordion_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_tab_Field
+ */
 class WPSFramework_VC_tab_Field extends WPSFramework_VC_Field {
 	public $type = 'tab';
 
@@ -310,6 +468,9 @@ class WPSFramework_VC_tab_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_social_icons_Field
+ */
 class WPSFramework_VC_social_icons_Field extends WPSFramework_VC_Field {
 	public $type = 'social_icons';
 
@@ -320,10 +481,16 @@ class WPSFramework_VC_social_icons_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_color_scheme_Field
+ */
 class WPSFramework_VC_color_scheme_Field extends WPSFramework_VC_checkbox_Field {
 	public $type = 'color_scheme';
 }
 
+/**
+ * Class WPSFramework_VC_image_size_Field
+ */
 class WPSFramework_VC_image_size_Field extends WPSFramework_VC_Field {
 	public $type = 'image_size';
 
@@ -332,6 +499,9 @@ class WPSFramework_VC_image_size_Field extends WPSFramework_VC_Field {
 	}
 }
 
+/**
+ * Class WPSFramework_VC_css_builder_Field
+ */
 class WPSFramework_VC_css_builder_Field extends WPSFramework_VC_Field {
 	public $type = 'css_builder';
 
@@ -463,6 +633,14 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_vc_params' ) ) {
+	/**
+	 * Handles WPSF + VC Field Args.
+	 *
+	 * @param string $shortcode
+	 * @param array  $atts
+	 *
+	 * @return array
+	 */
 	function wpsf_vc_params( $shortcode = '', $atts = array() ) {
 		$param = vc_get_shortcode( $shortcode );
 		if ( ! isset( $param['params'] ) ) {
@@ -477,7 +655,6 @@ if ( ! function_exists( 'wpsf_vc_params' ) ) {
 				$value                        = $atts[ $field['param_name'] ];
 				$class                        = new $class( array(), $value, $vc_class::get_type( $field['type'] ) );
 				$atts[ $field['param_name'] ] = $class->value();
-
 			}
 		}
 		return $atts;

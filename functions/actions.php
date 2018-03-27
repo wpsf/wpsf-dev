@@ -13,15 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die ();
 } // Cannot access pages directly.
 
-/**
- *
- * Export options
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
+
 if ( ! function_exists( 'wpsf_export_options' ) ) {
+	/**
+	 *
+	 * Export options
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 */
 	function wpsf_export_options() {
 		header( 'Content-Type: plain/text' );
 		header( 'Content-disposition: attachment; filename=backup-options-' . gmdate( 'd-m-Y' ) . '.txt' );
@@ -37,15 +38,16 @@ if ( ! function_exists( 'wpsf_export_options' ) ) {
 	add_action( 'wp_ajax_wpsf-export-options', 'wpsf_export_options' );
 }
 
-/**
- *
- * Set icons for wp dialog
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
+
 if ( ! function_exists( 'wpsf_set_icons' ) ) {
+	/**
+	 *
+	 * Set icons for wp dialog
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 */
 	function wpsf_set_icons() {
 		echo '<div id="wpsf-icon-dialog" class="wpsf-dialog" title="' . esc_html__( 'Add Icon', 'wpsf-framework' ) . '">';
 		echo '<div class="wpsf-dialog-header wpsf-text-center"><input type="text" placeholder="' . esc_html__( 'Search a Icon...', 'wpsf-framework' ) . '" class="wpsf-icon-search" /></div>';

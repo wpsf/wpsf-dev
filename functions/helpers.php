@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'wpsf_init_element' ) ) {
 	/**
+	 * Creates A Fields Instance
+	 *
 	 * @param array  $field
 	 * @param string $value
 	 * @param string $unique
@@ -24,7 +26,7 @@ if ( ! function_exists( 'wpsf_init_element' ) ) {
 	 */
 	function wpsf_init_element( $field = array(), $value = '', $unique = '' ) {
 		$class = 'WPSFramework_Option_' . $field ['type'];
-		wpsf_autoloader( $class, true );
+		wpsf_autoloader( $class );
 		if ( class_exists( $class ) ) {
 			$element              = new $class( $field, $value, $unique );
 			$instance_ID          = $element->id;
@@ -36,6 +38,8 @@ if ( ! function_exists( 'wpsf_init_element' ) ) {
 
 if ( ! function_exists( 'wpsf_add_element' ) ) {
 	/**
+	 * Adds A WPSF Field & Renders it.
+	 *
 	 * @param array  $field
 	 * @param string $value
 	 * @param string $unique
@@ -56,7 +60,7 @@ if ( ! function_exists( 'wpsf_add_element' ) ) {
 			return wpsf_add_element( $field, $value, $unique, true );
 		} else {
 			$class = 'WPSFramework_Option_' . $field ['type'];
-			wpsf_autoloader( $class, true );
+			wpsf_autoloader( $class );
 			if ( class_exists( $class ) ) {
 				ob_start();
 				$element = new $class( $field, $value, $unique );
@@ -72,6 +76,8 @@ if ( ! function_exists( 'wpsf_add_element' ) ) {
 
 if ( ! function_exists( 'wpsf_unarray_fields' ) ) {
 	/**
+	 * Returns all field types that can be unarrayed.
+	 *
 	 * @return array
 	 */
 	function wpsf_unarray_fields() {
@@ -81,7 +87,11 @@ if ( ! function_exists( 'wpsf_unarray_fields' ) ) {
 
 if ( ! function_exists( 'wpsf_is_unarray_field' ) ) {
 	/**
-	 * @return boolean
+	 * Checks if field type is unarray.
+	 *
+	 * @param mixed $type .
+	 *
+	 * @return bool
 	 */
 	function wpsf_is_unarray_field( $type ) {
 		if ( is_array( $type ) && isset( $type['type'] ) ) {
@@ -93,7 +103,9 @@ if ( ! function_exists( 'wpsf_is_unarray_field' ) ) {
 
 if ( ! function_exists( 'wpsf_is_unarrayed' ) ) {
 	/**
-	 * @param array $field
+	 * Checks if field is unarray.
+	 *
+	 * @param mixed $field .
 	 *
 	 * @return bool
 	 */
@@ -107,17 +119,13 @@ if ( ! function_exists( 'wpsf_is_unarrayed' ) ) {
 	}
 }
 
-
-/**
- *
- * Encode string for backup options
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_encode_string' ) ) {
 	/**
+	 * Encode string for backup options
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $string
 	 *
 	 * @return string
@@ -127,16 +135,13 @@ if ( ! function_exists( 'wpsf_encode_string' ) ) {
 	}
 }
 
-/**
- *
- * Decode string for backup options
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_decode_string' ) ) {
 	/**
+	 * Decode string for backup options
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $string
 	 *
 	 * @return mixed
@@ -146,16 +151,12 @@ if ( ! function_exists( 'wpsf_decode_string' ) ) {
 	}
 }
 
-/**
- *
- * Get google font from json file
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_google_fonts' ) ) {
 	/**
+	 * Get google font from json file
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 * @return array|mixed|object
 	 */
 	function wpsf_get_google_fonts() {
@@ -177,16 +178,13 @@ if ( ! function_exists( 'wpsf_get_google_fonts' ) ) {
 	}
 }
 
-/**
- *
- * Get icon fonts from json file
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_icon_fonts' ) ) {
 	/**
+	 * Get icon fonts from json file
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $file
 	 *
 	 * @return array|mixed|object
@@ -200,16 +198,13 @@ if ( ! function_exists( 'wpsf_get_icon_fonts' ) ) {
 	}
 }
 
-/**
- *
- * Array search key & value
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_array_search' ) ) {
 	/**
+	 * Array search key & value
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $array
 	 * @param $key
 	 * @param $value
@@ -233,16 +228,13 @@ if ( ! function_exists( 'wpsf_array_search' ) ) {
 	}
 }
 
-/**
- *
- * Getting POST Var
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_var' ) ) {
 	/**
+	 * Getting POST Var
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param        $var
 	 * @param string $default
 	 *
@@ -261,16 +253,13 @@ if ( ! function_exists( 'wpsf_get_var' ) ) {
 	}
 }
 
-/**
- *
- * Getting POST Vars
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_vars' ) ) {
 	/**
+	 * Getting POST Vars
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param        $var
 	 * @param        $depth
 	 * @param string $default
@@ -292,6 +281,8 @@ if ( ! function_exists( 'wpsf_get_vars' ) ) {
 
 if ( ! function_exists( "wpsf_js_vars" ) ) {
 	/**
+	 * Converts PHP Array into JS JSON String with script tag and returns it.
+	 *
 	 * @param      $object_name
 	 * @param      $l10n
 	 * @param bool $with_script_tag
@@ -304,7 +295,7 @@ if ( ! function_exists( "wpsf_js_vars" ) ) {
 				continue;
 			$l10n[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
 		}
-
+		$script = null;
 		if ( ! empty( $object_name ) ) {
 			$script = "var $object_name = " . wp_json_encode( $l10n ) . ';';
 		} else {
@@ -321,6 +312,12 @@ if ( ! function_exists( "wpsf_js_vars" ) ) {
 }
 
 if ( ! function_exists( 'wpsf_add_errors' ) ) {
+	/**
+	 * Adds Error to global $wpsf_error array.
+	 *
+	 * @param $errs
+	 *
+	 */
 	function wpsf_add_errors( $errs ) {
 		global $wpsf_errors;
 		if ( is_array( $wpsf_errors ) && is_array( $errs ) ) {
@@ -332,6 +329,11 @@ if ( ! function_exists( 'wpsf_add_errors' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_get_errors' ) ) {
+	/**
+	 * Returns gloabl $wpsf_errors.
+	 *
+	 * @return array
+	 */
 	function wpsf_get_errors() {
 		global $wpsf_errors;
 		return $wpsf_errors;

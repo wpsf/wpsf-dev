@@ -14,18 +14,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WPSFramework_Assets' ) ) {
+	/**
+	 * Class WPSFramework_Assets
+	 */
 	final Class WPSFramework_Assets {
-		private static $_instance   = null;
-		public         $scripts     = array();
-		public         $styles      = array();
-		private        $load_assets = array();
-		private        $page_hook   = null;
+		/**
+		 * _instance
+		 *
+		 * @var null
+		 */
+		private static $_instance = null;
 
+		/**
+		 * scripts
+		 *
+		 * @var array
+		 */
+		public $scripts = array();
+
+		/**
+		 * styles
+		 *
+		 * @var array
+		 */
+		public $styles = array();
+
+		/**
+		 * WPSFramework_Assets constructor.
+		 */
 		public function __construct() {
 			$this->init_array();
 			add_action( 'admin_enqueue_scripts', array( &$this, 'register_assets' ) );
 		}
 
+		/**
+		 * Stores All default WPSF Assets Into A Array
+		 *
+		 * @uses $this->styles
+		 * @uses $this->scripts
+		 */
 		public function init_array() {
 			$this->styles['wpsf-fontawesome']   = array(
 				self::is_debug( WPSF_URI . '/assets/css/font-awesome.css', 'css' ),
@@ -148,6 +175,12 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			);
 		}
 
+		/**
+		 * Creates A Instance for WPSFramework_Assets.
+		 *
+		 * @return null|\WPSFramework_Assets
+		 * @static
+		 */
 		public static function instance() {
 			if ( self::$_instance == null ) {
 				self::$_instance = new self;
@@ -155,6 +188,9 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			return self::$_instance;
 		}
 
+		/**
+		 * Loads All Default Styles & Assets.
+		 */
 		public function render_framework_style_scripts() {
 			wp_enqueue_media();
 
@@ -180,6 +216,9 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			wp_enqueue_style( 'wpsf-framework' );
 		}
 
+		/**
+		 * Registers Assets With WordPress
+		 */
 		public function register_assets() {
 			foreach ( $this->styles as $id => $file ) {
 				wp_register_style( $id, $file[0], $file[1], $file[2], 'all' );
@@ -190,6 +229,15 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			}
 		}
 
+		/**
+		 * Check if WP_DEBUG & SCRIPT_DEBUG Is enabled.
+		 *
+		 * @param string $file_name
+		 * @param string $ext
+		 *
+		 * @return mixed|string
+		 * @static
+		 */
 		private static function is_debug( $file_name = '', $ext = 'css' ) {
 			$search  = '.' . $ext;
 			$replace = '.min.' . $ext;
@@ -202,6 +250,9 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_assets' ) ) {
+	/**
+	 * @return null|\WPSFramework_Assets
+	 */
 	function wpsf_assets() {
 		return WPSFramework_Assets::instance();
 	}
@@ -210,6 +261,9 @@ if ( ! function_exists( 'wpsf_assets' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_load_customizer_assets' ) ) {
+	/**
+	 * Loads WPSF Assets on customizer page.
+	 */
 	function wpsf_load_customizer_assets() {
 		wpsf_assets()->render_framework_style_scripts();
 	}

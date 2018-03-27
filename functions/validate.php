@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'wpsf_get_error_message' ) ) {
 	/**
+	 * Returns Error Message From Field Array.
+	 *
 	 * @param $fields
 	 * @param $slug
 	 * @param $default
@@ -29,16 +31,13 @@ if ( ! function_exists( 'wpsf_get_error_message' ) ) {
 	}
 }
 
-/**
- *
- * Email validate
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_validate_email' ) ) {
 	/**
+	 * Email validate
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 * @param $field
 	 *

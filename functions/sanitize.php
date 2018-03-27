@@ -12,16 +12,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die ();
 } // Cannot access pages directly.
-/**
- *
- * Text sanitize
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
+
 if ( ! function_exists( 'wpsf_sanitize_text' ) ) {
 	/**
+	 * Text sanitize
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 * @param $field
 	 *
@@ -34,16 +32,13 @@ if ( ! function_exists( 'wpsf_sanitize_text' ) ) {
 	add_filter( 'wpsf_sanitize_text', 'wpsf_sanitize_text', 10, 2 );
 }
 
-/**
- *
- * Textarea sanitize
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_textarea' ) ) {
 	/**
+	 * Textarea sanitize
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return string
@@ -56,17 +51,14 @@ if ( ! function_exists( 'wpsf_sanitize_textarea' ) ) {
 	add_filter( 'wpsf_sanitize_textarea', 'wpsf_sanitize_textarea' );
 }
 
-/**
- *
- * Checkbox sanitize
- * Do not touch, or think twice.
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_checkbox' ) ) {
 	/**
+	 * Checkbox sanitize
+	 * Do not touch, or think twice.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return bool
@@ -87,18 +79,14 @@ if ( ! function_exists( 'wpsf_sanitize_checkbox' ) ) {
 	add_filter( 'wpsf_sanitize_switcher', 'wpsf_sanitize_checkbox' );
 }
 
-/**
- *
- * Image select sanitize
- * Do not touch, or think twice.
- *
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_image_select' ) ) {
 	/**
+	 * Image select sanitize
+	 * Do not touch, or think twice.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return array|mixed|string
@@ -120,17 +108,14 @@ if ( ! function_exists( 'wpsf_sanitize_image_select' ) ) {
 	add_filter( 'wpsf_sanitize_image_select', 'wpsf_sanitize_image_select' );
 }
 
-/**
- *
- * Group sanitize
- * Do not touch, or think twice.
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_group' ) ) {
 	/**
+	 * Group sanitize
+	 * Do not touch, or think twice.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return string
@@ -142,16 +127,13 @@ if ( ! function_exists( 'wpsf_sanitize_group' ) ) {
 	add_filter( 'wpsf_sanitize_group', 'wpsf_sanitize_group' );
 }
 
-/**
- *
- * Title sanitize
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_title' ) ) {
 	/**
+	 * Title sanitize
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return string
@@ -163,16 +145,13 @@ if ( ! function_exists( 'wpsf_sanitize_title' ) ) {
 	add_filter( 'wpsf_sanitize_title', 'wpsf_sanitize_title' );
 }
 
-/**
- *
- * Text clean
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_sanitize_clean' ) ) {
 	/**
+	 * Text clean
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return mixed

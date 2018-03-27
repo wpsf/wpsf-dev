@@ -79,12 +79,13 @@ if ( ! function_exists( "wpsf_template" ) ) {
 
 if ( ! function_exists( "wpsf_autoloader" ) ) {
 	/**
+	 * WPSF Autoloader Function to auto load required class files on the go.
+	 *
 	 * @param      $class
-	 * @param bool $check
 	 *
 	 * @return bool
 	 */
-	function wpsf_autoloader( $class, $check = false ) {
+	function wpsf_autoloader( $class ) {
 		if ( $class === true && class_exists( $class, false ) === true ) {
 			return true;
 		}
@@ -108,6 +109,15 @@ if ( ! function_exists( "wpsf_autoloader" ) ) {
 }
 
 if ( ! function_exists( 'wpsf_framework_init' ) ) {
+	/**
+	 * Loads Basic Required WPSF Files
+	 * Like Functions & base Classes
+	 * And fires few hooks
+	 *
+	 * To Load VC Integration Please create a defined variable in WPSF_VC => true,
+	 *
+	 * @hook wpsf_framework_loaded
+	 */
 	function wpsf_framework_init() {
 		if ( class_exists( 'WPSFramework' ) ) {
 			return;
@@ -148,6 +158,9 @@ if ( ! function_exists( 'wpsf_framework_init' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_framework_widgets' ) ) {
+	/**
+	 * loads WPSF - WP Widgets Integration.
+	 */
 	function wpsf_framework_widgets() {
 		wpsf_locate_template( 'classes/widget.php' );
 		do_action( 'wpsf_widgets' );
