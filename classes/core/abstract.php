@@ -23,16 +23,72 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  */
 abstract class WPSFramework_Abstract {
-	public    $options           = array();
-	protected $type              = '';
-	protected $unique            = WPSF_OPTION;
-	protected $plugin_id         = null;
-	protected $raw_options       = array();
-	protected $settings          = array();
-	protected $cache             = array();
-	protected $db_options        = array();
+	/**
+	 * options
+	 *
+	 * @var array
+	 */
+	public $options = array();
+
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = '';
+
+	/**
+	 * unique
+	 *
+	 * @var string
+	 */
+	protected $unique = WPSF_OPTION;
+
+	/**
+	 * plugin_id
+	 *
+	 * @var null
+	 */
+	protected $plugin_id = null;
+
+	/**
+	 * raw_options
+	 *
+	 * @var array
+	 */
+	protected $raw_options = array();
+
+	/**
+	 * settings
+	 *
+	 * @var array
+	 */
+	protected $settings = array();
+
+	/**
+	 * cache
+	 *
+	 * @var array
+	 */
+	protected $cache = array();
+
+	/**
+	 * db_options
+	 *
+	 * @var array
+	 */
+	protected $db_options = array();
+
+	/**
+	 * override_location
+	 *
+	 * @var null
+	 */
 	protected $override_location = null;
 
+	/**
+	 * WPSFramework_Abstract constructor.
+	 */
 	public function __construct() {
 	}
 
@@ -50,17 +106,30 @@ abstract class WPSFramework_Abstract {
 		return $this->unique;
 	}
 
+	/**
+	 * Returns Override Location Path.
+	 *
+	 * @return null
+	 */
 	public function override_location() {
 		return $this->override_location;
 	}
 
-	function get_cache() {
-	}
-
-	function get_db_options() {
+	/**
+	 * Abstract Function get_cache();
+	 */
+	public function get_cache() {
 	}
 
 	/**
+	 * Abstract Function get_db_options();
+	 */
+	public function get_db_options() {
+	}
+
+	/**
+	 * Gets Field's Value from $this->db_values.
+	 *
 	 * @param $field
 	 * @param $values
 	 *
@@ -171,6 +240,8 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Maps Dyanmic Error id for each and every field.
+	 *
 	 * @param array  $array
 	 * @param string $parent_id
 	 *
@@ -209,6 +280,9 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Runs apply_filters
+	 *
+	 * @uses \apply_filters()
 	 * @return mixed
 	 */
 	protected function filter() {
@@ -290,6 +364,8 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Catchs Output.
+	 *
 	 * @param string $status
 	 *
 	 * @return string
@@ -306,6 +382,8 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Returns Custom Cache KEy.
+	 *
 	 * @param array $data
 	 *
 	 * @return bool|mixed|string
