@@ -1,4 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 } // Cannot access pages directly.
 
@@ -54,9 +55,8 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 		echo '<div class="wpsf-groups wpsf-accordion">';
 
 		if ( ! empty( $this->value ) && is_array( $this->value ) ) {
-			var_dump( $this->value );
 			foreach ( $this->value as $key => $value ) {
-				if ( isset( $this->multilang ) && $this->multilang !== false ) {
+				if ( isset( $this->multilang ) && false !== $this->multilang ) {
 					$title = $this->_get_title( $this->value[ $key ], true );
 					if ( is_array( $title ) ) {
 						$lang  = wpsf_language_defaults();
@@ -66,7 +66,6 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 				} else {
 					$title = $this->_get_title( $this->value[ $key ] );
 				}
-
 
 				$field_title = ( ! empty( $search_id ) ) ? $acc_title : $field_title;
 
@@ -104,7 +103,7 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 		}
 
 		if ( is_array( $array ) ) {
-			if ( $is_array === true ) {
+			if ( true === $is_array ) {
 				return $array;
 			}
 
@@ -123,8 +122,8 @@ class WPSFramework_Option_group extends WPSFramework_Options {
 	protected function field_defaults() {
 		return array(
 			'accordion_title'     => __( 'Adding' ),
-			'button_title'        => __( "Add" ),
-			'remove_button_title' => __( "Remove" ),
+			'button_title'        => __( 'Add' ),
+			'remove_button_title' => __( 'Remove' ),
 		);
 	}
 }

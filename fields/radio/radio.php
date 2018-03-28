@@ -1,16 +1,17 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
+
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -36,11 +37,11 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 
-		if ( isset ( $this->field ['options'] ) ) {
+		if ( isset( $this->field ['options'] ) ) {
 
 			$options = $this->field ['options'];
 			$options = ( is_array( $options ) ) ? $options : array_filter( $this->element_data( $options ) );
-			if ( ! empty ( $options ) ) {
+			if ( ! empty( $options ) ) {
 
 				echo '<ul' . $this->element_class() . '>';
 				foreach ( $options as $key => $value ) {
@@ -68,8 +69,8 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
 				echo '</ul>';
 			}
 		} else {
-			$label = ( isset ( $this->field ['label'] ) ) ? $this->field ['label'] : '';
-			echo '<label><input type="radio" name="' . $this->element_name() . '" value="1"' . $this->element_class() . $this->element_attributes() . checked( $this->element_value(), 1, false ) . '/> ' . $label . '</label>';
+			$label = ( isset( $this->field ['label'] ) ) ? $this->field ['label'] : '';
+			echo '<label><input type="radio" name="' . $this->element_name() . '" value="1" ' . $this->element_class() . $this->element_attributes() . checked( $this->element_value(), 1, false ) . '/> ' . $label . '</label>';
 		}
 
 		echo $this->element_after();
@@ -81,11 +82,12 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
 	 * @param string $title
 	 * @param array  $chboxval
 	 * @param string $attributes
+	 * @param array  $data
 	 *
 	 * @return string
 	 */
 	public function _element( $name = '', $value = '', $title = '', $chboxval = array(), $attributes = '', $data = array() ) {
-		if ( isset( $this->field['icon_box'] ) && $this->field['icon_box'] === true ) {
+		if ( isset( $this->field['icon_box'] ) && true === $this->field['icon_box'] ) {
 			$attr       = $this->element_attributes( $value, $attributes );
 			$is_checked = $this->checked( $chboxval, $value );
 			$checkbox   = '<input type="radio" name="' . $this->element_name( $name ) . '" value="' . $value . '" ' . $attr . ' ' . $is_checked . '/>';
@@ -94,7 +96,7 @@ class WPSFramework_Option_radio extends WPSFramework_Options {
 		}
 
 		return '<label> <input type="radio" name="' . $this->element_name( $name ) . '" 
-        value="' . $value . '"' . $this->element_attributes( $value, $attributes ) . $this->checked( $chboxval, $value ) . '/> ' . $title . ' </label>';
+        value="' . $value . '"' . $this->element_attributes( $value, $attributes ) . $this->checked( $chboxval, $value ) . ' /> ' . $title . ' </label>';
 	}
 
 	protected function field_defaults() {

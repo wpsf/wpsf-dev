@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  */
 class WPSFramework_Option_content extends WPSFramework_Options {
+
 	/**
 	 * WPSFramework_Option_content constructor.
 	 *
@@ -33,10 +34,13 @@ class WPSFramework_Option_content extends WPSFramework_Options {
 		parent::__construct( $field, $value, $unique );
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function output() {
 		echo $this->element_before();
 
-		if ( empty( $this->field ['content'] ) && $this->field ['callback_hook'] !== false ) {
+		if ( empty( $this->field ['content'] ) && false !== $this->field ['callback_hook'] ) {
 			echo do_action( $this->field ['callback_hook'], $this );
 		} else {
 			echo $this->field ['content'];
@@ -45,6 +49,9 @@ class WPSFramework_Option_content extends WPSFramework_Options {
 	}
 
 	protected function field_defaults() {
-		return array( 'content' => '', 'callback_hook' => false );
+		return array(
+			'content'       => '',
+			'callback_hook' => false,
+		);
 	}
 }

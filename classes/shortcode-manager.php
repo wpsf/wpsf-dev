@@ -117,15 +117,14 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
         <div id="wpsf-shortcode-dialog" class="wpsf-dialog hidden"
              title="<?php esc_html_e( 'Add Shortcode', 'wpsf-framework' ); ?>">
             <div class="wpsf-dialog-header">
-                <select
-                        class="<?php echo ( is_rtl() ) ? 'chosen-rtl ' : ''; ?>wpsf-dialog-select"
+                <select class="<?php echo ( is_rtl() ) ? 'chosen-rtl ' : ''; ?> wpsf-dialog-select"
                         data-placeholder="<?php esc_html_e( 'Select a shortcode', 'wpsf-framework' ); ?>">
                     <option value=""></option>
 					<?php
 					foreach ( $this->options as $group ) {
 						echo '<optgroup label="' . $group ['title'] . '">';
 						foreach ( $group ['shortcodes'] as $shortcode ) {
-							$view = ( isset ( $shortcode ['view'] ) ) ? $shortcode ['view'] : 'normal';
+							$view = ( isset( $shortcode ['view'] ) ) ? $shortcode ['view'] : 'normal';
 							echo '<option value="' . $shortcode ['name'] . '" data-view="' . $view . '">' . $shortcode ['title'] . '</option>';
 						}
 						echo '</optgroup>';
@@ -135,8 +134,9 @@ class WPSFramework_Shortcode_Manager extends WPSFramework_Abstract {
             </div>
             <div class="wpsf-dialog-load"></div>
             <div class="wpsf-insert-button hidden">
-                <a href="#"
-                   class="button button-primary wpsf-dialog-insert"><?php esc_html_e( 'Insert Shortcode', 'wpsf-framework' ); ?></a>
+                <a href="#" class="button button-primary wpsf-dialog-insert">
+					<?php esc_html_e( 'Insert Shortcode', 'wpsf-framework' ); ?>
+                </a>
             </div>
         </div>
 		<?php

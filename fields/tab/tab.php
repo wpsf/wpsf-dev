@@ -72,7 +72,7 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 			$icon       = '';
 			$section    = wp_parse_args( $section, $defaults );
 			$is_active  = ( $first_section === $section['name'] ) ? true : false;
-			$is_display = ( $is_active === true ) ? 'display:block;' : 'display:none;';
+			$is_display = ( true === $is_active ) ? 'display:block;' : 'display:none;';
 
 			if ( ! empty( $section['icon'] ) ) {
 				if ( filter_var( $section['icon'], FILTER_VALIDATE_URL ) ) {
@@ -84,18 +84,19 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 
 			$section['name'] = ( empty( $section['name'] ) ) ? wpsf_sanitize_title( $section['title'] ) : $section['name'];
 			$nav_class       = 'wpsf-user-tabs-' . $section['name'];
-			$nav_class       = ( $is_active === true ) ? $nav_class . ' wpsf-user-tabs-active ' : $nav_class;
+			$nav_class       = ( true === $is_active ) ? $nav_class . ' wpsf-user-tabs-active ' : $nav_class;
 
 			$navs     .= sprintf( '<li class="%s" data-panel="%s"><a href="#" class="wpsf-tab-a">%s%s</a></li>', $nav_class, $section['name'], $section['icon'], $section['title'] );
 			$contents .= '<div class="wpsf-user-tabs-panel wpsf-user-tabs-panel-' . $section['name'] . '" style="' . $is_display . '">';
 
 			foreach ( $section['fields'] as $field ) {
-				$field_id      = ( isset ( $field['id'] ) ) ? $field['id'] : '';
-				$field_default = ( isset ( $field['default'] ) ) ? $field['default'] : $this->value;
+				$field_id      = ( isset( $field['id'] ) ) ? $field['id'] : '';
+				$field_default = ( isset( $field['default'] ) ) ? $field['default'] : $this->value;
 				$Uid           = $this->_unique();
 				$Uid           = ( empty( $section['un_array'] ) ) ? $Uid . '[' . $section['name'] . ']' : $Uid;
 				$value         = $this->field_value( $section, $field_id );
-				$contents      .= $this->add_field( $field, $value, $Uid );
+
+				$contents .= $this->add_field( $field, $value, $Uid );
 			}
 
 			$contents .= '</div>';
@@ -117,8 +118,8 @@ class WPSFramework_Option_tab extends WPSFramework_Options {
 	}
 
 	/**
-	 * @param string $section
-	 * @param        $field_id
+	 * @param string|array $section
+	 * @param              $field_id
 	 *
 	 * @return bool|mixed
 	 */

@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,13 +36,13 @@ class WPSFramework_Option_textarea extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 		echo $this->shortcode_generator();
-		echo '<textarea name="' . $this->element_name() . '"' . $this->element_class() . $this->element_attributes() . '>' . $this->element_value() . '</textarea>';
+		echo '<textarea name="' . $this->element_name() . '" ' . $this->element_class() . $this->element_attributes() . '>' . $this->element_value() . '</textarea>';
 		echo $this->element_after();
 	}
 
 	public function shortcode_generator() {
-		if ( isset ( $this->field ['shortcode'] ) && $this->field ['shortcode'] !== false ) {
-			$label = ( isset( $this->field['shortcode_button_name'] ) ) ? $this->field['shortcode_button_name'] : __( "Add Shortcode", 'wpsf-framework' );
+		if ( isset( $this->field ['shortcode'] ) && false !== $this->field ['shortcode'] ) {
+			$label = ( isset( $this->field['shortcode_button_name'] ) ) ? $this->field['shortcode_button_name'] : __( 'Add Shortcode', 'wpsf-framework' );
 			echo '<a href="#" class="button button-primary wpsf-shortcode wpsf-shortcode-textarea">' . esc_html( $label ) . '</a>';
 		}
 	}

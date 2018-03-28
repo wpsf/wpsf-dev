@@ -15,7 +15,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
 	}
 
 	public function output() {
-		$label = ( isset( $this->field['label'] ) ) ? $this->field['label'] : __( "Open Modal", 'wpsf-framework' );
+		$label = ( isset( $this->field['label'] ) ) ? $this->field['label'] : __( 'Open Modal', 'wpsf-framework' );
 
 		echo $this->element_before();
 		wp_enqueue_script( 'wp-backbone' );
@@ -34,7 +34,6 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
 			'type'       => $this->field['options'],
 		), true );
 
-
 		$attrs = $this->element_attributes( array(
 			'type'            => 'button',
 			'class'           => 'button wpsf-modal-search-button modal-' . $this->field['id'],
@@ -50,7 +49,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
 	}
 
 	public function add_footer() {
-		if ( self::$is_added === true ) {
+		if ( true === self::$is_added ) {
 			return;
 		}
 
@@ -60,8 +59,8 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
                 width      : 36px;
                 height     : 36px;
                 position   : absolute;
-                top        : 0px;
-                right      : 0px;
+                top        : 0;
+                right      : 0;
                 cursor     : pointer;
                 text-align : center;
                 color      : #666;
@@ -90,11 +89,11 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
             <div class="find-box-inside wpsf-modal-search-view-inside">
                 <div class="find-box-search wpsf-modal-search-view-search">
                     <label class="screen-reader-text" for="#bb-modal-view-input"><?php _e( 'Search' ); ?></label>
-                    <input type="text" placeholder="<?php _e( "Search Text" ); ?>" id="wpsf-modal-search-view-input"
+                    <input type="text" placeholder="<?php _e( 'Search Text' ); ?>" id="wpsf-modal-search-view-input"
                            value="" autocomplete="off"/>
 
                     <button id="wpsf-modal-search-view-search"
-                            class="button "><?php _e( "Search" ); ?></button>
+                            class="button "><?php _e( 'Search' ); ?></button>
                     <span class="spinner is-active"></span>
                     <div class="clear"></div>
                 </div>
@@ -114,7 +113,7 @@ class WPSFramework_Option_model_search extends WPSFramework_Options {
 			'query_args' => array(),
 			'settings'   => array(),
 			'options'    => false,
-			'label'      => __( "Open Modal", 'wpsf-framework' ),
+			'label'      => __( 'Open Modal', 'wpsf-framework' ),
 		);
 	}
 }

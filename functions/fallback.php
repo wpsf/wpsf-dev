@@ -32,7 +32,7 @@ if ( ! function_exists( 'wpsf_get_term_meta' ) ) {
 			return get_term_meta( $term_id, $key, $single );
 		}
 		$terms = get_option( 'wpsf_term_' . $key );
-		return ( ! empty ( $terms [ $term_id ] ) ) ? $terms [ $term_id ] : false;
+		return ( ! empty( $terms [ $term_id ] ) ) ? $terms [ $term_id ] : false;
 	}
 }
 
@@ -80,7 +80,7 @@ if ( ! function_exists( 'wpsf_update_term_meta' ) ) {
 			return update_term_meta( $term_id, $meta_key, $meta_value, $prev_value );
 		}
 
-		if ( ! empty ( $term_id ) || ! empty ( $meta_key ) || ! empty ( $meta_value ) ) {
+		if ( ! empty( $term_id ) || ! empty( $meta_key ) || ! empty( $meta_value ) ) {
 			$terms              = get_option( 'wpsf_term_' . $meta_key );
 			$terms [ $term_id ] = $meta_value;
 			update_option( 'wpsf_term_' . $meta_key, $terms );
@@ -107,7 +107,7 @@ if ( ! function_exists( 'wpsf_delete_term_meta' ) ) {
 		if ( function_exists( "delete_term_meta" ) ) {
 			return delete_term_meta( $term_id, $meta_key, $meta_value );
 		}
-		if ( ! empty ( $term_id ) || ! empty ( $meta_key ) ) {
+		if ( ! empty( $term_id ) || ! empty( $meta_key ) ) {
 			$terms = get_option( 'wpsf_term_' . $meta_key );
 			unset ( $terms [ $term_id ] );
 			update_option( 'wpsf_term_' . $meta_key, $terms );
