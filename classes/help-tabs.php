@@ -7,10 +7,29 @@
  */
 
 class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
 	private static $_instance = null;
-	protected      $type      = 'helptabs';
-
-	private $help_tabs       = array();
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = 'helptabs';
+	/**
+	 * help_tabs
+	 *
+	 * @var array
+	 */
+	private $help_tabs = array();
+	/**
+	 * help_tabs_pages
+	 *
+	 * @var array
+	 */
 	private $help_tabs_pages = array();
 
 	/**
@@ -36,12 +55,15 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 	 * @return null|\WPSFramework_Help_Tabs
 	 */
 	public static function instance() {
-		if ( self::$_instance === null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
 	}
 
+	/**
+	 * Handles Help Tabs Callback.
+	 */
 	public function callback_help_tabs() {
 		$screen = get_current_screen();
 		$sid    = $screen->id;
@@ -89,7 +111,8 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 			}
 			$output .= wpsf_add_element( $field, '', 'wpsf_help_tab' );
 		}
-		$output                  .= '</div>';
+		$output .= '</div>';
+
 		$help_sidebar['content'] = $output;
 
 		unset( $help_sidebar['fields'] );
@@ -112,7 +135,6 @@ class WPSFramework_Help_Tabs extends WPSFramework_Abstract {
 			}
 		} elseif ( isset( $s['fields'] ) ) {
 			foreach ( $s['fields'] as $f => $e ) {
-
 				if ( ! isset( $e['id'] ) ) {
 					$field_id                = 'wpsf-helptab-' . $e['type'] . '-' . microtime( true ) . mt_rand( 1, 100000 );
 					$s['fields'][ $f ]['id'] = $field_id;

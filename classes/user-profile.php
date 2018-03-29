@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 /**
@@ -16,9 +16,20 @@
  * Time: 09:25 PM
  */
 class WPSFramework_User_Profile extends WPSFramework_Abstract {
-	private static $_instance = null;
-	public         $options   = array();
-	protected      $type      = 'user_profile';
+
+	/**
+	 * options
+	 *
+	 * @var array
+	 */
+	public $options = array();
+
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = 'user_profile';
 
 	/**
 	 * WPSFramework_User_Profile constructor.
@@ -35,12 +46,12 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
 	public function init( $options ) {
 		$this->options = $options;
 		add_action( 'load-profile.php', array( &$this, 'map_user_info' ) );
-		add_action( 'load-user-edit.php', array( &$this, 'map_user_info', ) );
-		add_action( 'show_user_profile', array( &$this, 'custom_user_profile_fields', ), 10, 1 );
-		add_action( 'edit_user_profile', array( &$this, 'custom_user_profile_fields', ), 10, 1 );
-		add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields', ), 10, 2 );
-		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields', ), 10, 2 );
-		$this->addAction( "admin_enqueue_scripts", 'load_style_script' );
+		add_action( 'load-user-edit.php', array( &$this, 'map_user_info' ) );
+		add_action( 'show_user_profile', array( &$this, 'custom_user_profile_fields' ), 10, 1 );
+		add_action( 'edit_user_profile', array( &$this, 'custom_user_profile_fields' ), 10, 1 );
+		add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields' ), 10, 2 );
+		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ), 10, 2 );
+		$this->addAction( 'admin_enqueue_scripts', 'load_style_script' );
 	}
 
 	public function map_user_info() {
@@ -51,7 +62,7 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
 
 	public function load_style_script() {
 		global $pagenow;
-		if ( $pagenow === 'profile.php' || $pagenow === 'user-edit.php' ) {
+		if ( 'profile.php' === $pagenow || 'user-edit.php' === $pagenow ) {
 			wpsf_assets()->render_framework_style_scripts();
 		}
 	}
@@ -70,7 +81,7 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
 			$title  = ( isset( $option['title'] ) && ! empty( $option['title'] ) ) ? '<h2>' . $option['title'] . '</h2>' : '';
 			echo $title;
 			echo '<div class="wpsf-framework wpsf-user-profile">';
-			if ( isset( $option['style'] ) && $option['style'] === 'modern' ) {
+			if ( isset( $option['style'] ) && 'modern' === $option['style'] ) {
 				echo '<div class="wpsf-body">';
 			}
 
@@ -79,7 +90,7 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
 				echo wpsf_add_element( $field, $value, $option['id'] );
 			}
 
-			if ( isset( $option['style'] ) && $option['style'] === 'modern' ) {
+			if ( isset( $option['style'] ) && 'modern' === $option['style'] ) {
 				echo '</div>';
 			}
 			echo '</div>';
@@ -93,7 +104,6 @@ class WPSFramework_User_Profile extends WPSFramework_Abstract {
 		$save_handler = new WPSFramework_DB_Save_Handler;
 		foreach ( $this->options as $options ) {
 			$posted_data = wpsf_get_var( $options['id'] );
-
 			if ( isset( $options['fields'] ) ) {
 				$posted_data = $save_handler->general_save_handler( $posted_data, $options );
 			}

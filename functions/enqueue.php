@@ -1,31 +1,59 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
+
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 }
 
 if ( ! class_exists( 'WPSFramework_Assets' ) ) {
-	final Class WPSFramework_Assets {
-		private static $_instance   = null;
-		public         $scripts     = array();
-		public         $styles      = array();
-		private        $load_assets = array();
-		private        $page_hook   = null;
+	/**
+	 * Class WPSFramework_Assets
+	 */
+	final class WPSFramework_Assets {
+		/**
+		 * _instance
+		 *
+		 * @var null
+		 */
+		private static $_instance = null;
 
+		/**
+		 * scripts
+		 *
+		 * @var array
+		 */
+		public $scripts = array();
+
+		/**
+		 * styles
+		 *
+		 * @var array
+		 */
+		public $styles = array();
+
+		/**
+		 * WPSFramework_Assets constructor.
+		 */
 		public function __construct() {
 			$this->init_array();
 			add_action( 'admin_enqueue_scripts', array( &$this, 'register_assets' ) );
 		}
 
+		/**
+		 * Stores All default WPSF Assets Into A Array
+		 *
+		 * @uses $this->styles
+		 * @uses $this->scripts
+		 */
 		public function init_array() {
 			$this->styles['wpsf-fontawesome']   = array(
 				self::is_debug( WPSF_URI . '/assets/css/font-awesome.css', 'css' ),
@@ -52,7 +80,6 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 				array( 'wpsf-framework' ),
 				WPSF_VERSION,
 			);
-
 
 			$this->scripts['wpsf-plugins']    = array(
 				self::is_debug( WPSF_URI . '/assets/js/wpsf-plugins.js', 'js' ),
@@ -148,13 +175,22 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			);
 		}
 
+		/**
+		 * Creates A Instance for WPSFramework_Assets.
+		 *
+		 * @return null|\WPSFramework_Assets
+		 * @static
+		 */
 		public static function instance() {
-			if ( self::$_instance == null ) {
+			if ( null === self::$_instance ) {
 				self::$_instance = new self;
 			}
 			return self::$_instance;
 		}
 
+		/**
+		 * Loads All Default Styles & Assets.
+		 */
 		public function render_framework_style_scripts() {
 			wp_enqueue_media();
 
@@ -168,7 +204,6 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			wp_enqueue_script( 'wpsf-framework' );
 			wp_enqueue_script( 'wplink' );
 
-
 			wp_enqueue_style( 'editor-buttons' );
 			wp_enqueue_style( 'wp-jquery-ui-dialog' );
 			wp_enqueue_style( 'jquery-datepicker' );
@@ -180,6 +215,9 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			wp_enqueue_style( 'wpsf-framework' );
 		}
 
+		/**
+		 * Registers Assets With WordPress
+		 */
 		public function register_assets() {
 			foreach ( $this->styles as $id => $file ) {
 				wp_register_style( $id, $file[0], $file[1], $file[2], 'all' );
@@ -190,6 +228,15 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 			}
 		}
 
+		/**
+		 * Check if WP_DEBUG & SCRIPT_DEBUG Is enabled.
+		 *
+		 * @param string $file_name
+		 * @param string $ext
+		 *
+		 * @return mixed|string
+		 * @static
+		 */
 		private static function is_debug( $file_name = '', $ext = 'css' ) {
 			$search  = '.' . $ext;
 			$replace = '.min.' . $ext;
@@ -202,14 +249,18 @@ if ( ! class_exists( 'WPSFramework_Assets' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_assets' ) ) {
+	/**
+	 * @return null|\WPSFramework_Assets
+	 */
 	function wpsf_assets() {
 		return WPSFramework_Assets::instance();
 	}
-
-	wpsf_assets();
 }
 
 if ( ! function_exists( 'wpsf_load_customizer_assets' ) ) {
+	/**
+	 * Loads WPSF Assets on customizer page.
+	 */
 	function wpsf_load_customizer_assets() {
 		wpsf_assets()->render_framework_style_scripts();
 	}
@@ -219,6 +270,5 @@ if ( ! function_exists( 'wpsf_load_customizer_assets' ) ) {
 		add_action( 'admin_print_styles-widgets.php', 'wpsf_load_customizer_assets' );
 	}
 }
-
 
 return wpsf_assets();

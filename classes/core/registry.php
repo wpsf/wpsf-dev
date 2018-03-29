@@ -8,14 +8,25 @@
  */
 
 class WPSFramework_Registry {
-	private static $_instance  = null;
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
+	private static $_instance = null;
+
+	/**
+	 * _instances
+	 *
+	 * @var array
+	 */
 	private static $_instances = array();
 
 	/**
 	 * @return \WPSFramework_Registry
 	 */
 	public static function instance() {
-		if ( self::$_instance === null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self();
 		}
 		return self::$_instance;

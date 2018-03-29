@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 /**
@@ -17,20 +17,62 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 }
 
 /**
  * Class WPSFramework_Quick_Edit
  */
 class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
-	public    $options           = array();
-	public    $post_types        = array();
-	public    $formatted         = array();
-	public    $only_IDS          = array();
-	protected $type              = 'quickedit';
-	private   $added_ids         = array();
-	private   $is_nonce_rendered = false;
+
+	/**
+	 * options
+	 *
+	 * @var array|mixed|void
+	 */
+	public $options = array();
+
+	/**
+	 * post_types
+	 *
+	 * @var array
+	 */
+	public $post_types = array();
+
+	/**
+	 * formatted
+	 *
+	 * @var array
+	 */
+	public $formatted = array();
+
+	/**
+	 * only_ids
+	 *
+	 * @var array
+	 */
+	public $only_ids = array();
+
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = 'quickedit';
+
+	/**
+	 * added_ids
+	 *
+	 * @var array
+	 */
+	private $added_ids = array();
+
+	/**
+	 * is_nonce_rendered
+	 *
+	 * @var bool
+	 */
+	private $is_nonce_rendered = false;
 
 	/**
 	 * WPSFramework_Quick_Edit constructor.
@@ -40,13 +82,13 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
 	public function __construct( $options = array() ) {
 		$this->options = apply_filters( 'wpsf_quick_edit_options', $options );
 		$this->hook_post_types();
-		$this->addAction( "admin_enqueue_scripts", 'load_style_script' );
+		$this->addAction( 'admin_enqueue_scripts', 'load_style_script' );
 	}
 
 	public function hook_post_types() {
 		$this->post_types = wp_list_pluck( $this->options, 'post_type', 'post_type' );
 		foreach ( $this->options as $option ) {
-			$this->only_IDS[] = $option['id'];
+			$this->only_ids[] = $option['id'];
 			if ( ! isset( $this->formatted[ $option['post_type'] ] ) ) {
 				$this->formatted[ $option['post_type'] ] = array();
 			}
@@ -62,13 +104,16 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
 		}
 		$this->addAction( 'quick_edit_custom_box', 'render_quick_edit', 10, 99 );
 		$this->addAction( 'save_post', 'save_quick_edit', 10, 2 );
-		$this->only_IDS = array_filter( array_unique( $this->only_IDS ) );
+		$this->only_ids = array_filter( array_unique( $this->only_ids ) );
 	}
 
+	/**
+	 * Load_style_script
+	 */
 	public function load_style_script() {
 		global $pagenow, $typenow;
 
-		if ( ( $pagenow === 'edit.php' ) && isset( $this->post_types[ $typenow ] ) ) {
+		if ( 'edit.php' === $pagenow && isset( $this->post_types[ $typenow ] ) ) {
 			wpsf_assets()->render_framework_style_scripts();
 			wp_enqueue_script( 'wpsf-quick-edit' );
 		}
@@ -79,12 +124,11 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
 	 * @param $post_id
 	 */
 	public function render_hidden_data( $column, $post_id ) {
-
-		if ( isset( $this->added_ids[ $post_id ] ) || empty( $this->only_IDS ) ) {
+		if ( isset( $this->added_ids[ $post_id ] ) || empty( $this->only_ids ) ) {
 			return;
 		}
 		echo '<div id="wpsf_quick_edit_' . $post_id . '" class="hidden">';
-		foreach ( $this->only_IDS as $id ) {
+		foreach ( $this->only_ids as $id ) {
 			echo '<div id="' . $id . '"> ' . json_encode( get_post_meta( $post_id, $id, true ) ) . '</div>';
 		}
 		echo '</div>';
@@ -100,7 +144,7 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
 			return;
 		}
 
-		if ( $this->is_nonce_rendered === false ) {
+		if ( false === $this->is_nonce_rendered ) {
 			wp_nonce_field( 'wpsf-quick-edit', 'wpsf-quick-edit-nonce' );
 			$this->is_nonce_rendered = true;
 		}
@@ -158,7 +202,7 @@ class WPSFramework_Quick_Edit extends WPSFramework_Abstract {
 						$request = $validator->loop_fields( array( 'fields' => $section['fields'] ), $request, $db_value );
 						$request = apply_filters( 'wpsf_save_post', $request, $request_key, $post );
 
-						if ( empty ( $request ) ) {
+						if ( empty( $request ) ) {
 							delete_post_meta( $post_id, $request_key );
 						} else {
 							update_post_meta( $post_id, $request_key, $request );

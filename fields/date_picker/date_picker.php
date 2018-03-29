@@ -1,15 +1,14 @@
 <?php
-
 /*
- -------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
- -------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
+---------------------------------------------------------------------------------------------------
  *
  * Created by PhpStorm.
  * User: varun
@@ -35,7 +34,12 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
 		echo $this->element_after();
 	}
 
-	public function simple_datepicker( $type = 'simple', $extrAttrs = array(), $title = '' ) {
+	/**
+	 * @param string $type
+	 * @param array  $extra_attrs
+	 * @param string $title
+	 */
+	public function simple_datepicker( $type = 'simple', $extra_attrs = array(), $title = '' ) {
 		$elem_args = array_filter( array(
 			'id'         => $this->field['id'],
 			'type'       => 'text',
@@ -46,7 +50,7 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
 			'attributes' => array_merge( array(
 				'data-datepicker-type'  => $type,
 				'data-datepicker-theme' => $this->get_theme(),
-			), $extrAttrs ),
+			), $extra_attrs ),
 		) );
 		echo $this->add_field( $elem_args, $this->element_value(), $this->unique );
 	}
@@ -56,13 +60,13 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
 	}
 
 	protected function settings() {
-		$randID = sanitize_key( $this->field['id'] ) . intval( microtime( true ) );
-		$randID = str_replace( array( '-', '_' ), '', $randID );
+		$rand_id = sanitize_key( $this->field['id'] ) . intval( microtime( true ) );
+		$rand_id = str_replace( array( '-', '_' ), '', $rand_id );
 		if ( ! empty( $this->field['settings'] ) ) {
-			$this->localize_field( $randID, $this->field['settings'], true );
+			$this->localize_field( $rand_id, $this->field['settings'], true );
 		}
 
-		return array( 'data-datepicker-id' => $randID );
+		return array( 'data-datepicker-id' => $rand_id );
 	}
 
 	protected function field_defaults() {
@@ -72,4 +76,3 @@ class WPSFramework_Option_date_picker extends WPSFramework_Options {
 		);
 	}
 }
-

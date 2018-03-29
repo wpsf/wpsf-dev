@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -29,7 +29,6 @@ class WPSFramework_Option_fieldset extends WPSFramework_Options {
 
 	public function output() {
 		echo $this->element_before();
-
 		echo '<div class="wpsf-inner">';
 
 		foreach ( $this->field ['fields'] as $field ) {
@@ -37,16 +36,20 @@ class WPSFramework_Option_fieldset extends WPSFramework_Options {
 			if ( isset( $field ['id'] ) && isset( $this->value[ $field ['id'] ] ) ) {
 				$field_value = $this->value[ $field ['id'] ];
 			}
-			$db_slug = ( $this->field['un_array'] === true ) ? $this->unique : $this->get_unique( $this->field['id'] );
+			$db_slug = ( true === $this->field['un_array'] ) ? $this->unique : $this->get_unique( $this->field['id'] );
 			echo $this->add_field( $field, $field_value, $db_slug );
 		}
 
 		echo '</div>';
-
 		echo $this->element_after();
 	}
 
 	protected function field_defaults() {
-		return array( 'un_array' => false, 'default' => array(), 'fields' => array() );
+		return array(
+			'un_array' => false,
+			'default'  => array(),
+			'fields'   => array(),
+		);
 	}
 }
+

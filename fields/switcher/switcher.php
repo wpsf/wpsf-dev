@@ -1,16 +1,15 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
-
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -35,7 +34,7 @@ class WPSFramework_Option_switcher extends WPSFramework_Options {
 
 	public function output() {
 		echo $this->element_before();
-		$label = ( ! empty ( $this->field ['label'] ) ) ? '<div class="wpsf-text-desc">' . $this->field ['label'] . '</div>' : '';
+		$label = ( ! empty( $this->field ['label'] ) ) ? '<div class="wpsf-text-desc">' . $this->field ['label'] . '</div>' : '';
 		$value = ( isset( $this->field['switch_value'] ) ) ? $this->field['switch_value'] : '1';
 
 		echo '<label><input type="checkbox" name="' . $this->element_name() . '" value="' . $value . '"' . $this->element_class() . $this->element_attributes() . checked( $this->element_value(), $value, false ) . '/>
@@ -45,8 +44,8 @@ class WPSFramework_Option_switcher extends WPSFramework_Options {
 
 	protected function field_defaults() {
 		return array(
-			'on_label'     => __( "On" ),
-			'off_label'    => __( "Off" ),
+			'on_label'     => __( 'On' ),
+			'off_label'    => __( 'Off' ),
 			'label'        => '',
 			'switch_value' => '1',
 		);

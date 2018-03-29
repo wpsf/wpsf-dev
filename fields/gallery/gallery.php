@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -37,11 +37,11 @@ class WPSFramework_Option_Gallery extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 		$value  = $this->element_value();
-		$hidden = ( empty ( $value ) ) ? ' hidden' : '';
+		$hidden = ( empty( $value ) ) ? ' hidden' : '';
 
 		echo '<ul>';
 
-		if ( ! empty ( $value ) ) {
+		if ( ! empty( $value ) ) {
 			$values = explode( ',', $value );
 			foreach ( $values as $id ) {
 				$attachment = wp_get_attachment_image_src( $id, 'thumbnail' );
@@ -60,8 +60,8 @@ class WPSFramework_Option_Gallery extends WPSFramework_Options {
 
 	protected function field_defaults() {
 		return array(
-			'add_title'   => __( "Add Gallery" ),
-			'edit_title'  => __( "Edit Gallery" ),
+			'add_title'   => __( 'Add Gallery' ),
+			'edit_title'  => __( 'Edit Gallery' ),
 			'clear_title' => __( 'Clear' ),
 		);
 	}

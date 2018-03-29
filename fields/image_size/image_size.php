@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -50,7 +50,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
 			'type'       => 'text',
 			'name'       => $this->element_name( '[width]' ),
 			'attributes' => array(
-				'placeholder' => __( "Width" ),
+				'placeholder' => __( 'Width' ),
 				'style'       => 'width:50px;',
 				'size'        => 3,
 			),
@@ -64,7 +64,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
 			'type'       => 'text',
 			'name'       => $this->element_name( '[height]' ),
 			'attributes' => array(
-				'placeholder' => __( "Height" ),
+				'placeholder' => __( 'Height' ),
 				'style'       => 'width:50px;',
 				'size'        => 3,
 			),
@@ -75,7 +75,7 @@ class WPSFramework_Option_image_size extends WPSFramework_Options {
 			'pseudo' => false,
 			'type'   => 'checkbox',
 			'name'   => $this->element_name( '[crop]' ),
-			'label'  => __( "Hard Crop ?" ),
+			'label'  => __( 'Hard Crop ?' ),
 		), $crop );
 
 		echo $this->element_after();

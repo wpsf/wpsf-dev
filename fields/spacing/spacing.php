@@ -29,16 +29,17 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 
 	public function output() {
 		echo $this->element_before();
-
 		$this->unique .= '[' . $this->field['id'] . ']';
+
 		$select_class = isset( $this->field['select2'] ) ? ' select2 ' : '';
+
 		$select_class .= isset( $this->field['chosen'] ) ? ' chosen ' : '';
 
-		$show_top    = ( isset( $this->field['top'] ) && $this->field['top'] === false ) ? false : true;
-		$show_bottom = ( isset( $this->field['bottom'] ) && $this->field['bottom'] === false ) ? false : true;
-		$show_left   = ( isset( $this->field['left'] ) && $this->field['left'] === false ) ? false : true;
-		$show_right  = ( isset( $this->field['right'] ) && $this->field['right'] === false ) ? false : true;
-		$show_units  = ( isset( $this->field['units'] ) && $this->field['units'] === false ) ? false : true;
+		$show_top    = ( isset( $this->field['top'] ) && false === $this->field['top'] ) ? false : true;
+		$show_bottom = ( isset( $this->field['bottom'] ) && false === $this->field['bottom'] ) ? false : true;
+		$show_left   = ( isset( $this->field['left'] ) && false === $this->field['left'] ) ? false : true;
+		$show_right  = ( isset( $this->field['right'] ) && false === $this->field['right'] ) ? false : true;
+		$show_units  = ( isset( $this->field['units'] ) && false === $this->field['units'] ) ? false : true;
 
 
 		if ( $show_top ) {
@@ -47,7 +48,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 				'type'       => 'text',
 				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-top',
 				'pseudo'     => true,
-				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Top' : '', ),
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Top' : '' ),
 			), $this->get_value( 'top' ), $this->unique );
 		}
 
@@ -57,7 +58,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 				'type'       => 'text',
 				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-bottom',
 				'pseudo'     => true,
-				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Bottom' : '', ),
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Bottom' : '' ),
 			), $this->get_value( 'bottom' ), $this->unique );
 		}
 
@@ -67,7 +68,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 				'type'       => 'text',
 				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-left',
 				'pseudo'     => true,
-				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Left' : '', ),
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Left' : '' ),
 			), $this->get_value( 'left' ), $this->unique );
 		}
 
@@ -77,7 +78,7 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 				'type'       => 'text',
 				'wrap_class' => 'small-input wpsf-spacing wpsf-spacing-right',
 				'pseudo'     => true,
-				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Right' : '', ),
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? $this->field['title'] . ' Right' : '' ),
 			), $this->get_value( 'right' ), $this->unique );
 		}
 
@@ -88,11 +89,11 @@ class WPSFramework_Option_spacing extends WPSFramework_Options {
 				'type'       => 'select',
 				'class'      => $select_class,
 				'wrap_class' => 'small-input wpsf-spacing-units',
-				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? '' : '', ),
+				'attributes' => array( 'title' => ( isset( $this->field['title'] ) ) ? '' : '' ),
 				'options'    => array(
 					'px'  => __( 'px' ),
 					'%'   => '%',
-					'em'  => __( "em" ),
+					'em'  => __( 'em' ),
 					'rem' => __( 'rem' ),
 				),
 			), $this->get_value( 'units' ), $this->unique );

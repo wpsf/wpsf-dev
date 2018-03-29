@@ -1,20 +1,22 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 if ( ! function_exists( 'wpsf_get_error_message' ) ) {
 	/**
+	 * Returns Error Message From Field Array.
+	 *
 	 * @param $fields
 	 * @param $slug
 	 * @param $default
@@ -29,16 +31,13 @@ if ( ! function_exists( 'wpsf_get_error_message' ) ) {
 	}
 }
 
-/**
- *
- * Email validate
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_validate_email' ) ) {
 	/**
+	 * Email validate
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 * @param $field
 	 *
@@ -54,26 +53,32 @@ if ( ! function_exists( 'wpsf_validate_email' ) ) {
 }
 
 if ( ! function_exists( 'wpsf_validate_website' ) ) {
+	/**
+	 * Website Validation.
+	 *
+	 * @param $value
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	function wpsf_validate_website( $value, $field ) {
-		if ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) {
-			return ecs_html__( "Please Enter A Valid URL", 'wpsf-framework' );
+		if ( false === filter_var( $value, FILTER_VALIDATE_URL ) ) {
+			return ecs_html__( 'Please Enter A Valid URL', 'wpsf-framework' );
 		}
 	}
 
 	add_filter( 'wpsf_validate_website', 'wpsf_validate_website' );
 }
 
-/**
- *
- * Numeric validate
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_validate_numeric' ) ) {
 	/**
+	 * Numeric validate
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
+	 *
 	 * @param $field
 	 *
 	 * @return string
@@ -87,22 +92,19 @@ if ( ! function_exists( 'wpsf_validate_numeric' ) ) {
 	add_filter( 'wpsf_validate_numeric', 'wpsf_validate_numeric', 10, 2 );
 }
 
-/**
- *
- * Required validate
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_validate_required' ) ) {
 	/**
+	 * Required validate
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param $value
 	 *
 	 * @return string
 	 */
 	function wpsf_validate_required( $value ) {
-		if ( empty ( $value ) ) {
+		if ( empty( $value ) ) {
 			return esc_html__( 'Fatal Error! This field is required!', 'wpsf-framework' );
 		}
 	}

@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -69,11 +69,11 @@ class WPSFramework_Option_typography extends WPSFramework_Options {
 		$value         = wp_parse_args( $this->element_value(), $defaults_value );
 		$family_value  = $value ['family'];
 		$variant_value = $value ['variant'];
-		$is_variant    = ( isset ( $this->field ['variant'] ) && $this->field ['variant'] === false ) ? false : true;
-		$is_chosen     = ( isset ( $this->field ['chosen'] ) && $this->field ['chosen'] !== false ) ? ' chosen ' : ' ';
-		$is_select2    = ( isset ( $this->field ['select2'] ) && $this->field ['select2'] !== false ) ? ' select2 ' : ' ';
+		$is_variant    = ( isset( $this->field ['variant'] ) && false === $this->field ['variant'] ) ? false : true;
+		$is_chosen     = ( isset( $this->field ['chosen'] ) && false !== $this->field ['chosen'] ) ? ' chosen ' : ' ';
+		$is_select2    = ( isset( $this->field ['select2'] ) && false !== $this->field ['select2'] ) ? ' select2 ' : ' ';
 		$google_json   = wpsf_get_google_fonts();
-		$chosen_rtl    = ( is_rtl() && ! empty ( $is_chosen ) ) ? 'chosen-rtl ' : '';
+		$chosen_rtl    = ( is_rtl() && ! empty( $is_chosen ) ) ? 'chosen-rtl ' : '';
 
 		if ( is_object( $google_json ) ) {
 
@@ -92,31 +92,31 @@ class WPSFramework_Option_typography extends WPSFramework_Options {
 
 			echo '<optgroup label="' . esc_html__( 'Web Safe Fonts', 'wpsf-framework' ) . '">';
 			foreach ( $websafe_fonts as $websafe_value ) {
-				echo '<option value="' . $websafe_value . '" data-variants="' . implode( '|', $default_variants ) . '" data-type="websafe"' . selected( $websafe_value, $family_value, true ) . '>' . $websafe_value . '</option>';
+				echo '<option value="' . $websafe_value . '" data-variants="' . implode( '|', $default_variants ) . '" data-type="websafe" ' . selected( $websafe_value, $family_value, true ) . '>' . $websafe_value . '</option>';
 			}
 			echo '</optgroup>';
 
 			echo '<optgroup label="' . esc_html__( 'Google Fonts', 'wpsf-framework' ) . '">';
 			foreach ( $googlefonts as $google_key => $google_value ) {
 
-				echo '<option value="' . $google_key . '" data-variants="' . implode( '|', $google_value ) . '" data-type="google"' . selected( $google_key, $family_value, true ) . '>' . $google_key . '</option>';
+				echo '<option value="' . $google_key . '" data-variants="' . implode( '|', $google_value ) . '" data-type="google" ' . selected( $google_key, $family_value, true ) . '>' . $google_key . '</option>';
 			}
 			echo '</optgroup>';
 
 			echo '</select>';
 			echo '</label>';
 
-			if ( ! empty ( $is_variant ) ) {
+			if ( ! empty( $is_variant ) ) {
 
 				$variants = ( $is_google ) ? $googlefonts [ $family_value ] : $default_variants;
-				$variants = ( $value ['font'] === 'google' || $value ['font'] === 'websafe' ) ? $variants : array(
+				$variants = ( 'google' === $value ['font'] || 'websafe' === $value ['font'] ) ? $variants : array(
 					'regular',
 				);
 
 				echo '<label class="wpsf-typography-variant">';
 				echo '<select name="' . $this->element_name( '[variant]' ) . '" class="' . $is_select2 . $is_chosen . $chosen_rtl . 'wpsf-typo-variant" data-atts="variant">';
 				foreach ( $variants as $variant ) {
-					echo '<option value="' . $variant . '"' . $this->checked( $variant_value, $variant, 'selected' ) . '>' . $variant . '</option>';
+					echo '<option value="' . $variant . '"' . $this->checked( $variant_value, $variant, 'selected' ) . ' >' . $variant . '</option>';
 				}
 				echo '</select>';
 				echo '</label>';

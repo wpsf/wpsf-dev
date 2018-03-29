@@ -8,7 +8,18 @@
  */
 
 class WPSFramework_Settings extends WPSFramework_Abstract {
-	protected $type               = 'settings';
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = 'settings';
+
+	/**
+	 * framework_defaults
+	 *
+	 * @var array
+	 */
 	protected $framework_defaults = array(
 		'menu_type'         => '',
 		'menu_parent'       => '',
@@ -29,10 +40,34 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		'style'             => 'modern',
 		'help_tabs'         => array(),
 	);
-	protected $fields_md5         = null;
-	protected $page_hook          = null;
-	protected $menus              = array();
-	private   $active_menu        = array();
+
+	/**
+	 * fields_md5
+	 *
+	 * @var null
+	 */
+	protected $fields_md5 = null;
+
+	/**
+	 * page_hook
+	 *
+	 * @var null
+	 */
+	protected $page_hook = null;
+
+	/**
+	 * menus
+	 *
+	 * @var array
+	 */
+	protected $menus = array();
+
+	/**
+	 * active_menu
+	 *
+	 * @var array
+	 */
+	private $active_menu = array();
 
 	/**
 	 * WPSFramework_Settings constructor.
@@ -47,13 +82,13 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			$this->framework_defaults['option_name'] = $this->unique;
 			$settings                                = wp_parse_args( $settings, $this->framework_defaults );
 			$settings['buttons']                     = wp_parse_args( $settings['buttons'], array(
-				'save'    => __( "Save", 'wpsf-wp' ),
-				'restore' => __( "Restore", 'wpsf-wp' ),
-				'reset'   => __( "Reset All Options", 'wpsf-wp' ),
+				'save'    => __( 'Save', 'wpsf-wp' ),
+				'restore' => __( 'Restore', 'wpsf-wp' ),
+				'reset'   => __( 'Reset All Options', 'wpsf-wp' ),
 			) );
 
 			$this->plugin_id         = empty( $plugin_id ) ? $settings['option_name'] : $plugin_id;
-			$this->settings          = $this->_filter( "settings", $settings );
+			$this->settings          = $this->_filter( 'settings', $settings );
 			$this->options           = $this->_filter( 'fields', $fields );
 			$this->unique            = ( ! empty( $this->settings['option_name'] ) ) ? $this->settings['option_name'] : $this->unique;
 			$this->override_location = ( isset( $settings['override_location'] ) ) ? $settings['override_location'] : false;
@@ -65,8 +100,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 
 	/**
 	 * Register Settings To WP
-	 *
-	 * @todo add SetDefaults Function
 	 */
 	public function register_settings() {
 		$cache = $this->get_cache();
@@ -104,6 +137,9 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		return $this->fields_md5;
 	}
 
+	/**
+	 * Sets Default Value To DB.
+	 */
 	public function set_defaults() {
 		$defaults = array();
 		$this->get_db_options();
@@ -132,7 +168,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	public function get_db_options() {
 		if ( empty( $this->db_options ) ) {
 			$this->db_options = get_option( $this->unique, true );
-			$this->db_options = ( empty( $this->db_options ) || $this->db_options === true ) ? array() : $this->db_options;
+			$this->db_options = ( empty( $this->db_options ) || true === $this->db_options ) ? array() : $this->db_options;
 		}
 		return $this->db_options;
 	}
@@ -152,7 +188,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 						$sections[ $page_id . '/' . $section_id ] = $section;
 					}
 				}
-
 			} else {
 				if ( isset( $page['callback_hook'] ) ) {
 					$page['fields'] = array();
@@ -163,7 +198,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 					$sections[ $page_id ] = $page;
 				}
 			}
-
 		}
 
 		return $sections;
@@ -187,7 +221,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		$this->find_active_menu();
 
 		if ( isset( $request['_nonce'] ) ) {
-			unset ( $request ['_nonce'] );
+			unset( $request ['_nonce'] );
 		}
 
 		$save_handler = new WPSFramework_DB_Save_Handler();
@@ -198,7 +232,6 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			'db_key'             => $this->unique,
 			'posted_values'      => $request,
 		), $this->get_sections() );
-
 
 		$add_errors = $save_handler->get_errors();
 		unset( $this->cache['parent_section_id'] );
@@ -226,19 +259,19 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		$_cache_v = $this->validate_section_ids( $_cache );
 		$_url_v   = $this->validate_section_ids( $_url );
 
-		if ( $_cache_v !== false ) {
+		if ( false !== $_cache_v ) {
 			$default = $this->validate_sections( $_cache_v['parent_id'], $_cache_v['section_id'] );
 
 			$this->cache['section_id'] = false;
 			$this->cache['parent_id']  = false;
 			$this->set_cache( $this->cache );
-		} elseif ( $_url_v != false ) {
+		} elseif ( false !== $_url_v ) {
 			$default = $this->validate_sections( $_url_v['parent_id'], $_url_v['section_id'] );
 		} else {
 			$default = $this->validate_sections( false, false );
 		}
 
-		if ( ( is_null( $default['section_id'] ) || $default['section_id'] === false ) && $default['parent_id'] ) {
+		if ( ( is_null( $default['section_id'] ) || false === $default['section_id'] ) && $default['parent_id'] ) {
 			$default['section_id'] = $default['parent_id'];
 		}
 		$this->active_menu = $default;
@@ -255,11 +288,20 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		if ( empty( array_filter( $ids ) ) ) {
 			return false;
 		} elseif ( empty( $ids['section_id'] ) && ! empty( $ids['parent_id'] ) ) {
-			return array( 'section_id' => false, 'parent_id' => $ids['parent_id'] );
+			return array(
+				'section_id' => false,
+				'parent_id'  => $ids['parent_id'],
+			);
 		} elseif ( ! empty( $ids['section_id'] ) && empty( $ids['parent_id'] ) ) {
-			return array( 'section_id' => false, 'parent_id' => $ids['section_id'] );
+			return array(
+				'section_id' => false,
+				'parent_id'  => $ids['section_id'],
+			);
 		} else {
-			return array( 'section_id' => $ids['section_id'], 'parent_id' => $ids['parent_id'] );
+			return array(
+				'section_id' => $ids['section_id'],
+				'parent_id'  => $ids['parent_id'],
+			);
 		}
 	}
 
@@ -272,7 +314,10 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	public function validate_sections( $parent_id = '', $section_id = '' ) {
 		$parent_id  = $this->is_page_section_exists( $parent_id, $section_id );
 		$section_id = $this->is_page_section_exists( $parent_id, $section_id, true );
-		return array( 'section_id' => $section_id, 'parent_id' => $parent_id );
+		return array(
+			'section_id' => $section_id,
+			'parent_id'  => $parent_id,
+		);
 	}
 
 	/**
@@ -284,7 +329,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 */
 	public function is_page_section_exists( $page_id = '', $section_id = '', $is_section = false ) {
 		foreach ( $this->options as $option ) {
-			if ( $option['name'] === $page_id && $is_section === false ) {
+			if ( $option['name'] === $page_id && false === $is_section ) {
 				return $page_id;
 			} elseif ( $option['name'] === $page_id && isset( $option['sections'] ) ) {
 				foreach ( $option['sections'] as $section ) {
@@ -295,7 +340,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			}
 		}
 
-		$page_id = ( $is_section === true ) ? $page_id : null;
+		$page_id = ( true === $is_section ) ? $page_id : null;
 		return $this->get_page_section_id( $is_section, $page_id );
 	}
 
@@ -306,18 +351,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 * @return bool|null
 	 */
 	private function get_page_section_id( $is_section = true, $page = null ) {
-		if ( $page !== null ) {
+		if ( null !== $page ) {
 			foreach ( $this->options as $option ) {
-				if ( $option['name'] === $page && $is_section === false ) {
+				if ( $option['name'] === $page && false === $is_section ) {
 					return $option['name'];
-				} elseif ( $option['name'] === $page && $is_section === true && isset( $option['sections'] ) ) {
+				} elseif ( $option['name'] === $page && true === $is_section && isset( $option['sections'] ) ) {
 					$cs = current( $option['sections'] );
 					return $cs['name'];
 				}
 			}
 		} else {
 			$cs = current( $this->options );
-			if ( $is_section === true && isset( $cs['sections'] ) ) {
+			if ( true === $is_section && isset( $cs['sections'] ) ) {
 				$cs = current( $cs['sections'] );
 				return $cs['name'];
 			}
@@ -344,14 +389,14 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 			case 'sticky_head':
 				return ( $this->_option( 'is_sticky_header' ) === true ) ? true : false;
 				break;
-			case'ajax_save':
+			case 'ajax_save':
 				return $this->_option( 'ajax_save' );
 				break;
-			case'has_nav':
+			case 'has_nav':
 				return ( count( $this->options ) <= 1 ) ? false : true;
 				break;
-			case 'page_active' :
-				return ( $status === true ) ? 'style="display:block;"' : '';
+			case 'page_active':
+				return ( true === $status ) ? 'style="display:block;"' : '';
 			default:
 				return false;
 				break;
@@ -366,7 +411,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 * @return bool|mixed
 	 */
 	public function active( $is_parent = true ) {
-		if ( $is_parent === true ) {
+		if ( true === $is_parent ) {
 			return ( isset( $this->active_menu['parent_id'] ) ) ? $this->active_menu['parent_id'] : false;
 		}
 		return ( isset( $this->active_menu['section_id'] ) ) ? $this->active_menu['section_id'] : false;
@@ -398,11 +443,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 				$menu_type = 'submenu';
 				$f         = 'add_' . $type . '_page';
 				if ( function_exists( $f ) ) {
-					$this->page_hook = $f( $_t, $_t, $ac, $slug, array( &$this, 'render_page', ), $i, $p );
+					$this->page_hook = $f( $_t, $_t, $ac, $slug, array( &$this, 'render_page' ), $i, $p );
 				}
 				break;
 			default:
-				$this->page_hook = add_menu_page( $_t, $_t, $ac, $slug, array( &$this, 'render_page', ), $i, $p );
+				$this->page_hook = add_menu_page( $_t, $_t, $ac, $slug, array( &$this, 'render_page' ), $i, $p );
 				break;
 		}
 
@@ -421,12 +466,11 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 * Runs @ load-{$page_hook} action
 	 */
 	public function init_page() {
-		global $wpsf_errors;
-		$this->addAction( "admin_enqueue_scripts", 'load_assets' );
+		$this->addAction( 'admin_enqueue_scripts', 'load_assets' );
 		$this->options = $this->map_error_id( $this->options );
 		$this->get_db_options();
 		$this->find_active_menu();
-		$this->menus = $this->filter( "menus", $this->extract_menus(), $this );
+		$this->menus = $this->filter( 'menus', $this->extract_menus(), $this );
 		$errors      = ( isset( $this->cache['errors'] ) ) ? $this->cache['errors'] : array();
 		wpsf_add_errors( $errors );
 	}
@@ -481,7 +525,10 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 */
 	public function get_tab_url( $section = '', $parent = '' ) {
 		if ( $this->is( 'single_page' ) !== true ) {
-			$data = array( 'wpsf-section-id' => $section, 'wpsf-parent-id' => $parent );
+			$data = array(
+				'wpsf-section-id' => $section,
+				'wpsf-parent-id'  => $parent,
+			);
 			$url  = remove_query_arg( array_keys( $data ) );
 			return add_query_arg( array_filter( $data ), $url );
 		}
@@ -524,18 +571,18 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 	 */
 	public function get_settings_buttons() {
 		$this->catch_output( 'start' );
-		if ( $this->settings['buttons']['save'] !== false ) {
-			$text = ( $this->settings['buttons']['save'] === true ) ? 'Save' : $this->settings['buttons']['save'];
+		if ( false !== $this->settings['buttons']['save'] ) {
+			$text = ( true === $this->settings['buttons']['save'] ) ? 'Save' : $this->settings['buttons']['save'];
 			submit_button( esc_html( $text ), 'primary wpsf-save', 'save', false, array( 'data-save' => esc_html__( 'Saving...', 'wpsf-wp' ) ) );
 		}
 
-		if ( $this->settings['buttons']['restore'] !== false ) {
-			$text = ( $this->settings['buttons']['restore'] === true ) ? 'Save' : $this->settings['buttons']['restore'];
+		if ( false !== $this->settings['buttons']['restore'] ) {
+			$text = ( true === $this->settings['buttons']['restore'] ) ? 'Save' : $this->settings['buttons']['restore'];
 			submit_button( esc_html( $text ), 'secondary wpsf-restore wpsf-reset-confirm', $this->unique . '[reset]', false );
 		}
 
-		if ( $this->settings['buttons']['reset'] !== false ) {
-			$text = ( $this->settings['buttons']['reset'] === true ) ? "Reset All Options" : $this->settings['buttons']['reset'];
+		if ( false !== $this->settings['buttons']['reset'] ) {
+			$text = ( true === $this->settings['buttons']['reset'] ) ? "Reset All Options" : $this->settings['buttons']['reset'];
 			submit_button( $text, 'secondary wpsf-restore wpsf-warning-primary wpsf-reset-confirm', $this->unique . '[resetall]', false );
 		}
 

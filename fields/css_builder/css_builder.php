@@ -1,12 +1,12 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 /**
@@ -30,8 +30,8 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 
-		$is_select2 = ( isset( $this->field['select2'] ) && $this->field['select2'] === true ) ? 'select2' : '';
-		$is_chosen  = ( isset( $this->field['chosen'] ) && $this->field['chosen'] === true ) ? 'chosen' : '';
+		$is_select2 = ( isset( $this->field['select2'] ) && true === $this->field['select2'] ) ? 'select2' : '';
+		$is_chosen  = ( isset( $this->field['chosen'] ) && true === $this->field['chosen'] ) ? 'chosen' : '';
 		echo '<div class="wpsf-css-builder-container">';
 
 		echo $this->add_field( array(
@@ -41,17 +41,20 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 			'content' => 'Note, that if you enter a value without a unit, the default unit <em>px</em> will automatically appended. If an invalid value is entered, it is replaced by the default value <em>0px</em>. Accepted units are: <em>px</em>, <em>%</em> and <em>em</em></p><p>Activate the lock <span class="dashicons dashicons-lock acf-css-checkall" style="margin:0"></span> to link all values.',
 		) );
 
-
 		echo '<div class="wpsf-css-builder-margin">';
 		echo '<div><span class="dashicons wpsf-css-info dashicons-info"></span></div>';
-		echo '<div class="wpsf-css-margin-caption">' . __( "Margin", 'wpsf-framework' ) . '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-margin-checkall" ></span></div>';
+		echo '<div class="wpsf-css-margin-caption">' . __( 'Margin', 'wpsf-framework' );
+		echo '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-margin-checkall" ></span></div>';
 		$this->_css_fields( 'margin' );
 
 		echo '<div class="wpsf-css-builder-border">';
-		echo '<div class="wpsf-css-border-caption">' . __( "Border", 'wpsf-framework' ) . '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-border-checkall" ></span></div>';
+		echo '<div class="wpsf-css-border-caption">' . __( 'Border', 'wpsf-framework' );
+		echo '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-border-checkall" ></span></div>';
 		$this->_css_fields( 'border' );
+
 		echo '<div class="wpsf-css-builder-padding">';
-		echo '<div class="wpsf-css-padding-caption">' . __( "Padding", 'wpsf-framework' ) . '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-padding-checkall" ></span></div>';
+		echo '<div class="wpsf-css-padding-caption">' . __( 'Padding', 'wpsf-framework' );
+		echo '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-padding-checkall" ></span></div>';
 		$this->_css_fields( 'padding' );
 		echo '<div class="wpsf-css-builder-layout-center">';
 		echo '<p>Lorem ipsum dolor sit amet, </p>';
@@ -60,46 +63,49 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 		echo '</div>';
 		echo '</div>';
 
-
 		echo '<div class="wpsf-css-builder-extra-options">';
 		$id = $this->get_unique( $this->field['id'] );
 
 		echo $this->add_field( array(
 			'type'  => 'color_picker',
 			'id'    => 'background-color',
-			'title' => __( "Background Color", 'wpsf-framework' ),
+			'title' => __( 'Background Color', 'wpsf-framework' ),
 		), $this->field_val( 'background-color' ), $id );
+
 		echo $this->add_field( array(
 			'type'  => 'color_picker',
 			'id'    => 'border-color',
-			'title' => __( "Border Color", 'wpsf-framework' ),
+			'title' => __( 'Border Color', 'wpsf-framework' ),
 		), $this->field_val( 'border-color' ), $id );
+
 		echo $this->add_field( array(
 			'type'  => 'color_picker',
 			'id'    => 'color',
-			'title' => __( "Text Color", 'wpsf-framework' ),
+			'title' => __( 'Text Color', 'wpsf-framework' ),
 		), $this->field_val( 'color' ), $id );
+
 		echo $this->add_field( array(
 			'type'    => 'select',
 			'id'      => 'border-style',
-			'title'   => __( "Border Style", 'wpsf-framework' ),
+			'title'   => __( 'Border Style', 'wpsf-framework' ),
 			'class'   => $is_select2 . ' ' . $is_chosen,
 			'options' => array(
-				''       => __( "None", 'wpsf-framework' ),
-				'solid'  => __( "Solid", 'wpsf-framework' ),
-				'dashed' => __( "Dashed", 'wpsf-framework' ),
-				'dotted' => __( "Dotted", 'wpsf-framework' ),
-				'double' => __( "Double", 'wpsf-framework' ),
-				'groove' => __( "Groove", 'wpsf-framework' ),
-				'ridge'  => __( "Ridge", 'wpsf-framework' ),
-				'inset'  => __( "Inset", 'wpsf-framework' ),
-				'outset' => __( "Outset", 'wpsf-framework' ),
+				''       => __( 'None', 'wpsf-framework' ),
+				'solid'  => __( 'Solid', 'wpsf-framework' ),
+				'dashed' => __( 'Dashed', 'wpsf-framework' ),
+				'dotted' => __( 'Dotted', 'wpsf-framework' ),
+				'double' => __( 'Double', 'wpsf-framework' ),
+				'groove' => __( 'Groove', 'wpsf-framework' ),
+				'ridge'  => __( 'Ridge', 'wpsf-framework' ),
+				'inset'  => __( 'Inset', 'wpsf-framework' ),
+				'outset' => __( 'Outset', 'wpsf-framework' ),
 
 			),
 		), $this->field_val( 'border-style' ), $id );
 
 		echo '<div class="wpsf-css-builder-border-radius">';
-		echo '<div class="wpsf-css-border-radius-caption">' . __( "Border Radius", 'wpsf-framework' ) . '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-border-radius-checkall" ></span></div>';
+		echo '<div class="wpsf-css-border-radius-caption">' . __( 'Border Radius', 'wpsf-framework' );
+		echo '<span class="dashicons dashicons-lock wpsf-css-checkall wpsf-border-radius-checkall" ></span></div>';
 
 		echo $this->add_field( $this->carr( array(
 			'title'      => __( 'Top Left', 'wpsf-framework' ),
@@ -112,11 +118,13 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 			'wrap_class' => 'wpsf-border-radius wpsf-border-radius-top-right',
 			'id'         => 'border-radius-top-right',
 		) ), $this->field_val( 'border-radius-top-right' ), $id );
+
 		echo $this->add_field( $this->carr( array(
 			'title'      => __( 'Bottom Left', 'wpsf-framework' ),
 			'wrap_class' => 'wpsf-border-radius wpsf-border-radius-bottom-left',
 			'id'         => 'border-radius-bottom-left',
 		) ), $this->field_val( 'border-radius-bottom-left' ), $id );
+
 		echo $this->add_field( $this->carr( array(
 			'title'      => __( 'Bottom Right', 'wpsf-framework' ),
 			'wrap_class' => 'wpsf-border-radius wpsf-border-radius-bottom-right',
@@ -138,22 +146,26 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 			'wrap_class' => 'wpsf-' . $type . ' wpsf-' . $type . '-top',
 			'id'         => $type . '-top',
 		) ), $this->field_val( $type . '-top' ), $id );
+
 		echo $this->add_field( $this->carr( array(
 			'wrap_class' => 'wpsf-' . $type . ' wpsf-' . $type . '-right',
 			'id'         => $type . '-right',
 		) ), $this->field_val( $type . '-right' ), $id );
+
 		echo $this->add_field( $this->carr( array(
 			'wrap_class' => 'wpsf-' . $type . ' wpsf-' . $type . '-bottom',
 			'id'         => $type . '-bottom',
 		) ), $this->field_val( $type . '-bottom' ), $id );
+
 		echo $this->add_field( $this->carr( array(
 			'wrap_class' => 'wpsf-' . $type . ' wpsf-' . $type . '-left',
 			'id'         => $type . '-left',
 		) ), $this->field_val( $type . '-left' ), $id );
 	}
 
+
 	/**
-	 * @param        $new_arr
+	 * @param mixed  $new_arr
 	 * @param string $type
 	 *
 	 * @return array
@@ -177,9 +189,14 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 		return ( isset( $this->value[ $type ] ) ) ? $this->value[ $type ] : null;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function field_defaults() {
-		return array( 'select2' => false, 'chosen' => false );
+		return array(
+			'select2' => false,
+			'chosen'  => false,
+		);
 	}
 
 }
-

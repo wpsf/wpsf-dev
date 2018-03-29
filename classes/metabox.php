@@ -51,7 +51,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		$this->options   = apply_filters( 'wpsf_metabox_options', $options );
 		$this->posttypes = array();
 
-		if ( ! empty ( $this->options ) ) {
+		if ( ! empty( $this->options ) ) {
 			$this->addAction( 'add_meta_boxes', 'add_meta_box' );
 			$this->addAction( 'save_post', 'save_post', 10, 2 );
 		}
@@ -110,7 +110,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		wpsf_add_errors( $transient['errors'] );
 		$has_nav    = ( count( $sections ) >= 2 && $callback ['args'] ['context'] != 'side' ) ? true : false;
 		$show_all   = ( ! $has_nav ) ? ' wpsf-show-all' : '';
-		$section_id = ( ! empty ( $transient ['ids'] [ $unique ] ) ) ? $transient ['ids'] [ $unique ] : '';
+		$section_id = ( ! empty( $transient ['ids'] [ $unique ] ) ) ? $transient ['ids'] [ $unique ] : '';
 		$section_id = wpsf_get_var( 'wpsf-section', $section_id );
 
 		echo '<div class="wpsf-framework wpsf-metabox-framework" data-theme="modern" data-single-page="yes">';
@@ -127,14 +127,14 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 			$num = 0;
 			foreach ( $sections as $value ) {
 
-				if ( ! empty ( $value ['typenow'] ) && $value ['typenow'] !== $typenow ) {
+				if ( ! empty( $value ['typenow'] ) && $value ['typenow'] !== $typenow ) {
 					continue;
 				}
 
-				$tab_icon = ( ! empty ( $value ['icon'] ) ) ? '<i class="wpsf-icon ' . $value ['icon'] . '"></i>' : '';
+				$tab_icon = ( ! empty( $value ['icon'] ) ) ? '<i class="wpsf-icon ' . $value ['icon'] . '"></i>' : '';
 
-				if ( isset ( $value ['fields'] ) ) {
-					$active_section = ( ( empty ( $section_id ) && $num === 0 ) || $section_id == $value ['name'] ) ? ' class="wpsf-section-active"' : '';
+				if ( isset( $value ['fields'] ) ) {
+					$active_section = ( ( empty( $section_id ) && $num === 0 ) || $section_id == $value ['name'] ) ? ' class="wpsf-section-active"' : '';
 					echo '<li><a href="#"' . $active_section . ' data-section="' . $value ['name'] . '">' . $tab_icon . $value ['title'] . '</a></li>';
 				} else {
 					echo '<li><div class="wpsf-seperator">' . $tab_icon . $value ['title'] . '</div></li>';
@@ -153,16 +153,16 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 		$num = 0;
 		foreach ( $sections as $v ) {
 
-			if ( ! empty ( $v ['typenow'] ) && $v ['typenow'] !== $typenow ) {
+			if ( ! empty( $v ['typenow'] ) && $v ['typenow'] !== $typenow ) {
 				continue;
 			}
 
-			if ( isset ( $v ['fields'] ) ) {
+			if ( isset( $v ['fields'] ) ) {
 
-				$active_content = ( ( empty ( $section_id ) && $num === 0 ) || $section_id == $v ['name'] ) ? ' style="display: block;"' : '';
+				$active_content = ( ( empty( $section_id ) && $num === 0 ) || $section_id == $v ['name'] ) ? ' style="display: block;"' : '';
 
 				echo '<div id="wpsf-tab-' . $v ['name'] . '" class="wpsf-section"' . $active_content . '>';
-				echo ( isset ( $v ['title'] ) ) ? '<div class="wpsf-section-title"><h3>' . $v ['title'] . '</h3></div>' : '';
+				echo ( isset( $v ['title'] ) ) ? '<div class="wpsf-section-title"><h3>' . $v ['title'] . '</h3></div>' : '';
 
 				foreach ( $v ['fields'] as $field_key => $field ) {
 					$elem_value = $this->get_field_values( $field, $meta_value );
@@ -204,12 +204,12 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 					$request_key = $request_value ['id'];
 					$request     = wpsf_get_var( $request_key, array() );
 
-					if ( isset ( $request ['_nonce'] ) ) {
+					if ( isset( $request ['_nonce'] ) ) {
 						unset ( $request ['_nonce'] );
 					}
 
 					foreach ( $request_value ['sections'] as $key => $section ) {
-						if ( isset ( $section ['fields'] ) ) {
+						if ( isset( $section ['fields'] ) ) {
 							$meta_value = get_post_meta( $post_id, $request_key, true );
 							$request    = $validator->loop_fields( array( 'fields' => $section['fields'] ), $request, $meta_value );
 						}
@@ -217,7 +217,7 @@ class WPSFramework_Metabox extends WPSFramework_Abstract {
 
 					$request = apply_filters( 'wpsf_save_post', $request, $request_key, $post );
 
-					if ( empty ( $request ) ) {
+					if ( empty( $request ) ) {
 						delete_post_meta( $post_id, $request_key );
 					} else {
 						update_post_meta( $post_id, $request_key, $request );

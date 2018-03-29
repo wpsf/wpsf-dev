@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -37,9 +37,9 @@ class WPSFramework_Option_Image extends WPSFramework_Options {
 		echo $this->element_before();
 		$preview = '';
 		$value   = $this->element_value();
-		$hidden  = ( empty ( $value ) ) ? ' hidden' : '';
+		$hidden  = ( empty( $value ) ) ? ' hidden' : '';
 
-		if ( ! empty ( $value ) ) {
+		if ( ! empty( $value ) ) {
 			$attachment = wp_get_attachment_image_src( $value, 'thumbnail' );
 			$preview    = $attachment [0];
 		}
@@ -52,7 +52,7 @@ class WPSFramework_Option_Image extends WPSFramework_Options {
 
 	protected function field_defaults() {
 		return array(
-			'add_title' => __( "Add Image" ),
+			'add_title' => __( 'Add Image' ),
 		);
 	}
 }

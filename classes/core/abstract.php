@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -23,16 +23,72 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  */
 abstract class WPSFramework_Abstract {
-	public    $options           = array();
-	protected $type              = '';
-	protected $unique            = WPSF_OPTION;
-	protected $plugin_id         = null;
-	protected $raw_options       = array();
-	protected $settings          = array();
-	protected $cache             = array();
-	protected $db_options        = array();
+	/**
+	 * options
+	 *
+	 * @var array
+	 */
+	public $options = array();
+
+	/**
+	 * type
+	 *
+	 * @var string
+	 */
+	protected $type = '';
+
+	/**
+	 * unique
+	 *
+	 * @var string
+	 */
+	protected $unique = WPSF_OPTION;
+
+	/**
+	 * plugin_id
+	 *
+	 * @var null
+	 */
+	protected $plugin_id = null;
+
+	/**
+	 * raw_options
+	 *
+	 * @var array
+	 */
+	protected $raw_options = array();
+
+	/**
+	 * settings
+	 *
+	 * @var array
+	 */
+	protected $settings = array();
+
+	/**
+	 * cache
+	 *
+	 * @var array
+	 */
+	protected $cache = array();
+
+	/**
+	 * db_options
+	 *
+	 * @var array
+	 */
+	protected $db_options = array();
+
+	/**
+	 * override_location
+	 *
+	 * @var null
+	 */
 	protected $override_location = null;
 
+	/**
+	 * WPSFramework_Abstract constructor.
+	 */
 	public function __construct() {
 	}
 
@@ -50,29 +106,40 @@ abstract class WPSFramework_Abstract {
 		return $this->unique;
 	}
 
+	/**
+	 * Returns Override Location Path.
+	 *
+	 * @return null
+	 */
 	public function override_location() {
 		return $this->override_location;
 	}
 
-	function get_cache() {
-	}
-
-	function get_db_options() {
+	/**
+	 * Abstract Function get_cache();
+	 */
+	public function get_cache() {
 	}
 
 	/**
+	 * Abstract Function get_db_options();
+	 */
+	public function get_db_options() {
+	}
+
+	/**
+	 * Gets Field's Value from $this->db_values.
+	 *
 	 * @param $field
 	 * @param $values
 	 *
 	 * @return array|bool
 	 */
 	public function get_field_values( $field, $values ) {
-		$value = ( isset( $field['id'] ) && isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : ( isset( $field['default'] ) ? $field['default'] : false );
+		$value       = ( isset( $field['id'] ) && isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : ( isset( $field['default'] ) ? $field['default'] : false );
+		$is_in_array = in_array( $field['type'], array( 'fieldset', 'accordion' ) );
 
-		if ( in_array( $field['type'], array(
-				'fieldset',
-				'accordion',
-			) ) && ( isset( $field['un_array'] ) && $field['un_array'] === true ) ) {
+		if ( isset( $field['un_array'] ) && true === $field['un_array'] && true === $is_in_array ) {
 			$value = array();
 			foreach ( $field['fields'] as $_field ) {
 				if ( ! isset( $_field['id'] ) ) {
@@ -80,10 +147,10 @@ abstract class WPSFramework_Abstract {
 				}
 				$value[ $_field['id'] ] = $this->get_field_values( $_field, $values );
 			}
-		} elseif ( $field['type'] == 'tab' ) {
+		} elseif ( 'tab' === $field['type'] ) {
 			$_tab_values = array();
 			$_tab_vals   = ( isset( $field['id'] ) && isset( $values[ $field['id'] ] ) ) ? $values[ $field['id'] ] : '';
-			if ( ( isset( $field['un_array'] ) && $field['un_array'] === true ) ) {
+			if ( ( isset( $field['un_array'] ) && true === $field['un_array'] ) ) {
 				$_tab_vals = $values;
 			}
 			foreach ( $field['sections'] as $section ) {
@@ -92,7 +159,7 @@ abstract class WPSFramework_Abstract {
 				foreach ( $section['fields'] as $_field ) {
 					$_section_values[ $_field['id'] ] = $this->get_field_values( $_field, $_section_vals );
 				}
-				if ( isset( $section['un_array'] ) && $section['un_array'] === true ) {
+				if ( isset( $section['un_array'] ) && true === $section['un_array'] ) {
 					$_tab_values = array_merge( $_section_values, $_tab_values );
 				} else {
 					$_tab_values[ $section['name'] ] = $_section_values;
@@ -109,7 +176,7 @@ abstract class WPSFramework_Abstract {
 	 * @return bool
 	 */
 	public function is_not_ajax() {
-		if ( isset ( $_POST ) && isset ( $_POST['action'] ) && $_POST['action'] == 'heartbeat' ) {
+		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) {
 			return false;
 		}
 		return true;
@@ -121,7 +188,7 @@ abstract class WPSFramework_Abstract {
 	 * @return bool
 	 */
 	public function is_wpsf_ajax() {
-		if ( isset ( $_POST ) && isset ( $_POST['action'] ) && $_POST['action'] == 'wpsf-ajax' ) {
+		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'wpsf-ajax' === $_POST['action'] ) {
 			return true;
 		}
 		return false;
@@ -138,7 +205,7 @@ abstract class WPSFramework_Abstract {
 	 * @param int $accepted_args
 	 */
 	public function addAction( $hook, $function_to_add, $priority = 30, $accepted_args = 1 ) {
-		add_action( $hook, array( &$this, $function_to_add, ), $priority, $accepted_args );
+		add_action( $hook, array( &$this, $function_to_add ), $priority, $accepted_args );
 	}
 
 	/**
@@ -152,7 +219,7 @@ abstract class WPSFramework_Abstract {
 	 * @param int $accepted_args
 	 */
 	public function addFilter( $tag, $function_to_add, $priority = 30, $accepted_args = 1 ) {
-		add_action( $tag, array( &$this, $function_to_add, ), $priority, $accepted_args );
+		add_action( $tag, array( &$this, $function_to_add ), $priority, $accepted_args );
 	}
 
 	/**
@@ -171,6 +238,8 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Maps Dyanmic Error id for each and every field.
+	 *
 	 * @param array  $array
 	 * @param string $parent_id
 	 *
@@ -180,12 +249,13 @@ abstract class WPSFramework_Abstract {
 		$s = empty( $array ) ? $this->options : $array;
 		if ( isset( $s['sections'] ) ) {
 			$fname = '';
-			if ( isset( $s['type'] ) && $s['type'] === 'tab' ) {
+			if ( isset( $s['type'] ) && 'tab' === $s['type'] ) {
 				$fname = $this->type . '_' . $parent_id . '_' . $s['id'] . '_';
 			}
 			foreach ( $s['sections'] as $b => $a ) {
 				if ( isset( $a['fields'] ) ) {
-					$fname               .= ( isset( $a['name'] ) ) ? $a['name'] : '';
+					$fname .= ( isset( $a['name'] ) ) ? $a['name'] : '';
+
 					$s['sections'][ $b ] = $this->map_error_id( $a, $fname );
 				}
 			}
@@ -209,6 +279,9 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Runs apply_filters
+	 *
+	 * @uses \apply_filters()
 	 * @return mixed
 	 */
 	protected function filter() {
@@ -253,6 +326,8 @@ abstract class WPSFramework_Abstract {
 	 * Triggers doaction & apply filter for the given slug
 	 * with global & plugin Specific slugs
 	 *
+	 * @param string $type
+	 *
 	 * @return mixed
 	 */
 	protected function wpsf_action_filter( $type = 'apply_filters' ) {
@@ -273,7 +348,7 @@ abstract class WPSFramework_Abstract {
 	 * @return string
 	 */
 	protected function get_action_filter_slugs( $plugin_id = false ) {
-		if ( $plugin_id === false ) {
+		if ( false === $plugin_id ) {
 			return 'wpsf_' . $this->type . '_';
 		}
 		return 'wpsf_' . $this->type . '_' . $this->plugin_id . '_';
@@ -290,13 +365,15 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Catchs Output.
+	 *
 	 * @param string $status
 	 *
 	 * @return string
 	 */
 	protected function catch_output( $status = 'start' ) {
 		$data = '';
-		if ( $status == 'start' ) {
+		if ( 'start' === $status ) {
 			ob_start();
 		} else {
 			$data = ob_get_clean();
@@ -306,6 +383,8 @@ abstract class WPSFramework_Abstract {
 	}
 
 	/**
+	 * Returns Custom Cache KEy.
+	 *
 	 * @param array $data
 	 *
 	 * @return bool|mixed|string
@@ -325,5 +404,4 @@ abstract class WPSFramework_Abstract {
 		}
 		return false;
 	}
-
 }

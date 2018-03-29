@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
 
 /**
@@ -41,10 +41,10 @@ class WPSFramework_Option_Wysiwyg extends WPSFramework_Options {
 			'textarea_name' => $this->element_name(),
 		);
 
-		$settings = ( ! empty ( $this->field ['settings'] ) ) ? $this->field ['settings'] : array();
+		$settings = ( ! empty( $this->field ['settings'] ) ) ? $this->field ['settings'] : array();
 		$settings = wp_parse_args( $settings, $defaults );
 
-		$field_id    = ( ! empty ( $this->field ['id'] ) ) ? $this->field ['id'] : '';
+		$field_id    = ( ! empty( $this->field ['id'] ) ) ? $this->field ['id'] : '';
 		$field_value = $this->element_value();
 
 		wp_editor( $field_value, $field_id, $settings );

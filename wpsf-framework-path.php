@@ -1,17 +1,18 @@
 <?php
 /*-------------------------------------------------------------------------------------------------
- - This file is part of the WPSF package.                                                         -
- - This package is Open Source Software. For the full copyright and license                       -
- - information, please view the LICENSE file which was distributed with this                      -
- - source code.                                                                                   -
- -                                                                                                -
- - @package    WPSF                                                                               -
- - @author     Varun Sridharan <varunsridharan23@gmail.com>                                       -
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
  -------------------------------------------------------------------------------------------------*/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die ();
+	die();
 } // Cannot access pages directly.
+
 /**
  *
  * Framework constants
@@ -96,7 +97,6 @@ if ( ! function_exists( 'wpsf_locate_template' ) ) {
 		$plugin_force_override  = $dir_plugin . $dir_override;
 		$plugin_normal_override = $dir_plugin . $dir_template;
 
-
 		if ( file_exists( $child_force_overide ) ) {
 			$located = $child_force_overide;
 		} elseif ( file_exists( $child_normal_override ) ) {
@@ -113,7 +113,7 @@ if ( ! function_exists( 'wpsf_locate_template' ) ) {
 
 		$located = apply_filters( 'wpsf_locate_template', $located, $template_name );
 
-		if ( ! empty ( $located ) ) {
+		if ( ! empty( $located ) ) {
 			load_template( $located, true );
 		}
 
@@ -121,16 +121,13 @@ if ( ! function_exists( 'wpsf_locate_template' ) ) {
 	}
 }
 
-
-/**
- * Multi language option
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_multilang_option' ) ) {
 	/**
+	 * Multi language option
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param string $option_name
 	 * @param string $default
 	 *
@@ -142,7 +139,7 @@ if ( ! function_exists( 'wpsf_get_multilang_option' ) ) {
 		$default   = $languages ['default'];
 		$current   = $languages ['current'];
 
-		if ( is_array( $value ) && is_array( $languages ) && isset ( $value [ $current ] ) ) {
+		if ( is_array( $value ) && is_array( $languages ) && isset( $value [ $current ] ) ) {
 			return $value [ $current ];
 		} elseif ( $default != $current ) {
 			return '';
@@ -152,15 +149,13 @@ if ( ! function_exists( 'wpsf_get_multilang_option' ) ) {
 	}
 }
 
-/**
- * Multi language value
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_get_multilang_value' ) ) {
 	/**
+	 * Multi language value
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
 	 * @param string $value
 	 * @param string $default
 	 *
@@ -171,7 +166,7 @@ if ( ! function_exists( 'wpsf_get_multilang_value' ) ) {
 		$default   = $languages ['default'];
 		$current   = $languages ['current'];
 
-		if ( is_array( $value ) && is_array( $languages ) && isset ( $value [ $current ] ) ) {
+		if ( is_array( $value ) && is_array( $languages ) && isset( $value [ $current ] ) ) {
 			return $value [ $current ];
 		} elseif ( $default != $current ) {
 			return '';
@@ -181,15 +176,12 @@ if ( ! function_exists( 'wpsf_get_multilang_value' ) ) {
 	}
 }
 
-/**
- * WPML plugin is activated
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_is_wpml_activated' ) ) {
 	/**
+	 * WPML plugin is activated
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 * @return bool
 	 */
 	function wpsf_is_wpml_activated() {
@@ -201,15 +193,12 @@ if ( ! function_exists( 'wpsf_is_wpml_activated' ) ) {
 	}
 }
 
-/**
- * qTranslate plugin is activated
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_is_qtranslate_activated' ) ) {
 	/**
+	 * qTranslate plugin is activated
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 * @return bool
 	 */
 	function wpsf_is_qtranslate_activated() {
@@ -221,15 +210,12 @@ if ( ! function_exists( 'wpsf_is_qtranslate_activated' ) ) {
 	}
 }
 
-/**
- * Polylang plugin is activated
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_is_polylang_activated' ) ) {
 	/**
+	 * Polylang plugin is activated
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 * @return bool
 	 */
 	function wpsf_is_polylang_activated() {
@@ -241,15 +227,12 @@ if ( ! function_exists( 'wpsf_is_polylang_activated' ) ) {
 	}
 }
 
-/**
- * Get language defaults
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- */
 if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 	/**
+	 * Get language defaults
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
 	 * @return bool|mixed|void
 	 */
 	function wpsf_language_defaults() {
@@ -264,7 +247,7 @@ if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 				global $polylang;
 				$current    = pll_current_language();
 				$default    = pll_default_language();
-				$current    = ( empty ( $current ) ) ? $default : $current;
+				$current    = ( empty( $current ) ) ? $default : $current;
 				$poly_langs = $polylang->model->get_languages_list();
 				$languages  = array();
 				foreach ( $poly_langs as $p_lang ) {
@@ -281,7 +264,7 @@ if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 			}
 		}
 		$multilang = apply_filters( 'wpsf_language_defaults', $multilang );
-		return ( ! empty ( $multilang ) ) ? $multilang : false;
+		return ( ! empty( $multilang ) ) ? $multilang : false;
 	}
 }
 

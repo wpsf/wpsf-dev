@@ -1,4 +1,14 @@
 <?php
+/*-------------------------------------------------------------------------------------------------
+- This file is part of the WPSF package.                                                          -
+- This package is Open Source Software. For the full copyright and license                        -
+- information, please view the LICENSE file which was distributed with this                       -
+- source code.                                                                                    -
+-                                                                                                 -
+- @package    WPSF                                                                                -
+- @author     Varun Sridharan <varunsridharan23@gmail.com>                                        -
+ -------------------------------------------------------------------------------------------------*/
+
 /**
  * Created by PhpStorm.
  * Project : wpsf
@@ -8,14 +18,25 @@
  */
 
 class WPSFramework_Field_Registry {
-	private static $_instance  = null;
+	/**
+	 * _instance
+	 *
+	 * @var null
+	 */
+	private static $_instance = null;
+
+	/**
+	 * _instances
+	 *
+	 * @var array
+	 */
 	private static $_instances = array();
 
 	/**
 	 * @return null|\WPSFramework_Field_Registry
 	 */
 	public static function instance() {
-		if ( self::$_instance === null ) {
+		if ( null === self::$_instance ) {
 			self::$_instance = new self();
 		}
 		return self::$_instance;

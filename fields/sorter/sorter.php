@@ -40,7 +40,7 @@ class WPSFramework_Option_Sorter extends WPSFramework_Options {
 		echo '<div class="wpsf-modules">';
 		echo '<h3>' . $this->field ['enabled_title'] . '</h3>';
 		echo '<ul class="wpsf-enabled">';
-		if ( ! empty ( $value ['enabled'] ) ) {
+		if ( ! empty( $value ['enabled'] ) ) {
 			foreach ( $value ['enabled'] as $en_id => $en_name ) {
 				echo '<li><input type="hidden" name="' . $this->element_name( '[enabled][' . $en_id . ']' ) . '" value="' . $en_name . '"/><label>' . $en_name . '</label></li>';
 			}
@@ -51,7 +51,7 @@ class WPSFramework_Option_Sorter extends WPSFramework_Options {
 		echo '<div class="wpsf-modules">';
 		echo '<h3>' . $this->field ['disabled_title'] . '</h3>';
 		echo '<ul class="wpsf-disabled">';
-		if ( ! empty ( $value ['disabled'] ) ) {
+		if ( ! empty( $value ['disabled'] ) ) {
 			foreach ( $value ['disabled'] as $dis_id => $dis_name ) {
 				echo '<li><input type="hidden" name="' . $this->element_name( '[disabled][' . $dis_id . ']' ) . '" value="' . $dis_name . '"/><label>' . $dis_name . '</label></li>';
 			}
@@ -93,8 +93,8 @@ class WPSFramework_Option_Sorter extends WPSFramework_Options {
 		return array(
 			'enabled'        => array(),
 			'disabled'       => array(),
-			'enabled_title'  => __( "Enabled Modules" ),
-			'disabled_title' => __( "Disabled Modules" ),
+			'enabled_title'  => __( 'Enabled Modules' ),
+			'disabled_title' => __( 'Disabled Modules' ),
 		);
 	}
 }
