@@ -93,7 +93,7 @@ if ( ! class_exists( 'ArrayFinder' ) ) {
 		 * echo $this->get('a.b'); // yeah
 		 * echo $this->get('a.b.c', 'nope'); // nope
 		 *
-		 * @param string|int|null $path    Path to the value. If null, return all the content.
+		 * @param string|int|null $path Path to the value. If null, return all the content.
 		 * @param mixed           $default Default value to return when path is not contained in the array.
 		 *
 		 * @return mixed|null Value on the array corresponding to the path, null if the key does not exist.
@@ -213,7 +213,7 @@ if ( ! class_exists( 'ArrayFinder' ) ) {
 		 * ex:
 		 * $this->set('a.b', 'yeah); // ['a' => ['b' => 'yeah']]
 		 *
-		 * @param string $path  Path where the values will be insered.
+		 * @param string $path Path where the values will be insered.
 		 * @param mixed  $value Value ti insert.
 		 *
 		 * @return ArrayFinder Current instance.

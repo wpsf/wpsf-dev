@@ -32,6 +32,7 @@ if ( ! function_exists( 'wpsf_export_options' ) ) {
 		echo wpsf_encode_string( get_option( WPSF_OPTION ) );
 		die();
 	}
+
 	add_action( 'wp_ajax_wpsf-export-options', 'wpsf_export_options' );
 }
 
@@ -50,6 +51,7 @@ if ( ! function_exists( 'wpsf_set_icons' ) ) {
 		echo '<div class="wpsf-dialog-load"><div class="wpsf-icon-loading">' . esc_html__( 'Loading...', 'wpsf-framework' ) . '</div></div>';
 		echo '</div>';
 	}
+
 	add_action( 'admin_footer', 'wpsf_set_icons' );
 	add_action( 'customize_controls_print_footer_scripts', 'wpsf_set_icons' );
 }

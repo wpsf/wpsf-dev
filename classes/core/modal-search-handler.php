@@ -269,7 +269,7 @@ class WPSF_Modal_Search_Table extends WP_List_Table {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array  $args  URL parameters for the link.
+	 * @param array  $args URL parameters for the link.
 	 * @param string $label Link text.
 	 * @param string $class Optional. Class attribute. Default empty string.
 	 *

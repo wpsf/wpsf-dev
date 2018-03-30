@@ -16,7 +16,6 @@
  * Date: 12-03-2018
  * Time: 05:20 PM
  */
-
 class WPSFramework_Field_Registry {
 	/**
 	 * _instance

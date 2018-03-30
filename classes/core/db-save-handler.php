@@ -217,7 +217,7 @@ class WPSFramework_DB_Save_Handler extends WPSFramework_Abstract {
 	}
 
 	/**
-	 * @param       $field  .
+	 * @param       $field .
 	 * @param array $values .
 	 *
 	 * @return array|bool|mixed

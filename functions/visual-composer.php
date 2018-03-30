@@ -618,8 +618,8 @@ if ( ! class_exists( 'WPSFramework_Visual_Composer_Integration' ) ) {
 		 * Renders Fields HTML.
 		 *
 		 * @param $settings .
-		 * @param $value    .
-		 * @param $tag      .
+		 * @param $value .
+		 * @param $tag .
 		 *
 		 * @return string
 		 * @static
