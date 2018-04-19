@@ -388,7 +388,7 @@
                         $target = $el.data('section'),
                         $parent = $el.data('parent-section');
 
-                    if ( $single_page === 'yes' ) {
+                    if ( $single_page === 'yes' && $el.hasClass('has-link') === false ) {
                         var $cdiv = $this.find('#wpsf-tab-' + $target);
                         $cdiv.show().siblings().hide();
 
@@ -412,13 +412,17 @@
                         $target = $el.data('section'),
                         $parent = $el.data('parent-section');
 
-                    $this.find('#wpsf-tab-' + $parent + '-' + $target).show().siblings().hide();
-                    $sub_nav.find("#wpsf-tab-" + $parent + " a").removeClass('current');
-                    $el.addClass('current');
-                    $reset.val($target);
-                    $reset_parent.val($parent);
+                    if ( $el.hasClass('has-link') === false ) {
+                        $this.find('#wpsf-tab-' + $parent + '-' + $target).show().siblings().hide();
+                        $sub_nav.find("#wpsf-tab-" + $parent + " a").removeClass('current');
+                        $el.addClass('current');
+                        $reset.val($target);
+                        $reset_parent.val($parent);
 
-                    $('body').trigger('wpsf_settings_nav_updated', [$parent, $target, $el]);
+                        $('body').trigger('wpsf_settings_nav_updated', [$parent, $target, $el]);
+                    } else {
+                        window.location.href = $el.attr('href');
+                    }
                 });
 
                 if ( $single_page === 'no' ) {
@@ -520,6 +524,7 @@
             });
         }
     };
+
     $.WPSF_DEPENDENCY = function (el, param) {
         var base = this;
         base.$el = $(el);
@@ -1009,7 +1014,6 @@
             $(this).find('.wpsf-accordion').accordion({
                 header: '> .wpsf-group-title',
                 collapsible: true,
-                active: false,
                 animate: 250,
                 heightStyle: 'content',
                 icons: {
@@ -1020,6 +1024,10 @@
                     $(ui.newPanel).WPSF_DEPENDENCY('sub');
                 }
             });
+            if ( !$(this).find('.wpsf-accordion').hasClass('is_open') ) {
+                $(this).find('.wpsf-accordion').accordion("option", "active", false);
+            }
+            //active: true,
         });
     };
     $.fn.WPSF_TAXONOMY = function () {

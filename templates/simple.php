@@ -1,41 +1,27 @@
 <?php
 global $wpsf_submenus;
 $wpsf_submenus = array();
-/**
- * @param array  $menus
- * @param string $parent_name
- */
-function wpsf_simple_render_submenus( $menus = array(), $parent_name = null, $class = array() ) {
-	global $wpsf_submenus;
-	$return = array();
-	$first  = current( $menus );
-	$first  = isset( $first['name'] ) ? $first['name'] : false;
-	foreach ( $menus as $nav ) {
-		if ( isset( $nav['is_separator'] ) && $nav['is_separator'] === true ) {
-			continue;
-		}
-		$title     = ( isset( $nav['title'] ) ) ? $nav['title'] : "";
-		$href      = ( isset( $nav['href'] ) && $nav['href'] !== false ) ? $nav['href'] : '#';
-		$is_active = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? ' current ' : '';
-
-		if ( empty( $is_active ) ) {
-			$is_active = ( $parent_name !== $class->active() && $first === $nav['name'] ) ? 'current' : $is_active;
-		}
-
-		$icon     = $class->icon( $nav );
-		$return[] = '<li> <a href="' . $href . '" class="' . $is_active . '" data-parent-section="' . $parent_name . '" data-section="' . $nav['name'] . '">' . $icon . ' ' . $title . '</a>';
-	}
-	$wpsf_submenus[ $parent_name ] = implode( '|</li>', $return );
+if ( ! empty( $title ) ) {
+	?>
+	<h2><?php echo $title; ?> </h2>
+	<?php
 }
-
-if ( ! empty( $title ) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
+?>
 
 <h2 class="nav-tab-wrapper wpsf-main-nav">
 	<?php
 	foreach ( $class->navs() as $nav ) {
-		$title     = ( isset( $nav['title'] ) ) ? $nav['title'] : "";
-		$href      = ( isset( $nav['href'] ) && $nav['href'] !== false ) ? $nav['href'] : '#';
+		$title = ( isset( $nav['title'] ) ) ? $nav['title'] : "";
+
 		$is_active = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? ' nav-tab-active ' : '';
+		$href      = '#';
+
+		if ( isset( $nav['href'] ) && ( $nav['href'] !== false && '#' !== $nav['href'] ) ) {
+			$href      = $nav['href'];
+			$is_active = ' has-link ';
+
+		}
+
 		if ( isset( $nav['is_separator'] ) && $nav['is_separator'] === true ) {
 			continue;
 		}
@@ -49,10 +35,10 @@ if ( ! empty( $title ) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
 
 
 <div id="poststuff">
-    <div class="metabox-holder" id="post-body">
-        <div id="post-body-content">
-            <div class="wpsf-content">
-                <div class="wpsf-sections">
+	<div class="metabox-holder" id="post-body">
+		<div id="post-body-content">
+			<div class="wpsf-content">
+				<div class="wpsf-sections">
 					<?php
 					foreach ( $class->options as $option ) {
 						if ( $single_page === 'no' && $option['name'] !== $class->active() ) {
@@ -111,17 +97,17 @@ if ( ! empty( $title ) ) { ?> <h2><?php echo $title; ?> </h2> <?php } ?>
 					}
 
 					?>
-                </div>
-                <div class="wpsf-sections">
-                    <div class="wpsf-simple-footer">
+				</div>
+				<div class="wpsf-sections">
+					<div class="wpsf-simple-footer">
 						<?php
 						if ( $ajax === 'yes' ) {
 							echo '<span id="wpsf-save-ajax">' . esc_html__( "Settings Saved", 'wpsf-framework' ) . '</span>';
 						}
 						echo $class->get_settings_buttons(); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,40 +1,4 @@
-<?php
-/**
- * Renders Modern Theme Menu
- *
- * @param      $navs
- * @param      $class
- * @param null $parent
- */
-function wpsf_modern_navs( $navs, $class, $parent = null ) {
-	$parent = ( $parent === null ) ? '' : 'data-parent-section="' . $parent . '"';
-	foreach ( $navs as $i => $nav ):
-		$title = ( isset( $nav['title'] ) ) ? $nav['title'] : "";
-		$href  = ( isset( $nav['href'] ) && $nav['href'] !== false ) ? $nav['href'] : '#';
-		if ( ! empty( $nav['submenus'] ) ) {
-			$is_active    = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? ' style="display: block;"' : '';
-			$is_active_li = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? ' wpsf-tab-active ' : '';
-			echo '<li class="wpsf-sub ' . $is_active_li . '">';
-			echo '<a href="#" class="wpsf-arrow">' . $class->icon( $nav ) . ' ' . $title . '</a>';
-			echo '<ul ' . $is_active . '>';
-			wpsf_modern_navs( $nav['submenus'], $class, $nav['name'] );
-			echo '</ul>';
-			echo '</li>';
-		} else {
-			if ( isset( $nav['is_separator'] ) && $nav['is_separator'] === true ) {
-				echo '<li><div class="wpsf-seperator">' . $class->icon( $nav ) . ' ' . $title . '</div></li>';
-			} else {
-				$is_active = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? "class='wpsf-section-active'" : '';
-				echo '<li>';
-				echo '<a ' . $is_active . ' href="' . $href . '" ' . $parent . ' data-section="' . $nav['name'] . '">' . $class->icon( $nav ) . ' ' . $title . '</a>';
-				echo '</li>';
-			}
-		}
 
-	endforeach;
-}
-
-?>
 <header class="wpsf-header <?php echo $sticky_header; ?>">
 	<?php if ( ! empty( $title ) ) : ?>
         <h1><?php echo $title; ?></h1>

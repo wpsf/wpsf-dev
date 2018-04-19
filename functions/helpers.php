@@ -339,3 +339,86 @@ if ( ! function_exists( 'wpsf_get_errors' ) ) {
 		return $wpsf_errors;
 	}
 }
+
+if ( ! function_exists( 'wpsf_modern_navs' ) ) {
+	/**
+	 * Renders Modern Theme Menu
+	 *
+	 * @param      $navs
+	 * @param      $class
+	 * @param null $parent
+	 */
+	function wpsf_modern_navs( $navs, $class, $parent = null ) {
+		$parent = ( null === $parent ) ? '' : 'data-parent-section="' . $parent . '"';
+		foreach ( $navs as $i => $nav ) :
+			$title = ( isset( $nav['title'] ) ) ? $nav['title'] : '';
+			$href  = ( isset( $nav['href'] ) && false !== $nav['href'] ) ? $nav['href'] : '#';
+			if ( ! empty( $nav['submenus'] ) ) {
+				$is_active    = ( isset( $nav['is_active'] ) && true === $nav['is_active'] ) ? ' style="display: block;"' : '';
+				$is_active_li = ( isset( $nav['is_active'] ) && true === $nav['is_active'] ) ? ' wpsf-tab-active ' : '';
+				echo '<li class="wpsf-sub ' . $is_active_li . '">';
+				echo '<a href="#" class="wpsf-arrow">' . $class->icon( $nav ) . ' ' . $title . '</a>';
+				echo '<ul ' . $is_active . '>';
+				wpsf_modern_navs( $nav['submenus'], $class, $nav['name'] );
+				echo '</ul>';
+				echo '</li>';
+			} else {
+				if ( isset( $nav['is_separator'] ) && true === $nav['is_separator'] ) {
+					echo '<li><div class="wpsf-seperator">' . $class->icon( $nav ) . ' ' . $title . '</div></li>';
+				} else {
+					$is_active = ( isset( $nav['is_active'] ) && true === $nav['is_active'] ) ? "class='wpsf-section-active'" : '';
+					echo '<li>';
+					echo '<a ' . $is_active . ' href="' . $href . '" ' . $parent . ' data-section="' . $nav['name'] . '">' . $class->icon( $nav ) . ' ' . $title . '</a>';
+					echo '</li>';
+				}
+			}
+
+		endforeach;
+	}
+}
+
+if ( ! function_exists( 'wpsf_simple_render_submenus' ) ) {
+
+	/**
+	 * @param array $menus
+	 * @param null  $parent_name
+	 * @param array $class
+	 */
+	function wpsf_simple_render_submenus( $menus = array(), $parent_name = null, $class = array() ) {
+		global $wpsf_submenus;
+		$return = array();
+		$first  = current( $menus );
+		$first  = isset( $first['name'] ) ? $first['name'] : false;
+
+		foreach ( $menus as $nav ) {
+			if ( isset( $nav['is_separator'] ) && true === $nav['is_separator'] ) {
+				continue;
+			}
+			$title     = ( isset( $nav['title'] ) ) ? $nav['title'] : '';
+			$is_active = ( isset( $nav['is_active'] ) && true === $nav['is_active'] ) ? ' current ' : '';
+
+			if ( empty( $is_active ) ) {
+				$is_active = ( $parent_name !== $class->active() && $first === $nav['name'] ) ? 'current' : $is_active;
+			}
+
+			$href = '#';
+
+			if ( isset( $nav['href'] ) && ( false !== $nav['href'] && '#' !== $nav['href'] ) ) {
+				$href      = $nav['href'];
+
+				$is_active .= ' has-link ';
+			}
+
+			if ( isset( $nav['query_args'] ) && is_array( $nav['query_args'] ) ) {
+				$url  = remove_query_arg( array_keys( $nav['query_args'] ) );
+				$href = add_query_arg( array_filter( $nav['query_args'] ), $url );
+
+				$is_active .= ' has-link ';
+			}
+
+			$icon     = $class->icon( $nav );
+			$return[] = '<li> <a href="' . $href . '" class="' . $is_active . '" data-parent-section="' . $parent_name . '" data-section="' . $nav['name'] . '">' . $icon . ' ' . $title . '</a>';
+		}
+		$wpsf_submenus[ $parent_name ] = implode( '|</li>', $return );
+	}
+}

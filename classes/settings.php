@@ -499,6 +499,7 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 					'is_active'    => $is_active,
 					'href'         => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, null ),
 					'submenus'     => $this->_filter( 'submenu', $this->extract_menus( $option['sections'], $name ), $name ),
+					'query_args'   => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
 				);
 			} else {
 				$is_active = ( $this->active( false ) === $option['name'] ) ? true : false;
@@ -510,7 +511,8 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 					'href'         => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, $parent ),
 					'submenus'     => array(),
 					'is_active'    => $is_active,
-					'is_separator' => ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) || isset( $option['href'] ) ) ? false : true,
+					'is_separator' => ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) || isset( $option['href'] ) || isset( $option['query_args'] ) ) ? false : true,
+					'query_args'   => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
 				);
 			}
 		}

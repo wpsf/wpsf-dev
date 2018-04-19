@@ -33,8 +33,8 @@ class WPSFramework_Option_accordion extends WPSFramework_Options {
 		$fields    = array_values( $this->field['fields'] );
 		$acc_title = ( ! empty( $this->field['accordion_title'] ) ) ? $this->field['accordion_title'] : __( 'Accordion', 'wpsf-framework' );
 		$unique_id = ( ! empty( $this->field['un_array'] ) ) ? $this->unique : $this->get_unique( $this->field['id'] );
-
-		echo '<div class="wpsf-groups wpsf-accordion">';
+		$is_open   = ( ! empty( $this->field['open'] ) && true === $this->field['open'] ) ? ' is_open ' : '';
+		echo '<div class="wpsf-groups wpsf-accordion ' . $is_open . '">';
 
 		echo '<h4 class="wpsf-group-title">' . $acc_title . '</h4>';
 
@@ -60,6 +60,7 @@ class WPSFramework_Option_accordion extends WPSFramework_Options {
 			'accordion_title' => __( 'Accordion', 'wpsf-framework' ),
 			'fields'          => array(),
 			'un_array'        => false,
+			'open'            => false,
 		);
 	}
 }
