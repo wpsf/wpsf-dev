@@ -46,7 +46,7 @@ final class WPSFramework_Query {
 	 *
 	 * @return array|int|\WP_Error
 	 */
-	public static function query( $type = '', $args = array(), $search = false) {
+	public static function query( $type = '', $args = array(), $search = '' ) {
 		self::$query_args = array();
 		self::$query      = null;
 
@@ -100,7 +100,7 @@ final class WPSFramework_Query {
 				$default_key   = 'term_id';
 				$default_value = 'name';
 
-				if ( ! isset( self::$query_args['taxonomies'] ) && ! isset( self::$query_args['taxonomy'] ) ) {
+				if ( ! isset( self::$query_args['taxonomies'] ) && ! ! isset( self::$query_args['taxonomy'] ) ) {
 					if ( in_array( $type, array( 'tags', 'tag' ) ) ) {
 						self::$query_args ['taxonomies'] = ( isset( self::$query_args ['taxonomies'] ) ) ? self::$query_args['taxonomies'] : 'post_tag';
 					} else {
