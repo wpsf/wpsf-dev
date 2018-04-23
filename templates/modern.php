@@ -5,16 +5,15 @@
 
 	<fieldset>
 		<?php
-		if ( $ajax === 'yes' ) {
-			echo '<span id="wpsf-save-ajax">' . esc_html__( "Settings Saved", 'wpsf-framework' ) . '</span>';
+		if ( 'yes' === $ajax ) {
+			echo '<span id="wpsf-save-ajax">' . esc_html__( 'Settings Saved', 'wpsf-framework' ) . '</span>';
 		}
-
 		echo $class->get_settings_buttons();
 		?>
 	</fieldset>
 	<?php
-	if ( $class->is( "has_nav" ) === true ) {
-		echo '<a href="#" class="wpsf-expand-all"><i class="fa fa-eye-slash"></i> ' . __( "Show All Options" ) . '</a>';
+	if ( true === $class->is( 'has_nav' ) ) {
+		echo '<a href="#" class="wpsf-expand-all"><i class="fa fa-eye-slash"></i> ' . __( 'Show All Options' ) . '</a>';
 	}
 	echo '<div class="clear"></div>';
 	?>
@@ -31,7 +30,7 @@
 		<div class="wpsf-sections">
 			<?php
 			foreach ( $class->options as $option ) {
-				if ( $single_page === 'no' && $option['name'] !== $class->active() ) {
+				if ( 'no' === $single_page && $option['name'] !== $class->active() ) {
 					continue;
 				}
 
@@ -39,11 +38,11 @@
 
 				if ( isset( $option['sections'] ) ) {
 					foreach ( $option['sections'] as $section ) {
-						if ( $single_page === 'no' && $section['name'] !== $class->active( false ) ) {
+						if ( 'no' === $single_page && $section['name'] !== $class->active( false ) ) {
 							continue;
 						}
 
-						$sc_active = ( $pg_active === true && $section['name'] === $class->active( false ) ) ? true : false;
+						$sc_active = ( true === $pg_active && $section['name'] === $class->active( false ) ) ? true : false;
 						$fields    = $class->render_fields( $section );
 
 						echo '<div ' . $class->is( 'page_active', $sc_active ) . ' 
@@ -65,8 +64,12 @@
 </div>
 
 <footer class="wpsf-footer">
-	<div class="wpsf-block-left"><?php _e( "Powered by WordPress Settings Framework (WPSF)" ) ?></div>
-	<div class="wpsf-block-right"><?php _e( "Version" );
-		echo ' ' . WPSF_VERSION; ?></div>
+	<div class="wpsf-block-left"><?php _e( 'Powered by WordPress Settings Framework (WPSF)' ); ?></div>
+	<div class="wpsf-block-right">
+		<?php
+			echo __( 'Version', 'wpsf-framework' );
+			echo ' ' . WPSF_VERSION;
+		?>
+	</div>
 	<div class="clear"></div>
 </footer>

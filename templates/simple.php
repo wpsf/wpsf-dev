@@ -39,7 +39,7 @@ if ( ! empty( $title ) ) {
 				<div class="wpsf-sections">
 					<?php
 					foreach ( $class->options as $option ) {
-						if ( $single_page === 'no' && $option['name'] !== $class->active() ) {
+						if ( 'no' === $single_page && $option['name'] !== $class->active() ) {
 							continue;
 						}
 						if ( ! isset( $option['fields'] ) && ! isset( $option['callback_hook'] ) && ! isset( $option['sections'] ) ) {
@@ -62,10 +62,10 @@ if ( ! empty( $title ) ) {
 							$first_sec = current( $option['sections'] );
 							$first_sec = ( is_array( $first_sec ) && isset( $first_sec['name'] ) ) ? $first_sec['name'] : false;
 							foreach ( $option['sections'] as $section ) {
-								$sc_active = ( $pg_active === true && $section['name'] === $class->active( false ) ) ? true : false;
+								$sc_active = ( true === $pg_active && $section['name'] === $class->active( false ) ) ? true : false;
 								$fields    = $class->render_fields( $section );
 
-								if ( $sc_active === false && $first_sec === $section['name'] ) {
+								if ( false === $sc_active && $first_sec === $section['name'] ) {
 									$is_sc_active = 'style="display:block"';
 								} else {
 									$is_sc_active = empty( $class->is( 'page_active', $sc_active ) ) ? 'style="display:none"' : $class->is( 'page_active', $sc_active );
@@ -80,27 +80,24 @@ if ( ! empty( $title ) ) {
 							echo '<div class="inside">' . $class->get_title( $option ) . $fields . '</div>';
 						} elseif ( isset( $option['callback_hook'] ) ) {
 							$fields  = $class->render_fields( $option );
-							$is_wrap = ( isset( $option['with_wrapper'] ) && $option['with_wrapper'] === true ) ? true : false;
+							$is_wrap = ( isset( $option['with_wrapper'] ) && true === $option['with_wrapper'] ) ? true : false;
 
 							if ( $is_wrap ) {
 								echo '<div class="inside">' . $class->get_title( $option ) . $fields . '</div>';
 							} else {
 								echo $fields;
 							}
-
 						}
-
 						echo '</div>';
 						echo '</div>';
 					}
-
 					?>
 				</div>
 				<div class="wpsf-sections">
 					<div class="wpsf-simple-footer">
 						<?php
-						if ( $ajax === 'yes' ) {
-							echo '<span id="wpsf-save-ajax">' . esc_html__( "Settings Saved", 'wpsf-framework' ) . '</span>';
+						if ( 'yes' === $ajax ) {
+							echo '<span id="wpsf-save-ajax">' . esc_html__( 'Settings Saved', 'wpsf-framework' ) . '</span>';
 						}
 						echo $class->get_settings_buttons(); ?>
 					</div>

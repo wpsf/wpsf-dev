@@ -5,7 +5,7 @@
 $single_page   = ( $class->is( 'single_page' ) === true ) ? 'yes' : 'no';
 $sticky_header = ( $class->is( 'sticky_header' ) === true ) ? 'wpsf-sticky-header' : false;
 $ajax          = ( $class->is( 'ajax_save' ) === true ) ? 'yes' : 'no';
-$title         = $class->_option( "framework_title" );
+$title         = $class->_option( 'framework_title' );
 $has_nav       = ( $class->is( 'has_nav' ) === false ) ? 'wpsf-show-all' : '';
 ?>
 <div class="wpsf-framework wpsf-option-framework wpsf-theme-<?php echo $class->theme(); ?>"
