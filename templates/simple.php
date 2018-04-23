@@ -11,18 +11,16 @@ if ( ! empty( $title ) ) {
 <h2 class="nav-tab-wrapper wpsf-main-nav">
 	<?php
 	foreach ( $class->navs() as $nav ) {
-		$title = ( isset( $nav['title'] ) ) ? $nav['title'] : "";
-
-		$is_active = ( isset( $nav['is_active'] ) && $nav['is_active'] === true ) ? ' nav-tab-active ' : '';
+		$title     = ( isset( $nav['title'] ) ) ? $nav['title'] : '';
+		$is_active = ( isset( $nav['is_active'] ) && true === $nav['is_active'] ) ? ' nav-tab-active ' : '';
 		$href      = '#';
 
-		if ( isset( $nav['href'] ) && ( $nav['href'] !== false && '#' !== $nav['href'] ) ) {
+		if ( isset( $nav['href'] ) && ( false !== $nav['href'] && '#' !== $nav['href'] ) ) {
 			$href      = $nav['href'];
-			$is_active = ' has-link ';
-
+			$is_active .= ' has-link ';
 		}
 
-		if ( isset( $nav['is_separator'] ) && $nav['is_separator'] === true ) {
+		if ( isset( $nav['is_separator'] ) && true === $nav['is_separator'] ) {
 			continue;
 		}
 		echo '<a href="' . $href . '" class="nav-tab ' . $is_active . '" data-section="' . $nav['name'] . '">' . $class->icon( $nav ) . ' ' . $title . '</a>';

@@ -490,29 +490,33 @@ class WPSFramework_Settings extends WPSFramework_Abstract {
 		foreach ( $array as $option ) {
 			$name = isset( $option['name'] ) ? $option['name'] : '';
 			if ( isset( $option['sections'] ) ) {
+
 				$is_active       = ( $this->active( true ) === $option['name'] ) ? true : false;
 				$output[ $name ] = array(
-					'name'         => $name,
-					'title'        => ( isset( $option['title'] ) ) ? $option['title'] : '',
-					'icon'         => ( isset( $option['icon'] ) ) ? $option['icon'] : '',
-					'is_separator' => false,
-					'is_active'    => $is_active,
-					'href'         => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, null ),
-					'submenus'     => $this->_filter( 'submenu', $this->extract_menus( $option['sections'], $name ), $name ),
-					'query_args'   => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
+					'name'            => $name,
+					'title'           => ( isset( $option['title'] ) ) ? $option['title'] : '',
+					'icon'            => ( isset( $option['icon'] ) ) ? $option['icon'] : '',
+					'is_separator'    => false,
+					'is_active'       => $is_active,
+					'is_internal_url' => ( isset( $option['href'] ) ) ? false : true,
+					'href'            => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, null ),
+					'submenus'        => $this->_filter( 'submenu', $this->extract_menus( $option['sections'], $name ), $name ),
+					'query_args'      => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
 				);
+
 			} else {
 				$is_active = ( $this->active( false ) === $option['name'] ) ? true : false;
 
 				$output[ $name ] = array(
-					'name'         => $name,
-					'title'        => ( isset( $option['title'] ) ) ? $option['title'] : '',
-					'icon'         => ( isset( $option['icon'] ) ) ? $option['icon'] : '',
-					'href'         => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, $parent ),
-					'submenus'     => array(),
-					'is_active'    => $is_active,
-					'is_separator' => ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) || isset( $option['href'] ) || isset( $option['query_args'] ) ) ? false : true,
-					'query_args'   => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
+					'name'            => $name,
+					'title'           => ( isset( $option['title'] ) ) ? $option['title'] : '',
+					'icon'            => ( isset( $option['icon'] ) ) ? $option['icon'] : '',
+					'is_internal_url' => ( isset( $option['href'] ) ) ? false : true,
+					'href'            => ( isset( $option['href'] ) ) ? $option['href'] : $this->get_tab_url( $name, $parent ),
+					'submenus'        => array(),
+					'is_active'       => $is_active,
+					'is_separator'    => ( isset( $option['fields'] ) || isset( $option['callback_hook'] ) || isset( $option['href'] ) || isset( $option['query_args'] ) ) ? false : true,
+					'query_args'      => ( isset( $option['query_args'] ) ) ? $option['query_args'] : '',
 				);
 			}
 		}

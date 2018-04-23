@@ -403,8 +403,8 @@ if ( ! function_exists( 'wpsf_simple_render_submenus' ) ) {
 
 			$href = '#';
 
-			if ( isset( $nav['href'] ) && ( false !== $nav['href'] && '#' !== $nav['href'] ) ) {
-				$href      = $nav['href'];
+			if ( isset( $nav['href'] ) && ( false !== $nav['href'] && '#' !== $nav['href'] && true !== $nav['is_internal_url'] ) ) {
+				$href = $nav['href'];
 
 				$is_active .= ' has-link ';
 			}
