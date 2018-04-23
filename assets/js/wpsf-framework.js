@@ -2011,6 +2011,9 @@
             $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
                 $('.wpsf-wc-metabox-fields').WPSF_RELOAD();
             });
+			$( '#variable_product_options' ).on( 'woocommerce_variations_added', function () {
+				$('.wpsf-wc-metabox-fields').WPSF_RELOAD();
+			} )
         }
     });
     $(document).ready(function () {
