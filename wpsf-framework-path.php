@@ -268,10 +268,13 @@ if ( ! function_exists( 'wpsf_language_defaults' ) ) {
 	}
 }
 
-/**
- * Framework load text domain
- *
- * @since   1.0.0
- * @version 1.0.0
- */
-load_textdomain( 'wpsf-framework', WPSF_DIR . '/languages/' . get_locale() . '.mo' );
+if ( file_exists( WPSF_DIR . '/languages/' . get_locale() . '.mo' ) ) {
+
+	/**
+	 * Framework load text domain
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 */
+	load_textdomain( 'wpsf-framework', WPSF_DIR . '/languages/' . get_locale() . '.mo' );
+}
