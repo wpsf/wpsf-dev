@@ -4,7 +4,7 @@
  * Plugin URI: http://wpsf.com/
  * Author: WordPress-Settings-Framework
  * Author URI: http://varunsridharan.in/
- * Version: 150320180607 - Build 1
+ * Version: 240420181039B1
  * Description: A Lightweight and easy-to-use WordPress Options Framework
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt

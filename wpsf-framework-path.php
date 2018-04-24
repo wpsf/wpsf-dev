@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  *
  */
-defined( 'WPSF_VERSION' ) or define( 'WPSF_VERSION', '230420180312B1' );
+defined( 'WPSF_VERSION' ) or define( 'WPSF_VERSION', '240420181039B1' );
 defined( 'WPSF_OPTION' ) or define( 'WPSF_OPTION', '_wpsf_options' );
 defined( 'WPSF_CUSTOMIZE' ) or define( 'WPSF_CUSTOMIZE', '_wpsf_customize_options' );
 
