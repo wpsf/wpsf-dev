@@ -111,10 +111,11 @@ $options[] = array(
 		),
 		// begin: a field
 		array(
-			'id'    => 'text_1',
-			'type'  => 'text',
-			'title' => 'Text',
-			'limit' => 10,
+			'id'         => 'text_1',
+			'type'       => 'text',
+			'title'      => 'Text',
+			'attributes' => array( 'placeholder' => 'omg' ),
+			'limit'      => 10,
 		),
 		// end: a field
 		array(
@@ -4224,12 +4225,64 @@ $options[] = array(
 	),
 );
 
+// ------------------------------
+// license                      -
+// ------------------------------
+$options[] = array(
+	'name'   => 'cloner',
+	'title'  => 'Cloner',
+	'icon'   => 'fa fa-info-circle',
+	'fields' => array(
+		array(
+			'type'    => 'heading',
+			'content' => '100% GPL License, Yes it is free!',
+		),
+		array(
+			'id'         => 'key_VAP',
+			'type'       => 'key_value',
+			'title'      => "Key Value",
+			'clone_sort' => true,
+			'clone_max'  => 2,
+		),
+		array(
+			'id'         => 'cloneree',
+			'type'       => 'textarea',
+			'title'      => 'Cloner',
+			'clone'      => true,
+			'clone_sort' => true,
+			'clone_max'  => 2,
+		),
+		array(
+			'id'         => 'cloner2',
+			'type'       => 'textarea',
+			'clone'      => true,
+			'clone_sort' => true,
+			'clone_max'  => 2,
+		),
+		array(
+			'id'         => 'cloner23',
+			'type'       => 'select',
+			'title'      => 'Cloner',
+			'clone'      => true,
+			'clone_sort' => true,
+			'clone_max'  => 2,
+			'class'      => 'select2',
+			'options'    => array(
+				'op1' => 'OP1',
+				'op2' => 'OP2',
+				'op3' => 'OP3',
+				'op4' => 'OP4',
+			),
+		),
+	),
+);
+
 new WPSFramework_Settings( array(
 	'menu_title'       => 'WPSF Modern',
 	'menu_slug'        => 'wpsf-modern',
 	'framework_title'  => "WPSF Settings Panel",
 	'style'            => 'simple',
 	'is_sticky_header' => false,
-	'is_single_page'   => true,
+	'is_single_page'   => false,
 	'option_name'      => '_wpsf_new_option11a',
 ), $options );
