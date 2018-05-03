@@ -275,7 +275,7 @@
  *
  * @package    WPSF
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
- */.wpsf-field-icon input{display:none}.wpsf-field-icon .button{margin-right:5px}.wpsf-field-icon .wpsf-icon-preview i{display:inline-block;font-size:14px;width:30px;height:26px;line-height:26px;margin-right:5px;text-align:center;vertical-align:top;color:#555;border:1px solid #ccc;background-color:#f7f7f7;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, .08);box-shadow:0 1px 0 rgba(0, 0, 0, .08)}
+ */.wpsf-field-icon input{display:none}.wpsf-field-icon .wpsf-icon-select.show-textbox input{display:inline-block;margin-right:10px}.wpsf-field-icon .button{margin-right:5px}.wpsf-field-icon .wpsf-icon-preview i{display:inline-block;font-size:14px;width:30px;height:26px;line-height:26px;margin-right:5px;text-align:center;vertical-align:top;color:#555;border:1px solid #ccc;background-color:#f7f7f7;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, .08);box-shadow:0 1px 0 rgba(0, 0, 0, .08)}
 
 /*!
  * This file is part of the WPSF package.

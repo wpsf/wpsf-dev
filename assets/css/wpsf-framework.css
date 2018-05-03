@@ -1855,6 +1855,11 @@ div#screen-meta-links + div.wpsf-framework {
   display: none;
 }
 
+.wpsf-field-icon .wpsf-icon-select.show-textbox input {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 .wpsf-field-icon .button {
   margin-right: 5px;
 }
@@ -3617,60 +3622,60 @@ input[type="radio"].icheck.icheck-lg:checked:before {
  * @author     Varun Sridharan <varunsridharan23@gmail.com>
  */
 .wpsf-field-cloner .wpsf-fieldset {
-	margin-left: 29%;
+  margin-left: 29%;
 }
 
 .wpsf-field-cloner .clone_element {
-	padding-left: 1%;
+  padding-left: 1%;
 }
 
 .wpsf-field-cloner .cloner_wrap {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .wpsf-field-cloner .cloner_wrap .wpsf-cloner-placeholder {
-	background: #f9f9f9;
+  background: #f9f9f9;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element {
-	padding-top:    5px;
-	padding-bottom: 5px;
-	border-left:    1px solid #ddd;
-	border-right:   1px solid #ddd;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element:first-child {
-	border-top:  1px solid #ddd;
-	padding-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element:last-child {
-	border-bottom:  1px solid #ddd;
-	padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element > .clone_sorter {
-	cursor:       move;
-	display:      inline-block;
-	padding:      5px;
-	margin-right: 5px;
+  cursor: move;
+  display: inline-block;
+  padding: 5px;
+  margin-right: 5px;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element > div.clone_remove {
-	display:        inline-block;
-	vertical-align: top;
-	margin-left:    10px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element > .wpsf-element {
-	padding:        5px !important;
-	display:        inline-block;
-	vertical-align: middle;
+  padding: 5px !important;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .wpsf-field-cloner .cloner_wrap .clone_element > .wpsf-element textarea {
-	min-width: 300px;
-	resize:    both;
+  min-width: 300px;
+  resize: both;
 }
 
 /*# sourceMappingURL=wpsf-framework.css.map */
