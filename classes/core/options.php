@@ -118,7 +118,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 			'dependency' => false,
 			'before'     => null,
 			'after'      => null,
-			'attirbutes' => array(),
+			'attributes' => array(),
 			'only_field' => false,
 		) );
 	}
@@ -446,8 +446,16 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 		$element_id      = ( isset( $this->field ['id'] ) ) ? $this->field ['id'] : '';
 		$extra_multilang = ( ! $multilang && is_array( $this->multilang ) ) ? '[' . $this->multilang ['current'] . ']' : '';
 		$unique          = $this->get_unique( $element_id ) . $extra_multilang . $extra_name;
+		$fname           = $unique;
+		if ( isset( $this->field['name'] ) ) {
+			$fname = $this->field['name'] . $extra_name;
+		} elseif ( isset( $this->field['name_before'] ) || isset( $this->field['name_after'] ) ) {
+			$fname = isset( $this->field['name_before'] ) ? $this->field['name_before'] . $fname : $fname;
+			$fname = isset( $this->field['name_after'] ) ? $fname . $this->field['name_after'] : $fname;
+		}
 
-		return ( isset( $this->field ['name'] ) ) ? $this->field ['name'] . $extra_name : $unique;
+		#return ( isset( $this->field ['name'] ) ) ? $this->field ['name'] . $extra_name : $unique;
+		return $fname;
 	}
 
 	/**
@@ -562,7 +570,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 	/**
 	 * outputs JS settings HTML
 	 *
-	 * @return null
+	 * @return null|string
 	 */
 	public function element_js_settings() {
 		return $this->js_settings;
@@ -688,7 +696,7 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 	 * @return mixed|string
 	 */
 	public function js_settings_id() {
-		$rand_id = sanitize_key( $this->field['id'] ) . intval( microtime( true ) );
+		$rand_id = sanitize_key( $this->field['id'] ) . intval( microtime( true ) ) . wp_rand();
 		$rand_id = str_replace( array( '-', '_' ), '', $rand_id );
 		return $rand_id;
 	}
