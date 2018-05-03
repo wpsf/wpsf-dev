@@ -1,0 +1,65 @@
+/*!
+ * This file is part of the WPSF package.
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ *
+ * @package    WPSF
+ * @author     Varun Sridharan <varunsridharan23@gmail.com>
+ */
+
+.wpsf-field-cloner {
+  .wpsf-fieldset {
+	margin-left: 29%;
+  }
+
+  .clone_element {
+	padding-left: 1%;
+  }
+  .cloner_wrap {
+	margin-bottom: 15px;
+	.wpsf-cloner-placeholder {
+	  background: #f9f9f9;
+	}
+
+	.clone_element {
+	  padding-top:    5px;
+	  padding-bottom: 5px;
+	  border-left:    1px solid #ddd;
+	  border-right:   1px solid #ddd;
+
+	  &:first-child {
+		border-top:  1px solid #ddd;
+		padding-top: 10px;
+	  }
+
+	  &:last-child {
+		border-bottom:  1px solid #ddd;
+		padding-bottom: 10px;
+	  }
+	  > .clone_sorter {
+		cursor:       move;
+		display:      inline-block;
+		padding:      5px;
+		margin-right: 5px;
+	  }
+
+	  > div.clone_remove {
+		display:        inline-block;
+		vertical-align: top;
+		margin-left:    10px;
+	  }
+
+	  > .wpsf-element {
+		padding:        5px !important;
+		display:        inline-block;
+		vertical-align: middle;
+		textarea {
+		  min-width: 300px;
+		  resize:    both;
+		}
+	  }
+
+	}
+  }
+}
