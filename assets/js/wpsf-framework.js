@@ -993,6 +993,61 @@
 
 		} )
 	};
+
+	$.fn.CLONER_REMOVE = function () {
+		$( this ).find( 'button.clone_remove' ).on( 'click', function () {
+			$( this ).parent().parent().remove();
+		} )
+	};
+
+	$.fn.WPSF_CLONER = function () {
+		return this.each( function () {
+			var $this = $( this ),
+				$elem = $( this ),
+				$temp_id = $this.data( 'cloner_id' );
+
+			var $l = $this.find( '.cloner_wrap > div.clone_element' ).length;
+			$this.attr( 'data-clonecount', $l );
+
+			$this.find( 'button.wpsf_cloner_add' ).on( 'click', function () {
+				var $count = parseInt( $this.attr( 'data-clonecount' ) );
+				var $template = null;
+				if ( typeof window[ $this.data( 'cloner_id' ) ] == 'object' ) {
+					$template = window[ $this.data( 'cloner_id' ) ][ 'html' ];
+				}
+
+				$template = $template.replace( /{clone_count}/g, $count );
+				$this.attr( 'data-clonecount', $count + 1 );
+				$template = jQuery( $template );
+				$( this ).parent().find( '.cloner_wrap' ).append( $template );
+				var $last = $( this ).parent().find( '.cloner_wrap .clone_element:last-child' );
+				$last.CLONER_REMOVE();
+				$last.WPSF_RELOAD();
+
+			} );
+
+			$this.find( '.cloner_wrap' ).CLONER_REMOVE();
+			$this.find( '.cloner_wrap.clone_sortable' ).sortable( {
+				items: '.clone_element',
+				cursor: 'move',
+				axis: 'y',
+				handle: '.clone_sorter',
+				scrollSensitivity: 40,
+				forcePlaceholderSize: true,
+				helper: 'clone',
+				opacity: 0.65,
+				placeholder: 'wpsf-cloner-placeholder',
+				start: function (event, ui) {
+					ui.item.css( 'background-color', '#f6f6f6' );
+				},
+				stop: function (event, ui) {
+					ui.item.removeAttr( 'style' );
+				}
+			} );
+		} )
+	};
+
+
 	$.fn.WPSF_TABS = function () {
 		return this.each( function () {
 			$( this ).find( '.wpsf-user-tabs-nav > li > a.wpsf-tab-a' ).on( 'click', function (e) {
@@ -2026,6 +2081,7 @@
 		$( '.wpsf-framework, #widgets-right' ).WPSF_RELOAD();
 		$( '.wpsf-taxonomy' ).WPSF_TAXONOMY();
 		$( '.wpsf-field-group' ).WPSF_GROUP();
+		$( '.wpsf-field-cloner' ).WPSF_CLONER();
 		$( '.wpsf-header' ).WPSF_STICKY_HEADER();
 		$( '.wpsf-reset-confirm, .wpsf-import-backup' ).WPSF_RESET_CONFIRM();
 		$( '.wpsf-save' ).WPSF_SAVE();
