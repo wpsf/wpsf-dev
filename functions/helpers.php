@@ -61,6 +61,11 @@ if ( ! function_exists( 'wpsf_add_element' ) ) {
 			return wpsf_add_element( $field, $value, $unique, true );
 		} else {
 			$class = 'WPSFramework_Option_' . $field ['type'];
+
+			if ( isset( $field['clone'] ) && true === $field['clone'] ) {
+				$class = 'WPSFramework_Field_Cloner';
+			}
+
 			wpsf_autoloader( $class );
 			if ( class_exists( $class ) ) {
 				ob_start();
@@ -95,7 +100,9 @@ if ( ! function_exists( 'wpsf_is_unarray_field' ) ) {
 	 * @return bool
 	 */
 	function wpsf_is_unarray_field( $type ) {
-		if ( is_array( $type ) && isset( $type['type'] ) ) {
+		if ( is_array( $type ) && isset( $type['clone'] ) && true === $type['clone'] ) {
+			return true;
+		} elseif ( is_array( $type ) && isset( $type['type'] ) ) {
 			return in_array( $type['type'], wpsf_unarray_fields() );
 		}
 		return in_array( $type, wpsf_unarray_fields() );
