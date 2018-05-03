@@ -1,1 +1,11 @@
-@import "css/selectize.css";
+.selectize-control {
+  min-width:      250px;
+  display:        inline-block;
+  vertical-align: middle;
+}
+
+@import "css/selectize";
+@import "css/selectize.legacy";
+@import "css/selectize.bootstrap2";
+@import "css/selectize.bootstrap3";
+@import "css/selectize.default";
