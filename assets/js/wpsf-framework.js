@@ -640,6 +640,24 @@
 			$( this ).select2( $settings );
 		} );
 	};
+
+
+	$.fn.WPSF_SELECTIZE = function () {
+		return this.each( function () {
+			var $settings = {};
+			if ( $( this ).attr( "data-has-settings" ) === 'yes' ) {
+				var $request_param = JSON.parse( $( this ).parent().find( '.wpsf-element-settings' ).html() );
+				$settings = $request_param;
+			}
+
+			if ( $.WPSF.is_in_popup === true ) {
+				$settings[ 'dropdownParent' ] = $( '#wpsf-shortcode-dialog' );
+			}
+			$( this ).selectize( $settings );
+		} );
+	};
+
+
 	$.fn.WPSF_IMAGE_SELECT = function () {
 		return this.each( function () {
 			$( this ).find( 'label' ).on( 'click', function () {
@@ -1046,7 +1064,6 @@
 			} );
 		} )
 	};
-
 
 	$.fn.WPSF_TABS = function () {
 		return this.each( function () {
@@ -1986,6 +2003,7 @@
 		},
 
 		reload_fields: function ($this) {
+			$( '.selectize', $this ).WPSF_SELECTIZE();
 			$( '.chosen', $this ).WPSF_CHOSEN();
 			$( '.select2', $this ).WPSF_SELECT2();
 			$( '.wpsf-field-image-select', $this ).WPSF_IMAGE_SELECT();
