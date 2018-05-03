@@ -26,7 +26,11 @@ if ( ! function_exists( 'wpsf_sanitize_text' ) ) {
 	 * @return string
 	 */
 	function wpsf_sanitize_text( $value, $field ) {
-		return wp_filter_nohtml_kses( $value );
+		if ( ! isset( $field['clone'] ) || isset( $field['clone'] ) && false === $field['clone'] ) {
+			return wp_filter_nohtml_kses( $value );
+		}
+
+		return $value;
 	}
 
 	add_filter( 'wpsf_sanitize_text', 'wpsf_sanitize_text', 10, 2 );
