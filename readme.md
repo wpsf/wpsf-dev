@@ -1,5 +1,7 @@
 ## CSS Libs / Framework Used
-* **Animate CSS** : [daneden/animate.css](https://github.com/daneden/animate.css)
+| Lib/Framework  | Repo Link |
+| ------------- | ------------- |
+| Animate CSS  | [daneden/animate.css](https://github.com/daneden/animate.css) |
 
 ## Javascript Libs / Framework Used
 | Lib/Framework  | Repo Link |
