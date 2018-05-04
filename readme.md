@@ -20,3 +20,8 @@
 | Transition  | [Bootstrap](https://getbootstrap.com) |
 
 
+
+#### Additional Selectize Plugins
+| Plugin  | Repo Link |
+| ------------- | ------------- |
+| click_to_edit  | [Selectize Pull #946](https://github.com/selectize/selectize.js/pull/946) [Source Code](https://github.com/krissalvador27/selectize.js/blob/5fe5862cb0d918c3f500c53c04f979e8d401a1db/src/plugins/click_to_edit/plugin.js) |
