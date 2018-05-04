@@ -32,23 +32,19 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
 	}
 
 	public function font_fields() {
-		$is_select2 = ( isset( $this->field['select2'] ) && true === $this->field['select2'] ) ? 'select2' : '';
-		$is_chosen  = ( isset( $this->field['chosen'] ) && true === $this->field['chosen'] ) ? 'chosen' : '';
-
 		$default = array(
 			'font_family'    => array(
 				'title'   => __( 'Font Family' ),
 				'desc'    => __( 'Select Font Family' ),
 				'type'    => 'typography',
 				'id'      => 'font_family',
+				'class'   => $this->select_style(),
 				'variant' => isset( $this->field['variant'] ) ? $this->field['variant'] : true,
-				'chosen'  => isset( $this->field['chosen'] ) ? $this->field['chosen'] : null,
-				'select2' => isset( $this->field['select2'] ) ? $this->field['select2'] : null,
 			),
 			'tag'            => array(
 				'id'      => 'tag',
 				'type'    => 'select',
-				'class'   => $is_select2 . ' ' . $is_chosen,
+				'class'   => $this->select_style(),
 				'title'   => __( 'Tag' ),
 				'desc'    => __( 'Select element tag.' ),
 				'options' => apply_filters( 'wpsf_font_container_tags', array(
@@ -66,7 +62,7 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
 			'text_align'     => array(
 				'id'      => 'text_align',
 				'type'    => 'select',
-				'class'   => $is_select2 . ' ' . $is_chosen,
+				'class'   => $this->select_style(),
 				'desc'    => __( 'Select text alignment.' ),
 				'options' => array(
 					'left'    => __( 'Left' ),
@@ -158,8 +154,6 @@ class WPSFramework_Option_font_container extends WPSFramework_Options {
 		return array(
 			'inline'       => false,
 			'preview'      => true,
-			'select2'      => false,
-			'chosen'       => false,
 			'preview_text' => 'Lorem ipsum dolor sit amet, pro ad sanctus admodum, vim at insolens appellantur. Eum veri adipiscing an, probo nonumy an vis.',
 		);
 	}
