@@ -38,7 +38,7 @@ class WPSFramework_Option_animate_css extends WPSFramework_Options {
 		echo $this->add_field( array(
 			'id'      => $this->field['id'],
 			'type'    => 'select',
-			'class'   => $this->field['class'],
+			'class'   => $this->field['class'] . ' ' . $this->select_style(),
 			'options' => $this->animation_styles(),
 			'pseudo'  => true,
 		) );
