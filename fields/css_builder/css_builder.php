@@ -30,8 +30,6 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 
-		$is_select2 = ( isset( $this->field['select2'] ) && true === $this->field['select2'] ) ? 'select2' : '';
-		$is_chosen  = ( isset( $this->field['chosen'] ) && true === $this->field['chosen'] ) ? 'chosen' : '';
 		echo '<div class="wpsf-css-builder-container">';
 
 		echo $this->add_field( array(
@@ -88,7 +86,7 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 			'type'    => 'select',
 			'id'      => 'border-style',
 			'title'   => __( 'Border Style', 'wpsf-framework' ),
-			'class'   => $is_select2 . ' ' . $is_chosen,
+			'class'   => $this->select_style(),
 			'options' => array(
 				''       => __( 'None', 'wpsf-framework' ),
 				'solid'  => __( 'Solid', 'wpsf-framework' ),
@@ -187,16 +185,6 @@ class WPSFramework_Option_css_builder extends WPSFramework_Options {
 	 */
 	private function field_val( $type = '' ) {
 		return ( isset( $this->value[ $type ] ) ) ? $this->value[ $type ] : null;
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function field_defaults() {
-		return array(
-			'select2' => false,
-			'chosen'  => false,
-		);
 	}
 
 }
