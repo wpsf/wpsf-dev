@@ -37,7 +37,7 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 	public function output() {
 		echo $this->element_before();
 
-		$is_ajax = ( isset( $this->field['settings'] ) && isset( $this->field['settings']['is_ajax'] ) && true === $this->field['settings']['is_ajax'] );
+		$has_settings = ( isset( $this->field['settings'] ) && ! empty( $this->field['settings'] ) ) ? true : false;
 
 		if ( isset( $this->field ['options'] ) ) {
 			$options = $this->field ['options'];
@@ -52,12 +52,8 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 			}
 
 			$extra_name = ( isset( $this->field ['attributes'] ['multiple'] ) ) ? '[]' : '';
-			$exAttr     = ( $is_ajax ) ? array(
-				'data-has-settings' => 'yes',
-			) : array();
-
-			echo '<select name="' . $this->element_name( $extra_name ) . '"' . $this->element_class( $this->select_style() ) . $this->element_attributes( $exAttr ) . '>';
-
+			$ex_attr    = ( $has_settings ) ? array( 'data-has-settings' => 'yes' ) : array();
+			echo '<select name="' . $this->element_name( $extra_name ) . '"' . $this->element_class( $this->select_style() ) . $this->element_attributes( $ex_attr ) . '>';
 			echo ( isset( $this->field ['default_option'] ) ) ? '<option value="">' . $this->field ['default_option'] . '</option>' : '';
 
 			if ( ! empty( $options ) ) {
@@ -77,19 +73,22 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 			echo '</select>';
 		}
 
-		if ( $is_ajax ) {
-			echo '<div class="wpsf-element-settings hidden" style="display:none;">' . wpsf_js_vars( '', $this->render_settings(), false ) . '</div>';
-		}
+		echo '<div class="wpsf-element-settings hidden" style="display:none;">' . wpsf_js_vars( '', $this->render_settings(), false ) . '</div>';
 
 		echo $this->element_after();
 	}
 
 	public function render_settings() {
-		$_settings                = array();
-		$_settings['action']      = 'wpsf-ajax';
-		$_settings['wpsf-action'] = 'query_select_data';
-		$_settings['options']     = $this->field['options'];
-		$_settings['query_args']  = ( isset( $this->field ['query_args'] ) ) ? $this->field ['query_args'] : array();
+		$_settings = array();
+		$is_ajax   = ( isset( $this->field['settings'] ) && isset( $this->field['settings']['is_ajax'] ) && true === $this->field['settings']['is_ajax'] );
+		if ( $is_ajax ) {
+			$_settings['ajax_data']['action']      = 'wpsf-ajax';
+			$_settings['ajax_data']['wpsf-action'] = 'query_select_data';
+			$_settings['ajax_data']['options']     = $this->field['options'];
+			$_settings['ajax_data']['query_args']  = ( isset( $this->field ['query_args'] ) ) ? $this->field ['query_args'] : array();
+		}
+
+		$_settings = array_merge( $_settings, $this->field['settings'] );
 		return array_filter( $_settings );
 	}
 

@@ -641,22 +641,67 @@
 		} );
 	};
 
-
 	$.fn.WPSF_SELECTIZE = function () {
 		return this.each( function () {
-			var $settings = {};
+			var $settings = {
+				theme: 'selectize-default',
+				valueField: 'id',
+				labelField: 'text',
+				searchField: 'text'
+			};
+			var $ajax_settings = $settings[ 'ajax_data' ];
+			$settings[ 'ajax_data' ] = null;
+
 			if ( $( this ).attr( "data-has-settings" ) === 'yes' ) {
 				var $request_param = JSON.parse( $( this ).parent().find( '.wpsf-element-settings' ).html() );
-				$settings = $request_param;
+				$settings = $.extend( $settings, $request_param );
 			}
 
 			if ( $.WPSF.is_in_popup === true ) {
 				$settings[ 'dropdownParent' ] = $( '#wpsf-shortcode-dialog' );
 			}
+
+			if ( $settings[ 'theme' ] !== undefined ) {
+				$( this ).parent().addClass( $settings[ 'theme' ] );
+			}
+
+			if ( $settings[ 'is_ajax' ] !== undefined ) {
+				$settings[ 'load' ] = function (query, callback) {
+					if ( query === undefined ) {
+						if ( callback !== undefined ) {
+							return callback();
+						}
+						return false;
+					}
+
+					var $ajax_Data = $settings;
+
+					$ajax_Data[ 's' ] = query;
+					$.ajax( {
+						url: ajaxurl,
+						dataType: 'json',
+						type: 'GET',
+						data: $ajax_Data,
+						error: function () {
+							callback();
+						},
+						success: function (res) {
+							var terms = [];
+							if ( res ) {
+								jQuery.each( res, function (id, text) {
+									terms.push( {id: id, text: text} );
+								} );
+							}
+							callback( terms );
+						}
+					} )
+				};
+			}
+
+			console.log( $settings );
 			$( this ).selectize( $settings );
 		} );
 	};
-
 
 	$.fn.WPSF_IMAGE_SELECT = function () {
 		return this.each( function () {
@@ -1017,7 +1062,6 @@
 			$( this ).parent().parent().remove();
 		} )
 	};
-
 	$.fn.WPSF_CLONER = function () {
 		return this.each( function () {
 			var $this = $( this ),

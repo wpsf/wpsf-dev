@@ -7,7 +7,6 @@
  @package    WPSF                                                                                 -
  @author     Varun Sridharan <varunsridharan23@gmail.com>                                         -
  -------------------------------------------------------------------------------------------------*/
-
 //@codekit-append ../vendors/interdependencies/jquery.interdependencies.min.js
 //@codekit-append ../vendors/inputToArrays/inputToArray.min.js
 //@codekit-append ../vendors/actual/jquery.actual.min.js
