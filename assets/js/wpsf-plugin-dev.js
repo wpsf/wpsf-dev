@@ -15,5 +15,4 @@
 //@codekit-append ../vendors/chosen/chosen.min.js
 //@codekit-append ../vendors/selectize/selectize.min.js
 //@codekit-append ../vendors/select2/select2.full.min.js
-//@codekit-append ../vendors/select2/select2sortable.js
 //@codekit-append ../vendors/flatpickr/flatpickr.min.js

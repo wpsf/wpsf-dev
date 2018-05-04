@@ -174,7 +174,7 @@ if ( ! function_exists( 'wpsf_get_google_fonts' ) ) {
 			return $wpsf_google_fonts;
 		} else {
 			ob_start();
-			wpsf_locate_template( 'fields / typography / google - fonts . json' );
+			wpsf_locate_template( 'fields/typography/google-fonts.json' );
 			$json              = ob_get_clean();
 			$wpsf_google_fonts = json_decode( $json );
 			return $wpsf_google_fonts;

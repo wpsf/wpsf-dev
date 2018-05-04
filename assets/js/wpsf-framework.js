@@ -2006,6 +2006,8 @@
 			$( '.selectize', $this ).WPSF_SELECTIZE();
 			$( '.chosen', $this ).WPSF_CHOSEN();
 			$( '.select2', $this ).WPSF_SELECT2();
+
+
 			$( '.wpsf-field-image-select', $this ).WPSF_IMAGE_SELECT();
 			$( '.wpsf-field-sorter', $this ).WPSF_SORTER();
 			$( '.wpsf-field-upload', $this ).WPSF_UPLOADER();

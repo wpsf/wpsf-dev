@@ -81,7 +81,7 @@ $options[] = array(
 			'id'    => 'animate_css',
 			'type'  => 'animate_css',
 			'title' => 'Animate CSS',
-
+			'class' => 'selectize',
 		),
 		array(
 			'id'      => 'unique_color_scheme',
@@ -197,9 +197,10 @@ $options[] = array(
 			'content' => 'This is info notice field for your highlight sentence.',
 		),
 		array(
-			'id'    => 'background_1',
-			'type'  => 'background',
-			'title' => 'Background',
+			'id'     => 'background_1',
+			'type'   => 'background',
+			'chosen' => true,
+			'title'  => 'Background',
 		),
 		array(
 			'type'    => 'notice',
@@ -2303,10 +2304,11 @@ $options[] = array(
 					'variant' => false,
 				),
 				array(
-					'type'    => 'font_container',
-					'title'   => 'font_container',
-					'id'      => 'font_container',
-					'preview' => true,
+					'type'      => 'font_container',
+					'title'     => 'font_container',
+					'id'        => 'font_container',
+					'selectize' => true,
+					'preview'   => true,
 
 				),
 			),
@@ -2566,11 +2568,11 @@ $options[] = array(
 					'chosen'  => false,
 				),
 				array(
-					'id'      => 'css_builder_select2',
-					'title'   => 'CSS Builder Select2',
-					'type'    => 'css_builder',
-					'select2' => true,
-					'debug'   => true,
+					'id'        => 'css_builder_select2',
+					'title'     => 'CSS Builder Select2',
+					'type'      => 'css_builder',
+					'selectize' => true,
+					'debug'     => true,
 				),
 				array(
 					'id'     => 'css_builder_chosen',

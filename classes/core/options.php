@@ -700,4 +700,19 @@ abstract class WPSFramework_Options extends WPSFramework_Abstract {
 		$rand_id = str_replace( array( '-', '_' ), '', $rand_id );
 		return $rand_id;
 	}
+
+	/**
+	 * Checks For Select Class And Returns IT.
+	 *
+	 * @return string
+	 */
+	public function select_style() {
+		if ( ( isset( $this->field['select2'] ) && true === $this->field['select2'] ) || false !== strpos( $this->field['class'], 'select2' ) ) {
+			return ( is_rtl() ) ? ' select2 select2-rtl' : 'select2';
+		} elseif ( ( isset( $this->field['chosen'] ) && true === $this->field['chosen'] ) || false !== strpos( $this->field['class'], 'chosen' ) ) {
+			return ( is_rtl() ) ? ' chosen chosen-rtl' : 'chosen';
+		} elseif ( ( isset( $this->field['selectize'] ) && true === $this->field['selectize'] ) || false !== strpos( $this->field['class'], 'selectize' ) ) {
+			return 'selectize';
+		}
+	}
 }
