@@ -52,12 +52,11 @@ class WPSFramework_Option_select extends WPSFramework_Options {
 			}
 
 			$extra_name = ( isset( $this->field ['attributes'] ['multiple'] ) ) ? '[]' : '';
-			$chosen_rtl = ( is_rtl() && strpos( $class, 'chosen' ) ) ? 'chosen-rtl' : '';
 			$exAttr     = ( $is_ajax ) ? array(
 				'data-has-settings' => 'yes',
 			) : array();
 
-			echo '<select name="' . $this->element_name( $extra_name ) . '"' . $this->element_class( $chosen_rtl ) . $this->element_attributes( $exAttr ) . '>';
+			echo '<select name="' . $this->element_name( $extra_name ) . '"' . $this->element_class( $this->select_style() ) . $this->element_attributes( $exAttr ) . '>';
 
 			echo ( isset( $this->field ['default_option'] ) ) ? '<option value="">' . $this->field ['default_option'] . '</option>' : '';
 
