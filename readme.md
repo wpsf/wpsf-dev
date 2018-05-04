@@ -11,11 +11,10 @@
 | FlatPickr  | [flatpickr](https://flatpickr.js.org/) |
 | inputToArray.js  | [varunsridharan/jquery-inputtoarray](https://github.com/varunsridharan/jquery-inputtoarray) |
 | WP JS Hooks  | [carldanley/WP-JS-Hooks](https://github.com/carldanley/WP-JS-Hooks) |
-| ---  | --- |
+| #### * Note : All Bootstrap Source Taken From V3.3.7  |  |
 | JS Button  | [Bootstrap](https://getbootstrap.com) |
 | ToolTip  | [Bootstrap](https://getbootstrap.com) |
 | Popover  | [Bootstrap](https://getbootstrap.com) |
 | Transition  | [Bootstrap](https://getbootstrap.com) |
 
 
-##### * Note : All Bootstrap Source Taken From V3.3.7
