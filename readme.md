@@ -22,6 +22,9 @@
 
 
 #### Additional Selectize Plugins
-| Plugin  | Repo Link |
-| ------------- | ------------- |
-| click_to_edit  | [Selectize Pull #946](https://github.com/selectize/selectize.js/pull/946) [Source Code](https://github.com/krissalvador27/selectize.js/blob/5fe5862cb0d918c3f500c53c04f979e8d401a1db/src/plugins/click_to_edit/plugin.js) |
+| Plugin/Theme  | Issue Link | Source Code|
+| ------------- | ------------- | ------------- |
+| click_to_edit  | [Selectize Pull #946](https://github.com/selectize/selectize.js/pull/946) | [Source Code](https://github.com/krissalvador27/selectize.js/blob/5fe5862cb0d918c3f500c53c04f979e8d401a1db/src/plugins/click_to_edit/plugin.js) |
+| condensed_dropdown  | [Selectize Pull #944](https://github.com/selectize/selectize.js/pull/944) | [Source Code](https://github.com/rantav/selectize.js/tree/0e45bf604acfd507d150561e39fe83b758cac24b/src/plugins/condensed_dropdown) |
+| dark_theme  | [Selectize Pull #447](https://github.com/selectize/selectize.js/pull/447) | [Source Code](https://github.com/mistic100/selectize.js/tree/3bdf50a5e5850905aaf203eab679dc8fe9fae2d7/dist/css) |
+| bootstrap4_theme | [Selectize Issue #905](https://github.com/selectize/selectize.js/issues/905) | [Source Code](https://github.com/papakay/selectize-bootstrap-4-style) |
